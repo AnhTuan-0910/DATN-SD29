@@ -30,7 +30,7 @@ public class DanhMucServiceImpl implements DanhMucService {
 
     @Override
     public void update(DanhMuc danhMuc, String id) {
-        danhMuc.setIdDanhMuc(id);
+        danhMuc.setId(id);
         danhMucRepo.save(danhMuc);
     }
     @Override
