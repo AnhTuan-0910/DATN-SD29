@@ -8,9 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface MauSacRepo extends JpaRepository<MauSac,String> {
-    Page<MauSac> findAll(Pageable pageable);
+    Page<MauSac> findAllByOrderByMaAsc(Pageable pageable);
+    List<MauSac> findAllByTrangThai(int trangThai);
 
     @Query("SELECT ms FROM MauSac ms WHERE " +
             "LOWER(ms.ma) IS NULL OR   LOWER(ms.ma) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +

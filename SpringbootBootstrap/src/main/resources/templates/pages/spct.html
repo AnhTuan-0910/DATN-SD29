@@ -8,7 +8,7 @@
 <body>
 <div class="main-content container-fluid" layout:fragment="content">
     <div class="page-title">
-        <h3>Sản phẩm</h3>
+        <h3>Sản phẩm chi tiết</h3>
 
     </div>
     <div class="row mb-4">
@@ -23,7 +23,7 @@
                         <div style="margin-left: 15%;margin-right: 15%;height: 70px">
                             <div style="float: left;margin-left: 70px">
                                 <select class="form-select" style="width: 150px" name="danhMucSearch">
-                                    <option value="">Danh mục</option>
+                                    <option value="">Size</option>
                                     <option value="1">Đang sử dụng</option>
                                     <option value="0">Ngừng sử dụng</option>
 
@@ -31,7 +31,7 @@
                             </div>
                             <div style="float: left;margin-left: 70px">
                                 <select class="form-select" style="width: 150px" name="thuongHieuSearch">
-                                    <option value="">Thương hiệu</option>
+                                    <option value="">Màu sắc</option>
                                     <option value="1">Đang sử dụng</option>
                                     <option value="0">Ngừng sử dụng</option>
 
@@ -61,7 +61,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <div style="float: left"><h4 class="card-title">Danh sách sản phẩm</h4></div>
+                    <div style="float: left"><h4 class="card-title">Danh sách sản phẩm chi tiết</h4></div>
 
                     <div style="float: right;margin-right: 30px">
 
@@ -79,7 +79,7 @@
                         </form>
                     </div>
                     <div style="float: right">
-                        <a style="margin-right: 10px" class="btn btn-primary" href="/san_pham"><i
+                        <a style="margin-right: 10px" class="btn btn-primary" ><i
                                 data-feather="refresh-cw"></i></a>
 
                         <a class="btn btn-primary"  href="/them_sp"
@@ -93,37 +93,35 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Mã</th>
+                                <th>Ảnh</th>
                                 <th>Tên</th>
-                                <th>Danh mục</th>
-                                <th>Thương hiệu</th>
-                                <th>Trạng thái</th>
+                                <th>Kích thước</th>
+                                <th>Màu sắc</th>
+                                <th>Số lượng</th>
+                                <th>Giá bán</th>
+                                <th>Mã QR</th>
                                 <th>Thao tác</th>
 
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="sp,start :${listSP.content}">
+                            <tr th:each="spct,start :${listSPCT}">
                                 <td th:text="${start.index+1}"></td>
-                                <td th:text="${sp.ma}"></td>
-                                <td th:text="${sp.ten}"></td>
-                                <td th:text="${sp.danhMuc.ten}"></td>
-                                <td th:text="${sp.thuongHieu.ten}"></td>
+                                <td> </td>
+                                <td th:text="${spct.sanPham.ten}"></td>
+                                <td th:text="${spct.kichThuoc.ten}"></td>
                                 <td>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" role="switch"
-                                               id="flexSwitchCheckDefault" th:checked="${sp.trangThai}">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault"></label>
-                                    </div>
-
+                                    <div class="badge" th:style="'background-color:'+${spct.mauSac.ten}"
+                                         th:text="${spct.mauSac.ten}"></div>
                                 </td>
+                                <td  th:text="${spct.sl}"></td>
+                                <td th:text="${spct.gia}"></td>
+                                <td><img th:src="${qrCodeGenerator.generateQrCode(spct.id, 50, 50)}" alt="QR Code"/></td>
                                 <td>
-                                    <a class="btn btn-outline-primary uBtn">
-                                        <i data-feather="edit"></i></a>
-                                    <a th:href="@{spct/viewDetail/{id}(id=${sp.id})}" class="btn btn-outline-danger ">
-                                        <i data-feather="eye"></i></a>
-
+                                    <a class="btn btn-outline-success uBtn"><i
+                                            data-feather="edit"></i></a>
                                 </td>
+
                             </tr>
 
                             </tbody>
@@ -132,14 +130,14 @@
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
                                     <li class="page-item">
-                                        <a th:href="@{'?p='+${listSP.number-1}}" class="page-link"> < </a>
+                                        <a th:href="@{'?p='+${listSPCT.number-1}}" class="page-link"> < </a>
                                     </li>
                                     <li>
-                                        <a th:text="${listSP.number+1}" class="page-link"></a>
+                                        <a th:text="${listSPCT.number+1}" class="page-link"></a>
 
                                     </li>
                                     <li class="page-item">
-                                        <a th:href="@{'?p='+${listSP.number+1}}" class="page-link"> > </a>
+                                        <a th:href="@{'?p='+${listSPCT.number+1}}" class="page-link"> > </a>
                                     </li>
 
                                 </ul>

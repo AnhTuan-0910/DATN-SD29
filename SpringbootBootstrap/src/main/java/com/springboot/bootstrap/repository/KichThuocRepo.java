@@ -8,9 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface KichThuocRepo extends JpaRepository<KichThuoc,String> {
-    Page<KichThuoc> findAll(Pageable pageable);
+    Page<KichThuoc> findAllByOrderByMaAsc(Pageable pageable);
+    List<KichThuoc> findAllByTrangThai(int trangThai);
     @Query("SELECT kt FROM KichThuoc kt WHERE " +
             "LOWER(kt.ma) IS NULL OR   LOWER(kt.ma) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "LOWER(kt.ten) IS NULL OR  LOWER(kt.ten) LIKE LOWER(CONCAT('%', :keyword, '%'))")

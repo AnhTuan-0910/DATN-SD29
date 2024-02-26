@@ -8,14 +8,23 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MauSacServiceImpl implements MauSacService {
     @Autowired
     private MauSacRepo mauSacRepo;
+    private static final String ma = "KT";
+    private static int counter = 0;
+
+    @Override
+    public List<MauSac> findAllByTrangThai() {
+        return mauSacRepo.findAllByTrangThai(1);
+    }
 
     @Override
     public Page<MauSac> getAll(Pageable pageable) {
-        return mauSacRepo.findAll(pageable);
+        return mauSacRepo.findAllByOrderByMaAsc(pageable);
 
 
     }
@@ -44,5 +53,11 @@ public class MauSacServiceImpl implements MauSacService {
     @Override
     public Page<MauSac> searchTrangThai(int trangThai, Pageable pageable) {
         return mauSacRepo.searchTrangThai(trangThai, pageable);
+    }
+
+    @Override
+    public String generateMaMS() {
+        counter++;
+        return ma + String.format("%03d", counter);
     }
 }

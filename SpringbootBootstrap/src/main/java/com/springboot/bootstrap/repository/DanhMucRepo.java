@@ -8,9 +8,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface DanhMucRepo extends JpaRepository<DanhMuc,String> {
-    Page<DanhMuc> findAll(Pageable pageable);
+    Page<DanhMuc> findAllByOrderByMaAsc(Pageable pageable);
+
+    List<DanhMuc> findAllByTrangThai(int trangThai);
 
     @Query("SELECT dm FROM DanhMuc dm WHERE " +
             "LOWER(dm.ma) IS NULL OR   LOWER(dm.ma) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
