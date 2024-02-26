@@ -1,4 +1,5 @@
 package com.springboot.bootstrap.entity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,32 +15,38 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "san_pham")
+@Table(name = "san_pham_chi_tiet")
 @Getter
 @Setter
 @Builder
-public class
-SanPham {
+public class SanPhamCT {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id_san_pham")
+    @Column(name = "id_spct")
     private String id;
     @Column(name = "ma")
     private String ma;
-    @Column(name = "ten")
-    private String ten;
+    @Column(name = "mo_ta")
+    private String moTa;
+    @Column(name = "so_luong_ton")
+    private int sl;
+    @Column(name = "gia_ban")
+    private double gia;
     @Column(name = "trang_thai")
     private int trangThai;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_thuong_hieu",referencedColumnName = "id_thuong_hieu")
-    private ThuongHieu thuongHieu;
+    @JoinColumn(name = "id_mau_sac",referencedColumnName = "id_mau_sac")
+    private MauSac mauSac;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_danh_muc",referencedColumnName = "id_danh_muc")
-    private DanhMuc danhMuc;
+    @JoinColumn(name = "id_san_pham",referencedColumnName = "id_san_pham")
+    private SanPham sanPham;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_kich_thuoc",referencedColumnName = "id_kich_thuoc")
+    private KichThuoc kichThuoc;
 }

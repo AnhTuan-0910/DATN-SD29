@@ -8,14 +8,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ThuongHieuServiceImpl implements ThuongHieuService {
     @Autowired
     private ThuongHieuRepo thuongHieuRepo;
+    private static final String ma = "KT";
+    private static int counter = 0;
 
     @Override
     public Page<ThuongHieu> getAll(Pageable pageable) {
-        return thuongHieuRepo.findAll(pageable);
+        return thuongHieuRepo.findAllByOrderByMaAsc(pageable);
     }
 
     @Override
@@ -33,6 +37,7 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
         thuongHieu.setId(id);
         thuongHieuRepo.save(thuongHieu);
     }
+
     @Override
     public Page<ThuongHieu> searchCodeOrName(String keyword, Pageable pageable) {
         return thuongHieuRepo.searchCodeOrName(keyword, pageable);
@@ -41,5 +46,16 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
     @Override
     public Page<ThuongHieu> searchTrangThai(int trangThai, Pageable pageable) {
         return thuongHieuRepo.searchTrangThai(trangThai, pageable);
+    }
+
+    @Override
+    public List<ThuongHieu> findAllByTrangThai() {
+        return thuongHieuRepo.findAllByTrangThai(1);
+    }
+
+    @Override
+    public String generateMaTH() {
+        counter++;
+        return ma + String.format("%03d", counter);
     }
 }

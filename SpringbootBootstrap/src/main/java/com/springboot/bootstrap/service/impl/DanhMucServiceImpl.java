@@ -8,14 +8,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DanhMucServiceImpl implements DanhMucService {
     @Autowired
     private DanhMucRepo danhMucRepo;
+    private static final String ma = "KT";
+    private static int counter = 0;
 
     @Override
     public Page<DanhMuc> getAll(Pageable pageable) {
-        return danhMucRepo.findAll(pageable);
+        return danhMucRepo.findAllByOrderByMaAsc(pageable);
     }
 
     @Override
@@ -33,6 +37,7 @@ public class DanhMucServiceImpl implements DanhMucService {
         danhMuc.setId(id);
         danhMucRepo.save(danhMuc);
     }
+
     @Override
     public Page<DanhMuc> searchCodeOrName(String keyword, Pageable pageable) {
         return danhMucRepo.searchCodeOrName(keyword, pageable);
@@ -41,5 +46,16 @@ public class DanhMucServiceImpl implements DanhMucService {
     @Override
     public Page<DanhMuc> searchTrangThai(int trangThai, Pageable pageable) {
         return danhMucRepo.searchTrangThai(trangThai, pageable);
+    }
+
+    @Override
+    public List<DanhMuc> findAllByTrangThai() {
+        return danhMucRepo.findAllByTrangThai(1);
+    }
+
+    @Override
+    public String generateMaDM() {
+        counter++;
+        return ma + String.format("%03d", counter);
     }
 }

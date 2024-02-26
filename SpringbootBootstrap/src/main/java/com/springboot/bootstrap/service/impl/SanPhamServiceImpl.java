@@ -12,9 +12,22 @@ import org.springframework.stereotype.Service;
 public class SanPhamServiceImpl implements SanPhamService {
     @Autowired
     private SanPhamRepo sanPhamRepo;
+    private static final String ma = "SP";
+    private static int counter = 0;
 
     @Override
     public Page<SanPham> getAll(Pageable pageable) {
-        return sanPhamRepo.findAll(pageable);
+        return sanPhamRepo.findAllByOrderByMaAsc(pageable);
+    }
+
+    @Override
+    public void add(SanPham sanPham) {
+        sanPhamRepo.save(sanPham);
+    }
+
+    @Override
+    public String generateMaSP() {
+        counter++;
+        return ma + String.format("%03d", counter);
     }
 }

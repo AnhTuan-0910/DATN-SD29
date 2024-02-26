@@ -1,5 +1,6 @@
 package com.springboot.bootstrap.service.impl;
-
+import java.util.List;
+import java.util.stream.Collectors;
 import com.springboot.bootstrap.entity.KichThuoc;
 import com.springboot.bootstrap.repository.KichThuocRepo;
 import com.springboot.bootstrap.service.KichThuocService;
@@ -12,6 +13,13 @@ import org.springframework.stereotype.Service;
 public class KichThuocServiceImpl implements KichThuocService {
     @Autowired
     private KichThuocRepo kichThuocRepo;
+    private static final String ma = "KT";
+    private static int counter = 0;
+
+    @Override
+    public List<KichThuoc> findAllByTrangThai() {
+        return kichThuocRepo.findAllByTrangThai(1);
+    }
 
     @Override
     public KichThuoc getOne(String id) {
@@ -20,7 +28,7 @@ public class KichThuocServiceImpl implements KichThuocService {
 
     @Override
     public Page<KichThuoc> getAll(Pageable pageable) {
-        return kichThuocRepo.findAll(pageable);
+        return kichThuocRepo.findAllByOrderByMaAsc(pageable);
     }
 
     @Override
@@ -33,6 +41,7 @@ public class KichThuocServiceImpl implements KichThuocService {
         kichThuoc.setId(id);
         kichThuocRepo.save(kichThuoc);
     }
+
     @Override
     public Page<KichThuoc> searchCodeOrName(String keyword, Pageable pageable) {
         return kichThuocRepo.searchCodeOrName(keyword, pageable);
@@ -42,4 +51,12 @@ public class KichThuocServiceImpl implements KichThuocService {
     public Page<KichThuoc> searchTrangThai(int trangThai, Pageable pageable) {
         return kichThuocRepo.searchTrangThai(trangThai, pageable);
     }
+
+
+    @Override
+    public String generateMaKT() {
+        counter++;
+        return ma + String.format("%03d", counter);
+    }
 }
+
