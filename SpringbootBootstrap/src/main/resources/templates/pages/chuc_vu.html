@@ -8,7 +8,7 @@
 <body>
 <div class="main-content container-fluid" layout:fragment="content">
     <div class="page-title">
-        <h3>Nhan Vien</h3>
+        <h3>Chuc vu</h3>
 
     </div>
     <div class="row mb-4">
@@ -19,7 +19,7 @@
 
                 </div>
                 <div class="card-body px-0 pb-0">
-                    <form th:action="@{/nhan_vien/search}" method="get" style="padding-top: 20px;padding-bottom: 20px">
+                    <form th:action="@{/chuc_vu/search}" method="get" style="padding-top: 20px;padding-bottom: 20px">
                         <div style="margin-left: 25%;margin-right: 25%;height: 70px">
                             <div style="float: left;margin-left: 70px">
                                 <select class="form-select" style="width: 150px" name="trangThaiSearch">
@@ -39,7 +39,7 @@
 
                         <div style="margin-left: 40%;margin-right: 40%;">
                             <button class="btn btn-danger" type="submit">Tìm kiếm</button>
-                            <a style="margin-left: 10px" class="btn btn-primary" href="/nhan_vien">Làm mới</a>
+                            <a style="margin-left: 10px" class="btn btn-primary" href="/chuc_vu">Làm mới</a>
                         </div>
                     </form>
                 </div>
@@ -50,10 +50,10 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <div><h4 class="card-title">Danh sách màu sắc</h4></div>
+                    <div><h4 class="card-title">Danh sách chc v</h4></div>
                     <div style="float: right">
                         <button class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#themNV"><i data-feather="plus-circle"></i></button>
+                                data-bs-target="#themCV"><i data-feather="plus-circle"></i></button>
                     </div>
 
                 </div>
@@ -70,21 +70,21 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="nv,start :${listNV.content}">
+                            <tr th:each="cv,start :${listCV.content}">
                                 <td th:text="${start.index+1}"></td>
-                                <td th:text="${nv.ma}"></td>
-                                <td th:text="${nv.ten}"></td>
+                                <td th:text="${cv.ma}"></td>
+                                <td th:text="${cv.ten}"></td>
 
                                 <td>
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" role="switch"
-                                               id="flexSwitchCheckDefault" th:checked="${nv.trangThai}">
+                                               id="flexSwitchCheckDefault" th:checked="${cv.trangThai}">
                                         <label class="form-check-label" for="flexSwitchCheckDefault"></label>
                                     </div>
 
                                 </td>
                                 <td>
-                                    <a th:href="@{nhan_vien/viewOne/(id=${nv.id})}"
+                                    <a th:href="@{chuc_vu/viewOne/(id=${cv.id})}"
                                        class="btn btn-outline-primary uBtn">
                                         <i data-feather="edit"></i></a></a>
 
@@ -98,14 +98,14 @@
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
                                     <li class="page-item">
-                                        <a th:href="@{'?p='+${listNV.number-1}}" class="page-link"> < </a>
+                                        <a th:href="@{'?p='+${listCV.number-1}}" class="page-link"> < </a>
                                     </li>
                                     <li class="page-item">
-                                        <a th:text="${listNV.number+1}" class="page-link"></a>
+                                        <a th:text="${listCV.number+1}" class="page-link"></a>
 
                                     </li>
                                     <li class="page-item">
-                                        <a th:href="@{'?p='+${listNV.number+1}}" class="page-link"> > </a>
+                                        <a th:href="@{'?p='+${listCV.number+1}}" class="page-link"> > </a>
                                     </li>
 
                                 </ul>
@@ -129,7 +129,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form th:action="@{/nhan_vien/update}" th:object="${nv}" method="post">
+                    <form th:action="@{/chuc_vu/update}" th:object="${cv}" method="post">
 
                         <div class="row">
                             <div style="background: white;padding-bottom: 20px">
@@ -177,12 +177,12 @@
                     <div class="modal-header">
                         <h1 style="color: black" class="modal-title fs-5" id="labelThem"><i
                                 class="fa-solid fa-circle-info"></i>
-                            Thêm danh mục</h1>
+                            Thêm chc v</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form th:action="@{/nhan_vien/add}" th:object="${nv}" method="post">
+                        <form th:action="@{/chuc_vu/add}" th:object="${cv}" method="post">
 
                             <div class="row">
                                 <div style="background: white;padding-bottom: 20px">
