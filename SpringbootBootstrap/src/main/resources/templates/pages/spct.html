@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="main-content container-fluid" layout:fragment="content">
+    <div class="page-title">
+        <h3>Sản phẩm chi tiết</h3>
+
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-12 ">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">Bộ lọc</h4>
+
+                </div>
+                <div class="card-body px-0 pb-0">
+                    <form method="get" style="padding-top: 20px;padding-bottom: 20px">
+                        <div style="margin-left: 15%;margin-right: 15%;height: 70px">
+                            <div style="float: left;margin-left: 70px">
+                                <select class="form-select" style="width: 150px" name="danhMucSearch">
+                                    <option value="">Size</option>
+                                    <option value="1">Đang sử dụng</option>
+                                    <option value="0">Ngừng sử dụng</option>
+
+                                </select>
+                            </div>
+                            <div style="float: left;margin-left: 70px">
+                                <select class="form-select" style="width: 150px" name="thuongHieuSearch">
+                                    <option value="">Màu sắc</option>
+                                    <option value="1">Đang sử dụng</option>
+                                    <option value="0">Ngừng sử dụng</option>
+
+                                </select>
+                            </div>
+                            <div style="float: left;margin-left: 70px">
+                                <select class="form-select" style="width: 150px" name="trangThaiSearch">
+                                    <option value="">Trạng thái</option>
+                                    <option value="1">Đang sử dụng</option>
+                                    <option value="0">Ngừng sử dụng</option>
+
+                                </select>
+                            </div>
+
+
+                        </div>
+
+                        <div style="margin-left: 40%;margin-right: 40%;">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div style="float: left"><h4 class="card-title">Danh sách sản phẩm chi tiết</h4></div>
+
+                    <div style="float: right;margin-right: 30px">
+
+                        <form>
+                            <div style="float: right;margin-left: 20px">
+                                <button class="btn btn-danger" type="submit">Tìm kiếm</button>
+
+                            </div>
+                            <div style="float: right"><input name="keyword" class="form-control"
+                                                             style="width: 200px;height: 38px"
+                                                             placeholder="Tìm kiếm">
+                            </div>
+
+
+                        </form>
+                    </div>
+                    <div style="float: right">
+                        <a style="margin-right: 10px" class="btn btn-primary" ><i
+                                data-feather="refresh-cw"></i></a>
+
+                        <a class="btn btn-primary"  href="/them_sp"
+                                ><i data-feather="plus-circle"></i></a>
+                    </div>
+
+                </div>
+                <div class="card-body px-0 pb-0">
+                    <div class="table-responsive ">
+                        <table class='table table mb-0' id="table1">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Ảnh</th>
+                                <th>Tên</th>
+                                <th>Kích thước</th>
+                                <th>Màu sắc</th>
+                                <th>Số lượng</th>
+                                <th>Giá bán</th>
+                                <th>Mã QR</th>
+                                <th>Thao tác</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="spct,start :${listSPCT}">
+                                <td th:text="${start.index+1}"></td>
+                                <td> </td>
+                                <td th:text="${spct.sanPham.ten}"></td>
+                                <td th:text="${spct.kichThuoc.ten}"></td>
+                                <td>
+                                    <div class="badge" th:style="'background-color:'+${spct.mauSac.ten}"
+                                         th:text="${spct.mauSac.ten}"></div>
+                                </td>
+                                <td  th:text="${spct.sl}"></td>
+                                <td th:text="${spct.gia}"></td>
+                                <td><img th:src="${qrCodeGenerator.generateQrCode(spct.id, 50, 50)}" alt="QR Code"/></td>
+                                <td>
+                                    <a class="btn btn-outline-success uBtn"><i
+                                            data-feather="edit"></i></a>
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+                        <div style="float: right;margin: 20px">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a th:href="@{'?p='+${listSPCT.number-1}}" class="page-link"> < </a>
+                                    </li>
+                                    <li>
+                                        <a th:text="${listSPCT.number+1}" class="page-link"></a>
+
+                                    </li>
+                                    <li class="page-item">
+                                        <a th:href="@{'?p='+${listSPCT.number+1}}" class="page-link"> > </a>
+                                    </li>
+
+                                </ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

@@ -18,7 +18,10 @@ import java.sql.Date;
 import java.util.UUID;
 
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "hoa_don")
 public class HoaDon {
     @Id
@@ -31,17 +34,27 @@ public class HoaDon {
     @ManyToOne
     @JoinColumn(name = "id_nv")
     private NhanVien nhanVien;
+    @Column(name = "ma")
     private String ma;
+    @Column(name = "gia")
     private Double gia;
+    @Column(name = "ngay_thanh_toan")
     private Date ngayThanhToan;
+    @Column(name = "ngay_ship")
     private Date ngayShip;
+    @Column(name = "ngay_nhan")
     private Date ngayNhan;
+    @Column(name = "tinh_trang")
     private Integer tinhTrang;
     @Column(name = "dia_chi")
     private String diaChi;
+    @Column(name = "tien_ship")
     private Double tienShip;
+    @Column(name = "thanh_tien")
     private Double thanhTien;
+    @Column(name = "tao_luc")
     private Date taoLuc;
+    @Column(name = "sua_luc")
     private Date suaLuc;
 
     public HoaDon(KhachHang khachHang, NhanVien nhanVien, String ma, Date ngayThanhToan, Date ngayShip, Date ngayNhan, Integer tinhTrang) {

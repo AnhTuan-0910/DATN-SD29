@@ -24,4 +24,5 @@ public class SanPhamController {
         model.addAttribute("listSP",listSP);
         return "/pages/san_pham";
     }
+
 }

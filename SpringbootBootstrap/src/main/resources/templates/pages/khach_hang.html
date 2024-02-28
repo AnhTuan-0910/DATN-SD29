@@ -6,10 +6,360 @@
 </head>
 <body>
 <div class="main-content container-fluid" layout:fragment="content">
-<div class="page-title">
-    <h3>Khách Hàng</h3>
+    <div class="page-title">
+        <h3>Khách Hàng</h3>
 
-</div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-12 ">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">Bộ lọc</h4>
+
+                </div>
+                <div class="card-body px-0 pb-0">
+                    <form th:action="@{/khach_hang/search}" method="get" style="    padding-top: 20px;padding-bottom: 20px">
+                        <div style="margin-left: 25%;margin-right: 25%;height: 70px">
+                            <div style="float: left;margin-left: 70px">
+                                <select class="form-select" style="width: 150px" name="trangThaiSearch">
+                                    <option value="">Trạng thái</option>
+                                    <option value="1">Đang sử dụng</option>
+                                    <option value="0">Ngừng sử dụng</option>
+
+                                </select>
+                            </div>
+
+                            <div style="float: left;margin-left: 30px">
+                                <input name="keyword" class="form-control" style="width: 200px;height: 38px"
+                                       placeholder="Tìm kiếm">
+
+                            </div>
+                        </div>
+
+                        <div style="margin-left: 40%;margin-right: 40%;">
+                            <button class="btn btn-danger" type="submit">Tìm kiếm</button>
+                            <a style="margin-left: 10px" class="btn btn-primary" href="/khach_hang">Làm mới</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div><h4 class="card-title">Danh sách khách hàng</h4></div>
+                    <div style="float: right">
+                        <button class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#themKT"><i data-feather="plus-circle"></i></button>
+                    </div>
+
+                </div>
+                <div class="card-body px-0 pb-0">
+                    <div class="table-responsive ">
+                        <table class='table table mb-0' id="table1">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Ảnh</th>
+                                <th>Mã</th>
+                                <th>Tên</th>
+                                <th>Ngày sinh</th>
+                                <th>Giới tính</th>
+                                <th>Email</th>
+                                <th>Mật khẩu</th>
+                                <th>SDT</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="kh,start :${listKH.content}">
+                                <td th:text="${start.index+1}"></td>
+                                <td>
+                                    <img th:src="@{${kh.getFullAnhUrl()}}" style="width:50px;height:50px;" />
+                                </td>
+                                <td th:text="${kh.ma}"></td>
+                                <td th:text="${kh.ten}"></td>
+                                <td th:text="${kh.ngaySinh}"></td>
+                                <td th:text="${kh.gioiTinh}"></td>
+                                <td th:text="${kh.email}"></td>
+                                <td th:text="${kh.matKhau}"></td>
+                                <td th:text="${kh.sdt}"></td>
+                                <td>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch"
+                                               id="flexSwitchCheckDefault" th:checked="${kh.trangThai}">
+                                        <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a th:href="@{khach_hang/viewOne/(idKhachHang=${kh.idKhachHang})}"
+                                       class="btn btn-outline-primary uBtn">
+                                        <i data-feather="edit"></i></a>
+
+
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                        <div style="float: right;margin: 20px">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a th:href="@{'?p='+${listKH.number - 1}}" class="page-link"> < </a>
+                                    </li>
+                                    <li>
+                                        <a th:text="${listKH.number+1}" class="page-link"></a>
+
+                                    </li>
+                                    <li class="page-item">
+                                        <a th:href="@{'?p='+${listKH.number+1}}" class="page-link"> > </a>
+                                    </li>
+
+                                </ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="formUpdate">
+        <div class="modal fade" id="suaKT" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 style="color: black" class="modal-title fs-5" id="labelSua"><i
+                                class="fa-solid fa-circle-info"></i>
+                            Sửa khách hàng</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/khach_hang/update}" th:object="${khu}" method="post">
+
+                            <div class="row">
+                                <div style="background: white;padding-bottom: 20px">
+
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Mã </b></label>
+                                        <input id="ma" placeholder="Mã" type="text" name="ma" class="form-control">
+
+                                    </div>
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Tên </b></label>
+                                        <input id="ten" placeholder="Tên" type="text" name="ten" class="form-control">
+
+                                    </div>
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Ngày sinh </b></label>
+                                        <input id="ngaySinh" placeholder="Ngày sinh" type="date" name="ngaySinh" class="form-control">
+
+                                    </div>
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Giới tính</b></label>
+                                        <select id="gioiTinh" name="gioiTinh" class="form-select">
+                                            <option value="Nam">Nam</option>
+                                            <option value="Nữ">Nữ</option>
+                                        </select>
+
+                                    </div>
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Email </b></label>
+                                        <input id="email" placeholder="Email" type="text" name="email" class="form-control">
+
+                                    </div>
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Mật khẩu </b></label>
+                                        <input id="matKhau" placeholder="Mật khẩu" type="password" name="matKhau" class="form-control">
+
+                                    </div>
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>SDT </b></label>
+                                        <input id="sdt" placeholder="SDT" type="text" name="sdt" class="form-control">
+
+                                    </div>
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Ảnh </b></label>
+                                        <div class="col-md-4">
+                                            <input id="loadAnh" type="file" name="loadAnh" >
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="hidden" >
+                                            <img style="width:150px;height:150px;" />
+                                        </div>
+
+                                    </div>
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Trạng thái</b></label>
+                                        <select id="trangThai" name="trangThai" class="form-select">
+                                            <option value="1">Đang hoạt động</option>
+                                            <option value="0">Ngừng hoạt động</option>
+                                        </select>
+
+                                    </div>
+
+<!--                                    <div class="mb-3" style="padding-top: 20px">-->
+<!--                                        <label class="form-label"><b>Địa chỉ khách hàng</b></label>-->
+<!--                                        <select id="idDiaChi" name="idDiaChi" class="form-select" th:field="*{khu.idDiaChi.idDiaChi}"/>-->
+<!--                                        <option th:each="diaChiInfo : ${listDC}" th:value="${diaChiInfo.idDiaChi}" th:utext="${diaChiInfo.diaChi}" />-->
+<!--                                        </select>-->
+
+<!--                                    </div>-->
+                                    <input type="hidden" id="id" name="id">
+
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Sửa</button>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="formThem">
+            <div class="modal fade" id="themKT" tabindex="-1" aria-labelledby="labelThem" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 style="color: black" class="modal-title fs-5" id="labelThem"><i
+                                    class="fa-solid fa-circle-info"></i>
+                                Thêm khách hàng</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form th:action="@{/khach_hang/add}" th:object="${kha}" method="post">
+
+                                <div class="row">
+                                    <div style="background: white;padding-bottom: 20px">
+
+                                        <div class="mb-3" style="padding-top: 20px">
+                                            <label class="form-label"><b>Mã </b></label>
+                                            <input name="ma" class="form-control">
+
+                                        </div>
+
+                                        <div class="mb-3" style="padding-top: 20px">
+                                            <label class="form-label"><b>Tên </b></label>
+                                            <input name="ten" class="form-control">
+
+                                        </div>
+
+                                        <div class="mb-3" style="padding-top: 20px">
+                                            <label class="form-label"><b>Ngày sinh </b></label>
+                                            <input name="ngaySinh" class="form-control">
+
+                                        </div>
+
+                                        <div class="mb-3" style="padding-top: 20px">
+                                            <label class="form-label"><b>Giới tính</b></label>
+                                            <select name="gioiTinh" class="form-select">
+                                                <option value="Nam">Nam</option>
+                                                <option value="Nữ">Nữ</option>
+                                            </select>
+
+                                        </div>
+
+                                        <div class="mb-3" style="padding-top: 20px">
+                                            <label class="form-label"><b>Email </b></label>
+                                            <input name="email" class="form-control">
+
+                                        </div>
+
+                                        <div class="mb-3" style="padding-top: 20px">
+                                            <label class="form-label"><b>Mật khẩu </b></label>
+                                            <input name="matKhau" class="form-control">
+
+                                        </div>
+
+                                        <div class="mb-3" style="padding-top: 20px">
+                                            <label class="form-label"><b>SDT </b></label>
+                                            <input name="sdt" class="form-control">
+
+                                        </div>
+
+                                        <div class="mb-3" style="padding-top: 20px">
+                                            <label class="form-label"><b>Ảnh </b></label>
+                                            <div class="col-md-4">
+                                                <input type="file" name="loadAnh" th:value="${loadAnh}" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="hidden" />
+                                                <img style="width:150px;height:150px;" />
+                                            </div>
+
+                                        </div>
+
+                                        <div class="mb-3" style="padding-top: 20px">
+                                            <label class="form-label"><b>Trạng thái</b></label>
+                                            <select name="trangThai" class="form-select">
+                                                <option value="1">Đang hoạt động</option>
+                                                <option value="0">Ngừng hoạt động</option>
+                                            </select>
+
+                                        </div>
+
+<!--                                        <div class="mb-3" style="padding-top: 20px">-->
+<!--                                            <label class="form-label"><b>Địa chỉ khách hàng</b></label>-->
+<!--                                            <select name="idDiaChi" class="form-select" th:field="*{kha.idDiaChi.idDiaChi}">-->
+<!--                                                <option th:each="diaChiInfo : ${listDC}" th:value="${diaChiInfo.idDiaChi}" th:utext="${diaChiInfo.diaChi}" />-->
+<!--                                            </select>-->
+
+<!--                                        </div>-->
+                                        <input type="hidden">
+
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Thêm</button>
+                            </form>
+
+                        </div>
+                        <div class="modal-footer">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                $('.table .uBtn').on('click', function (event) {
+                    event.preventDefault();
+                    var href = $(this).attr('href');
+                    $.get(href, function (kt) {
+                        $('.formUpdate #ma').val(kt.ma);
+                        $('.formUpdate #ten').val(kt.ten);
+                        $('.formUpdate #gioiTinh').val(kt.gioiTinh);
+                        $('.formUpdate #email').val(kt.email);
+                        $('.formUpdate #matKhau').val(kt.matKhau);
+                        $('.formUpdate #trangThai').val(kt.trangThai);
+                    })
+                    $('.formUpdate #suaKT').modal('show');
+                })
+            })
+        </script>
+
+    </div>
 
 </div>
 </body>

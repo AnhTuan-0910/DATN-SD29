@@ -13,17 +13,21 @@ import lombok.Setter;
 
 
 @Entity
-@Table(name = "danh_muc")
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "danh_muc")
 @Getter
 @Setter
 @Builder
 public class DanhMuc {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String idDanhMuc;
+    @Column(name = "id_danh_muc")
+    private String id;
+    @Column(name = "ma")
     private String ma;
+    @Column(name = "ten")
     private String ten;
+    @Column(name = "trang_thai")
     private int trangThai;
 }

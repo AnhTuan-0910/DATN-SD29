@@ -38,11 +38,10 @@ public class KichThuocController {
 
     @PostMapping("/add")
     public String add(@ModelAttribute("kta") KichThuoc kichThuoc,
-                      @RequestParam("ma") String ma,
                       @RequestParam("ten") String ten,
                       @RequestParam("trangThai") String trangThai,
                       @RequestParam("p") Optional<Integer> p, Model model) {
-        kichThuoc = KichThuoc.builder().ma(ma).ten(ten).trangThai(Integer.parseInt(trangThai)).build();
+        kichThuoc = KichThuoc.builder().ma(kichThuocService.generateMaKT()).ten(ten).trangThai(Integer.parseInt(trangThai)).build();
         kichThuocService.add(kichThuoc);
         Page<KichThuoc> listKT = kichThuocService.getAll(PageRequest.of(p.orElse(0), 5));
         model.addAttribute("listKT", listKT);
