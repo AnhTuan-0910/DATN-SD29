@@ -8,7 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
+
 
 @Service
 public class MauSacServiceImpl implements MauSacService {
@@ -55,9 +57,11 @@ public class MauSacServiceImpl implements MauSacService {
         return mauSacRepo.searchTrangThai(trangThai, pageable);
     }
 
+
     @Override
     public String generateMaMS() {
         counter++;
         return ma + String.format("%03d", counter);
     }
+
 }

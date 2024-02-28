@@ -39,6 +39,7 @@ public class ThuongHieuController {
                       @RequestParam("trangThai") String trangThai,
                       @RequestParam("p") Optional<Integer> p, Model model) {
         thuongHieu = ThuongHieu.builder().ma(thuongHieuService.generateMaTH()).ten(ten).trangThai(Integer.parseInt(trangThai)).build();
+
         thuongHieuService.add(thuongHieu);
         Page<ThuongHieu> listTH = thuongHieuService.getAll(PageRequest.of(p.orElse(0), 5));
         model.addAttribute("listTH", listTH);

@@ -42,6 +42,7 @@ public class KichThuocController {
                       @RequestParam("trangThai") String trangThai,
                       @RequestParam("p") Optional<Integer> p, Model model) {
         kichThuoc = KichThuoc.builder().ma(kichThuocService.generateMaKT()).ten(ten).trangThai(Integer.parseInt(trangThai)).build();
+
         kichThuocService.add(kichThuoc);
         Page<KichThuoc> listKT = kichThuocService.getAll(PageRequest.of(p.orElse(0), 5));
         model.addAttribute("listKT", listKT);

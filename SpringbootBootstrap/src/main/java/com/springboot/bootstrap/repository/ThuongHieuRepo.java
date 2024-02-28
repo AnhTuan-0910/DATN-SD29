@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository
@@ -24,4 +23,5 @@ public interface ThuongHieuRepo extends JpaRepository<ThuongHieu, String> {
     @Query("SELECT th FROM ThuongHieu th WHERE " +
             " (:trangThai IS NULL OR th.trangThai = :trangThai) ")
     Page<ThuongHieu> searchTrangThai(@Param("trangThai") int trangThai, Pageable pageable);
+
 }

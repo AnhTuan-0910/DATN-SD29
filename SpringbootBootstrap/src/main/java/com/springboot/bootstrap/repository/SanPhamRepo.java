@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SanPhamRepo extends JpaRepository<SanPham,String> {
     Page<SanPham> findAllByOrderByMaAsc(Pageable pageable);
+
 }

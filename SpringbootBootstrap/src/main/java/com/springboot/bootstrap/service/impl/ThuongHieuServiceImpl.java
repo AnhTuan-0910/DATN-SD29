@@ -8,7 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
+
 
 @Service
 public class ThuongHieuServiceImpl implements ThuongHieuService {
@@ -21,6 +23,7 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
     public Page<ThuongHieu> getAll(Pageable pageable) {
         return thuongHieuRepo.findAllByOrderByMaAsc(pageable);
     }
+
 
     @Override
     public ThuongHieu getOne(String id) {
@@ -58,4 +61,5 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
         counter++;
         return ma + String.format("%03d", counter);
     }
+
 }

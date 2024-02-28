@@ -1,7 +1,8 @@
 package com.springboot.bootstrap.service;
 
 import com.springboot.bootstrap.entity.DanhMuc;
-import com.springboot.bootstrap.entity.MauSac;
+
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -18,9 +19,11 @@ public interface DanhMucService {
 
     void add(DanhMuc danhMuc);
 
-    void update(DanhMuc danhMuc, String id);
 
-    Page<DanhMuc> searchCodeOrName(String keyword, Pageable pageable);
+    void update(DanhMuc danhMuc,String id);
 
-    Page<DanhMuc> searchTrangThai(int trangThai, Pageable pageable);
+    Page<DanhMuc> searchCodeOrName(String keyword, Pageable pageable );
+
+    Page<DanhMuc> searchTrangThai( int trangThai,Pageable pageable );
+
 }

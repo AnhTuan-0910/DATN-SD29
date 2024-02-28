@@ -40,6 +40,6 @@ SanPham {
     private ThuongHieu thuongHieu;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_danh_muc")
+    @JoinColumn(name = "id_danh_muc",referencedColumnName = "id_danh_muc")
     private DanhMuc danhMuc;
 }

@@ -41,6 +41,8 @@ public class MauSacController {
                       @RequestParam("trangThai") String trangThai,
                       @RequestParam("p") Optional<Integer> p, Model model) {
         mauSac = MauSac.builder().ma(mauSacService.generateMaMS()).ten(ten).trangThai(Integer.parseInt(trangThai)).build();
+
+
         mauSacService.add(mauSac);
         Page<MauSac> listMS = mauSacService.getAll(PageRequest.of(p.orElse(0), 5));
         model.addAttribute("listMS", listMS);

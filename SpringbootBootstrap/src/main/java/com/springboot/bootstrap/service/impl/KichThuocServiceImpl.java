@@ -1,6 +1,7 @@
 package com.springboot.bootstrap.service.impl;
+
 import java.util.List;
-import java.util.stream.Collectors;
+
 import com.springboot.bootstrap.entity.KichThuoc;
 import com.springboot.bootstrap.repository.KichThuocRepo;
 import com.springboot.bootstrap.service.KichThuocService;
@@ -28,7 +29,9 @@ public class KichThuocServiceImpl implements KichThuocService {
 
     @Override
     public Page<KichThuoc> getAll(Pageable pageable) {
+
         return kichThuocRepo.findAllByOrderByMaAsc(pageable);
+
     }
 
     @Override
@@ -59,4 +62,5 @@ public class KichThuocServiceImpl implements KichThuocService {
         return ma + String.format("%03d", counter);
     }
 }
+
 

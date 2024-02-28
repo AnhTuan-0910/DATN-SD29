@@ -29,5 +29,6 @@ public class SanPhamServiceImpl implements SanPhamService {
     public String generateMaSP() {
         counter++;
         return ma + String.format("%03d", counter);
+
     }
 }

@@ -8,7 +8,6 @@
 <body>
 <div class="main-content container-fluid" layout:fragment="content">
 
-
     <div class="container mt-5 row">
         <div class="col-md-10">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -199,11 +198,8 @@
                 </div>
             </div>
 
-
         </div>
-
     </div>
-
     <script>
         $(document).ready(function () {
 
@@ -235,12 +231,13 @@
                 }
             });
 
+
             $('#add-tab').click(function () {
                 var tabCount = $('#myTab .nav-item').length;
 
                 if (tabCount < 6) {
                     var newTabId = 'hoa_don' + (tabCount + 1);
-                    var newTabContent = '<div class="tab-pane fade show active hd" id="'+ newTabId+'" role="tabpanel" aria-labelledby="home-tab">\n' +
+                    var newTabContent = '<div class="tab-pane fade show active hd" id="' + newTabId + '" role="tabpanel" aria-labelledby="home-tab">\n' +
                         '\n' +
                         '                <div class="row mb-4">\n' +
                         '                    <div class="col-md-7">\n' +
@@ -428,6 +425,8 @@
             });
         });
     </script>
+
+
 </div>
 </body>
 </html>

@@ -7,5 +7,6 @@ import org.springframework.data.domain.Pageable;
 public interface SanPhamService {
     public String generateMaSP();
     void add(SanPham sanPham);
+
     Page<SanPham> getAll(Pageable pageable);
 }
