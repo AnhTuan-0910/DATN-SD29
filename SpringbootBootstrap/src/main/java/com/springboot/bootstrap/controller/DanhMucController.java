@@ -38,10 +38,11 @@ public class DanhMucController {
 
     @PostMapping("/add")
     public String add(@ModelAttribute("dma") DanhMuc danhMuc,
+                      @RequestParam("ma") String ma,
                       @RequestParam("ten") String ten,
                       @RequestParam("trangThai") String trangThai,
                       @RequestParam("p") Optional<Integer> p, Model model) {
-        danhMuc = DanhMuc.builder().ma(danhMucService.generateMaDM()).ten(ten).trangThai(Integer.parseInt(trangThai)).build();
+        danhMuc = DanhMuc.builder().ma(ma).ten(ten).trangThai(Integer.parseInt(trangThai)).build();
         danhMucService.add(danhMuc);
         Page<DanhMuc> listDM = danhMucService.getAll(PageRequest.of(p.orElse(0), 5));
         model.addAttribute("listDM", listDM);

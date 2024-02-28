@@ -7,7 +7,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginController {
 
     @RequestMapping("/login")
-    public String loginPage(){
+    public String loginPage() {
         return "auth-login";
+    }
+
+    @RequestMapping("/giao_dich")
+    public String giaoDich() {
+        return "/pages/giao_dich";
+    }
+
+    @RequestMapping("/home")
+    public String home() {
+        return "/pages/landing_page";
     }
 }

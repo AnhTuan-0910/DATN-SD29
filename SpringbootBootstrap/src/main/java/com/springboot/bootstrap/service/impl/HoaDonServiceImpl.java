@@ -4,14 +4,12 @@ import com.springboot.bootstrap.entity.DTO.HoaDonDTO;
 import com.springboot.bootstrap.entity.HoaDon;
 import com.springboot.bootstrap.entity.KhachHang;
 import com.springboot.bootstrap.entity.NhanVien;
-import com.springboot.bootstrap.entity.ThuongHieu;
 import com.springboot.bootstrap.repository.HoaDonRepository;
 import com.springboot.bootstrap.repository.KhachHangRepository;
-import com.springboot.bootstrap.repository.NhanVienRepository;
+import com.springboot.bootstrap.repository.NhanVienRepo;
 import com.springboot.bootstrap.service.HoaDonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +23,7 @@ public class HoaDonServiceImpl implements HoaDonService {
     @Autowired
     private KhachHangRepository khachHangRepository;
     @Autowired
-    private NhanVienRepository nhanVienRepository;
+    private NhanVienRepo nhanVienRepo;
     @Override
     public List<HoaDon> getList() {
         return hoaDonRepository.findAll();
@@ -34,7 +32,7 @@ public class HoaDonServiceImpl implements HoaDonService {
     @Override
     public Page<HoaDon> getListSearch(HoaDonDTO hoaDon,Pageable pageable) {
         KhachHang khachHang = khachHangRepository.findByMa(hoaDon.getMaNhanVien());
-        NhanVien nhanVien = nhanVienRepository.findByMa(hoaDon.getMaKhachHang());
+        NhanVien nhanVien = nhanVienRepo.findByMa(hoaDon.getMaKhachHang());
         Integer tinhTrang=0;
         Date ngayNhan,ngayThanhToan,ngayShip;
         switch (hoaDon.getTinhTrang()){
