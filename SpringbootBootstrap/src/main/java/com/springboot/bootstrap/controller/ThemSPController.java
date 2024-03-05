@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -68,13 +69,13 @@ public class ThemSPController {
         return "/pages/them_sp";
     }
 
-    @PostMapping("/addSPCT")
+    @PostMapping( "/addSPCT")
     public String add(@ModelAttribute("spcta") SanPhamCT sanPhamCT,
                       @RequestParam("tenSP") String ten,
                       @RequestParam("trangThai") String trangThai,
                       @RequestParam("thuongHieu") String thuongHieu,
                       @RequestParam("danhMuc") String danhMuc,
-                      @RequestParam("moTa") String moTa,
+
                       @RequestParam("idms") String[] idMSAr,
                       @RequestParam("idkt") String[] idKTAr,
                       @RequestParam("p") Optional<Integer> p,
@@ -91,8 +92,7 @@ public class ThemSPController {
             for (String idMS : idMSAr) {
                 double gia = 100000;
                 sanPhamCT = SanPhamCT.builder()
-                        .ma(sanPhamService.generateMaSP())
-                        .moTa(moTa)
+                        .ma(sanPhamCTService.generateMaSPCT())
                         .mauSac(MauSac.builder().id(idMS).build())
                         .kichThuoc(KichThuoc.builder().id(idKT).build())
                         .sanPham(SanPham.builder().id(sanPham.getId()).build())
@@ -142,7 +142,6 @@ public class ThemSPController {
                          @RequestParam("idMS") String idMS[],
                          @RequestParam("idKT") String idKT[],
                          @RequestParam("ma") String maSPCT[],
-                         @RequestParam("moTa") String moTa,
                          @RequestParam("file") MultipartFile[][] file,
                          @RequestParam("sl") String sl[],
                          @RequestParam("gia") String gia[],
@@ -171,7 +170,6 @@ public class ThemSPController {
             String ma = maSPCT[a];
             sanPhamCT = SanPhamCT.builder()
                     .ma(ma)
-                    .moTa(moTa)
                     .sanPham(SanPham.builder().id(idSP).build())
                     .mauSac(MauSac.builder().id(idms).build())
                     .kichThuoc(KichThuoc.builder().id(idkt).build())

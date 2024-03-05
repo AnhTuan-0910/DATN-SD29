@@ -74,7 +74,8 @@
                                 <td th:text="${start.index+1}"></td>
                                 <td th:text="${ms.ma}"></td>
                                 <td>
-                                    <span th:style="'background-color: ' + ${ms.ten}" th:text="${ms.ten}" class="badge"></span>
+                                    <span th:style="'background-color: ' + ${ms.ten}" th:text="${ms.ten}"
+                                          class="badge"></span>
                                 </td>
 
                                 <td>
@@ -172,70 +173,71 @@
                 </div>
             </div>
         </div>
-        <div class="formThem">
-            <div class="modal fade" id="themMS" tabindex="-1" aria-labelledby="labelThem" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 style="color: black" class="modal-title fs-5" id="labelThem"><i
-                                    class="fa-solid fa-circle-info"></i>
-                                Thêm màu sắc</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form th:action="@{/mau_sac/add}" th:object="${msa}" method="post">
+    </div>
+    <div class="formThem">
+        <div class="modal fade" id="themMS" tabindex="-1" aria-labelledby="labelThem" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 style="color: black" class="modal-title fs-5" id="labelThem"><i
+                                class="fa-solid fa-circle-info"></i>
+                            Thêm màu sắc</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/mau_sac/add}" th:object="${msa}" method="post">
 
-                                <div class="row">
-                                    <div style="background: white;padding-bottom: 20px">
+                            <div class="row">
+                                <div style="background: white;padding-bottom: 20px">
 
-                                        <div class="mb-3" style="padding-top: 20px">
-                                            <label class="form-label"><b>Tên </b></label>
-                                            <input type="color" name="ten" class="form-control">
-
-                                        </div>
-                                        <div class="mb-3" style="padding-top: 20px">
-                                            <label class="form-label"><b>Trạng thái</b></label>
-                                            <select name="trangThai" class="form-select">
-                                                <option value="1">Đang hoạt động</option>
-                                                <option value="0">Ngừng hoạt động</option>
-                                            </select>
-
-                                        </div>
-                                        <input type="hidden">
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Tên </b></label>
+                                        <input type="color" name="ten" class="form-control">
 
                                     </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Trạng thái</b></label>
+                                        <select name="trangThai" class="form-select">
+                                            <option value="1">Đang hoạt động</option>
+                                            <option value="0">Ngừng hoạt động</option>
+                                        </select>
+
+                                    </div>
+                                    <input type="hidden">
+
                                 </div>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                                <button type="submit" class="btn btn-primary">Thêm</button>
-                            </form>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Thêm</button>
+                        </form>
 
-                        </div>
-                        <div class="modal-footer">
+                    </div>
+                    <div class="modal-footer">
 
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <script>
-            $(document).ready(function () {
-                $('.table .uBtn').on('click', function (event) {
-                    event.preventDefault();
-                    var href = $(this).attr('href');
-                    $.get(href, function (kt) {
-                        $('.formUpdate #ma').val(kt.ma);
-                        $('.formUpdate #ten').val(kt.ten);
-                        $('.formUpdate #trangThai').val(kt.trangThai);
-                        $('.formUpdate #id').val(kt.id);
-                    })
-                    $('.formUpdate #suaMS').modal('show');
-                })
-            })
-        </script>
-
     </div>
+
+    <script>
+        $(document).ready(function () {
+            $('.table .uBtn').on('click', function (event) {
+                event.preventDefault();
+                var href = $(this).attr('href');
+                $.get(href, function (kt) {
+                    $('.formUpdate #ma').val(kt.ma);
+                    $('.formUpdate #ten').val(kt.ten);
+                    $('.formUpdate #trangThai').val(kt.trangThai);
+                    $('.formUpdate #id').val(kt.id);
+                })
+                $('.formUpdate #suaMS').modal('show');
+            })
+        })
+    </script>
+
+
 </div>
 
 </body>

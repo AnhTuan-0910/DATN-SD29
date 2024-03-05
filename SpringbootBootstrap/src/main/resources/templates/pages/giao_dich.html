@@ -4,8 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script th:src="@{/js/thanh_toan.js}"></script>
 </head>
 <body>
+
 <div class="main-content container-fluid" layout:fragment="content">
 
 
@@ -15,8 +17,9 @@
                 <li class="nav-item">
                     <a class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#hoa_don"
                        href="#hoa_don" role="tab"
-                       aria-controls="home" aria-selected="true">Hóa đơn 1 <i class="close-tab"
-                                                                              data-feather="x-circle"></i></a>
+                       aria-controls="home" aria-selected="true">
+                        Hóa đơn 1 <i class="close-tab" data-feather="x-circle"></i>
+                    </a>
                 </li>
 
             </ul>
@@ -24,410 +27,39 @@
         <div class="col-md-2">
             <button id="add-tab" class="btn btn-outline-warning ml-auto">Thêm hóa đơn</button>
         </div>
-        <div class="tab-content" id="myTabContent" style="padding: 20px;background-color: white">
-            <div class="tab-pane fade show active hd" id="hoa_don" role="tabpanel" aria-labelledby="home-tab">
+    </div>
+    <div class="tab-content" id="myTabContent" style="padding: 20px;background-color: white">
 
-                <div class="row mb-4">
-                    <div class="col-md-7">
-                        <div class="card">
-                            <div class=" row" style="padding-bottom:20px ">
-                                <div class="col-md-6" style="margin: 10px;height: 200px">
-                                    MÃ QR
-                                </div>
-                                <div class="col-md-5 row">
-                                    <div class="col-md-12" style="text-align: center;height: 50px;padding-top: 20px">
-                                        <button class="btn btn-outline-primary">Tìm kiếm</button>
-                                    </div>
-                                    <div class="col-md-12">
+        <div class="tab-pane fade show active " id="hoa_don" role="tabpanel" aria-labelledby="home-tab">
+            <div th:replace="pages/tab_content :: tabContent1"></div>
 
-                                        <input style="width: 140px;float: left;margin-right: 5px" class="form-control"
-                                               placeholder="Nhập mã CTSP">
-                                        <button class="btn btn-outline-primary"><i data-feather="search"></i>
-                                        </button>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <div style="float: left"><h4 class="card-title">Giỏ hàng</h4></div>
+        </div>
+        <div class="tab-pane fade " id="hoa_don2" role="tabpanel" aria-labelledby="home-tab">
+            <div th:replace="pages/tab_content2 :: tabContent2"></div>
+        </div>
 
 
-                                <div style="float: right">
-                                    <a style="margin-right: 10px" class="btn btn-outline-primary">Sửa</a>
-
-                                    <button class="btn btn-outline-danger">Xóa</button>
-                                </div>
-
-                            </div>
-                            <div class="card-body px-0 pb-0">
-                                <div class="table-responsive ">
-                                    <table class='table table mb-0'>
-                                        <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Mã</th>
-                                            <th>Tên</th>
-                                            <th>Màu sắc</th>
-                                            <th>Kích thước</th>
-                                            <th>Số lượng</th>
-                                            <th>Đơn Giá</th>
-
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>HDCT01</td>
-                                            <td>SP001</td>
-
-                                            <td>Red</td>
-
-                                            <td>40</td>
-                                            <td>1</td>
-                                            <td>400.000</td>
-                                        </tr>
-
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <div class="col-md-5">
-
-                        <div class="card">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <div style="float: left"><h4 class="card-title">Thông tin đơn hàng</h4></div>
-
-
-                            </div>
-                            <div class="card-body px-0 pb-0">
-                                <form style="padding-top: 20px;padding-bottom: 20px" class="row">
-                                    <div class="col-md-6">
-
-                                        <div class="col-form-label" style="float:left;margin-left: 20px">
-                                            <b>Khách hàng</b>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="col-form-label" style="margin-left: 20%;margin-left: 20px">
-                                            <b> <span>Khách lẻ</span></b>
-                                        </div>
-                                        <div style="margin-left: 20px">
-                                            <button class="btn btn-outline-warning" type="button">Chọn khách hàng
-                                            </button>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="col-form-label" style="margin-left: 20px">
-                                            <b>Nhân viên</b>
-                                        </div>
-
-                                        <div style="margin-left: 20px"><input class="form-control"
-                                                                              style="width: 200px;height: 38px"
-                                                                              placeholder="Voucher" readonly>
-                                        </div>
-                                        <div class="col-form-label" style="margin-left: 20px">
-                                            <b>Tiền hàng</b>
-                                        </div>
-                                        <div class="col-form-label" style="margin-left: 20px">
-                                            <b>Giảm giá</b>
-                                        </div>
-                                        <div class="col-form-label" style="margin-left: 20px">
-                                            <b>Tổng tiền</b>
-                                        </div>
-                                        <div class="col-form-label" style="margin-left: 20px">
-                                            <b>Khách thanh toán</b>
-                                        </div>
-                                        <div class="col-form-label" style="margin-left: 20px">
-                                            <b>Tiền thiếu</b>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
-                                            <b>Nguyễn Văn A</b>
-                                        </div>
-
-                                        <div style="margin-left: 20px">
-                                            <button class="btn btn-outline-primary" type="button">Chọn voucher</button>
-
-                                        </div>
-
-
-                                        <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
-                                            <b>600.000</b>
-                                        </div>
-
-                                        <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
-                                            <b>60.000</b>
-                                        </div>
-
-                                        <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
-                                            <b>540.000</b>
-                                        </div>
-
-                                        <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
-                                            <b>0</b>
-                                        </div>
-
-                                        <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
-                                            <b>540.000</b>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div style="text-align: center ">
-                                            <button class="btn btn-outline-warning" type="button">Xác nhận đặt hàng
-                                            </button>
-
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-
+        <div class="tab-pane fade " id="hoa_don3" role="tabpanel" aria-labelledby="home-tab">
+            <div th:replace="pages/tab_content3 :: tabContent3"></div>
 
         </div>
 
+        <div class="tab-pane fade " id="hoa_don4" role="tabpanel" aria-labelledby="home-tab">
+            <div th:replace="pages/tab_content4 :: tabContent4"></div>
+
+        </div>
+
+        <div class="tab-pane fade " id="hoa_don5" role="tabpanel" aria-labelledby="home-tab">
+            <div th:replace="pages/tab_content5 :: tabContent5"></div>
+
+        </div>
+        <div class="tab-pane fade " id="hoa_don6" role="tabpanel" aria-labelledby="home-tab">
+            <div th:replace="pages/tab_content6 :: tabContent6"></div>
+
+        </div>
     </div>
 
-    <script>
-        $(document).ready(function () {
-
-            var activeTabId = '';
-
-
-            $(document).on('click', '.close-tab', function (e) {
-                e.preventDefault();
-                var tabId = $(this).closest('a').attr('aria-controls');
-                var $tab = $(this).closest('li');
-
-
-                if ($('#myTab .nav-item').length > 1) {
-
-                    var isActive = $tab.find('a').hasClass('active');
-                    $tab.remove();
-                    $('#' + tabId).remove();
-
-                    if (isActive) {
-                        if ($('#' + activeTabId).length > 0) {
-                            $('#' + activeTabId).tab('show');
-                        } else {
-                            $('.nav-item:first-child').find('a').addClass('active');
-                            $('.tab-content').find('.tab-pane:first-child').addClass('show active');
-                        }
-                    }
-                } else {
-                    Swal.fire("Cần có ít nhất 1 hóa đơn");
-                }
-            });
-
-            $('#add-tab').click(function () {
-                var tabCount = $('#myTab .nav-item').length;
-
-                if (tabCount < 6) {
-                    var newTabId = 'hoa_don' + (tabCount + 1);
-                    var newTabContent = '<div class="tab-pane fade show active hd" id="'+ newTabId+'" role="tabpanel" aria-labelledby="home-tab">\n' +
-                        '\n' +
-                        '                <div class="row mb-4">\n' +
-                        '                    <div class="col-md-7">\n' +
-                        '                        <div class="card">\n' +
-                        '                            <div class=" row" style="padding-bottom:20px ">\n' +
-                        '                                <div class="col-md-6" style="margin: 10px;height: 200px">\n' +
-                        '                                    MÃ QR\n' +
-                        '                                </div>\n' +
-                        '                                <div class="col-md-5 row">\n' +
-                        '                                    <div class="col-md-12" style="text-align: center;height: 50px;padding-top: 20px">\n' +
-                        '                                        <button class="btn btn-outline-primary">Tìm kiếm</button>\n' +
-                        '                                    </div>\n' +
-                        '                                    <div class="col-md-12">\n' +
-                        '\n' +
-                        '                                        <input style="width: 140px;float: left;margin-right: 5px" class="form-control"\n' +
-                        '                                               placeholder="Nhập mã CTSP">\n' +
-                        '                                        <button class="btn btn-outline-primary"><i data-feather="search"></i>\n' +
-                        '                                        </button>\n' +
-                        '\n' +
-                        '                                    </div>\n' +
-                        '                                </div>\n' +
-                        '                            </div>\n' +
-                        '\n' +
-                        '                        </div>\n' +
-                        '\n' +
-                        '                        <div class="card">\n' +
-                        '                            <div class="card-header d-flex justify-content-between align-items-center">\n' +
-                        '                                <div style="float: left"><h4 class="card-title">Giỏ hàng</h4></div>\n' +
-                        '\n' +
-                        '\n' +
-                        '                                <div style="float: right">\n' +
-                        '                                    <a style="margin-right: 10px" class="btn btn-outline-primary">Sửa</a>\n' +
-                        '\n' +
-                        '                                    <button class="btn btn-outline-danger">Xóa</button>\n' +
-                        '                                </div>\n' +
-                        '\n' +
-                        '                            </div>\n' +
-                        '                            <div class="card-body px-0 pb-0">\n' +
-                        '                                <div class="table-responsive ">\n' +
-                        '                                    <table class=\'table table mb-0\'>\n' +
-                        '                                        <thead>\n' +
-                        '                                        <tr>\n' +
-                        '                                            <th>#</th>\n' +
-                        '                                            <th>Mã</th>\n' +
-                        '                                            <th>Tên</th>\n' +
-                        '                                            <th>Màu sắc</th>\n' +
-                        '                                            <th>Kích thước</th>\n' +
-                        '                                            <th>Số lượng</th>\n' +
-                        '                                            <th>Đơn Giá</th>\n' +
-                        '\n' +
-                        '                                        </tr>\n' +
-                        '                                        </thead>\n' +
-                        '                                        <tbody>\n' +
-                        '                                        <tr>\n' +
-                        '                                            <td>1</td>\n' +
-                        '                                            <td>HDCT01</td>\n' +
-                        '                                            <td>SP001</td>\n' +
-                        '\n' +
-                        '                                            <td>Red</td>\n' +
-                        '\n' +
-                        '                                            <td>40</td>\n' +
-                        '                                            <td>1</td>\n' +
-                        '                                            <td>400.000</td>\n' +
-                        '                                        </tr>\n' +
-                        '\n' +
-                        '                                        </tbody>\n' +
-                        '                                    </table>\n' +
-                        '\n' +
-                        '                                </div>\n' +
-                        '                            </div>\n' +
-                        '                        </div>\n' +
-                        '\n' +
-                        '\n' +
-                        '                    </div>\n' +
-                        '                    <div class="col-md-5">\n' +
-                        '\n' +
-                        '                        <div class="card">\n' +
-                        '                            <div class="card-header d-flex justify-content-between align-items-center">\n' +
-                        '                                <div style="float: left"><h4 class="card-title">Thông tin đơn hàng</h4></div>\n' +
-                        '\n' +
-                        '\n' +
-                        '                            </div>\n' +
-                        '                            <div class="card-body px-0 pb-0">\n' +
-                        '                                <form style="padding-top: 20px;padding-bottom: 20px" class="row">\n' +
-                        '                                    <div class="col-md-6">\n' +
-                        '\n' +
-                        '                                        <div class="col-form-label" style="float:left;margin-left: 20px">\n' +
-                        '                                            <b>Khách hàng</b>\n' +
-                        '                                        </div>\n' +
-                        '\n' +
-                        '                                    </div>\n' +
-                        '                                    <div class="col-md-6">\n' +
-                        '                                        <div class="col-form-label" style="margin-left: 20%;margin-left: 20px">\n' +
-                        '                                            <b> <span>Khách lẻ</span></b>\n' +
-                        '                                        </div>\n' +
-                        '                                        <div style="margin-left: 20px">\n' +
-                        '                                            <button class="btn btn-outline-warning" type="button">Chọn khách hàng\n' +
-                        '                                            </button>\n' +
-                        '\n' +
-                        '                                        </div>\n' +
-                        '                                    </div>\n' +
-                        '                                    <div class="col-md-6">\n' +
-                        '                                        <div class="col-form-label" style="margin-left: 20px">\n' +
-                        '                                            <b>Nhân viên</b>\n' +
-                        '                                        </div>\n' +
-                        '\n' +
-                        '                                        <div style="margin-left: 20px"><input class="form-control"\n' +
-                        '                                                                              style="width: 200px;height: 38px"\n' +
-                        '                                                                              placeholder="Voucher" readonly>\n' +
-                        '                                        </div>\n' +
-                        '                                        <div class="col-form-label" style="margin-left: 20px">\n' +
-                        '                                            <b>Tiền hàng</b>\n' +
-                        '                                        </div>\n' +
-                        '                                        <div class="col-form-label" style="margin-left: 20px">\n' +
-                        '                                            <b>Giảm giá</b>\n' +
-                        '                                        </div>\n' +
-                        '                                        <div class="col-form-label" style="margin-left: 20px">\n' +
-                        '                                            <b>Tổng tiền</b>\n' +
-                        '                                        </div>\n' +
-                        '                                        <div class="col-form-label" style="margin-left: 20px">\n' +
-                        '                                            <b>Khách thanh toán</b>\n' +
-                        '                                        </div>\n' +
-                        '                                        <div class="col-form-label" style="margin-left: 20px">\n' +
-                        '                                            <b>Tiền thiếu</b>\n' +
-                        '                                        </div>\n' +
-                        '                                    </div>\n' +
-                        '                                    <div class="col-md-6">\n' +
-                        '                                        <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">\n' +
-                        '                                            <b>Nguyễn Văn A</b>\n' +
-                        '                                        </div>\n' +
-                        '\n' +
-                        '                                        <div style="margin-left: 20px">\n' +
-                        '                                            <button class="btn btn-outline-primary" type="button">Chọn voucher</button>\n' +
-                        '\n' +
-                        '                                        </div>\n' +
-                        '\n' +
-                        '\n' +
-                        '                                        <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">\n' +
-                        '                                            <b>600.000</b>\n' +
-                        '                                        </div>\n' +
-                        '\n' +
-                        '                                        <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">\n' +
-                        '                                            <b>60.000</b>\n' +
-                        '                                        </div>\n' +
-                        '\n' +
-                        '                                        <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">\n' +
-                        '                                            <b>540.000</b>\n' +
-                        '                                        </div>\n' +
-                        '\n' +
-                        '                                        <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">\n' +
-                        '                                            <b>0</b>\n' +
-                        '                                        </div>\n' +
-                        '\n' +
-                        '                                        <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">\n' +
-                        '                                            <b>540.000</b>\n' +
-                        '                                        </div>\n' +
-                        '                                    </div>\n' +
-                        '                                    <div class="col-md-12">\n' +
-                        '                                        <div style="text-align: center ">\n' +
-                        '                                            <button class="btn btn-outline-warning" type="button">Xác nhận đặt hàng\n' +
-                        '                                            </button>\n' +
-                        '\n' +
-                        '                                        </div>\n' +
-                        '                                    </div>\n' +
-                        '                                </form>\n' +
-                        '                            </div>\n' +
-                        '                        </div>\n' +
-                        '\n' +
-                        '\n' +
-                        '                    </div>\n' +
-                        '                </div>\n' +
-                        '            </div>';
-                    $('#myTabContent').append(newTabContent);
-
-                    var newNavItem = '<li class="nav-item"><a class="nav-link" id="' + newTabId + '-tab" data-bs-toggle="tab" data-bs-target="#' + newTabId + '" href="#' + newTabId + '" role="tab" aria-controls="' + newTabId + '" aria-selected="false">Hóa đơn ' + (tabCount + 1) + ' <i class="close close-tab" data-feather="x-circle"></i></a></li>';
-
-                    $('#myTab').append(newNavItem);
-                    feather.replace();
-
-                    $('#' + newTabId).tab('show');
-                    $('#' + newTabId).addClass('active');
-                } else {
-                    Swal.fire("chỉ có thể tạo tối đa 6 hóa đơn!");
-                }
-            });
-        });
-    </script>
 </div>
+
 </body>
 </html>

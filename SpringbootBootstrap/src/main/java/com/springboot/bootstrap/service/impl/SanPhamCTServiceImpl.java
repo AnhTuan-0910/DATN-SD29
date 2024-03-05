@@ -15,11 +15,31 @@ public class SanPhamCTServiceImpl implements SanPhamCTService {
     private static final String ma = "SPCT";
     private static int counter = 0;
 
+
     @Override
     public SanPhamCT getOne(String id) {
         return sanPhamCTRepo.findById(id).get();
     }
 
+    @Override
+    public SanPhamCT getOneByMa(String ma) {
+        return sanPhamCTRepo.findByMa(ma);
+    }
+
+    @Override
+    public Page<SanPhamCT> searchByFilter(String danhMucId, String kichThuocId, String mauSacId, String thuongHieuId, Pageable pageable) {
+        return sanPhamCTRepo.findBySanPhamDanhMucIdAndKichThuocIdAndMauSacIdAndSanPhamThuongHieuId(danhMucId, kichThuocId, mauSacId, thuongHieuId, pageable);
+    }
+
+    @Override
+    public Page<SanPhamCT> search(String keyword, Pageable pageable) {
+        return sanPhamCTRepo.search(keyword, pageable);
+    }
+
+    @Override
+    public Page<SanPhamCT> getAllBySP(String idSP, Pageable pageable) {
+        return sanPhamCTRepo.findAllBySanPhamIdAndOrderByTenMS(idSP, pageable);
+    }
     @Override
     public void update(SanPhamCT sanPhamCT, String id) {
         sanPhamCT.setId(id);
@@ -28,8 +48,8 @@ public class SanPhamCTServiceImpl implements SanPhamCTService {
     }
 
     @Override
-    public Page<SanPhamCT> getAllBySP(String idSP, Pageable pageable) {
-        return sanPhamCTRepo.findAllBySanPhamIdAndOrderByTenMS(idSP, pageable);
+    public Page<SanPhamCT> getAll(Pageable pageable) {
+        return sanPhamCTRepo.findAll(pageable);
     }
 
     @Override

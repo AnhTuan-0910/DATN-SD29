@@ -25,7 +25,7 @@ import lombok.Setter;
 public class
 SanPham {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id_san_pham")
     private String id;
     @Column(name = "ma")
@@ -35,11 +35,11 @@ SanPham {
     @Column(name = "trang_thai")
     private int trangThai;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_thuong_hieu",referencedColumnName = "id_thuong_hieu")
     private ThuongHieu thuongHieu;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_danh_muc")
     private DanhMuc danhMuc;
 }

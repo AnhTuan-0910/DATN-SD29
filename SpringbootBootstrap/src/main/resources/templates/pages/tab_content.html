@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<th:block th:fragment="tabContent1">
+
+    <div class="row mb-4">
+        <div class="col-md-7">
+            <div class="card">
+                <div class=" row" style="padding-bottom:20px ">
+                    <div class="col-md-6" style="margin: 10px;height: 200px">
+                        MÃ QR
+                    </div>
+                    <div class="col-md-5 row">
+                        <div class="col-md-12" style="text-align: center;height: 50px;padding-top: 20px">
+                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#spct">Tìm
+                                kiếm
+                            </button>
+                        </div>
+                        <div class="col-md-12">
+
+                            <form id="formSearchMaSPCT">
+                                <input style="width: 140px;float: left;margin-right: 5px" class="form-control"
+                                       id="maSPCTSearch" placeholder="Nhập mã CTSP">
+                                <button type="submit" data-bs-toggle="modal"  class="btn btn-outline-primary"><i data-feather="search"></i>
+                                </button>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div style="float: left"><h4 class="card-title">Giỏ hàng</h4></div>
+
+
+                    <div style="float: right">
+                        <a style="margin-right: 10px" class="btn btn-outline-primary">Sửa</a>
+
+                        <button class="btn btn-outline-danger">Xóa</button>
+                    </div>
+
+                </div>
+                <div class="card-body px-0 pb-0">
+                    <div class="table-responsive ">
+                        <table class='table table mb-0'>
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Mã</th>
+                                <th>Tên</th>
+                                <th>Màu sắc</th>
+                                <th>Kích thước</th>
+                                <th>Số lượng</th>
+                                <th>Đơn Giá</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>HDCT01</td>
+                                <td>SP001</td>
+
+                                <td>Red</td>
+
+                                <td>40</td>
+                                <td>1</td>
+                                <td>400.000</td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-5">
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div style="float: left"><h4 class="card-title">Thông tin đơn hàng</h4></div>
+
+
+                </div>
+                <div class="card-body px-0 pb-0">
+                    <form style="padding-top: 20px;padding-bottom: 20px" class="row">
+                        <div class="col-md-6">
+
+                            <div class="col-form-label" style="float:left;margin-left: 20px">
+                                <b>Khách hàng</b>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-form-label" style="margin-left: 20%;margin-left: 20px">
+                                <b> <span>Khách lẻ</span></b>
+                            </div>
+                            <div style="margin-left: 20px">
+                                <button class="btn btn-outline-warning" type="button">Chọn khách hàng
+                                </button>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-form-label" style="margin-left: 20px">
+                                <b>Nhân viên</b>
+                            </div>
+
+                            <div style="margin-left: 20px"><input class="form-control"
+                                                                  style="width: 200px;height: 38px"
+                                                                  placeholder="Voucher" readonly>
+                            </div>
+                            <div class="col-form-label" style="margin-left: 20px">
+                                <b>Tiền hàng</b>
+                            </div>
+                            <div class="col-form-label" style="margin-left: 20px">
+                                <b>Giảm giá</b>
+                            </div>
+                            <div class="col-form-label" style="margin-left: 20px">
+                                <b>Tổng tiền</b>
+                            </div>
+                            <div class="col-form-label" style="margin-left: 20px">
+                                <b>Khách thanh toán</b>
+                            </div>
+                            <div class="col-form-label" style="margin-left: 20px">
+                                <b>Tiền thiếu</b>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
+                                <b>Nguyễn Văn A</b>
+                            </div>
+
+                            <div style="margin-left: 20px">
+                                <button class="btn btn-outline-primary" type="button">Chọn voucher</button>
+
+                            </div>
+
+
+                            <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
+                                <b>600.000</b>
+                            </div>
+
+                            <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
+                                <b>60.000</b>
+                            </div>
+
+                            <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
+                                <b>540.000</b>
+                            </div>
+
+                            <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
+                                <b>0</b>
+                            </div>
+
+                            <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
+                                <b>540.000</b>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div style="text-align: center ">
+                                <button class="btn btn-outline-warning" type="button">Xác nhận đặt hàng
+                                </button>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!--    modalSPCT-->
+    <div class="modalTableSPCT">
+        <div class="modal fade" id="spct" tabindex="-1" aria-labelledby="label" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 style="color: black" class="modal-title fs-5" id="label"><i
+                                class="fa-solid fa-circle-info"></i>
+                            Chọn sản phẩm</h1>
+                        <button type="button" class="btn-close " data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-4">
+                            <div class="col-md-12 ">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h4 class="card-title">Bộ lọc</h4>
+
+                                    </div>
+                                    <div class="card-body px-0 pb-0">
+                                        <form id="formFilter" style="padding-top: 20px;padding-bottom: 20px">
+                                            <div style="margin-left: 5%;margin-right: 5%;height: 70px">
+                                                <div style="float: left;margin-left: 70px">
+                                                    <label class="form-label">Kích thước</label>
+                                                    <select class="form-select" style="width: 150px"
+                                                            id="kichThuocSearch" name="kichThuocSearch">
+                                                        <option value="">Tất cả</option>
+                                                        <option th:each="kt :${listKT}" th:value="${kt.ten}"
+                                                                th:text="${kt.ten}"></option>
+
+                                                    </select>
+                                                </div>
+                                                <div style="float: left;margin-left: 70px">
+                                                    <label class="form-label">Màu sắc</label>
+                                                    <select class="form-select" style="width: 150px" id="mauSacSearch"
+                                                            name="mauSacSearch">
+                                                        <option value="">Tất cả</option>
+                                                        <option th:each="ms :${listMS}" th:value="${ms.ten}"
+                                                                th:style="'background-color:'+${ms.ten}"
+                                                                th:text="${ms.ten}"></option>
+
+
+                                                    </select>
+                                                </div>
+                                                <div style="float: left;margin-left: 70px">
+                                                    <label class="form-label">Danh mục</label>
+                                                    <select class="form-select" style="width: 150px" id="danhMucSearch"
+                                                            name="danhMucSearch">
+                                                        <option value="">Tất cả</option>
+                                                        <option th:each="dm :${listDM}" th:value="${dm.ten}"
+                                                                th:text="${dm.ten}"></option>
+
+
+                                                    </select>
+                                                </div>
+                                                <div style="float: left;margin-left: 70px">
+                                                    <label class="form-label">Thương hiệu</label>
+                                                    <select class="form-select" style="width: 150px"
+                                                            id="thuongHieuSearch" name="thuongHieuSearch">
+                                                        <option value="">Tất cả</option>
+                                                        <option th:each="th :${listTH}" th:value="${th.ten}"
+                                                                th:text="${th.ten}"></option>
+
+
+                                                    </select>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div style="margin-left: 46%;margin-right: 40%;padding-top: 20px">
+                                                <button type="submit" class="btn btn-outline-primary">Lọc</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <div style="float: left"><h4 class="card-title">Danh sách sản phẩm chi tiết</h4>
+                                        </div>
+
+                                        <div style="float: right;margin-right: 30px">
+
+                                            <form id="formSearch">
+                                                <div style="float: right;margin-left: 20px">
+                                                    <button class="btn btn-outline-primary" type="submit">Tìm kiếm</button>
+
+                                                </div>
+                                                <div style="float: right"><input id="keyword" class="form-control"
+                                                                                 style="width: 200px;height: 38px"
+                                                                                 placeholder="Tìm kiếm">
+                                                </div>
+
+
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                    <div class="card-body px-0 pb-0">
+                                        <div class="table-responsive ">
+                                            <table class='table table mb-0 tbl1' id="table1">
+                                                <thead>
+                                                <tr>
+
+                                                    <th>STT</th>
+                                                    <th>Mã SPCT</th>
+                                                    <th>Danh mục</th>
+                                                    <th>Thương hiệu</th>
+                                                    <th>Kích thước</th>
+                                                    <th>Màu sắc</th>
+                                                    <th>Số lượng</th>
+                                                    <th>Giá bán</th>
+                                                    <th>Thao tác</th>
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+
+                                                </tbody>
+                                            </table>
+                                            <div style="float: right;margin: 20px">
+                                                <nav aria-label="Page navigation example">
+                                                    <ul class="pagination" id="page">
+
+                                                    </ul>
+                                                </nav>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--    //modalAddGioHang-->
+
+    <div class="modal fade" id="addGH" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 style="color: black" class="modal-title fs-5" id="labelSua"><i
+                            class="fa-solid fa-circle-info"></i>
+                       Thông tin sản phẩm</h1>
+                    <button type="button" class="btn-close cBtn" data-bs-dismiss="modal"   aria-label="Close"></button>
+                </div>
+                <form id="formAddGH">
+                    <div class="modal-body">
+
+                        <table class='table table mb-0'>
+                            <thead>
+                            <tr>
+                                <th>Mã SPCT</th>
+                                <th>Size</th>
+                                <th>Màu sắc</th>
+                                <th>Số lượng</th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><input type="text" id="idSPCT" name="idCTSP" hidden> <span id="maSPCT"></span></td>
+                                <td><span id="ktSPCT"></span></td>
+                                <td><span class="badge" id="msSPCT"></span></td>
+                                <td><input id="slGH" class="form-control" style="width: 70px" type="number" min="1" value="1"/>
+                                </td>
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary cBtn" data-bs-dismiss="modal" >
+                            Hủy
+                        </button>
+                        <button type="submit" class="btn btn-outline-warning">Thêm vào giỏ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+
+</body>
+</html>
