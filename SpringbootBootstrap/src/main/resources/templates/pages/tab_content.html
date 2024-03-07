@@ -3,18 +3,32 @@
       layout:decorate="~{layouts/dashboard}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-
 </head>
+
 <body>
 <th:block th:fragment="tabContent1">
-
     <div class="row mb-4">
         <div class="col-md-7">
             <div class="card">
                 <div class=" row" style="padding-bottom:20px ">
-                    <div class="col-md-6" style="margin: 10px;height: 200px">
-                        MÃ QR
+                    <div class="col-md-6" style="margin: 10px;height: 300px">
+                        <div class="cam">
+                            <p style="text-align: center;text-transform: uppercase;">SCAN QR CODE</p>
+                            <div class="section">
+                                <div id="my-qr-reader"></div>
+                            </div>
+                        </div>
+                        <div id="modalResultQr" class="modal">
+                            <div class="modal-content">
+                                <form method="post" th:action="@{/gio_hang/add/tabContent1}">
+                                    <label>Mã sản phẩm :</label>
+                                    <input type="text" value="${code}"> <br/>
+                                    <label>Số lượng :</label>
+                                    <input type="text" value="${count}"> <br/>
+                                    <button type="submit">OK</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-5 row">
                         <div class="col-md-12" style="text-align: center;height: 50px;padding-top: 20px">
@@ -62,20 +76,22 @@
                                 <th>Kích thước</th>
                                 <th>Số lượng</th>
                                 <th>Đơn Giá</th>
-
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>HDCT01</td>
-                                <td>SP001</td>
-
-                                <td>Red</td>
-
-                                <td>40</td>
-                                <td>1</td>
-                                <td>400.000</td>
+                            <tr th:each="giohang:${listGioHang}">
+                                <td th:text=""></td>
+                                <td th:text="${giohang.ma}"></td>
+                                <td th:text="${giohang.tenSanPham}"></td>
+                                <td th:text="${giohang.mauSac}"></td>
+                                <td th:text="${giohang.kichThuoc}"></td>
+                                <td th:text="${giohang.soLuong}"></td>
+                                <td th:text="${giohang.gia}"></td>
+                                <td>
+                                    <button>Sửa</button>
+                                    <button><a th:href="@{/gio-hang/delete/tabContent1/${giohang.ma}">Xoá</a></button>
+                                </td>
                             </tr>
 
                             </tbody>

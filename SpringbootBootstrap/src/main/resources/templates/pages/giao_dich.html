@@ -5,6 +5,67 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script th:src="@{/js/thanh_toan.js}"></script>
+    <style type="text/css">
+        .cam {
+            width: 250px;
+            max-width: 500px;
+            margin: 5px;
+        }
+        .section {
+            background-color: #ffffff;
+            padding: 15px 15px;
+            border: 1.5px solid #b2b2b2;
+            border-radius: 0.25em;
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        #my-qr-reader,#my-qr-reader-2,#my-qr-reader-3,#my-qr-reader-4,#my-qr-reader-5,#my-qr-reader-6 {
+            padding: 1px !important;
+            border: 1.5px solid #b2b2b2 !important;
+            border-radius: 8px;
+        }
+
+        #my-qr-reader img[alt="Info icon"],#my-qr-reader-2 img[alt="Info icon"],#my-qr-reader-3 img[alt="Info icon"],#my-qr-reader-4 img[alt="Info icon"],#my-qr-reader-5 img[alt="Info icon"],#my-qr-reader-6 img[alt="Info icon"] {
+            display: none;
+        }
+
+        #my-qr-reader img[alt="Camera based scan"],#my-qr-reader-2 img[alt="Camera based scan"],#my-qr-reader-3 img[alt="Camera based scan"],#my-qr-reader-4 img[alt="Camera based scan"],#my-qr-reader-5 img[alt="Camera based scan"],#my-qr-reader-6 img[alt="Camera based scan"]{
+            width: 100px !important;
+            height: 100px !important;
+        }
+
+        .cam button {
+            padding: 5px 10px;
+            border: 1px solid #b2b2b2;
+            outline: none;
+            border-radius: 0.25em;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            background-color: #008000ad;
+            transition: 0.3s background-color;
+        }
+
+        .cam button:hover {
+            background-color: #008000;
+        }
+
+        #html5-qrcode-anchor-scan-type-change {
+            text-decoration: none !important;
+            color: #1d9bf0;
+        }
+        video {
+            width: 100% !important;
+            border: 1px solid #b2b2b2 !important;
+            border-radius: 0.25em;
+        }
+    </style>
+    <script
+            src="https://unpkg.com/html5-qrcode">
+    </script>
+    <script th:src="@{/js/cam.js}"></script>
 </head>
 <body>
 
