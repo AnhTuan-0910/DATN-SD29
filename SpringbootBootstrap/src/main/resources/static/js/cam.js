@@ -1,3 +1,5 @@
+
+let submitQr = document.getElementById("submitQr");
 function domReady(fn) {
     if (
         document.readyState === "complete" ||
@@ -7,13 +9,18 @@ function domReady(fn) {
     } else {
         document.addEventListener("DOMContentLoaded", fn);
     }
+    submitQr.onclick = function () {
+        modalResultQr.style.display="none";
+    }
 }
 
 domReady(function () {
-
+    let code = document.getElementById("code");
+    let modalResultQr = document.getElementById("modalResultQr");
     // If found you qr code
     function onScanSuccess(decodeText, decodeResult) {
-        alert("You Qr is : " + decodeText, decodeResult);
+        code.setAttribute("value",decodeText);
+        modalResultQr.style.display = "block";
     }
 
     let htmlscanner = new Html5QrcodeScanner(

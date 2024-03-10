@@ -22,7 +22,7 @@ public class HoaDonChiTiet {
     private UUID idHoaDonChiTiet;
     @ManyToOne
     @JoinColumn(name = "id_spct")
-    private SanPhamChiTiet sanPhamChiTiet;
+    private SanPhamCT sanPhamChiTiet;
     private UUID idHoaDon;
     private Double gia;
     private Integer soLuong;

@@ -22,10 +22,10 @@
                             <div class="modal-content">
                                 <form method="post" th:action="@{/gio_hang/add/tabContent1}">
                                     <label>Mã sản phẩm :</label>
-                                    <input type="text" value="${code}"> <br/>
+                                    <input id="code" type="text" value="${code}" disabled> <br/>
                                     <label>Số lượng :</label>
-                                    <input type="text" value="${count}"> <br/>
-                                    <button type="submit">OK</button>
+                                    <input id="count" type="text" value="${count}"> <br/>
+                                    <button style="text-align: right" id="submitQr" type="submit">OK</button>
                                 </form>
                             </div>
                         </div>
