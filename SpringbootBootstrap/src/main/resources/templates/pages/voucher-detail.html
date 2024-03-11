@@ -14,7 +14,7 @@
                     <p th:text="'Mã Voucher: ' + ${phieuGiamGia.ma}"></p>
                     <p th:text="'Tên Voucher: ' + ${phieuGiamGia.ten}"></p>
                     <p th:text="'Hạn Sử Dụng: 00:00 ' + ${phieuGiamGia.ngayBatDau} +'- 23:59 '+ ${phieuGiamGia.ngayKetThuc}"></p>
-                    <p th:text="'Giảm: ' + ${phieuGiamGia.giaTriGiam} + ' ' + (${phieuGiamGia.donVi == 1 ? ' Vnd' : ' %'})"></p>
+                    <p th:text="'Giảm: ' + ${phieuGiamGia.giaTriGiam} + ' ' + (${phieuGiamGia.donVi == 1 ? ' %' : ' VNĐ'})"></p>
                     <p th:text="'Đơn Tối Thiểu: ' + ${phieuGiamGia.giaTriToiThieu} + ' VNĐ - Giảm Tối Đa: ' + ${phieuGiamGia.giaTriGiamToiDa} + ' VNĐ'"></p>
                     <p th:text="'Số Lượng: ' + ${phieuGiamGia.soLuong}"></p>
                         <span th:switch="${phieuGiamGia.trangThai}">
@@ -66,10 +66,8 @@
                                 <div class="col-6 col-sm-6 form-group">
                                     <label>Đơn Vị</label>
                                     <select name="donVi" id="donVi" th:field="*{donVi}" class="form-control">
-<!--                                        <option value="1">%</option>-->
-<!--                                        <option value="2">VNĐ</option>-->
-                                        <option value="%">%</option>
-                                        <option value="VND">VNĐ</option>
+                                        <option value="1">%</option>
+                                        <option value="2">VNĐ</option>
                                     </select>
                                 </div>
                             </div>

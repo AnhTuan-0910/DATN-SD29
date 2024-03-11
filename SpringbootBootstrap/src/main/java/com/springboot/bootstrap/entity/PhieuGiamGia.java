@@ -30,7 +30,7 @@ public class PhieuGiamGia {
     private String ten;
 
     @Column(name = "don_vi")
-    private String donVi;
+    private Integer donVi;
 
     @Column(name = "gia_tri_giam")
     private Double giaTriGiam;
