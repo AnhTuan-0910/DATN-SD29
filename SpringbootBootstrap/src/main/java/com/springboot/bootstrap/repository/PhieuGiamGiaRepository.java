@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -16,6 +18,8 @@ public interface PhieuGiamGiaRepository extends JpaRepository<PhieuGiamGia, UUID
 //    List<PhieuGiamGia> findByNgayBatDauBetweenAndNgayKetThucBetween(Date x, Date y);
 //    List<PhieuGiamGia> findByTrangThai(int x);
 //    List<PhieuGiamGia> findByMaOrTenContaining(String x);
+
+    PhieuGiamGia findByMa(String ma);
 
     Page<PhieuGiamGia> findAll(Pageable pageable);
 
