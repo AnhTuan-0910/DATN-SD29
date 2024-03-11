@@ -1,10 +1,8 @@
 package com.springboot.bootstrap.controller;
 
-import com.springboot.bootstrap.entity.DanhMuc;
-import com.springboot.bootstrap.entity.KichThuoc;
-import com.springboot.bootstrap.entity.MauSac;
-import com.springboot.bootstrap.entity.SanPhamCT;
-import com.springboot.bootstrap.entity.ThuongHieu;
+import com.springboot.bootstrap.entity.*;
+import com.springboot.bootstrap.repository.PhieuGiamGiaChiTietRepository;
+import com.springboot.bootstrap.repository.PhieuGiamGiaRepository;
 import com.springboot.bootstrap.service.DanhMucService;
 import com.springboot.bootstrap.service.KichThuocService;
 import com.springboot.bootstrap.service.MauSacService;
@@ -22,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/giao_dich")
@@ -36,14 +35,23 @@ public class ThanhToanController {
     private DanhMucService danhMucService;
     @Autowired
     private ThuongHieuService thuongHieuService;
+    @Autowired
+    PhieuGiamGiaChiTietRepository phieuGiamGiaChiTietRepository;
+    @Autowired
+    PhieuGiamGiaRepository phieuGiamGiaRepository;
 
-    @GetMapping("")
-    public String getAll(Model model) {
-
+    @GetMapping()
+    public String getAll(Model model
+            ,@RequestParam(value = "maVoucher", defaultValue = "PGG000") String ma
+    ) {
         List<DanhMuc> listDM = danhMucService.findAllByTrangThai();
         List<ThuongHieu> listTH = thuongHieuService.findAllByTrangThai();
         List<KichThuoc> listKT = kichThuocService.findAllByTrangThai();
         List<MauSac> listMS = mauSacService.findAllByTrangThai();
+        List<PhieuGiamGia> listPGG=phieuGiamGiaRepository.findAll();
+        PhieuGiamGia phieuGiamGia=phieuGiamGiaRepository.findByMa(ma);
+        model.addAttribute("phieuGiamGia",phieuGiamGia);
+        model.addAttribute("listVoucher", listPGG);
         model.addAttribute("listTH", listTH);
         model.addAttribute("listDM", listDM);
         model.addAttribute("listKT", listKT);

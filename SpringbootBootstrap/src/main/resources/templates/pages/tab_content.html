@@ -41,7 +41,8 @@
                             <form id="formSearchMaSPCT">
                                 <input style="width: 140px;float: left;margin-right: 5px" class="form-control"
                                        id="maSPCTSearch" placeholder="Nhập mã CTSP">
-                                <button type="submit" data-bs-toggle="modal"  class="btn btn-outline-primary"><i data-feather="search"></i>
+                                <button type="submit" data-bs-toggle="modal" class="btn btn-outline-primary"><i
+                                        data-feather="search"></i>
                                 </button>
                             </form>
 
@@ -135,9 +136,10 @@
                                 <b>Nhân viên</b>
                             </div>
 
-                            <div style="margin-left: 20px"><input class="form-control"
-                                                                  style="width: 200px;height: 38px"
-                                                                  placeholder="Voucher" readonly>
+                            <div style="margin-left: 20px">
+                                <input class="form-control"
+                                       style="width: 200px;height: 38px"
+                                       placeholder="Voucher" id="voucherInput" name="maVoucher" readonly>
                             </div>
                             <div class="col-form-label" style="margin-left: 20px">
                                 <b>Tiền hàng</b>
@@ -161,8 +163,9 @@
                             </div>
 
                             <div style="margin-left: 20px">
-                                <button class="btn btn-outline-primary" type="button">Chọn voucher</button>
-
+                                <button class="btn btn-outline-primary" type="button"
+                                        data-bs-toggle="modal" data-bs-target="#selectVoucherModal">Chọn voucher
+                                </button>
                             </div>
 
 
@@ -171,11 +174,23 @@
                             </div>
 
                             <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
-                                <b>60.000</b>
+<!--                                <b>60.000</b>-->
+                                <span th:if="${phieuGiamGia.donVi == 1}">
+                                    <b th:text="'Tiền Hàng * '+${phieuGiamGia.giaTriGiam/100}+' VNĐ'"></b>
+                                </span>
+                                <span th:unless="${phieuGiamGia.donVi == 1}">
+                                    <b th:text="${phieuGiamGia.giaTriGiam}+'VNĐ'"></b>
+                                </span>
                             </div>
 
                             <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
-                                <b>540.000</b>
+<!--                                <b>540.000</b>-->
+                                <span th:if="${phieuGiamGia.donVi == 1}">
+                                    <b th:text="'Tiền Hàng -'+'Tiền Hàng * '+${phieuGiamGia.giaTriGiam/100}+' VNĐ'"></b>
+                                </span>
+                                <span th:unless="${phieuGiamGia.donVi == 1}">
+                                    <b th:text="'Tiền Hàng -'+${phieuGiamGia.giaTriGiam}+'VNĐ'"></b>
+                                </span>
                             </div>
 
                             <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
@@ -198,6 +213,42 @@
             </div>
 
 
+        </div>
+    </div>
+    <!--    modalVoucher-->
+    <div class="modal fade" id="selectVoucherModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Voucher</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-end" style="width: 100%">
+                        <input type="text" placeholder="Tìm Kiếm">
+                        <button class="btn btn-primary mx-2"><i data-feather="search"></i></button>
+                    </div>
+                    <div th:each="x : ${listVoucher}" class="form-check d-flex align-items-center">
+                        <input class="form-check-input me-1" type="radio" name="flexRadioDefault"
+                               th:id="${x.ma}" th:value="${x.ma}" checked>
+                        <label class="form-check-label align-content-center" th:for="${x.ma}" style="width: 100%;">
+                            <div class="card d-flex my-1">
+                                <div class="card-body d-flex">
+                                    <span th:text="${x.ten}" class="col-4 col-sm-4 align-items-center"></span>
+                                    <span class="col-8 col-sm-8">Mô Tả:</span>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="saveChangesBtn" data-bs-dismiss="modal">
+                        Save Changes
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -291,7 +342,8 @@
 
                                             <form id="formSearch">
                                                 <div style="float: right;margin-left: 20px">
-                                                    <button class="btn btn-outline-primary" type="submit">Tìm kiếm</button>
+                                                    <button class="btn btn-outline-primary" type="submit">Tìm kiếm
+                                                    </button>
 
                                                 </div>
                                                 <div style="float: right"><input id="keyword" class="form-control"
@@ -358,8 +410,8 @@
                 <div class="modal-header">
                     <h1 style="color: black" class="modal-title fs-5" id="labelSua"><i
                             class="fa-solid fa-circle-info"></i>
-                       Thông tin sản phẩm</h1>
-                    <button type="button" class="btn-close cBtn" data-bs-dismiss="modal"   aria-label="Close"></button>
+                        Thông tin sản phẩm</h1>
+                    <button type="button" class="btn-close cBtn" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="formAddGH">
                     <div class="modal-body">
@@ -380,7 +432,8 @@
                                 <td><input type="text" id="idSPCT" name="idCTSP" hidden> <span id="maSPCT"></span></td>
                                 <td><span id="ktSPCT"></span></td>
                                 <td><span class="badge" id="msSPCT"></span></td>
-                                <td><input id="slGH" class="form-control" style="width: 70px" type="number" min="1" value="1"/>
+                                <td><input id="slGH" class="form-control" style="width: 70px" type="number" min="1"
+                                           value="1"/>
                                 </td>
                             </tr>
 
@@ -391,7 +444,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary cBtn" data-bs-dismiss="modal" >
+                        <button type="button" class="btn btn-secondary cBtn" data-bs-dismiss="modal">
                             Hủy
                         </button>
                         <button type="submit" class="btn btn-outline-warning">Thêm vào giỏ</button>
@@ -402,6 +455,22 @@
     </div>
 
 </th:block>
+<!--    JS for modal Voucher -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var selectVoucherModal = document.getElementById('selectVoucherModal');
+        var voucherInput = document.getElementById('voucherInput');
+        var saveChangesBtn = document.getElementById('saveChangesBtn');
 
+        saveChangesBtn.addEventListener('click', function () {
+            var selectedRadio = selectVoucherModal.querySelector('input[type="radio"]:checked');
+            if (selectedRadio) {
+                var selectedValue = selectedRadio.value;
+                voucherInput.value = selectedValue;
+                console.log(voucherInput.value);
+            }
+        });
+    });
+</script>
 </body>
 </html>
