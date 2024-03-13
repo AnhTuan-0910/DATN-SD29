@@ -8,11 +8,20 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface HoaDonService {
+    void delete(UUID id);
+
+    void add(HoaDon hoaDon);
+
+    List<HoaDon> renderTab();
+
     List<HoaDon> getList();
 
     Page<HoaDon> getListSearch(HoaDonDTO hoaDon,Pageable pageable);
 
     Page<HoaDon> getAll(Pageable of);
+
+
 }
