@@ -1,13 +1,15 @@
-# springboot_admintemplate
-This project describe, how to configuration springboot with thymeleaf and admin template using bootstrap 5
+DATABASE THÊM MỚI: Thêm hàm trigger , sửa don_vi trong bảng phieu_giam_gia thành int.
 
-# Prerequisite
-- Intellij Idea i use community version
-- jdk 8 or higher
+CREATE TRIGGER trg_generate_ma_hoa_don
+ON hoa_don
+FOR INSERT
+AS
+BEGIN
+    DECLARE @id_hoa_don uniqueidentifier;
+    DECLARE @ma_hoa_don VARCHAR(20);
 
-# How to run in your local computer
-- download this project
-- open intellij idea
-- import project to intellij idea
-- download maven dependency
-- after finished, run main class app
+    SELECT @id_hoa_don = id_hoa_don FROM inserted;
+    SET @ma_hoa_don = 'HD' + RIGHT(CONVERT(VARCHAR(36), @id_hoa_don), 6);
+
+    UPDATE hoa_don SET ma = @ma_hoa_don WHERE id_hoa_don = @id_hoa_don;
+END;
