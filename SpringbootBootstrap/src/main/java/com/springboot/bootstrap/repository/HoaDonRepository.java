@@ -14,6 +14,8 @@ import java.util.UUID;
 
 @Repository
 public interface HoaDonRepository extends JpaRepository<HoaDon, UUID> {
+    List<HoaDon> findAllByTinhTrang(Integer tinhTrang);
+
     Page<HoaDon> findAll(Pageable pageable);
     List<HoaDon> findAllByMaAndNhanVienIsNullAndKhachHangAndNgayThanhToanAndNgayNhanAndNgayShipAndTinhTrang(
             String ma,KhachHang khachHang,Date ngayThanhToan,Date ngayNhan,Date ngayShip,Integer tinhTrang,Pageable pageable

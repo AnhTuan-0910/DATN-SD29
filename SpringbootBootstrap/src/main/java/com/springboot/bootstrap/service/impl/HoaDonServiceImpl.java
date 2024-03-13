@@ -15,11 +15,13 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class HoaDonServiceImpl implements HoaDonService {
     @Autowired
     private HoaDonRepository hoaDonRepository;
+
     @Autowired
     private KhachHangRepository khachHangRepository;
     @Autowired
@@ -77,5 +79,20 @@ public class HoaDonServiceImpl implements HoaDonService {
     @Override
     public Page<HoaDon> getAll(Pageable of) {
         return hoaDonRepository.findAll(of);
+    }
+
+    @Override
+    public List<HoaDon> renderTab() {
+        return hoaDonRepository.findAllByTinhTrang(4);
+    }
+
+    @Override
+    public void add(HoaDon hoaDon) {
+        hoaDonRepository.save(hoaDon);
+    }
+
+    @Override
+    public void delete(UUID id) {
+        hoaDonRepository.deleteById(id);
     }
 }

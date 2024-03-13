@@ -1,32 +1,45 @@
 //fill table SanPham , phân trang, tìm kiếm
 $(document).ready(function () {
+    var firstTab = $('button[data-bs-toggle="tab"].active');
+    var maHD = firstTab.data('hd-ma');
+    spctAll(maHD)
+
+    $('button[data-bs-toggle="tab"]').on('click', function () {
+         maHD = $(this).data('hd-ma');
+        console.log(maHD);
+     spctAll(maHD);
+
+    });
+
+});
+function spctAll(maHD) {
     var isSearching = false;
     var isFillter = false;
-    fetchProducts(0);
+    fetchProducts(maHD,0);
     //filter
-    $('#formFilter').submit(function (e) {
+    $('#formFilter'+maHD+'').submit(function (e) {
         e.preventDefault();
-        var idKichThuoc = $('#kichThuocSearch').val();
-        var idMauSac = encodeURIComponent($('#mauSacSearch').val());
-        var idDanhMuc = $('#danhMucSearch').val();
-        var idThuongHieu = $('#thuongHieuSearch').val();
-        filterProducts(idDanhMuc, idKichThuoc, idMauSac, idThuongHieu, 0);
+        var idKichThuoc = $('#kichThuocSearch'+maHD+'').val();
+        var idMauSac = encodeURIComponent($('#mauSacSearch'+maHD+'').val());
+        var idDanhMuc = $('#danhMucSearch'+maHD+'').val();
+        var idThuongHieu = $('#thuongHieuSearch'+maHD+'').val();
+        filterProducts(maHD,idDanhMuc, idKichThuoc, idMauSac, idThuongHieu, 0);
         isFillter = true;
     });
     //search trong modal
-    $('#formSearch').submit(function (e) {
+    $('#formSearch'+maHD+'').submit(function (e) {
         e.preventDefault();
-        var keyword = $('#keyword').val();
-        searchProducts(keyword, 0);
+        var keyword = $('#keyword'+maHD+'').val();
+        searchProducts(maHD,keyword, 0);
         isSearching = true;
     });
 
     //search ngoài modal
-    $('#formSearchMaSPCT').submit(function (e) {
+    $('#formSearchMaSPCT'+maHD+'').submit(function (e) {
         e.preventDefault();
-        var keyword = $('#maSPCTSearch').val();
+        var keyword = $('#maSPCTSearch'+maHD+'').val();
         if (keyword.trim() !== '') {
-            searchByMaSPCT(keyword);
+            searchByMaSPCT(maHD,keyword);
         } else {
             Swal.fire({
                 title: "Vui lòng nhập dữ liệu tìm kiếm",
@@ -43,11 +56,11 @@ $(document).ready(function () {
         event.preventDefault();
         var page = $(this).data('page');
         if (isSearching) {
-            searchProducts($('#keyword').val(), page);
+            searchProducts(maHD,$('#keyword'+maHD+'').val(), page);
         } else if (isFillter) {
-            filterProducts($('#danhMucSearch').val(), $('#kichThuocSearch').val(), encodeURIComponent($('#mauSacSearch').val()), $('#thuongHieuSearch').val(), page);
+            filterProducts(maHD,$('#danhMucSearch'+maHD+'').val(), $('#kichThuocSearch'+maHD+'').val(), encodeURIComponent($('#mauSacSearch'+maHD+'').val()), $('#thuongHieuSearch'+maHD+'').val(), page);
         } else {
-            fetchProducts(page);
+            fetchProducts(maHD,page);
         }
 
 
@@ -57,32 +70,31 @@ $(document).ready(function () {
         var spctId = $(this).data('id');
         console.log(spctId);
         $.get('/giao_dich/viewOne/?id=' + spctId, function (spct) {
-            $('#formAddGH #maSPCT').text(spct.ma);
-            $('#formAddGH #ktSPCT').text(spct.kichThuoc.ten);
-            $('#formAddGH #msSPCT').text(spct.mauSac.ten).css('background-color', spct.mauSac.ten);
-            $('#formAddGH #idSPCT').val(spct.id);
-            $('#formAddGH #slGH').val(1);
-            $('#spct').modal('hide');
-            $('#addGH').modal('show');
-            modalHide();
+            $('#formAddGH'+maHD+' #maSPCT'+maHD+'').text(spct.ma);
+            $('#formAddGH'+maHD+' #ktSPCT'+maHD+'').text(spct.kichThuoc.ten);
+            $('#formAddGH'+maHD+' #msSPCT'+maHD+'').text(spct.mauSac.ten).css('background-color', spct.mauSac.ten);
+            $('#formAddGH'+maHD+' #idSPCT'+maHD+'').val(spct.id);
+            $('#formAddGH'+maHD+' #slGH'+maHD+'').val(1);
+            $('#spct'+maHD+'').modal('hide');
+            $('#addGH'+maHD+'').modal('show');
+            modalHide(maHD);
 
         });
 
     });
 
 
-});
-
-function modalHide() {
+}
+function modalHide(maHD) {
     $(document).on('click', '.cBtn', function () {
-        $('#spct').modal('show');
-        $('#addGH').modal('hide');// Hiển thị lại modal đầu tiên khi modal thứ hai ẩn
+        $('#spct'+maHD+'').modal('show');
+        $('#addGH'+maHD+'').modal('hide');// Hiển thị lại modal đầu tiên khi modal thứ hai ẩn
     });
 
 }
 
 //hàm filter
-function filterProducts(danhMucId, kichThuocId, mauSacId, thuongHieuId, page = 0) {
+function filterProducts(maHD,danhMucId, kichThuocId, mauSacId, thuongHieuId, page = 0) {
 
 
     var url = '/giao_dich/filter?danhMucSearch=' + danhMucId +
@@ -95,9 +107,9 @@ function filterProducts(danhMucId, kichThuocId, mauSacId, thuongHieuId, page = 0
         url: url,
         success: function (data) {
             if (data) {
-                $('#table1 tbody').empty();
+                $('#table1'+maHD+' tbody').empty();
                 $.each(data.content, function (index, spct) {
-                    $('#table1 tbody').append(`
+                    $('#table1'+maHD+' tbody').append(`
    
                                                 <tr>
                                                    
@@ -111,12 +123,12 @@ function filterProducts(danhMucId, kichThuocId, mauSacId, thuongHieuId, page = 0
                                                     </td>
                                                     <td >${spct.sl}</td>
                                                     <td >${spct.gia}</td>
-                                                    <td><a class="btn btn-outline-warning aBtn" data-bs-toggle="modal" data-bs-target="#addGH" data-id="${spct.id}"><i data-feather="shopping-cart"></i></a></td>
+                                                    <td><a class="btn btn-outline-warning aBtn" data-bs-toggle="modal" data-bs-target="#addGH'+maHD+'" data-id="${spct.id}"><i data-feather="shopping-cart"></i></a></td>
                                                 </tr>
 
                     `);
                 });
-                updatePagination(data);
+                updatePagination(data,maHD);
             } else {
                 Swal.fire({
                     title: "Không tìm thấy sản phẩm ",
@@ -134,7 +146,7 @@ function filterProducts(danhMucId, kichThuocId, mauSacId, thuongHieuId, page = 0
 
 
 //hàm search ngoài modal
-function searchByMaSPCT(keyword) {
+function searchByMaSPCT(maHD,keyword) {
 
     var url = '/giao_dich/viewOneByMa?maSPCTSearch=' + keyword;
     $.ajax({
@@ -143,12 +155,12 @@ function searchByMaSPCT(keyword) {
         success: function (data) {
             if (data) {
                 $.get(url, function (spct) {
-                    $('#formAddGH #maSPCT').text(spct.ma);
-                    $('#formAddGH #ktSPCT').text(spct.kichThuoc.ten);
-                    $('#formAddGH #msSPCT').text(spct.mauSac.ten).css('background-color', spct.mauSac.ten);
-                    $('#formAddGH #idSPCT').val(spct.id);
-                    $('#formAddGH #slGH').val(1);
-                    $('#addGH').modal('show');
+                    $('#formAddGH'+maHD+' #maSPCT'+maHD+'').text(spct.ma);
+                    $('#formAddGH'+maHD+' #ktSPCT'+maHD+'').text(spct.kichThuoc.ten);
+                    $('#formAddGH'+maHD+' #msSPCT'+maHD+'').text(spct.mauSac.ten).css('background-color', spct.mauSac.ten);
+                    $('#formAddGH'+maHD+' #idSPCT'+maHD+'').val(spct.id);
+                    $('#formAddGH'+maHD+' #slGH'+maHD+'').val(1);
+                    $('#addGH'+maHD+'').modal('show');
 
 
                 });
@@ -168,7 +180,7 @@ function searchByMaSPCT(keyword) {
 }
 
 //hàm search trong modal
-function searchProducts(keyword, page = 0) {
+function searchProducts(maHD,keyword, page = 0) {
 
     var url = '/giao_dich/search?keyword=' + keyword + '&p=' + page;
     $.ajax({
@@ -176,10 +188,10 @@ function searchProducts(keyword, page = 0) {
         url: url,
         success: function (data) {
             if (data) {
-                $('#table1 tbody').empty();
+                $('#table1'+maHD+' tbody').empty();
                 // Add new data
                 $.each(data.content, function (index, spct) {
-                    $('#table1 tbody').append(`
+                    $('#table1'+maHD+' tbody').append(`
    
                                                 <tr>
                                                     <td>${index + 1}</td>
@@ -192,13 +204,13 @@ function searchProducts(keyword, page = 0) {
                                                     </td>
                                                     <td >${spct.sl}</td>
                                                     <td >${spct.gia}</td>
-                                                    <td><a class="btn btn-outline-warning aBtn" data-bs-toggle="modal" data-bs-target="#addGH" data-id="${spct.id}"><i data-feather="shopping-cart"></i></a></td>
+                                                    <td><a class="btn btn-outline-warning aBtn" data-bs-toggle="modal" data-bs-target="#addGH'+maHD+'" data-id="${spct.id}"><i data-feather="shopping-cart"></i></a></td>
 
                                                 </tr>
 
                     `);
                 });
-                updatePagination(data);
+                updatePagination(data,maHD);
             } else {
                 Swal.fire({
                     title: "Không tìm thấy sản phẩm nào có mã " + keyword,
@@ -213,7 +225,7 @@ function searchProducts(keyword, page = 0) {
 }
 
 //hàm fillTableSPCT
-function fetchProducts(page = 0) {
+function fetchProducts(maHD,page = 0) {
 
     var url = '/giao_dich/spct?p=' + page;
     $.ajax({
@@ -221,10 +233,10 @@ function fetchProducts(page = 0) {
         url: url,
         success: function (data) {
             // Clear previous data
-            $('#table1 tbody').empty();
+            $('#table1'+maHD+' tbody').empty();
             // Add new data
             $.each(data.content, function (index, spct) {
-                $('#table1 tbody').append(`
+                $('#table1'+maHD+' tbody').append(`
    
                                                 <tr>
                                                     <td>${index + 1}</td>
@@ -237,24 +249,24 @@ function fetchProducts(page = 0) {
                                                     </td>
                                                     <td >${spct.sl}</td>
                                                     <td >${spct.gia}</td>
-                                                    <td><a class="btn btn-outline-warning aBtn" data-bs-toggle="modal" data-id="${spct.id}"><i data-feather="shopping-cart"></i></a></td>
+                                                    <td><a class="btn btn-outline-warning aBtn" data-bs-toggle="modal" data-bs-target="#addGH'+maHD+'" data-id="${spct.id}"><i data-feather="shopping-cart"></i></a></td>
 
                                                 </tr>
 
                     `);
             });
-            updatePagination(data);
+            updatePagination(data,maHD);
             feather.replace();
         }
     });
 }
 
 //hàm phân trang
-function updatePagination(data) {
+function updatePagination(data,maHD) {
     var totalPages = data.totalPages;
     var currentPage = data.number + 1; // Trang hiện tại (đánh số từ 1)
 
-    $('#page').empty();
+    $('#page'+maHD+'').empty();
 
     // Chỉ hiển thị nút "Previous" nếu không phải là trang đầu tiên
     if (currentPage > 1) {
@@ -266,7 +278,7 @@ function updatePagination(data) {
         var prevPageItem = $('<li>', {
             class: 'page-item'
         }).append(prevPageLink);
-        $('#page').append(prevPageItem);
+        $('#page'+maHD+'').append(prevPageItem);
     }
 
     // Hiển thị số trang từ trang hiện tại - 2 đến trang hiện tại + 2
@@ -282,7 +294,7 @@ function updatePagination(data) {
         var listItem = $('<li>', {
             class: 'page-item ' + (i === currentPage ? 'active' : '')
         }).append(pageLink);
-        $('#page').append(listItem);
+        $('#page'+maHD+'').append(listItem);
     }
 
     // Chỉ hiển thị nút "Next" nếu không phải là trang cuối cùng
@@ -295,57 +307,66 @@ function updatePagination(data) {
         var nextPageItem = $('<li>', {
             class: 'page-item'
         }).append(nextPageLink);
-        $('#page').append(nextPageItem);
+        $('#page'+maHD+'').append(nextPageItem);
     }
 
 }
 
 
-//render tab
+// render tab
 $(document).ready(function () {
-    //closeTab
-    $(document).on('click', '.close-tab', function (e) {
-        e.preventDefault();
-        var tabId = $(this).closest('a').attr('aria-controls');
-        var $tab = $(this).closest('li');
-
-
-        if ($('#myTab .nav-item').length > 1) {
-            $tab.remove();
-
-            if ($('.nav-item').find('.active').length === 0) {
-                $('.nav-item:first-child').find('a').addClass('active');
-                $('.tab-content').find('.tab-pane:first-child').addClass('show active');
-            }
-        } else {
+    //xóa tab
+    $('.close-tab').click(function (e) {
+        var tabCount = $('#nav-tab button.nav-link').length;
+        console.log(tabCount)
+        if (tabCount < 2) {
+            e.preventDefault();
             Swal.fire("Cần có ít nhất 1 hóa đơn");
+            return;
         }
+        e.preventDefault();
+        showConFirm($('.close-tab').attr("href"));
     });
-
-
-
-    //addTab
-    $('#add-tab').click(function () {
-        var tabCount = $('#myTab .nav-item').length;
-
-        if (tabCount < 6) {
-            var newTabId = 'hoa_don' + (tabCount + 1);
-            var newNavItem = '<li class="nav-item"><a class="nav-link" data-bs-toggle="tab" data-bs-target="#' + newTabId + '" href="#' + newTabId + '" role="tab" aria-controls="' + newTabId + '" aria-selected="false">Hóa đơn ' + (tabCount + 1) + ' <i class="close close-tab" data-feather="x-circle"></i></a></li>';
-
-            $('#myTab').append(newNavItem);
-            feather.replace();
-
-            $('#' + newTabId).tab('show');
-            $('#myTab .nav-item').removeClass('active');
-            $('#' + newTabId).parent().addClass('active');
-        } else {
+    $('#add-tab').click(function (e) {
+        var tabCount = $('#nav-tab button.nav-link').length;
+        console.log(tabCount)
+        if (tabCount > 5) {
+            e.preventDefault();
             Swal.fire("chỉ có thể tạo tối đa 6 hóa đơn!");
+            return;
         }
     });
-
-
 });
+function showConFirm(Url){
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-success",
+            cancelButton: "btn btn-danger"
+        },
+        buttonsStyling: false
+    });
+    swalWithBootstrapButtons.fire({
+        title: "Are you sure?",
+        text: "Bạn có chắc muốn xóa hóa đơn này",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Xóa hóa đơn thành công",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            window.location.href = Url;
 
+        }
+    });
+}
 //fillModalAddGH
 
 
