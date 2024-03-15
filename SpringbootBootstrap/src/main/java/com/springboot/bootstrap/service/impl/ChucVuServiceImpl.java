@@ -9,20 +9,35 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.List;
+
 @Service
 public class ChucVuServiceImpl implements ChucVuService {
 
     @Autowired
     private ChucVuRepo chucVuRepo;
+    private static final String ma = "CV";
+    private static int counter = 0;
+
+    Timestamp currentTimestamp;
+
+    @Override
+    public List<ChucVu> findAllByTrangThai() {
+
+        return chucVuRepo.findAllByTrangThai(1);
+    }
 
     @Override
     public Page<ChucVu> getAll(Pageable pageable) {
-        return chucVuRepo.findAll(pageable);
+
+        return chucVuRepo.findAllByOrderByMaAsc(pageable);
     }
 
     @Override
     public ChucVu getOne(String idCV) {
-        return chucVuRepo.findById(idCV).orElse(null);
+        ChucVu c = chucVuRepo.findById(idCV).orElse(null);
+        return c;
     }
 
     @Override
@@ -37,9 +52,19 @@ public class ChucVuServiceImpl implements ChucVuService {
     }
 
     @Override
-    public Page<ChucVu> findAllByTen(String ten, Integer limit, Integer offset) {
-       Pageable page = PageRequest.of(offset, limit);
-       return chucVuRepo.findAllByTen(ten,page);
+    public Page<ChucVu> searchCodeOrName(String keyword, Pageable pageable) {
+        return chucVuRepo.searchCodeOrName(keyword, pageable);
+    }
+
+    @Override
+    public Page<ChucVu> searchTrangThai(int trangThai, Pageable pageable) {
+        return chucVuRepo.searchTrangThai(trangThai, pageable);
+    }
+
+    @Override
+    public String generateMaCV() {
+        counter++;
+        return ma + String.format("%03d", counter);
     }
 
 }
