@@ -36,6 +36,7 @@ public class HoaDonChiTietController {
             for(HoaDonChiTiet hoaDonChiTiet:list){
                 if(hoaDonChiTiet.getSanPhamChiTiet().getId().equalsIgnoreCase(idSpct.toString())){
                     hoaDonChiTiet.setSoLuong(hoaDonChiTiet.getSoLuong()+soLuong);
+                    hoaDonChiTiet.setGia(hoaDonChiTiet.getSoLuong()*sanPhamCT.getGia());
                     hoaDonChiTietService.update(hoaDonChiTiet);
                     return "redirect:/giao_dich";
                 }
@@ -62,6 +63,7 @@ public class HoaDonChiTietController {
         sanPhamCT.setSl(sanPhamCT.getSl()+hoaDonChiTiet.getSoLuong()-soLuong);
         sanPhamCTService.update(sanPhamCT,sanPhamCT.getId());
         hoaDonChiTiet.setSoLuong(soLuong);
+        hoaDonChiTiet.setGia(hoaDonChiTiet.getSoLuong()*sanPhamCT.getGia());
         hoaDonChiTietService.update(hoaDonChiTiet);
         return "redirect:/giao_dich";
     }
