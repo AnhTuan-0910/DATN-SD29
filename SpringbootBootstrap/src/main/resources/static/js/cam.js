@@ -18,9 +18,12 @@ function domReady(fn) {
     });
 }
 function scanQR(maHD) {
-    let code = document.getElementById("code" + maHD);
+    let code = document.getElementById("idCTSP" + maHD);
     let modalResultQr = document.getElementById("modalResultQr" + maHD);
-
+    let span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+        modalResultQr.style.display = "none";
+    }
     // If found you qr code
     function onScanSuccess(decodeText, decodeResult) {
         code.setAttribute("value", decodeText);
