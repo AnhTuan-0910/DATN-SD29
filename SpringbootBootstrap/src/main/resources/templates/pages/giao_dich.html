@@ -72,6 +72,18 @@
             border: 1px solid #888;
             width: 80%; /* Could be more or less, depending on screen size */
         }
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
     <script
             src="https://unpkg.com/html5-qrcode">
@@ -118,13 +130,15 @@
                                         <div th:id="'my-qr-reader'+${hd.ma}"></div>
                                     </div>
                                 </div>
-                                <div th:id="'modalResultQr' +${hd.ma}" class="modal">
+                                <div th:id="'modalResultQr' +${hd.ma}" class="modal" style="width:500px;left: calc(50% - 250px)">
                                     <div class="modal-content">
-                                        <form method="post" th:action="@{/gio_hang/add/tabContent1}">
+                                        <span class="close">&times;</span>
+                                        <form method="post" th:action="@{/hoa_don_chi_tiet/add}">
+                                            <input th:id="'idhd'+${hd.ma}" type="text" th:value="${hd.idHoaDon}" name="idhd" hidden> <br/>
                                             <label>Mã sản phẩm :</label>
-                                            <input th:id="'code'+${hd.ma}" type="text" value="${code}" disabled> <br/>
+                                            <input th:id="'idCTSP'+${hd.ma}" type="text" name="idCTSP"> <br/>
                                             <label>Số lượng :</label>
-                                            <input th:id="'count'+${hd.ma}" type="text" value="${count}"> <br/>
+                                            <input th:id="'soLuong'+${hd.ma}" type="text" name="soLuong"> <br/>
                                             <button style="text-align: right" th:id="'submitQr'+${hd.ma}" type="submit">OK</button>
                                         </form>
                                     </div>
@@ -157,21 +171,12 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <div style="float: left"><h4 class="card-title">Giỏ hàng</h4></div>
-
-
-                            <div style="float: right">
-                                <a style="margin-right: 10px" class="btn btn-outline-primary">Sửa</a>
-
-                                <button class="btn btn-outline-danger">Xóa</button>
-                            </div>
-
                         </div>
                         <div class="card-body px-0 pb-0">
                             <div class="table-responsive ">
                                 <table class='table table mb-0'>
                                     <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Mã</th>
                                         <th>Tên</th>
                                         <th>Màu sắc</th>
@@ -182,19 +187,19 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="giohang:${listGioHang}">
-                                        <td th:text=""></td>
-                                        <td th:text="${giohang.ma}"></td>
-                                        <td th:text="${giohang.tenSanPham}"></td>
-                                        <td th:text="${giohang.mauSac}"></td>
-                                        <td th:text="${giohang.kichThuoc}"></td>
-                                        <td th:text="${giohang.soLuong}"></td>
-                                        <td th:text="${giohang.gia}"></td>
+                                    <tr th:each="hdct:${hd?.listhdct}">
+                                        <form th:action="@{/hoa_don_chi_tiet/update/{idhdct}(idhdct=${hdct.idHoaDonChiTiet})}" method="post">
+                                        <td th:text="${hdct.sanPhamChiTiet.ma}"></td>
+                                        <td th:text="${hdct.sanPhamChiTiet.sanPham.ten}"></td>
+                                        <td class="badge" th:style="'background-color:'+${hdct.sanPhamChiTiet.mauSac.ten}" th:text="${hdct.sanPhamChiTiet.mauSac.ten}"></td>
+                                        <td th:text="${hdct.sanPhamChiTiet.kichThuoc.ten}"></td>
+                                        <td><input th:value="${hdct.soLuong}" type="text" name="soLuong" style="width: 50px"></td>
+                                        <td th:text="${hdct.gia}"></td>
                                         <td>
-                                            <button>Sửa</button>
-                                            <button><a th:href="@{/gio-hang/delete/tabContent1/${giohang.ma}">Xoá</a>
-                                            </button>
+                                            <button type="submit">Sửa</button>
+                                            <button><a th:href="@{/hoa_don_chi_tiet/delete/{idhdct}(idhdct=${hdct.idHoaDonChiTiet})}">Xoá</a></button>
                                         </td>
+                                        </form>
                                     </tr>
 
                                     </tbody>
@@ -203,8 +208,6 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
                 <div class="col-md-5">
 
@@ -522,7 +525,7 @@
                             <button type="button" class="btn-close cBtn" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                         </div>
-                        <form th:id="'formAddGH'+${hd.ma}">
+                        <form th:id="'formAddGH'+${hd.ma}" th:action="@{/hoa_don_chi_tiet/add}" method="post">
                             <div class="modal-body">
 
                                 <table class='table table mb-0'>
@@ -538,11 +541,12 @@
                                     </thead>
                                     <tbody>
                                     <tr>
+                                        <td><input type="text" th:id="'idhd'+${hd.ma}" th:value="${hd.idHoaDon}" name="idhd" hidden></td>
                                         <td><input type="text" th:id="'idSPCT'+${hd.ma}" name="idCTSP" hidden> <span
                                                 th:id="'maSPCT'+${hd.ma}"></span></td>
                                         <td><span th:id="'ktSPCT'+${hd.ma}"></span></td>
                                         <td><span class="badge" th:id="'msSPCT'+${hd.ma}"></span></td>
-                                        <td><input th:id="'slGH'+${hd.ma}" class="form-control" style="width: 70px" type="number"
+                                        <td><input th:id="'slGH'+${hd.ma}" name="soLuong" class="form-control" style="width: 70px" type="number"
                                                    min="1"
                                                    value="1"/>
                                         </td>
