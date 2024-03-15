@@ -8,7 +8,7 @@
 <body>
 <div class="main-content container-fluid" layout:fragment="content">
     <div class="page-title">
-        <h3>Chuc vu</h3>
+        <h3>Chức Vụ</h3>
 
     </div>
     <div class="row mb-4">
@@ -50,7 +50,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <div><h4 class="card-title">Danh sách chc v</h4></div>
+                    <div><h4 class="card-title">Danh sách chức vụ</h4></div>
                     <div style="float: right">
                         <button class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#themCV"><i data-feather="plus-circle"></i></button>
@@ -84,7 +84,7 @@
 
                                 </td>
                                 <td>
-                                    <a th:href="@{chuc_vu/viewOne/(id=${cv.id})}"
+                                    <a th:href="@{chuc_vu/viewOne/{id}(id=${cv.idCV})}"
                                        class="btn btn-outline-primary uBtn">
                                         <i data-feather="edit"></i></a></a>
 
@@ -117,72 +117,18 @@
             </div>
         </div>
     </div>
-</div>
-<div class="formUpdate">
-    <div class="modal fade" id="suaNV" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 style="color: black" class="modal-title fs-5" id="labelSua"><i
-                            class="fa-solid fa-circle-info"></i>
-                        Sửa danh mục</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form th:action="@{/chuc_vu/update}" th:object="${cv}" method="post">
-
-                        <div class="row">
-                            <div style="background: white;padding-bottom: 20px">
-
-
-                                <div class="mb-3" style="padding-top: 20px">
-                                    <label class="form-label"><b>Mã </b></label>
-                                    <input id="ma" placeholder="Mã" type="text" name="ma" class="form-control">
-
-                                </div>
-
-                                <div class="mb-3" style="padding-top: 20px">
-                                    <label class="form-label"><b>Tên </b></label>
-                                    <input id="ten" placeholder="tên" type="text" name="ten"
-                                           class="form-control">
-
-                                </div>
-                                <div class="mb-3" style="padding-top: 20px">
-                                    <label class="form-label"><b>Trạng thái</b></label>
-                                    <select id="trangThai" name="trangThai" class="form-select">
-                                        <option value="1">Đang hoạt động</option>
-                                        <option value="0">Ngừng hoạt động</option>
-                                    </select>
-
-                                </div>
-                                <input type="hidden" id="id" name="id">
-
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                        <button type="submit" class="btn btn-primary">Sửa</button>
-                    </form>
-
-                </div>
-                <div class="modal-footer">
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="formThem">
-        <div class="modal fade" id="themMS" tabindex="-1" aria-labelledby="labelThem" aria-hidden="true">
+    <div class="formUpdate">
+        <div class="modal fade" id="suaCV" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 style="color: black" class="modal-title fs-5" id="labelThem"><i
+                        <h1 style="color: black" class="modal-title fs-5" id="labelSua"><i
                                 class="fa-solid fa-circle-info"></i>
-                            Thêm chc v</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                            Sửa danh mục</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form th:action="@{/chuc_vu/add}" th:object="${cv}" method="post">
+                        <form th:action="@{/chuc_vu/update}" th:object="${cvu}" method="post">
 
                             <div class="row">
                                 <div style="background: white;padding-bottom: 20px">
@@ -190,13 +136,62 @@
 
                                     <div class="mb-3" style="padding-top: 20px">
                                         <label class="form-label"><b>Mã </b></label>
-                                        <input name="ma" class="form-control">
+                                        <input id="ma" placeholder="Mã" type="text" name="ma" class="form-control"
+                                               readonly>
 
                                     </div>
 
                                     <div class="mb-3" style="padding-top: 20px">
                                         <label class="form-label"><b>Tên </b></label>
-                                        <input name="ten" class="form-control">
+                                        <input id="ten" placeholder="tên" type="text" name="ten"
+                                               class="form-control">
+
+                                    </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Trạng thái</b></label>
+                                        <select id="trangThai" name="trangThai" class="form-select">
+                                            <option value="1">Đang hoạt động</option>
+                                            <option value="0">Ngừng hoạt động</option>
+                                        </select>
+
+                                    </div>
+
+                                    <input type="hidden" id="idCV" name="id_chuc_vu">
+
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Sửa</button>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="formThem">
+        <div class="modal fade" id="themCV" tabindex="-1" aria-labelledby="labelThem" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 style="color: black" class="modal-title fs-5" id="labelThem"><i
+                                class="fa-solid fa-circle-info"></i>
+                            Thêm chức vụ</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/chuc_vu/add}" th:object="${cva}" method="post">
+
+                            <div class="row">
+                                <div style="background: white;padding-bottom: 20px">
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Tên </b></label>
+                                        <input type="text" name="ten" class="form-control">
 
                                     </div>
                                     <div class="mb-3" style="padding-top: 20px">
@@ -229,17 +224,19 @@
             $('.table .uBtn').on('click', function (event) {
                 event.preventDefault();
                 var href = $(this).attr('href');
-                $.get(href, function (kt) {
-                    $('.formUpdate #ma').val(kt.ma);
-                    $('.formUpdate #ten').val(kt.ten);
-                    $('.formUpdate #trangThai').val(kt.trangThai);
-                    $('.formUpdate #id').val(kt.id);
+                $.get(href, function (cv) {
+                    $('.formUpdate #ma').val(cv.ma);
+                    $('.formUpdate #ten').val(cv.ten);
+                    $('.formUpdate #trangThai').val(cv.trangThai);
+                    $('.formUpdate #idCV').val(cv.idCV);
                 })
-                $('.formUpdate #suaMS').modal('show');
+                $('.formUpdate #suaCV').modal('show');
             })
         })
     </script>
 
+
 </div>
+
 </body>
 </html>

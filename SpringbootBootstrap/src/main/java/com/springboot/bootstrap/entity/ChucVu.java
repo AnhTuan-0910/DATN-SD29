@@ -25,7 +25,7 @@ public class ChucVu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id_chuc_vu")
+    @Column(name = "id_chuc_vu", nullable = false)
     private String idCV;
 
     @Column(name = "ma")
@@ -37,29 +37,10 @@ public class ChucVu {
     @Column(name = "trang_thai")
     private int trangThai;
 
-    @Column(name = "tao_luc")
-    private Date taoLuc;
-
-    @Column(name = "sua_luc")
-    private Date suaLuc;
-
-    @Column(name = "tao_boi")
-    private String taoBoi;
-
-    @Column(name = "sua_boi")
-    private String suaBoi;
-
     @Override
-    public String toString() {
-        return "ChucVu{" +
-                "idCV=" + idCV +
-                ", ma='" + ma + '\'' +
-                ", ten='" + ten + '\'' +
-                ", trangThai=" + trangThai +
-                ", taoLuc=" + taoLuc +
-                ", suaLuc=" + suaLuc +
-                ", taoBoi='" + taoBoi + '\'' +
-                ", suaBoi='" + suaBoi + '\'' +
-                '}';
+    public int hashCode() {
+        return 42;
     }
+
 }
+
