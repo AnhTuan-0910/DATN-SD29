@@ -101,6 +101,7 @@ public class ThemSPController {
                         .trangThai(1).build();
                 sanPhamCTService.add(sanPhamCT);
                 qrCodeGenerator.generateQrCode(sanPhamCT.getId(), 50, 50);
+                System.out.println(qrCodeGenerator.generateQrCode(sanPhamCT.getId(), 50, 50));
                 Locale vietnameseLocale = new Locale("vi", "VN");
                 NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(vietnameseLocale);
                 String formattedGia = currencyFormatter.format(gia);

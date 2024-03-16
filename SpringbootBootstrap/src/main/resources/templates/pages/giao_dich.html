@@ -134,12 +134,12 @@
                                     <div class="modal-content">
                                         <span class="close">&times;</span>
                                         <form method="post" th:action="@{/hoa_don_chi_tiet/add}">
-                                            <input th:id="'idhd'+${hd.ma}" type="text" th:value="${hd.idHoaDon}" name="idhd" hidden> <br/>
-                                            <label>Mã sản phẩm :</label>
-                                            <input th:id="'idCTSP'+${hd.ma}" type="text" name="idCTSP"> <br/>
+
                                             <label>Số lượng :</label>
-                                            <input th:id="'soLuong'+${hd.ma}" type="text" name="soLuong"> <br/>
-                                            <button style="text-align: right" th:id="'submitQr'+${hd.ma}" type="submit">OK</button>
+                                            <input class="form-control" th:id="'soLuong'+${hd.ma}" type="number" name="soLuong"> <br/>
+                                            <button class="btn btn-outline-primary" style="text-align: right" th:id="'submitQr'+${hd.ma}" type="submit">OK</button>
+                                            <input th:id="'idhd'+${hd.ma}" type="text" th:value="${hd.idHoaDon}" name="idhd" hidden> <br/>
+                                            <input th:id="'idCTSP'+${hd.ma}" type="text" name="idCTSP" hidden> <br/>
                                         </form>
                                     </div>
                                 </div>
@@ -191,13 +191,13 @@
                                         <form th:action="@{/hoa_don_chi_tiet/update/{idhdct}(idhdct=${hdct.idHoaDonChiTiet})}" method="post">
                                         <td th:text="${hdct.sanPhamChiTiet.ma}"></td>
                                         <td th:text="${hdct.sanPhamChiTiet.sanPham.ten}"></td>
-                                        <td class="badge" th:style="'background-color:'+${hdct.sanPhamChiTiet.mauSac.ten}" th:text="${hdct.sanPhamChiTiet.mauSac.ten}"></td>
+                                        <td><span class="badge" th:style="'background-color:'+${hdct.sanPhamChiTiet.mauSac.ten}" th:text="${hdct.sanPhamChiTiet.mauSac.ten}"></span></td>
                                         <td th:text="${hdct.sanPhamChiTiet.kichThuoc.ten}"></td>
-                                        <td><input th:value="${hdct.soLuong}" type="text" name="soLuong" style="width: 50px"></td>
+                                        <td><input class="form-control" th:value="${hdct.soLuong}" type="number" name="soLuong" style="width: 70px"></td>
                                         <td th:text="${hdct.gia}"></td>
                                         <td>
-                                            <button type="submit">Sửa</button>
-                                            <button><a th:href="@{/hoa_don_chi_tiet/delete/{idhdct}(idhdct=${hdct.idHoaDonChiTiet})}">Xoá</a></button>
+                                            <button class="btn btn-outline-primary" type="submit"><i data-feather="edit-2"></i></button>
+                                            <a class="btn btn-outline-danger" th:href="@{/hoa_don_chi_tiet/delete/{idhdct}(idhdct=${hdct.idHoaDonChiTiet})}"><i data-feather="trash-2"></i></a>
                                         </td>
                                         </form>
                                     </tr>
@@ -541,9 +541,10 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td><input type="text" th:id="'idhd'+${hd.ma}" th:value="${hd.idHoaDon}" name="idhd" hidden></td>
-                                        <td><input type="text" th:id="'idSPCT'+${hd.ma}" name="idCTSP" hidden> <span
-                                                th:id="'maSPCT'+${hd.ma}"></span></td>
+
+                                        <td><input type="text" th:id="'idSPCT'+${hd.ma}" name="idCTSP" hidden>
+                                            <input type="text" th:id="'idhd'+${hd.ma}" th:value="${hd.idHoaDon}" name="idhd" hidden>
+                                            <span th:id="'maSPCT'+${hd.ma}"></span></td>
                                         <td><span th:id="'ktSPCT'+${hd.ma}"></span></td>
                                         <td><span class="badge" th:id="'msSPCT'+${hd.ma}"></span></td>
                                         <td><input th:id="'slGH'+${hd.ma}" name="soLuong" class="form-control" style="width: 70px" type="number"
