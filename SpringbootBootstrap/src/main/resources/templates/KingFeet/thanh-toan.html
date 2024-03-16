@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Thanh toán</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/KF.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/KF.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/KF.png">
+    <link rel="manifest" href="assets/images/icons/KF.png">
+    <link rel="mask-icon" href="assets/images/icons/KF.png" color="#666666">
+    <link rel="shortcut icon" href="assets/images/icons/KF.png">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="assets/css/plugins/magnific-popup/magnific-popup.css">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/demos/demo-12.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+
+        <main class="main">
+        	<br/>
+            <nav aria-label="breadcrumb" class="breadcrumb-nav breadcrumb-with-filter">
+                <div class="container">
+                	<a href="#" class="sidebar-toggler"><i class="icon-bars"></i>Filters</a>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Thanh toán</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+            	<div class="checkout">
+	                <div class="container">
+            			<div class="checkout-discount">
+            				<form action="#">
+        						<input type="text" class="form-control" required id="checkout-discount-input">
+            					<label for="checkout-discount-input" class="text-truncate">Có phiếu giảm giá? <span>Bấm vào đây để nhập mã...</span></label>
+            				</form>
+            			</div><!-- End .checkout-discount -->
+            			<form action="#">
+		                	<div class="row">
+		                		<div class="col-lg-9">
+		                			<h2 class="checkout-title">Chi tiết thanh toán</h2><!-- End .checkout-title -->
+		                				<div class="row">
+		                					<div class="col-sm-6">
+		                						<label>Tên *</label>
+		                						<input type="text" class="form-control" required>
+		                					</div><!-- End .col-sm-6 -->
+
+		                					<div class="col-sm-6">
+		                						<label>Họ *</label>
+		                						<input type="text" class="form-control" required>
+		                					</div><!-- End .col-sm-6 -->
+		                				</div><!-- End .row -->
+
+	            						<label>Tên công ty (Nếu có)</label>
+	            						<input type="text" class="form-control">
+
+	            						<label>Quốc gia *</label>
+	            						<input type="text" class="form-control" required>
+
+	            						<label>Địa chỉ nhà *</label>
+	            						<input type="text" class="form-control" placeholder="Số nhà và tên đường" required>
+	            						<input type="text" class="form-control" placeholder="Căn hộ, dãy trọ ..." required>
+
+	            						<div class="row">
+		                					<div class="col-sm-6">
+		                						<label>Thị trấn / Thành phố *</label>
+		                						<input type="text" class="form-control" required>
+		                					</div><!-- End .col-sm-6 -->
+
+		                					<div class="col-sm-6">
+		                						<label>Quận / Huyện *</label>
+		                						<input type="text" class="form-control" required>
+		                					</div><!-- End .col-sm-6 -->
+		                				</div><!-- End .row -->
+
+		                				<div class="row">
+		                					<div class="col-sm-6">
+		                						<label>Mã bưu điện / ZIP *</label>
+		                						<input type="text" class="form-control" required>
+		                					</div><!-- End .col-sm-6 -->
+
+		                					<div class="col-sm-6">
+		                						<label>Điện thoại *</label>
+		                						<input type="tel" class="form-control" required>
+		                					</div><!-- End .col-sm-6 -->
+		                				</div><!-- End .row -->
+
+	                					<label>Địa chỉ email *</label>
+	        							<input type="email" class="form-control" required>
+
+	        							<div class="custom-control custom-checkbox">
+											<input type="checkbox" class="custom-control-input" id="checkout-create-acc">
+											<label class="custom-control-label" for="checkout-create-acc">Tạo một tài khoản?</label>
+										</div><!-- End .custom-checkbox -->
+
+										<div class="custom-control custom-checkbox">
+											<input type="checkbox" class="custom-control-input" id="checkout-diff-address">
+											<label class="custom-control-label" for="checkout-diff-address">Gửi đến địa chỉ khác?</label>
+										</div><!-- End .custom-checkbox -->
+
+	                					<label>Ghi chú đơn hàng (tùy chọn)</label>
+	        							<textarea class="form-control" cols="30" rows="4" placeholder="Ghi chú về đơn hàng của bạn, ví dụ như ghi chú đặc biệt khi giao hàng..."></textarea>
+		                		</div><!-- End .col-lg-9 -->
+		                		<aside class="col-lg-3">
+		                			<div class="summary">
+		                				<h3 class="summary-title">Đơn hàng của bạn</h3><!-- End .summary-title -->
+
+		                				<table class="table table-summary">
+		                					<thead>
+		                						<tr>
+		                							<th>Sản phẩm</th>
+		                							<th>Tổng</th>
+		                						</tr>
+		                					</thead>
+
+		                					<tbody>
+		                						<tr>
+		                							<td><a href="#">Giày da nam Penny Loafer trẻ trung cao cấp GNLAMJ238-F1-D</a></td>
+		                							<td>1,750,000 ₫</td>
+		                						</tr>
+
+		                						<tr>
+		                							<td><a href="#">Giày lười da nam họa tiết caro lịch lãm GNLA2122-N</a></td>
+		                							<td>1,750,000 ₫</td>
+		                						</tr>
+		                						<tr class="summary-subtotal">
+		                							<td>Tổng giá trị:</td>
+		                							<td>3,500,000 ₫</td>
+		                						</tr><!-- End .summary-subtotal -->
+		                						<tr>
+		                							<td>Đang chuyển hàng:</td>
+		                							<td>Miễn phí vận chuyển</td>
+		                						</tr>
+		                						<tr class="summary-total">
+		                							<td>Thành tiền:</td>
+		                							<td>3,500,000 ₫</td>
+		                						</tr><!-- End .summary-total -->
+		                					</tbody>
+		                				</table><!-- End .table table-summary -->
+
+		                				<div class="accordion-summary" id="accordion-payment">
+										    <div class="card">
+										        <div class="card-header" id="heading-1">
+										            <h2 class="card-title">
+										                <a role="button" data-toggle="collapse" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
+										                    Chuyển khoản trực tiếp
+										                </a>
+										            </h2>
+										        </div><!-- End .card-header -->
+										        <div id="collapse-1" class="collapse show" aria-labelledby="heading-1" data-parent="#accordion-payment">
+										            <div class="card-body">
+										                Thực hiện thanh toán trực tiếp vào tài khoản ngân hàng của chúng tôi. Vui lòng sử dụng ID đơn hàng của bạn làm tài liệu tham khảo thanh toán. Đơn đặt hàng của bạn sẽ không được vận chuyển cho đến khi tiền đã được xóa trong tài khoản của chúng tôi.
+										            </div><!-- End .card-body -->
+										        </div><!-- End .collapse -->
+										    </div><!-- End .card -->
+
+										    <div class="card">
+										        <div class="card-header" id="heading-2">
+										            <h2 class="card-title">
+										                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-2" aria-expanded="false" aria-controls="collapse-2">
+										                    Kiểm tra thanh toán
+										                </a>
+										            </h2>
+										        </div><!-- End .card-header -->
+										        <div id="collapse-2" class="collapse" aria-labelledby="heading-2" data-parent="#accordion-payment">
+										            <div class="card-body">
+										                ... 
+										            </div><!-- End .card-body -->
+										        </div><!-- End .collapse -->
+										    </div><!-- End .card -->
+
+										    <div class="card">
+										        <div class="card-header" id="heading-3">
+										            <h2 class="card-title">
+										                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-3" aria-expanded="false" aria-controls="collapse-3">
+										                    Thanh toán khi giao hàng
+										                </a>
+										            </h2>
+										        </div><!-- End .card-header -->
+										        <div id="collapse-3" class="collapse" aria-labelledby="heading-3" data-parent="#accordion-payment">
+										            <div class="card-body">
+                                                        ... 
+										            </div><!-- End .card-body -->
+										        </div><!-- End .collapse -->
+										    </div><!-- End .card -->
+										</div><!-- End .accordion -->
+
+		                				<button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+		                					<span class="btn-text">Đặt hàng</span>
+		                					<span class="btn-hover-text">Tiến hành kiểm tra</span>
+		                				</button>
+		                			</div><!-- End .summary -->
+		                		</aside><!-- End .col-lg-3 -->
+		                	</div><!-- End .row -->
+            			</form>
+	                </div><!-- End .container -->
+                </div><!-- End .checkout -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+        <footer class="footer footer-2">
+            <div class="footer-bottom">
+                <div class="container">
+                    <p class="footer-copyright">@2024 All rights reserved KingFeet</p><!-- End .footer-copyright -->
+                    <ul class="footer-menu">
+                        <img src="assets/images/icons/bocongthuong.png" alt="">
+                    </ul><!-- End .footer-menu -->
+
+                    
+
+                    <div class="social-icons social-icons-color">
+                        <a href="#" class="social-icon social-facebook" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                        <a href="#" class="social-icon social-twitter" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                        <a href="#" class="social-icon social-instagram" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                        <a href="#" class="social-icon social-youtube" title="Youtube" target="_blank"><i class="icon-youtube"></i></a>
+                        <a href="#" class="social-icon social-pinterest" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+                    </div><!-- End .soial-icons -->
+                </div><!-- End .container -->
+            </div><!-- End .footer-bottom -->
+        </footer><!-- End .footer -->
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+    <div class="mobile-menu-container mobile-menu-light">
+        <div class="mobile-menu-wrapper">
+            <span class="mobile-menu-close"><i class="icon-close"></i></span>
+
+            <form action="#" method="get" class="mobile-search">
+                <label for="mobile-search" class="sr-only">Search</label>
+                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Bạn cần tìm gì..." required>
+                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+            </form>
+            
+            <nav class="mobile-nav">
+                <ul class="mobile-menu">
+                    <li class="active">
+                        <a href="index.html">Trang chủ</a>
+                    </li>
+                    <li>
+                        <a href="danh-muc-san-pham.html">Sản phẩm</a>
+                        <ul>
+                            <li><a href="bang-san-pham.html">Giày lười nam</a></li>
+                            <li><a href="bang-san-pham.html">Giày tây nam</a></li>
+                            <li><a href="bang-san-pham.html">Giày tăng chiều cao</a></li>
+                            <li><a href="bang-san-pham.html">Thắt lưng da cá sấu</a></li>
+                            <li><a href="bang-san-pham.html">Thắt lưng công sở</a></li>
+                            <li><a href="bang-san-pham.html">Ví da bò</a></li>
+                            <li><a href="bang-san-pham.html">Ví da cá sấu</a></li>
+                            <li><a href="bang-san-pham.html">Ví cầm tay</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="sf-with-ul">Giới thiệu</a>
+                        <ul>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="contact.html">Liên hệ</a></li>
+                            <li><a href="login.html">Đăng ký</a></li>
+                        </ul>
+                    </li>
+                    <li class="active">
+                        <a href="blog.html">Blog</a>
+                    </li>
+                </ul>
+            </nav><!-- End .mobile-nav -->
+
+            <div class="social-icons">
+                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+            </div><!-- End .social-icons -->
+        </div><!-- End .mobile-menu-wrapper -->
+    </div><!-- End .mobile-menu-container -->
+
+    <!-- Plugins JS File -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/jquery.hoverIntent.min.js"></script>
+    <script src="assets/js/jquery.waypoints.min.js"></script>
+    <script src="assets/js/superfish.min.js"></script>
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
+</body>
+
+
+<!-- Mirrored from portotheme.com/html/molla/checkout.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 19 Jan 2024 02:58:25 GMT -->
+</html>
