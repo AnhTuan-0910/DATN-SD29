@@ -133,12 +133,12 @@
                                 <div th:id="'modalResultQr' +${hd.ma}" class="modal" style="width:500px;left: calc(50% - 250px)">
                                     <div class="modal-content">
                                         <span class="close">&times;</span>
-                                        <form method="post" th:action="@{/hoa_don_chi_tiet/add}">
+                                        <form method="post" name="spqr" th:action="@{/hoa_don_chi_tiet/add}">
                                             <input th:id="'idhd'+${hd.ma}" type="text" th:value="${hd.idHoaDon}" name="idhd" hidden> <br/>
                                             <label>Mã sản phẩm :</label>
-                                            <input th:id="'idCTSP'+${hd.ma}" type="text" name="idCTSP"> <br/>
+                                            <input th:id="'idCTSP'+${hd.ma}" type="text" name="idspct" readonly> <br/>
                                             <label>Số lượng :</label>
-                                            <input th:id="'soLuong'+${hd.ma}" type="text" name="soLuong"> <br/>
+                                            <input th:id="'soLuong'+${hd.ma}" type="number" name="soLuong"> <br/>
                                             <button style="text-align: right" th:id="'submitQr'+${hd.ma}" type="submit">OK</button>
                                         </form>
                                     </div>

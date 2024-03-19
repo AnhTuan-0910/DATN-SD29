@@ -1,6 +1,7 @@
 package com.springboot.bootstrap.controller;
 
 import com.springboot.bootstrap.entity.*;
+import com.springboot.bootstrap.entity.DTO.SanPhamQrDTO;
 import com.springboot.bootstrap.repository.PhieuGiamGiaChiTietRepository;
 import com.springboot.bootstrap.repository.PhieuGiamGiaRepository;
 import com.springboot.bootstrap.service.DanhMucService;
@@ -63,6 +64,7 @@ public class ThanhToanController {
         model.addAttribute("listDM", listDM);
         model.addAttribute("listKT", listKT);
         model.addAttribute("listMS", listMS);
+        model.addAttribute("spqr",new SanPhamQrDTO());
         return "/pages/giao_dich";
     }
 

@@ -12,10 +12,10 @@ function domReady(fn) {
                 scanQR(maHD);
                 sumbitQR(maHD,fn);
             });
-
         });
 
     });
+
 }
 function scanQR(maHD) {
     let code = document.getElementById("idCTSP" + maHD);
