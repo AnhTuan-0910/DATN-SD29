@@ -244,7 +244,7 @@
                                     <div style="margin-left: 20px">
                                         <input class="form-control"
                                                style="width: 200px;height: 38px"
-                                               placeholder="Voucher" id="voucherInput" name="maVoucher" readonly>
+                                               placeholder="Voucher" id="voucherInput" name="maVoucher" th:value="${phieuGiamGia.ma != 'PGG000' ? phieuGiamGia.ma : ''}" readonly>
                                     </div>
                                     <div class="col-form-label" style="margin-left: 20px">
                                         <b>Tiền hàng</b>
@@ -336,7 +336,7 @@
                             <div th:each="x : ${listVoucher}" th:id="'voucherCard-'+${x.ma}" class="card-voucher form-check"
                                  th:hidden="${x.ma == 'PGG000'}">
                                 <div class="d-flex align-items-center">
-                                <input class="form-check-input me-1" type="radio" name="flexRadioDefault"
+                                <input class="radio-voucher form-check-input me-1" type="radio" name="flexRadioDefault"
                                        th:id="${x.ma}" th:value="${x.ma}" checked>
                                 <label class="form-check-label align-content-center" th:for="${x.ma}"
                                        style="width: 100%;">
