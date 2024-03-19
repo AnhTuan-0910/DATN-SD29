@@ -1,24 +1,9 @@
 package com.springboot.bootstrap.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.security.SecureRandom;
 import java.util.UUID;
@@ -33,11 +18,11 @@ import java.util.UUID;
 public class KhachHang {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id_kh")
-    private UUID idKhachHang;
+    private String idKhachHang;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_dia_chi", referencedColumnName = "id_dia_chi")
     private DiaChi idDiaChi;
 
@@ -49,7 +34,6 @@ public class KhachHang {
     private String ten;
 
     @Column(name = "ngay_sinh")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private java.sql.Date ngaySinh;
 
     @Column(name = "gioi_tinh")
@@ -67,9 +51,6 @@ public class KhachHang {
 
     @Column(name = "anh_nhan_vien")
     private String anhNhanVien;
-
-    @Transient
-    private MultipartFile loadAnh;
 
     @Column(name = "trang_thai")
     private int trangThai;
@@ -146,14 +127,6 @@ public class KhachHang {
         // Tạo mật khẩu ngẫu nhiên nếu trường matKhau là null hoặc trống
         if (matKhau == null) {
             matKhau = generatePassword();
-        }
-    }
-
-    public String getFullAnhUrl(){
-        if(idKhachHang != null && anhNhanVien !=null) {
-            return "C:/Users/Admin/Documents/DATN-SD29-master/SpringbootBootstrap/src/main/resources/static/upload/" + idKhachHang + "/" + anhNhanVien;
-        }else {
-            return "C:/Users/Admin/Documents/DATN-SD29-master/SpringbootBootstrap/src/main/resources/static/upload/no_preview.jpg";
         }
     }
 }

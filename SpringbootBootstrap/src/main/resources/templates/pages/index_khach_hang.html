@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}">
+<head>
+    <meta charset="UTF-8">
+    <title>King Feet-Thương hiệu giày da hàng đầu</title>
+    <!-- Font-icon css-->
+</head>
+<body>
+
+<div class="main-content container-fluid" layout:fragment="content">
+    <div class="page-title">
+        <h3>Khách Hàng</h3>
+    </div>
+    <section class="section">
+        <div class="row mb-2">
+            <form>
+                <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
+                    <input type="text" name="keyword" class="form-control pull-right" style="width: 150px" placeholder="Tìm kiếm" th:value="${keyword}">
+                    <button type="submit" class="btn btn-outline-info" data-toggle="tooltip" data-placement="top" title="Tìm kiếm"><i data-feather="search"></i></button>
+                </div>
+            </form>
+            <br/><br/>
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">Bảng Khách Hàng</h4>
+                    <div style="float: right">
+                        <a th:href="@{'/khach_hang/addKhachHang'}" class="btn btn-outline-success" data-toggle="tooltip" data-placement="top" style="width: 50px;" title="Thêm khách hàng"><i data-feather="plus-circle"></i></a>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-0">
+                    <div class="table-responsive">
+                        <table class='table mb-0' id="table1">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+<!--                                <th>Ảnh</th>-->
+                                <th>Mã</th>
+                                <th>Tên</th>
+                                <th>Ngày sinh</th>
+                                <th>Giới tính</th>
+                                <th>Địa chỉ <a th:href="@{'/dia_chi'}" class="btn btn-outline-success" data-toggle="tooltip" data-placement="top" title="Xem địa chỉ"><i data-feather="eye"></i></a></th>
+                                <th>Email</th>
+                                <th>Mật khẩu</th>
+                                <th>SDT</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="kh,start :${listKH.content}">
+                                <td th:text="${start.index+1}"></td>
+<!--                                <td>-->
+<!--                                    <img th:src="@{'SpringbootBootstrap/src/main/resources/static/upload/'+ ${kh.anhNhanVien}}" width="100px" class="img-circle" alt="Ảnh khách hàng"/>-->
+<!--                                </td>-->
+                                <td th:text="${kh.ma}"></td>
+                                <td th:text="${kh.ten}"></td>
+                                <td th:text="${kh.ngaySinh}"></td>
+                                <td th:text="${kh.gioiTinh}"></td>
+                                <td th:text="${kh.idDiaChi.trang_thai == 0 ? 'Cảnh báo! Địa chỉ này đang ngừng hoạt động!' : kh.idDiaChi.diaChiCuThe + ',' + kh.idDiaChi.phuong_xa + ',' + kh.idDiaChi.quan_huyen + ',' + kh.idDiaChi.tinh_thanh + ',' + kh.idDiaChi.quocGia}"></td>
+                                <td th:text="${kh.email}"></td>
+                                <td>********</td>
+                                <td th:text="${kh.sdt}"></td>
+                                <td th:if="${kh.trangThai == 1}"><span class="badge bg-success">Đang hoạt động</span></td>
+                                <td th:if="${kh.trangThai == 0}"><span class="badge bg-danger">Ngừng hoạt động</span></td>
+<!--                                <td>-->
+<!--                                    <div class="form-check form-switch">-->
+<!--                                        <input class="form-check-input" type="checkbox" role="switch"-->
+<!--                                               id="flexSwitchCheckDefault" th:checked="${kh.trangThai}">-->
+<!--                                        <label class="form-check-label" for="flexSwitchCheckDefault"></label>-->
+<!--                                    </div>-->
+<!--                                </td>-->
+                                <td>
+                                    <a th:href="@{'/khach_hang/editKhachHang/' + ${kh.idKhachHang}}" class="btn btn-outline-info" data-toggle="tooltip" data-placement="top" title="Xem khách hàng"><i data-feather="edit"></i></a>
+                                    <form th:action="@{/khach_hang/deleteKhachHang/{id}(id=${kh.idKhachHang})}" method="post">
+                                        <button class="btn btn-outline-danger" style="width: 100%"
+                                                th:text="${kh.trangThai == 0}?' Khôi Phục':' Hủy'"></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div style="float: right;margin: 20px">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item" th:if="${currentPage > 1}"><a th:href="@{'?pageNo='+${currentPage - 1}}" class="btn btn btn-outline-warning"><i data-feather="skip-back"></i></a></li>
+                                    <li th:each="i : ${#numbers.sequence(1,totalPage)}" th:classappend="${currentPage == i ? 'active' : ''}"><a th:href="@{${keyword != null && keyword != '' ? '?keyword='+keyword+'&' : '?'} + 'pageNo='+${i}}" th:text="${i}" class="btn btn btn-outline-warning"></a></li>
+                                    <li class="page-item" th:if="${currentPage < totalPage}"><a th:href="@{'?pageNo='+${currentPage + 1}}" class="btn btn btn-outline-warning"><i data-feather="skip-forward"></i></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

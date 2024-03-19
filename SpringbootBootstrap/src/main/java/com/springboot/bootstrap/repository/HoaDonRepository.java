@@ -1,7 +1,6 @@
 package com.springboot.bootstrap.repository;
 
 import com.springboot.bootstrap.entity.HoaDon;
-import com.springboot.bootstrap.entity.KhachHang;
 import com.springboot.bootstrap.entity.NhanVien;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

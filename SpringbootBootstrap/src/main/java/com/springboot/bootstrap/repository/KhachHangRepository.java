@@ -8,18 +8,23 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
+import java.util.List;
+
 
 @Repository
-public interface KhachHangRepository extends JpaRepository<KhachHang, UUID> {
-    Page<KhachHang> findAll(Pageable pageable);
+public interface KhachHangRepository extends JpaRepository<KhachHang, String> {
+
+    KhachHang findBySdt(String sdt);
 
     KhachHang findByMa(String ma);
+
+    @Query("SELECT kh FROM KhachHang kh ORDER BY kh.ma ASC")
+    Page<KhachHang> findAll(Pageable pageable);
 
     @Query("SELECT kh FROM KhachHang kh WHERE " +
             "LOWER(kh.ma) IS NULL OR   LOWER(kh.ma) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "LOWER(kh.ten) IS NULL OR  LOWER(kh.ten) LIKE LOWER(CONCAT('%', :keyword, '%'))")
-    Page<KhachHang> searchCodeOrName(@Param("keyword") String keyword, Pageable pageable );
+    List<KhachHang> searchCodeOrName(@Param("keyword") String keyword);
 
     @Query("SELECT dc FROM KhachHang dc WHERE " +
             " (:trangThai IS NULL OR dc.trangThai = :trangThai) " )

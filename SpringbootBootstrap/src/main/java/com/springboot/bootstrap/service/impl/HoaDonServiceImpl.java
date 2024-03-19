@@ -2,10 +2,8 @@ package com.springboot.bootstrap.service.impl;
 
 import com.springboot.bootstrap.entity.DTO.HoaDonDTO;
 import com.springboot.bootstrap.entity.HoaDon;
-import com.springboot.bootstrap.entity.KhachHang;
 import com.springboot.bootstrap.entity.NhanVien;
 import com.springboot.bootstrap.repository.HoaDonRepository;
-import com.springboot.bootstrap.repository.KhachHangRepository;
 import com.springboot.bootstrap.repository.NhanVienRepo;
 import com.springboot.bootstrap.service.HoaDonService;
 import org.springframework.beans.factory.annotation.Autowired;

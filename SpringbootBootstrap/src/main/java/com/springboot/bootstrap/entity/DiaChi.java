@@ -1,20 +1,9 @@
 package com.springboot.bootstrap.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -26,25 +15,25 @@ import java.util.UUID;
 public class DiaChi {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_dia_chi", nullable = false)
-    private UUID idDiaChi;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id_dia_chi")
+    private String idDiaChi;
 
 //    @NotEmpty(message = "Không Được Để Trống Địa Chỉ")
     @Column(name = "dia_chi")
-    private String diaChi;
+    private String diaChiCuThe;
 
 //    @NotEmpty(message = "Không Được Để Trống Huyện")
-    @Column(name = "huyen")
-    private String huyen;
+    @Column(name = "quan_huyen")
+    private String quan_huyen;
 
 //    @NotEmpty(message = "Không Được Để Trống Tỉnh")
-    @Column(name = "tinh")
-    private String tinh;
+    @Column(name = "tinh_thanh")
+    private String tinh_thanh;
 
 //    @NotEmpty(message = "Không Được Để Trống Thành Phố")
-    @Column(name = "thanh_pho")
-    private String thanhPho;
+    @Column(name = "phuong_xa")
+    private String phuong_xa;
 
 //    @NotEmpty(message = "Không Được Để Trống Quốc Gia")
     @Column(name = "quoc_gia")

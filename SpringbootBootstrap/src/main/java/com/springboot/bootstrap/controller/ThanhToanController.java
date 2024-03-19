@@ -2,10 +2,12 @@ package com.springboot.bootstrap.controller;
 
 import com.springboot.bootstrap.entity.*;
 import com.springboot.bootstrap.entity.DTO.SanPhamQrDTO;
+import com.springboot.bootstrap.repository.KhachHangRepository;
 import com.springboot.bootstrap.repository.PhieuGiamGiaChiTietRepository;
 import com.springboot.bootstrap.repository.PhieuGiamGiaRepository;
 import com.springboot.bootstrap.service.DanhMucService;
 import com.springboot.bootstrap.service.HoaDonService;
+import com.springboot.bootstrap.service.KhachHangService;
 import com.springboot.bootstrap.service.KichThuocService;
 import com.springboot.bootstrap.service.MauSacService;
 import com.springboot.bootstrap.service.SanPhamCTService;
@@ -46,17 +48,29 @@ public class ThanhToanController {
     private PhieuGiamGiaRepository phieuGiamGiaRepository;
 
     @Autowired
+    private KhachHangRepository khachHangRepository;
+
+    @Autowired
+    private KhachHangService khachHangService;
+
+    @Autowired
     private HoaDonService hoaDonService;
 
     @GetMapping("")
-    public String getAll(@RequestParam(value = "maVoucher", defaultValue = "PGG000") String ma,Model model) {
+    public String getAll(@RequestParam(value = "maVoucher", defaultValue = "PGG000") String ma,
+                         @RequestParam(value = "sdtKhachHang", defaultValue = "0555555555") String sdt,
+                         Model model) {
         List<DanhMuc> listDM = danhMucService.findAllByTrangThai();
         List<ThuongHieu> listTH = thuongHieuService.findAllByTrangThai();
         List<KichThuoc> listKT = kichThuocService.findAllByTrangThai();
         List<MauSac> listMS = mauSacService.findAllByTrangThai();
         List<PhieuGiamGia> listPGG = phieuGiamGiaRepository.findAll();
         PhieuGiamGia phieuGiamGia = phieuGiamGiaRepository.findByMa(ma);
+        KhachHang khachHang = khachHangService.findBySdt(sdt);
+        List<KhachHang> listKH = khachHangService.findAll();
         List<HoaDon> listHD = hoaDonService.renderTab();
+        model.addAttribute("khachHang", khachHang);
+        model.addAttribute("listKH", listKH);
         model.addAttribute("listHD", listHD);
         model.addAttribute("phieuGiamGia", phieuGiamGia);
         model.addAttribute("listVoucher", listPGG);

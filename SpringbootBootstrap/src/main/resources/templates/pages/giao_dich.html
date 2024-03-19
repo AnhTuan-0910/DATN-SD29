@@ -88,7 +88,7 @@
     <script
             src="https://unpkg.com/html5-qrcode">
     </script>
-    <script th:src="@{/js/voucher_tt.js}"></script>
+    <script th:src="@{/js/select_kh_and_voucher_tt.js}"></script>
     <script th:src="@{/js/cam.js}"></script>
 </head>
 <body>
@@ -224,6 +224,9 @@
                                     <div class="col-form-label" style="float:left;margin-left: 20px">
                                         <b>Khách hàng</b>
                                     </div>
+                                    <div style="margin-left: 20px">
+                                        <input class="form-control" style="width: 200px;height: 38px" placeholder="SDT Khách Hàng" id="khachHangInput" name="sdtKhachHang" th:value="${khachHang.sdt}" readonly>
+                                    </div>
 
                                 </div>
                                 <div class="col-md-6">
@@ -231,7 +234,8 @@
                                         <b> <span>Khách lẻ</span></b>
                                     </div>
                                     <div style="margin-left: 20px">
-                                        <button class="btn btn-outline-warning" type="button">Chọn khách hàng
+                                        <button class="btn btn-outline-warning" type="button" data-bs-toggle="modal" th:data-bs-target="'#selectKhachHangModal'+${hd.ma}">
+                                            Chọn khách hàng
                                         </button>
 
                                     </div>
@@ -264,7 +268,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
-                                        <b>Nguyễn Văn A</b>
+                                        <b th:text="${khachHang != null && khachHang.trangThai == 0 ? 'Khách này đang ngừng hoạt động!' : khachHang.ten}"></b>
                                     </div>
 
                                     <div style="margin-left: 20px">
@@ -569,6 +573,48 @@
                                 <button type="submit" class="btn btn-outline-warning">Thêm vào giỏ</button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            </div>
+
+            <!--    //modalChonKhachHang-->
+            <div class="modal fade" th:id="'selectKhachHangModal'+${hd.ma}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabelKH">Khách Hàng</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="d-flex justify-content-end" style="width: 100%">
+                                <input type="text" id="searchInputKhachHang" placeholder="Tìm Kiếm">
+                                <button class="btn btn-primary mx-2"><i data-feather="search"></i></button>
+                            </div>
+                            <div th:each="kh : ${listKH}" th:id="'khachHangCard-'+${kh.sdt}" class="card-khachHang form-check"
+                                 th:hidden="${kh.sdt == '0555555555'}">
+                                <div class="d-flex align-items-center">
+                                    <input class="radio-khachHang form-check-input me-1" type="radio" name="flexRadioDefault"
+                                           th:id="${kh.sdt}" th:value="${kh.sdt}" checked>
+                                    <label class="form-check-label align-content-center" th:for="${kh.sdt}"
+                                           style="width: 100%;">
+                                        <div class="card d-flex my-1">
+                                            <div class="card-body d-flex">
+                                                <span th:text="${kh.ma}" class="modal-maKhachHang col-4 col-sm-4 align-items-center" hidden></span>
+                                                <span th:text="${kh.ten}" class="modal-tenKhachHang col-4 col-sm-4 align-items-center"></span>
+                                                <span th:text="${kh.sdt}" class="modal-sdtKhachHang col-4 col-sm-4 align-items-center"></span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="saveChangesBtnKH" data-bs-dismiss="modal">
+                                Save Changes
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

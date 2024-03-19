@@ -2,22 +2,24 @@ package com.springboot.bootstrap.service;
 
 import com.springboot.bootstrap.entity.DiaChi;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface DiaChiService {
 
-    Page<DiaChi> getAll(Pageable pageable);
+    Page<DiaChi> getAll(Integer pageNo);
 
     List<DiaChi> findAll();
 
-    DiaChi getOne(UUID id);
+    DiaChi getOne(String id);
 
     void add(DiaChi diaChi);
 
-    void update(DiaChi diaChi,UUID id);
+    void update(DiaChi diaChi);
 
-    Page<DiaChi> searchTrangThai( int trang_thai,Pageable pageable );
+    void delete(String id);
+
+    Page<DiaChi> searchDiaChi( String keyword, Integer pageNo);
+
+//    Page<DiaChi> searchTrangThai( int trang_thai,Integer pageNo );
 }
