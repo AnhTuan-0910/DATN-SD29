@@ -12,9 +12,12 @@ import org.springframework.stereotype.Service;
 public class SanPhamCTServiceImpl implements SanPhamCTService {
     @Autowired
     private SanPhamCTRepo sanPhamCTRepo;
-    private static final String ma = "SPCT";
-    private static int counter = 0;
 
+
+    @Override
+    public Page<SanPhamCT> getBySL(Pageable pageable) {
+        return sanPhamCTRepo.findBySL(pageable);
+    }
 
     @Override
     public SanPhamCT getOne(String id) {
@@ -40,6 +43,7 @@ public class SanPhamCTServiceImpl implements SanPhamCTService {
     public Page<SanPhamCT> getAllBySP(String idSP, Pageable pageable) {
         return sanPhamCTRepo.findAllBySanPhamIdAndOrderByTenMS(idSP, pageable);
     }
+
     @Override
     public void update(SanPhamCT sanPhamCT, String id) {
         sanPhamCT.setId(id);
@@ -57,9 +61,9 @@ public class SanPhamCTServiceImpl implements SanPhamCTService {
         sanPhamCTRepo.save(sanPhamCT);
     }
 
+
     @Override
-    public String generateMaSPCT() {
-        counter++;
-        return ma + String.format("%03d", counter);
+    public SanPhamCT getByMSAndKT(String idKT, String idMS, String idSP) {
+        return sanPhamCTRepo.findByMauSacAndKichThuoc(idKT, idMS,idSP);
     }
 }

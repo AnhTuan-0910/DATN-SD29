@@ -4,8 +4,7 @@ import com.springboot.bootstrap.entity.DiaChi;
 import com.springboot.bootstrap.entity.KhachHang;
 import com.springboot.bootstrap.service.DiaChiService;
 import com.springboot.bootstrap.service.KhachHangService;
-import com.springboot.bootstrap.service.StorageService;
-import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -29,8 +28,6 @@ public class KhachHangController {
     @Autowired
     private KhachHangService khachHangService;
 
-    @Autowired
-    private StorageService storageService;
 
     @Autowired
     private DiaChiService diaChiService;

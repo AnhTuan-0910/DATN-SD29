@@ -11,6 +11,8 @@ function domReady(fn) {
                 let maHD = this.getAttribute('data-hd-ma');
                 scanQR(maHD);
                 sumbitQR(maHD,fn);
+                modalVCAndKH(maHD);
+                seacrchModalVCAndKH(maHD);
             });
         });
 
@@ -57,5 +59,76 @@ function sumbitQR(maHD,fn) {
     }
 
 }
+<!--    JS for modal Voucher -->
+function modalVCAndKH(maHD) {
+    var selectVoucherModal = document.getElementById('selectVoucherModal' + maHD);
+    var voucherInput = document.getElementById('voucherInput' + maHD);
+    var saveChangesBtn = document.getElementById('saveChangesBtn' + maHD);
+    var selectKhachHangModal = document.getElementById('selectKhachHangModal'+maHD);
+    var khachHangInput = document.getElementById('khachHangInput'+maHD);
+    var saveChangesBtnKH = document.getElementById('saveChangesBtnKH'+maHD);
+    saveChangesBtnKH.addEventListener('click', function () {
+        var selectedRadio = selectKhachHangModal.querySelector('input[type="radio"]:checked');
+        if (selectedRadio) {
+            var selectedValue = selectedRadio.value;
+            khachHangInput.value = selectedValue;
+            window.location.href = 'http://localhost:8080/giao_dich?sdtKhachHang='+khachHangInput.value;
+        }
+    });
+    saveChangesBtn.addEventListener('click', function () {
+        var selectedRadio = selectVoucherModal.querySelector('input[type="radio"]:checked');
+        if (selectedRadio) {
+            var selectedValue = selectedRadio.value;
+            voucherInput.value = selectedValue;
+            window.location.href = 'http://localhost:8080/giao_dich?sdtKhachHang='+khachHangInput.value+'&maVoucher='+voucherInput.value;
+        }
+    });
+
+}
+
+<!--    JS search for modal Voucher -->
+
+function seacrchModalVCAndKH(maHD) {
+    const searchInputVoucher = document.getElementById("searchInputVoucher" + maHD);
+    const vouchers = Array.from(document.getElementsByClassName("card-voucher"+ maHD));
+    searchInputVoucher.addEventListener("input", function () {
+        const searchTerm = searchInputVoucher.value.trim().toLowerCase();
+        vouchers.forEach(function (voucher) {
+            const voucherCardId = voucher.id;
+            const maVoucher = document.querySelector("#" + voucherCardId + " .modal-maVoucher").textContent.trim().toLowerCase();
+            const tenVoucher = document.querySelector("#" + voucherCardId + " .modal-tenVoucher").textContent.trim().toLowerCase();
+            // const description = voucher.querySelector(".voucher-description").textContent.trim().toLowerCase();
+            const isVisible = maVoucher.includes(searchTerm) || tenVoucher.includes(searchTerm);
+
+            if (isVisible) {
+                voucher.style.display = "block";
+            } else {
+                voucher.style.display = "none";
+            }
+        });
+    })
+    const searchInputKhachHang = document.getElementById("searchInputKhachHang"+ maHD);
+    const khachHangs = Array.from(document.getElementsByClassName("card-khachHang")+ maHD);
+    searchInputKhachHang.addEventListener("input", function () {
+        const searchTerm = searchInputKhachHang.value.trim().toLowerCase();
+        khachHangs.forEach(function (khachHang) {
+            const khachHangCardId = khachHang.id;
+            const maKhachHang = document.querySelector("#" + khachHangCardId + " .modal-maKhachHang").textContent.trim().toLowerCase();
+            const sdtKhachHang = document.querySelector("#" + khachHangCardId + " .modal-sdtKhachHang").textContent.trim().toLowerCase();
+            const tenKhachHang = document.querySelector("#" + khachHangCardId + " .modal-tenKhachHang").textContent.trim().toLowerCase();
+            const isVisible = sdtKhachHang.includes(searchTerm) || tenKhachHang.includes(searchTerm) || maKhachHang.includes(searchTerm);
+
+            if (isVisible) {
+                khachHang.style.display = "block";
+            } else {
+                khachHang.style.display = "none";
+            }
+        });
+    });
+}
+
+
+
+
 
 domReady();

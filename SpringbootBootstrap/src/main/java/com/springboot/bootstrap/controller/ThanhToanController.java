@@ -92,7 +92,7 @@ public class ThanhToanController {
     @GetMapping("/spct")
     @ResponseBody
     public Page<SanPhamCT> paginate(@RequestParam("p") int page) {
-        return sanPhamCTService.getAll(PageRequest.of(page, 5));
+        return sanPhamCTService.getBySL(PageRequest.of(page, 5));
     }
     @GetMapping("/deleteTab/")
     public String deleteTab(@RequestParam("id") String id) {

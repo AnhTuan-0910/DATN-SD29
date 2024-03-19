@@ -1,5 +1,6 @@
 package com.springboot.bootstrap.entity;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,12 +9,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 @Entity
 @NoArgsConstructor
@@ -35,18 +38,20 @@ public class SanPhamCT {
     private int sl;
     @Column(name = "gia_ban")
     private double gia;
+    @Column(name = "anh")
+    private byte[] data;
     @Column(name = "trang_thai")
     private int trangThai;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_mau_sac",referencedColumnName = "id_mau_sac")
+    @JoinColumn(name = "id_mau_sac", referencedColumnName = "id_mau_sac")
     private MauSac mauSac;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_san_pham",referencedColumnName = "id_san_pham")
+    @JoinColumn(name = "id_san_pham", referencedColumnName = "id_san_pham")
     private SanPham sanPham;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_kich_thuoc",referencedColumnName = "id_kich_thuoc")
+    @JoinColumn(name = "id_kich_thuoc", referencedColumnName = "id_kich_thuoc")
     private KichThuoc kichThuoc;
 }
