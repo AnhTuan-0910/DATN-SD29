@@ -509,7 +509,6 @@
                     </div>
                 </div>
             </div>
-
             <!--    //modalAddGioHang-->
 
             <div class="modal fade" th:id="'addGH'+${hd.ma}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -538,7 +537,9 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td><input type="text" th:id="'idSPCT'+${hd.ma}" name="idCTSP" hidden> <span
+                                        <td><input type="text" th:id="'idSPCT'+${hd.ma}" name="idCTSP" hidden>
+                                            <input type="text" th:value="${hd.idHoaDon}" name="idHD" >
+                                            <span
                                                 th:id="'maSPCT'+${hd.ma}"></span></td>
                                         <td><span th:id="'ktSPCT'+${hd.ma}"></span></td>
                                         <td><span class="badge" th:id="'msSPCT'+${hd.ma}"></span></td>

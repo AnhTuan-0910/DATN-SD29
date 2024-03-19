@@ -19,6 +19,8 @@ public interface SanPhamCTService {
 
     Page<SanPhamCT> getAllBySP(String idSP, Pageable pageable);
 
+    SanPhamCT getByMSAndKT(String idKT,String idMS);
+
     public Page<SanPhamCT> search(String keyword, Pageable pageable);
 
     Page<SanPhamCT> getAll(Pageable pageable);

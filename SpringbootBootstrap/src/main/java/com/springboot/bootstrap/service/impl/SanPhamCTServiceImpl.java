@@ -62,4 +62,9 @@ public class SanPhamCTServiceImpl implements SanPhamCTService {
         counter++;
         return ma + String.format("%03d", counter);
     }
+
+    @Override
+    public SanPhamCT getByMSAndKT(String idKT,String idMS ) {
+        return sanPhamCTRepo.findByMauSacAndKichThuoc(idKT,idMS);
+    }
 }

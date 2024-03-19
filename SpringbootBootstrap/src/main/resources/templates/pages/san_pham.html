@@ -112,15 +112,15 @@
                                 <td>
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" role="switch"
-                                               id="flexSwitchCheckDefault" th:checked="${sp.trangThai}">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+                                               id="flexSwitchCheckDefault" th:checked="${sp.trangThai}" disabled >
+                                        <label class="form-check-label" for="flexSwitchCheckDefault" ></label>
                                     </div>
 
                                 </td>
                                 <td>
-                                    <a class="btn btn-outline-primary uBtn">
+                                    <a th:href="@{/san_pham/viewOne/(id=${sp.id})}" class="btn btn-outline-primary uBtn" data-bs-toggle="modal">
                                         <i data-feather="edit"></i></a>
-                                    <a th:href="@{spct/viewDetail/{id}(id=${sp.id})}" class="btn btn-outline-danger ">
+                                    <a th:href="@{/spct/viewDetail/{id}(id=${sp.id})}" class="btn btn-outline-danger ">
                                         <i data-feather="eye"></i></a>
 
                                 </td>
@@ -152,7 +152,101 @@
         </div>
     </div>
 
+    <div class="formUpdate">
+        <div class="modal fade" id="suaSP" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 style="color: black" class="modal-title fs-5" id="labelSua"><i
+                                class="fa-solid fa-circle-info"></i>
+                            Sửa danh mục</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/san_pham/updateSP}" th:object="${spu}" method="post">
 
+                            <div class="row">
+                                <div style="background: white;padding-bottom: 20px">
+
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Mã </b></label>
+                                        <input id="ma" placeholder="Mã" type="text" name="ma" class="form-control"
+                                               readonly>
+
+                                    </div>
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Tên </b></label>
+                                        <input id="ten" placeholder="tên" type="text" name="ten"
+                                               class="form-control">
+
+                                    </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Danh mục</b></label>
+
+                                        <select class="form-select" id="danhMuc" name="danhMuc">
+                                            <div th:each="dm:${listDM}">
+                                                <option th:value="${dm.id}" th:text="${dm.ten}"></option>
+                                            </div>
+
+                                        </select>
+                                    </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Thương hiệu</b></label>
+
+                                        <select class="form-select" id="thuongHieu" name="thuongHieu">
+                                            <div th:each="th:${listTH}">
+                                                <option th:value="${th.id}" th:text="${th.ten}"></option>
+                                            </div>
+                                        </select>
+
+                                    </div>
+
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Trạng thái</b></label>
+                                        <div class="form-check form-switch">
+
+                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                   id="trangThaiUpdate" name="trangThaiSt"  >
+                                            <label class="form-check-label" for="trangThaiUpdate"></label>
+                                        </div>
+
+                                    </div>
+                                    <input type="hidden" id="id" name="id">
+
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Sửa</button>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#table1 .uBtn').on('click', function (event) {
+                event.preventDefault();
+                var href = $(this).attr('href');
+                $.get(href, function (sp) {
+                    $('.formUpdate #ma').val(sp.ma);
+                    $('.formUpdate #ten').val(sp.ten);
+                    $('.formUpdate #danhMuc').val(sp.danhMuc.id);
+                    $('.formUpdate #thuongHieu').val(sp.thuongHieu.id);
+                    $('.formUpdate #trangThaiUpdate').prop('checked', sp.trangThai);
+                    $('.formUpdate #id').val(sp.id);
+                })
+                $('.formUpdate #suaSP').modal('show');
+            })
+        })
+    </script>
 </div>
 </body>
 </html>

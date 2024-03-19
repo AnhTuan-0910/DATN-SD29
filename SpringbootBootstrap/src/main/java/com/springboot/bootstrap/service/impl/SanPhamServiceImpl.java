@@ -16,6 +16,12 @@ public class SanPhamServiceImpl implements SanPhamService {
     private static int counter = 0;
 
     @Override
+    public void update(String id, SanPham sanPham) {
+        sanPham.setId(id);
+        sanPhamRepo.save(sanPham);
+    }
+
+    @Override
     public Page<SanPham> getAll(Pageable pageable) {
         return sanPhamRepo.findAllByOrderByMaAsc(pageable);
     }
@@ -23,6 +29,11 @@ public class SanPhamServiceImpl implements SanPhamService {
     @Override
     public void add(SanPham sanPham) {
         sanPhamRepo.save(sanPham);
+    }
+
+    @Override
+    public SanPham detail(String id) {
+        return sanPhamRepo.findById(id).get();
     }
 
     @Override
