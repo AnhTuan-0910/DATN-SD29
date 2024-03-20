@@ -1,15 +1,3 @@
-DATABASE THÊM MỚI: Thêm hàm trigger , sửa don_vi trong bảng phieu_giam_gia thành int.
+DATABASE UPDATE: Thêm 2 hàm trigger , sửa bảng khach_hang, dia_chi, xóa bảng hinh_anh, thêm trường anh image vào bảng san_pham_chi_tiet
+file db_new.sql nhánh master
 
-CREATE TRIGGER trg_generate_ma_hoa_don
-ON hoa_don
-FOR INSERT
-AS
-BEGIN
-    DECLARE @id_hoa_don uniqueidentifier;
-    DECLARE @ma_hoa_don VARCHAR(20);
-
-    SELECT @id_hoa_don = id_hoa_don FROM inserted;
-    SET @ma_hoa_don = 'HD' + RIGHT(CONVERT(VARCHAR(36), @id_hoa_don), 6);
-
-    UPDATE hoa_don SET ma = @ma_hoa_don WHERE id_hoa_don = @id_hoa_don;
-END;
