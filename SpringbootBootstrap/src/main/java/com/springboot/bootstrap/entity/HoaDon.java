@@ -39,6 +39,9 @@ public class HoaDon {
     @ManyToOne
     @JoinColumn(name = "id_nv")
     private NhanVien nhanVien;
+    @ManyToOne
+    @JoinColumn(name = "id_pgg")
+    private PhieuGiamGia phieuGiamGia;
     @Column(name = "ma")
     private String ma;
     @Column(name = "gia")
