@@ -321,7 +321,7 @@ DECLARE @id_spct uniqueidentifier;
 DECLARE @ma_spct VARCHAR(20);
 
 SELECT @id_spct = id_spct FROM inserted;
-SET @ma_spct = 'SP' + RIGHT(CONVERT(VARCHAR(36), @id_spct), 5);
+SET @ma_spct = 'SPCT' + RIGHT(CONVERT(VARCHAR(36), @id_spct), 5);
 
 UPDATE san_pham_chi_tiet SET ma = @ma_spct WHERE id_spct = @id_spct;
 END;
