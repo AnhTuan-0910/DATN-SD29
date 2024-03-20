@@ -116,12 +116,10 @@
                                     </div>
                                 </td>
                                 <td th:text="${spct.sanPham.ten}"></td>
-                                <td th:text="${spct.kichThuoc.ten}"><input class="ktAll" type="text"
-                                                                           th:value="${spct.kichThuoc.id}" hidden></td>
+                                <td th:text="${spct.kichThuoc.ten}"></td>
                                 <td>
                                     <div class="badge" th:style="'background-color:'+${spct.mauSac.ten}"
-                                         th:text="${spct.mauSac.ten}"><input class="msAll" type="text"
-                                                                             th:value="${spct.mauSac.id}" hidden></div>
+                                         th:text="${spct.mauSac.ten}"></div>
                                 </td>
                                 <td th:text="${spct.sl}"></td>
                                 <td th:text="${spct.gia}"></td>
@@ -180,7 +178,7 @@
                                 <div style="background: white;padding-bottom: 20px">
 
                                     <div class="mb-3" style="padding-top: 20px">
-                                        <input type="text" th:value="${idSP}" name="idSPAdd" hidden>
+                                        <input type="text" id="idSPAdd" th:value="${idSP}" name="idSPAdd" hidden>
                                         <label class="form-label"><b>Kích thước</b></label>
 
                                         <select class="form-select" id="vlidKT" name="kichThuocAdd">
@@ -205,12 +203,12 @@
 
                                     <div class="mb-3" style="padding-top: 20px">
                                         <label class="form-label"><b>Đơn giá</b></label>
-                                        <input type="text" class="form-control validDG" name="donGiaAdd">
+                                        <input type="text" class="form-control " id="dgAdd" name="donGiaAdd">
 
                                     </div>
                                     <div class="mb-3" style="padding-top: 20px">
                                         <label class="form-label"><b>Số lượng</b></label>
-                                        <input type="text" class="form-control validSL" name="soLuongAdd">
+                                        <input type="text" class="form-control " id="slAdd" name="soLuongAdd">
 
                                     </div>
                                     <div class="mb-3" style="padding-top: 20px">
@@ -289,12 +287,12 @@
 
                                     <div class="mb-3" style="padding-top: 20px">
                                         <label class="form-label"><b>Đơn giá</b></label>
-                                        <input type="text" class="form-control validDG" id="donGiaUpd" name="donGiaUpd">
+                                        <input type="text" class="form-control " id="donGiaUpd" name="donGiaUpd">
 
                                     </div>
                                     <div class="mb-3" style="padding-top: 20px">
                                         <label class="form-label"><b>Số lượng</b></label>
-                                        <input type="text" class="form-control validSL" id="soLuongUpd"
+                                        <input type="text" class="form-control " id="soLuongUpd"
                                                name="soLuongUpd">
 
                                     </div>

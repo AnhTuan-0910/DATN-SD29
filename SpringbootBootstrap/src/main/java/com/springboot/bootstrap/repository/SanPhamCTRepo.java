@@ -12,11 +12,12 @@ public interface SanPhamCTRepo extends JpaRepository<SanPhamCT, String> {
     SanPhamCT findByMa(String ma);
 
     Page<SanPhamCT> findAll(Pageable pageable);
+
     @Query("SELECT spct FROM SanPhamCT spct JOIN spct.sanPham sp JOIN spct.mauSac ms WHERE sp.id = :sanPhamId ORDER BY ms.ten")
     Page<SanPhamCT> findAllBySanPhamIdAndOrderByTenMS(String sanPhamId, Pageable pageable);
 
-    @Query("SELECT spct FROM SanPhamCT spct JOIN spct.kichThuoc kt JOIN spct.mauSac ms WHERE kt.id = :kichThuocId AND ms.id = :mauSacId")
-    SanPhamCT findByMauSacAndKichThuoc(String kichThuocId,String mauSacId);
+    @Query("SELECT spct FROM SanPhamCT spct JOIN spct.kichThuoc kt JOIN spct.mauSac ms JOIN spct.sanPham sp WHERE kt.id = :kichThuocId AND ms.id = :mauSacId AND sp.id= :sanPhamId")
+    SanPhamCT findByMauSacAndKichThuoc(String kichThuocId, String mauSacId,String sanPhamId);
 
 
     @Query("SELECT p FROM SanPhamCT p WHERE LOWER(p.ma) LIKE LOWER(CONCAT('%', :keyword, '%'))")

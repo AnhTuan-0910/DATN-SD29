@@ -1,6 +1,12 @@
 package com.springboot.bootstrap.controller;
 
-import com.springboot.bootstrap.entity.*;
+import com.springboot.bootstrap.entity.DanhMuc;
+import com.springboot.bootstrap.entity.HoaDon;
+import com.springboot.bootstrap.entity.KichThuoc;
+import com.springboot.bootstrap.entity.MauSac;
+import com.springboot.bootstrap.entity.PhieuGiamGia;
+import com.springboot.bootstrap.entity.SanPhamCT;
+import com.springboot.bootstrap.entity.ThuongHieu;
 import com.springboot.bootstrap.repository.PhieuGiamGiaChiTietRepository;
 import com.springboot.bootstrap.repository.PhieuGiamGiaRepository;
 import com.springboot.bootstrap.service.DanhMucService;
@@ -15,7 +21,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

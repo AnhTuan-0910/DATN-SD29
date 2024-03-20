@@ -40,6 +40,7 @@ public class SanPhamCTServiceImpl implements SanPhamCTService {
     public Page<SanPhamCT> getAllBySP(String idSP, Pageable pageable) {
         return sanPhamCTRepo.findAllBySanPhamIdAndOrderByTenMS(idSP, pageable);
     }
+
     @Override
     public void update(SanPhamCT sanPhamCT, String id) {
         sanPhamCT.setId(id);
@@ -64,7 +65,7 @@ public class SanPhamCTServiceImpl implements SanPhamCTService {
     }
 
     @Override
-    public SanPhamCT getByMSAndKT(String idKT,String idMS ) {
-        return sanPhamCTRepo.findByMauSacAndKichThuoc(idKT,idMS);
+    public SanPhamCT getByMSAndKT(String idKT, String idMS, String idSP) {
+        return sanPhamCTRepo.findByMauSacAndKichThuoc(idKT, idMS,idSP);
     }
 }

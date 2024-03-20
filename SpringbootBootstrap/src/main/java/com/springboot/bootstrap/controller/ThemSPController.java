@@ -92,6 +92,9 @@ public class ThemSPController {
                         .sl(100)
                         .trangThai(1).build();
                 sanPhamCTService.add(sanPhamCT);
+                qrCodeGenerator.generateQrCode(sanPhamCT.getId(), 50, 50);
+                System.out.println(qrCodeGenerator.generateQrCode(sanPhamCT.getId(), 50, 50));
+
             }
         }
 

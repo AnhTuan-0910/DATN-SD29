@@ -5,9 +5,9 @@ $(document).ready(function () {
     spctAll(maHD)
 
     $('button[data-bs-toggle="tab"]').on('click', function () {
-         maHD = $(this).data('hd-ma');
+        maHD = $(this).data('hd-ma');
         console.log(maHD);
-     spctAll(maHD);
+        spctAll(maHD);
 
     });
 
@@ -75,7 +75,7 @@ function spctAll(maHD) {
             $('#formAddGH'+maHD+' #msSPCT'+maHD+'').text(spct.mauSac.ten).css('background-color', spct.mauSac.ten);
             $('#formAddGH'+maHD+' #idSPCT'+maHD+'').val(spct.id);
             $('#formAddGH'+maHD+' #slGH'+maHD+'').val(1);
-
+            $('#spct'+maHD+'').modal('hide');
             $('#addGH'+maHD+'').modal('show');
             modalHide(maHD);
 
@@ -88,13 +88,6 @@ function spctAll(maHD) {
 function modalHide(maHD) {
     $(document).on('click', '.cBtn', function () {
         $('#spct'+maHD+'').modal('show');
-        $('#addGH'+maHD+'').modal('hide');// Hiển thị lại modal đầu tiên khi modal thứ hai ẩn
-    });
-
-}
-function modalHideMa(maHD) {
-    $(document).on('click', '.cBtn', function () {
-        $('#spct'+maHD+'').modal('hide');
         $('#addGH'+maHD+'').modal('hide');// Hiển thị lại modal đầu tiên khi modal thứ hai ẩn
     });
 
@@ -168,7 +161,7 @@ function searchByMaSPCT(maHD,keyword) {
                     $('#formAddGH'+maHD+' #idSPCT'+maHD+'').val(spct.id);
                     $('#formAddGH'+maHD+' #slGH'+maHD+'').val(1);
                     $('#addGH'+maHD+'').modal('show');
-                 modalHideMa(maHD);
+
 
                 });
             } else {
@@ -345,7 +338,7 @@ $(document).ready(function () {
     });
 });
 function showConFirm(Url){
-      const swalWithBootstrapButtons = Swal.mixin({
+    const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
             confirmButton: "btn btn-success",
             cancelButton: "btn btn-danger"

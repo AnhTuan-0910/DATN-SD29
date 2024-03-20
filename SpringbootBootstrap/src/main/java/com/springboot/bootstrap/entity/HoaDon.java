@@ -1,5 +1,6 @@
 package com.springboot.bootstrap.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,8 +16,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 import java.sql.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -58,7 +60,8 @@ public class HoaDon {
     private Date taoLuc;
     @Column(name = "sua_luc")
     private Date suaLuc;
-
+    @OneToMany(mappedBy = "hoaDon",cascade = CascadeType.ALL)
+    private List<HoaDonChiTiet> listhdct;
     public HoaDon(KhachHang khachHang, NhanVien nhanVien, String ma, Date ngayThanhToan, Date ngayShip, Date ngayNhan, Integer tinhTrang) {
         this.khachHang = khachHang;
         this.nhanVien = nhanVien;

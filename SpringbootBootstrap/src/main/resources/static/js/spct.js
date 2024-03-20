@@ -1,9 +1,10 @@
 $(document).ready(function () {
-    valiDateSuaSPCT();
+
     fakeInput()
     getAnh();
     getOneSPCT();
     valiDateThemSPCT();
+    valiDateSuaSPCT();
 
 });
 
@@ -174,7 +175,7 @@ function valiDateSuaSPCT() {
 
     $("#cfUpdBtn").click(function (e) {
 
-        if (!validateSoLuong() || !validateGia()) {
+        if (!validateSLUpd() || !validateGiaUpd()) {
 
             e.preventDefault();
             return;
@@ -192,7 +193,7 @@ function valiDateThemSPCT() {
 
     $("#cfAddBtn").click(function (e) {
 
-        if (!validateFiles() || !validateSoLuong() || !validateGia() || !validateMSAndKT()) {
+        if (!validateFiles() || !validateSoLuongAdd() || !validateGiaAdd() || !validateMSAndKT()) {
 
             e.preventDefault();
             return;
@@ -208,21 +209,14 @@ function valiDateThemSPCT() {
 
 
 function showConFirmUpd() {
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: "btn btn-success",
-            cancelButton: "btn btn-danger"
-        },
-        buttonsStyling: false
-    });
-    swalWithBootstrapButtons.fire({
+    Swal.fire({
         title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        text: "Bạn có chắc muốn sửa sản phẩm chi tiết này?",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes"
     }).then((result) => {
         if (result.isConfirmed) {
             $("#formUpdSPCT").submit();
@@ -230,29 +224,22 @@ function showConFirmUpd() {
                 position: "top-end",
                 icon: "success",
                 title: "Cập nhật sản phẩm chi tiết  thành công",
-                showConfirmButton: false,
-                timer: 1500
+
             });
         }
     });
+
 }
 
 function showConFirmAdd() {
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: "btn btn-success",
-            cancelButton: "btn btn-danger"
-        },
-        buttonsStyling: false
-    });
-    swalWithBootstrapButtons.fire({
+    Swal.fire({
         title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        text: "Bạn có muốn thêm sản phẩm chi tiết mới không?",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonText: "Yes",
-        cancelButtonText: "No",
-        reverseButtons: true
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes!"
     }).then((result) => {
         if (result.isConfirmed) {
             $("#formAddSPCT").submit();
@@ -260,15 +247,15 @@ function showConFirmAdd() {
                 position: "top-end",
                 icon: "success",
                 title: "Tạo sản phẩm chi tiết mới thành công",
-                showConfirmButton: false,
-                timer: 1500
+
             });
         }
     });
+
 }
 
-function validateGia() {
-    var gia = document.querySelector(".validDG").value;
+function validateGiaUpd() {
+    var gia = document.querySelector("#donGiaUpd").value;
     if (gia.trim() === "" || isNaN(gia)) {
         Swal.fire({
             title: "Error!",
@@ -289,16 +276,39 @@ function validateGia() {
     }
     return true;
 }
+function validateSLUpd() {
+    var gia = document.querySelector("#soLuongUpd").value;
+    if (gia.trim() === "" || isNaN(gia)) {
+        Swal.fire({
+            title: "Error!",
+            text: "Vui lòng nhập số lượng hợp lệ",
+            icon: "warning",
+
+        });
+        return false;
+    }
+    if (gia <= 0) {
+        Swal.fire({
+            title: "Error!",
+            text: "Số lượng sản phẩm phải lớn hơn 0 ",
+            icon: "warning",
+
+        });
+        return false;
+    }
+    return true;
+}
 
 function validateMSAndKT() {
     var ktAdd = document.getElementById("vlidKT").value.trim();
     var msAdd = document.getElementById("vlidMS").value.trim();
+    var spAdd = document.getElementById("idSPAdd").value.trim();
 
     $.ajax({
         url: "/spct/checkMSAndKTSPCT",
         type: "POST",
         contentType: "application/json",
-        data: JSON.stringify({idMS: msAdd, idKT: ktAdd}),
+        data: JSON.stringify({idMS: msAdd, idKT: ktAdd,idSP: spAdd}),
         success: function (data) {
             if (data) {
                 Swal.fire({
@@ -344,8 +354,31 @@ function validateFiles() {
 }
 
 
-function validateSoLuong() {
-    var sl = document.querySelector(".validSL").value;
+function validateGiaAdd() {
+    var gia = document.querySelector("#dgAdd").value;
+    if (gia.trim() === "" || isNaN(gia)) {
+        Swal.fire({
+            title: "Error!",
+            text: "Vui lòng nhập giá hợp lệ",
+            icon: "warning",
+
+        });
+        return false;
+    }
+    if (gia <= 0) {
+        Swal.fire({
+            title: "Error!",
+            text: "Giá sản phẩm phải lớn hơn 0 ",
+            icon: "warning",
+
+        });
+        return false;
+    }
+    return true;
+}
+
+function validateSoLuongAdd() {
+    var sl = document.querySelector("#slAdd").value;
     if (sl.trim() === "" || isNaN(sl)) {
         Swal.fire({
             title: "Error!",

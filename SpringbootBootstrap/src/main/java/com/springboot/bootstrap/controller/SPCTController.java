@@ -1,11 +1,11 @@
 package com.springboot.bootstrap.controller;
 
 
+import com.springboot.bootstrap.entity.DTO.SPCTValidMSAndKTDTO;
 import com.springboot.bootstrap.entity.KichThuoc;
 import com.springboot.bootstrap.entity.MauSac;
 import com.springboot.bootstrap.entity.SanPham;
 import com.springboot.bootstrap.entity.SanPhamCT;
-
 import com.springboot.bootstrap.service.DanhMucService;
 import com.springboot.bootstrap.service.KichThuocService;
 import com.springboot.bootstrap.service.MauSacService;
@@ -29,9 +29,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -114,28 +114,25 @@ public class SPCTController {
 
 
 
-            try {
-                sanPhamCT = SanPhamCT.builder()
-                        .ma(maSP)
-                        .sanPham(SanPham.builder().id(idSP).build())
-                        .mauSac(MauSac.builder().id(idMS).build())
-                        .kichThuoc(KichThuoc.builder().id(idKT).build())
-                        .sl(Integer.parseInt(soLuong))
-                        .gia(Double.parseDouble(donGia)).build();
-                if ( !file.isEmpty()) {
-                    sanPhamCT.setData(file.getBytes());
 
-                }else {
-                    sanPhamCT.setData(ipFF.getBytes());
+        try {
+            sanPhamCT = SanPhamCT.builder()
+                    .ma(maSP)
+                    .sanPham(SanPham.builder().id(idSP).build())
+                    .mauSac(MauSac.builder().id(idMS).build())
+                    .data(ipFF.getBytes())
+                    .kichThuoc(KichThuoc.builder().id(idKT).build())
+                    .sl(Integer.parseInt(soLuong))
+                    .gia(Double.parseDouble(donGia)).build();
 
-                }
-                System.out.println(ipFF.getBytes());
-                System.out.println(sanPhamCT.getData());
-            } catch (IOException e) {
-                e.printStackTrace();
-
+            if (!file.isEmpty()) {
+                sanPhamCT.setData(file.getBytes());
             }
 
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
         sanPhamCTService.update(sanPhamCT, idSPCT);
         return "redirect:/spct/viewDetail/" + idSP;
     }
@@ -158,11 +155,13 @@ public class SPCTController {
     }
 
     @PostMapping("/checkMSAndKTSPCT")
-    public @ResponseBody boolean checkProductDetailExistence(@RequestBody Map<String, String> ids) {
-        String idKT = ids.get("idKT");
-        String idMS = ids.get("idMS");
+    public @ResponseBody
+    boolean checkProductDetailExistence(@RequestBody SPCTValidMSAndKTDTO request) {
+        String idKT = request.getIdKT();
+        String idMS = request.getIdMS();
+        String idSP = request.getIdSP();
 
-        SanPhamCT sanPhamCT1 = sanPhamCTService.getByMSAndKT(idKT,idMS);
+        SanPhamCT sanPhamCT1 = sanPhamCTService.getByMSAndKT(idKT, idMS, idSP);
         return sanPhamCT1 != null;
     }
 
