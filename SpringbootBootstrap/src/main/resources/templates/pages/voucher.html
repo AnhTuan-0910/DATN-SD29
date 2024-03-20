@@ -48,7 +48,7 @@
                 <th>Hành Động</th>
             </thread>
             <tbody>
-            <tr th:each="x : ${list}">
+            <tr th:each="x : ${list}" th:if="${x.ma != 'PGG000'}">
                 <td th:text="${x.ma}"></td>
                 <td th:text="${x.ten}"></td>
                 <td th:text="${x.giaTriGiam} + (${x.donVi == 1 ? ' %' : ' VNĐ'})"></td>
