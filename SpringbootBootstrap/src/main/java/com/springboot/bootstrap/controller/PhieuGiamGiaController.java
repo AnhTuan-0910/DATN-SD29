@@ -1,7 +1,6 @@
 package com.springboot.bootstrap.controller;
 
 import com.springboot.bootstrap.entity.PhieuGiamGia;
-import com.springboot.bootstrap.repository.PhieuGiamGiaChiTietRepository;
 import com.springboot.bootstrap.repository.PhieuGiamGiaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,9 +22,6 @@ public class PhieuGiamGiaController {
 
     @PersistenceContext
     private EntityManager entityManager;
-
-    @Autowired
-    PhieuGiamGiaChiTietRepository phieuGiamGiaChiTietRepository;
 
     @Autowired
     PhieuGiamGiaRepository phieuGiamGiaRepository;
