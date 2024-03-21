@@ -262,12 +262,11 @@
                                     <div class="col-form-label" style="margin-left: 20px;min-height: 70px">
                                         <b>Nhân viên</b>
                                     </div>
-
                                     <div style="margin-left: 20px;min-height: 70px">
                                         <input class="form-control"
                                                style="width: 200px;height: 38px"
                                                placeholder="Voucher" th:id="'voucherInput'+${hd.ma}" name="maVoucher"
-                                               th:value="${phieuGiamGia.ma != 'PGG000' ? phieuGiamGia.ma : ''}"
+                                               th:value="${hd.phieuGiamGia.ma}"
                                                readonly>
                                     </div>
                                     <div class="col-form-label" style="margin-left: 20px;min-height: 70px">
@@ -289,7 +288,7 @@
                                 <div class="col-md-6">
                                     <div class="col-form-label"
                                          style="margin-left: 20%;margin-right: 20px;min-height: 70px">
-                                        <input class="form-control" type="text" value="ATUAN" readonly >
+                                        <input class="form-control" type="text" value="ATUAN" readonly>
                                     </div>
 
                                     <div style="margin-left: 20px;min-height: 70px">
@@ -302,38 +301,46 @@
 
                                     <div class="col-form-label"
                                          style="margin-left: 20%;margin-right: 20px;min-height: 70px">
-                                      <input class="form-control" type="text" value="600000" readonly>
+                                        <input class="form-control" type="text" value="600000" readonly>
                                     </div>
 
                                     <div class="col-form-label"
                                          style="margin-left: 20%;margin-right: 20px;min-height: 70px">
-                                      <div th:if="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
-                                        <input class="form-control" type="text"  th:value="'Tiền Hàng * '+${phieuGiamGia.giaTriGiam/100}+' VNĐ'" readonly>
-                                      </div>
+                                        <div th:if="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
+                                            <input class="form-control" type="text"
+                                                   th:value="'Tiền Hàng * '+${phieuGiamGia.giaTriGiam/100}+' VNĐ'"
+                                                   readonly>
+                                        </div>
                                         <div th:unless="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
-                                       <input class="form-control" type="text" th:value="${phieuGiamGia != null ? phieuGiamGia.giaTriGiam : 'Unknown'} + ' VNĐ'" readonly>
-                                      </div>
+                                            <input class="form-control" type="text"
+                                                   th:value="${phieuGiamGia != null ? phieuGiamGia.giaTriGiam : 'Unknown'} + ' VNĐ'"
+                                                   readonly>
+                                        </div>
                                     </div>
 
                                     <div class="col-form-label"
                                          style="margin-left: 20%;margin-right: 20px;min-height: 70px">
-                                          <div th:if="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
-                                          <input type="text" class="form-control" th:value="'Tiền Hàng - ' + 'Tiền Hàng * '+${phieuGiamGia.giaTriGiam/100}+' VNĐ'" readonly>
-                                         </div>
-                                        <div  th:unless="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
-                                        <input type="text" class="form-control" th:value="'Tiền Hàng - '+${phieuGiamGia != null ? phieuGiamGia.giaTriGiam : 'Unknown'}+' VNĐ'" readonly="">
+                                        <div th:if="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
+                                            <input type="text" class="form-control"
+                                                   th:value="'Tiền Hàng - ' + 'Tiền Hàng * '+${phieuGiamGia.giaTriGiam/100}+' VNĐ'"
+                                                   readonly>
+                                        </div>
+                                        <div th:unless="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
+                                            <input type="text" class="form-control"
+                                                   th:value="'Tiền Hàng - '+${phieuGiamGia != null ? phieuGiamGia.giaTriGiam : 'Unknown'}+' VNĐ'"
+                                                   readonly="">
                                         </div>
                                     </div>
 
 
                                     <div class="col-form-label"
                                          style="margin-left: 20%;margin-right: 20px;min-height: 70px">
-                                        <input class="form-control"  type="text" value="0">
+                                        <input class="form-control" type="text" value="0">
                                     </div>
 
                                     <div class="col-form-label"
                                          style="margin-left: 20%;margin-right: 20px;min-height: 70px">
-                                        <input class="form-control"  type="text" value="540000" readonly>
+                                        <input class="form-control" type="text" value="540000" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -365,38 +372,42 @@
                                 <input type="text" th:id="'searchInputVoucher'+${hd.ma}" placeholder="Tìm Kiếm">
                                 <button class="btn btn-primary mx-2"><i data-feather="search"></i></button>
                             </div>
-                            <div th:each="x : ${listVoucher}" th:id="'voucherCard-'+${x.ma}"
-                                 th:class="'card-voucher'+${hd.ma}+ ' form-check'"
-                                 th:hidden="${x.ma == 'PGG000'}">
-                                <div class="d-flex align-items-center">
-                                    <input class="radio-voucher form-check-input me-1 ipRadio" type="radio"
-                                           name="flexRadioDefault"
-                                           th:id="${x.ma}" th:value="${x.ma}" checked>
-                                    <label class="form-check-label align-content-center" th:for="${x.ma}"
-                                           style="width: 100%;">
-                                        <div class="card d-flex my-1">
-                                            <div class="card-body d-flex">
-                                                <span th:text="${x.ma}"
-                                                      class="modal-maVoucher col-4 col-sm-4 align-items-center"
-                                                      hidden></span>
-                                                <span th:text="${x.id_pgg}"
-                                                      class="modal-maVoucher col-4 col-sm-4 align-items-center"
-                                                      hidden></span>
-                                                <span th:text="${x.ten}"
-                                                      class="modal-tenVoucher col-4 col-sm-4 align-items-center"></span>
-                                                <span class="col-8 col-sm-8">Mô Tả:</span>
+                            <form id="voucherForm" th:action="@{'/giao_dich/add_voucher_to_hoa_don/'+${hd.idHoaDon}}"
+                                  method="post">
+                                <div th:each="x : ${listVoucher}" th:id="'voucherCard-'+${x.ma}"
+                                     th:class="'card-voucher'+${hd.ma}+ ' form-check'"
+                                     th:hidden="${x.ma == 'PGG000'}">
+                                    <div class="d-flex align-items-center">
+                                        <input class="form-check-input me-1 ipRadio" type="radio"
+                                               name="flexRadioDefault"
+                                               th:id="${x.ma}" th:value="${x.ma}"
+                                               th:attr="onclick=|selectVoucher('${x.id_pgg}')|">
+                                        <label class="form-check-label align-content-center" th:for="${x.ma}"
+                                               style="width: 100%;">
+                                            <div class="card d-flex my-1">
+                                                <div class="card-body d-flex">
+                                                    <span th:text="${x.ma}" class="modal-maVoucher"
+                                                          hidden></span>
+                                                    <span th:text="${x.id_pgg}"
+                                                          hidden></span>
+                                                    <span th:text="${x.ten}"
+                                                          class="modal-tenVoucher col-4 col-sm-4 align-items-center"></span>
+                                                    <span class="col-8 col-sm-8"
+                                                          th:text="${x.moTa}"></span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </label>
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-
+                                <input type="hidden" id="selected_id_pgg" name="id_pgg">
+                                <button type="submit" class="btn btn-primary d-block ms-auto"
+                                        th:id="'saveChangesBtn'+${hd.ma}"
+                                        data-bs-dismiss="modal">
+                                    Save Changes
+                                </button>
+                            </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" th:id="'saveChangesBtn'+${hd.ma}"
-                                    data-bs-dismiss="modal">
-                                Save Changes
-                            </button>
                         </div>
                     </div>
                 </div>

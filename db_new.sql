@@ -334,5 +334,5 @@ END;
             values ('PGG001', N'Phiếu Giảm Giá 1', 1, 10, 100000, 20000, '2024/1/1', '2024/12/12', N'Mô tả 1', 50, 1),
                    ('PGG002', N'Phiếu Giảm Giá 2', 2, 10000, 50000, 10000, '2024/1/1', '2024/12/12', N'Mô tả 2', 50, 1),
                    ('PGG000', 'Voucher Default', 1, 0, 0, 0, '2024/1/1', '2024/12/12', N'', 9999, 1)
-            insert into khach_hang(ten, sdt)
-            values (N'Nguyễn Văn Hoàng', 0555555555)
+            insert into khach_hang(ten,sdt,trang_thai) values
+            (N'Nguyễn Văn Hoàng',0555555555,1)
