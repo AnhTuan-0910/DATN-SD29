@@ -3,7 +3,6 @@ package com.springboot.bootstrap.controller;
 import com.springboot.bootstrap.entity.*;
 import com.springboot.bootstrap.entity.DTO.SanPhamQrDTO;
 import com.springboot.bootstrap.repository.KhachHangRepository;
-import com.springboot.bootstrap.repository.PhieuGiamGiaChiTietRepository;
 import com.springboot.bootstrap.repository.PhieuGiamGiaRepository;
 import com.springboot.bootstrap.service.DanhMucService;
 import com.springboot.bootstrap.service.HoaDonService;
@@ -42,8 +41,6 @@ public class ThanhToanController {
     private DanhMucService danhMucService;
     @Autowired
     private ThuongHieuService thuongHieuService;
-    @Autowired
-    private PhieuGiamGiaChiTietRepository phieuGiamGiaChiTietRepository;
     @Autowired
     private PhieuGiamGiaRepository phieuGiamGiaRepository;
 
