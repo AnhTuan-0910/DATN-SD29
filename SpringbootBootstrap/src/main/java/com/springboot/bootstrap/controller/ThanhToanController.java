@@ -2,6 +2,7 @@ package com.springboot.bootstrap.controller;
 
 import com.springboot.bootstrap.entity.*;
 import com.springboot.bootstrap.entity.DTO.SanPhamQrDTO;
+import com.springboot.bootstrap.repository.HoaDonRepository;
 import com.springboot.bootstrap.repository.KhachHangRepository;
 import com.springboot.bootstrap.repository.PhieuGiamGiaRepository;
 import com.springboot.bootstrap.service.DanhMucService;
@@ -53,6 +54,9 @@ public class ThanhToanController {
     @Autowired
     private HoaDonService hoaDonService;
 
+    @Autowired
+    private HoaDonRepository hoaDonRepository;
+
     @GetMapping("")
     public String getAll(@RequestParam(value = "maVoucher", defaultValue = "PGG000") String ma,
                          @RequestParam(value = "sdtKhachHang", defaultValue = "0555555555") String sdt,
@@ -83,6 +87,20 @@ public class ThanhToanController {
     public String addTab(@ModelAttribute("hda") HoaDon hoaDon) {
         hoaDon = HoaDon.builder().tinhTrang(4).build();
         hoaDonService.add(hoaDon);
+        return "redirect:/giao_dich";
+    }
+
+    @PostMapping("/add_voucher_to_hoa_don/{id}")
+    public String addVoucherToHoaDon(@RequestParam(value = "id_pgg",required = false) UUID id_pgg,@PathVariable(value = "id", required = false) UUID id,@ModelAttribute HoaDon hoaDon) {
+        HoaDon existingHoaDon = hoaDonRepository.findById(id).orElse(null);
+        PhieuGiamGia existingPhieuGiamGia = phieuGiamGiaRepository.findById(id_pgg).orElse(null);
+        if(existingPhieuGiamGia.getSoLuong()>0) {
+            existingPhieuGiamGia.setSoLuong(existingPhieuGiamGia.getSoLuong() - 1);
+        }
+        if (existingPhieuGiamGia != null) {
+            existingHoaDon.setPhieuGiamGia(existingPhieuGiamGia);
+            hoaDonRepository.save(existingHoaDon);
+        }
         return "redirect:/giao_dich";
     }
 
