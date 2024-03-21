@@ -75,15 +75,6 @@ function modalVCAndKH(maHD) {
             window.location.href = 'http://localhost:8080/giao_dich?sdtKhachHang='+khachHangInput.value;
         }
     });
-    saveChangesBtn.addEventListener('click', function () {
-        var selectedRadio = selectVoucherModal.querySelector('input[type="radio"]:checked');
-        if (selectedRadio) {
-            var selectedValue = selectedRadio.value;
-            voucherInput.value = selectedValue;
-            window.location.href = 'http://localhost:8080/giao_dich?sdtKhachHang='+khachHangInput.value+'&maVoucher='+voucherInput.value;
-        }
-    });
-
 }
 
 <!--    JS search for modal Voucher -->
@@ -127,8 +118,8 @@ function seacrchModalVCAndKH(maHD) {
     });
 }
 
-
-
-
+function selectVoucher(id_pgg) {
+    document.getElementById('selected_id_pgg').value = id_pgg;
+}
 
 domReady();
