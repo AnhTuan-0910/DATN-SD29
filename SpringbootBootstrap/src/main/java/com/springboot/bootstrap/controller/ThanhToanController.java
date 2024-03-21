@@ -5,6 +5,7 @@ import com.springboot.bootstrap.entity.DTO.SanPhamQrDTO;
 import com.springboot.bootstrap.repository.KhachHangRepository;
 import com.springboot.bootstrap.repository.PhieuGiamGiaRepository;
 import com.springboot.bootstrap.service.DanhMucService;
+import com.springboot.bootstrap.service.HoaDonChiTietService;
 import com.springboot.bootstrap.service.HoaDonService;
 import com.springboot.bootstrap.service.KhachHangService;
 import com.springboot.bootstrap.service.KichThuocService;
@@ -52,7 +53,8 @@ public class ThanhToanController {
 
     @Autowired
     private HoaDonService hoaDonService;
-
+    @Autowired
+    private HoaDonChiTietService hoaDonChiTietService;
     @GetMapping("")
     public String getAll(@RequestParam(value = "maVoucher", defaultValue = "PGG000") String ma,
                          @RequestParam(value = "sdtKhachHang", defaultValue = "0555555555") String sdt,
@@ -81,7 +83,7 @@ public class ThanhToanController {
 
     @PostMapping("/add_tab")
     public String addTab(@ModelAttribute("hda") HoaDon hoaDon) {
-        hoaDon = HoaDon.builder().tinhTrang(4).build();
+        hoaDon = HoaDon.builder().tinhTrang(1).build();
         hoaDonService.add(hoaDon);
         return "redirect:/giao_dich";
     }
@@ -93,7 +95,15 @@ public class ThanhToanController {
     }
     @GetMapping("/deleteTab/")
     public String deleteTab(@RequestParam("id") String id) {
-        hoaDonService.delete(UUID.fromString(id));
+        HoaDon hoaDon =  hoaDonService.getOne(UUID.fromString(id));
+        hoaDon.setTinhTrang(5);
+        hoaDonService.add(hoaDon);
+        List<HoaDonChiTiet> list = hoaDonChiTietService.getList(UUID.fromString(id));
+        for(HoaDonChiTiet hdct:list){
+            SanPhamCT sanPhamCT = sanPhamCTService.getOne(hdct.getSanPhamChiTiet().getId());
+            sanPhamCT.setSl(sanPhamCT.getSl()+hdct.getSoLuong());
+            sanPhamCTService.add(sanPhamCT);
+        }
         return "redirect:/giao_dich";
     }
 

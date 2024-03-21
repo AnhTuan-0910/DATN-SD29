@@ -49,7 +49,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="kh,start :${listKH.content}">
+                            <tr th:each="kh,start :${listKH?.content}">
                                 <td th:text="${start.index+1}"></td>
 <!--                                <td>-->
 <!--                                    <img th:src="@{'SpringbootBootstrap/src/main/resources/static/upload/'+ ${kh.anhNhanVien}}" width="100px" class="img-circle" alt="Ảnh khách hàng"/>-->
@@ -58,7 +58,7 @@
                                 <td th:text="${kh.ten}"></td>
                                 <td th:text="${kh.ngaySinh}"></td>
                                 <td th:text="${kh.gioiTinh}"></td>
-                                <td th:text="${kh.idDiaChi.trang_thai == 0 ? 'Cảnh báo! Địa chỉ này đang ngừng hoạt động!' : kh.idDiaChi.diaChiCuThe + ',' + kh.idDiaChi.phuong_xa + ',' + kh.idDiaChi.quan_huyen + ',' + kh.idDiaChi.tinh_thanh + ',' + kh.idDiaChi.quocGia}"></td>
+                                <td th:text="${kh?.idDiaChi?.trang_thai == 0 ? 'Cảnh báo! Địa chỉ này đang ngừng hoạt động!' : kh?.idDiaChi?.diaChiCuThe + ',' + kh?.idDiaChi?.phuong_xa + ',' + kh?.idDiaChi?.quan_huyen + ',' + kh?.idDiaChi?.tinh_thanh + ',' + kh?.idDiaChi?.quocGia}"></td>
                                 <td th:text="${kh.email}"></td>
                                 <td>********</td>
                                 <td th:text="${kh.sdt}"></td>
