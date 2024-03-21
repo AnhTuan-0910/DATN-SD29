@@ -15,11 +15,7 @@ import java.util.UUID;
 @Data
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class SanPhamQrDTO {
-    @NotNull(message = "Không dc để trống")
-    @Min(value = 1)
     private Integer soLuong;
-    @NotNull
     private UUID idhd;
-    @NotNull
     private UUID idspct;
 }

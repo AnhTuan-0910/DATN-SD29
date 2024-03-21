@@ -69,10 +69,10 @@ public class ThanhToanController {
         KhachHang khachHang = khachHangService.findBySdt(sdt);
         List<KhachHang> listKH = khachHangService.findAll();
         List<HoaDon> listHD = hoaDonService.renderTab();
-        model.addAttribute("khachHang", khachHang);
+        model.addAttribute("khachHang", new KhachHang());
         model.addAttribute("listKH", listKH);
         model.addAttribute("listHD", listHD);
-        model.addAttribute("phieuGiamGia", phieuGiamGia);
+        model.addAttribute("phieuGiamGia", new PhieuGiamGia());
         model.addAttribute("listVoucher", listPGG);
         model.addAttribute("listTH", listTH);
         model.addAttribute("listDM", listDM);

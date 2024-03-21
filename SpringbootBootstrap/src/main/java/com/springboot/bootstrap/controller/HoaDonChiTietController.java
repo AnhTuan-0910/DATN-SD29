@@ -19,14 +19,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
+
 @Controller
 @Transactional
-@Validated
 @RequestMapping("/hoa_don_chi_tiet")
 public class HoaDonChiTietController {
     @Autowired
@@ -37,8 +39,8 @@ public class HoaDonChiTietController {
     private SanPhamCTService sanPhamCTService;
     @PostMapping("/add")
     public String addHdct(@RequestParam(name = "idhd") UUID idhd,
-            @RequestParam(name = "idspct") UUID idspct,
-            @RequestParam(name = "soLuong") @NotNull @Min(1) Integer soLuong){
+                          @RequestParam(name = "idspct") UUID idspct,
+                          @RequestParam(name = "soLuong") Integer soLuong){
         SanPhamCT sanPhamCT = sanPhamCTService.getOne(idspct.toString());
         sanPhamCT.setSl(sanPhamCT.getSl()-soLuong);
         sanPhamCTService.update(sanPhamCT,idspct.toString());
@@ -56,6 +58,7 @@ public class HoaDonChiTietController {
         hoaDonChiTietService.add(idhd,idspct,soLuong);
         return "redirect:/giao_dich";
     }
+
     @GetMapping("/delete/{idhdct}")
     public String delete(@PathVariable(name = "idhdct") UUID idhdct){
         Integer soLuong = hoaDonChiTietService.getOne(idhdct).getSoLuong();

@@ -138,17 +138,18 @@
                                      style="width:500px;left: calc(50% - 250px)">
                                     <div class="modal-content">
                                         <span class="close">&times;</span>
-                                        <form method="post" name="spqr" th:action="@{/hoa_don_chi_tiet/add}">
+                                        <form th:id="'form'+${hd.ma}" th:action="@{/hoa_don_chi_tiet/add}" th:method="post">
                                             <input th:id="'idhd'+${hd.ma}" type="text" th:value="${hd.idHoaDon}"
-                                                   name="idhd" hidden> <br/>
+                                                   name="idhd" readonly> <br/>
                                             <input th:id="'idCTSP'+${hd.ma}" type="text" name="idspct" readonly> <br/>
                                             <label>Số lượng :</label>
                                             <input class="form-control" th:id="'soLuong'+${hd.ma}" type="number"
                                                    name="soLuong"> <br/>
-                                            <button class="btn btn-outline-primary" style="text-align: right"
-                                                    th:id="'submitQr'+${hd.ma}" type="submit">OK
-                                            </button>
+                                            <span th:id="'soLuongError'+${hd.ma}" style="color: red"></span>
                                         </form>
+                                        <button class="btn btn-outline-primary" style="text-align: right"
+                                                th:id="'submitQr'+${hd.ma}">OK
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -196,19 +197,19 @@
                                     </thead>
                                     <tbody>
                                     <tr th:each="hdct:${hd?.listhdct}">
-                                        <form th:action="@{/hoa_don_chi_tiet/update/{idhdct}(idhdct=${hdct.idHoaDonChiTiet})}"
+                                        <form th:id="${hdct.idHoaDonChiTiet}" th:class="'formGioHang'+${hd.ma}" th:action="@{/hoa_don_chi_tiet/update/{idhdct}(idhdct=${hdct.idHoaDonChiTiet})}"
                                               method="post">
-                                            <td th:text="${hdct.sanPhamChiTiet.ma}"></td>
+                                            <td th:id="'ma'+${hdct.idHoaDonChiTiet}" th:text="${hdct.sanPhamChiTiet.ma}"></td>
                                             <td th:text="${hdct.sanPhamChiTiet.sanPham.ten}"></td>
                                             <td><span class="badge"
                                                       th:style="'background-color:'+${hdct.sanPhamChiTiet.mauSac.ten}"
                                                       th:text="${hdct.sanPhamChiTiet.mauSac.ten}"></span></td>
                                             <td th:text="${hdct.sanPhamChiTiet.kichThuoc.ten}"></td>
-                                            <td><input th:value="${hdct.soLuong}" class="form-control" type="number"
+                                            <td><input th:id="'soLuong'+${hdct.idHoaDonChiTiet}" th:value="${hdct.soLuong}" class="form-control" type="number"
                                                        name="soLuong" style="width: 70px"></td>
                                             <td th:text="${hdct.gia}"></td>
                                             <td>
-                                                <button class="btn btn-outline-primary" type="submit"><i
+                                                <button th:id="'btn'+${hdct.idHoaDonChiTiet}" class="btn btn-outline-primary" type="button"><i
                                                         data-feather="edit-2"></i></button>
                                                 <a class="btn btn-outline-danger"
                                                    th:href="@{/hoa_don_chi_tiet/delete/{idhdct}(idhdct=${hdct.idHoaDonChiTiet})}"><i
@@ -635,7 +636,7 @@
                             </div>
                             <div th:each="kh : ${listKH}" th:id="'khachHangCard-'+${kh.sdt}"
                                  th:class="'card-khachHang'+${hd.ma} + ' form-check'"
-                                 th:hidden="${kh.sdt == '0555555555'}">
+                                 >
                                 <div class="d-flex align-items-center">
                                     <input class="radio-khachHang form-check-input me-1" type="radio"
                                            name="flexRadioDefault"

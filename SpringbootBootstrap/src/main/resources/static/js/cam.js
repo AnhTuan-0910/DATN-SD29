@@ -1,11 +1,6 @@
 function domReady(fn) {
     document.addEventListener('DOMContentLoaded', function () {
         var tabs = document.querySelectorAll('button[data-bs-toggle="tab"]');
-        setTimeout(function() {
-            // Chọn tab đầu tiên
-            var firstTab = tabs[0];
-            firstTab.click();
-        }, 100);
         tabs.forEach(function (tab) {
             tab.addEventListener('click', function () {
                 let maHD = this.getAttribute('data-hd-ma');
@@ -13,9 +8,76 @@ function domReady(fn) {
                 sumbitQR(maHD,fn);
                 modalVCAndKH(maHD);
                 seacrchModalVCAndKH(maHD);
+                $('#submitQr'+maHD).on("click",function (e){
+                    e.preventDefault();
+                    let idhd = $('#idhd'+maHD).val();
+                    let idspct = $('#idCTSP'+maHD).val();
+                    let soLuong = $('#soLuong'+maHD).val();
+                    let soLuongError = $('#soLuongError'+maHD);
+                    let modalResultQr = document.getElementById("modalResultQr" + maHD);
+                    $.ajax({
+                        type:"POST",
+                        url:"/validate",
+                        processData: false,
+                        data:JSON.stringify({
+                            idhd : idhd,
+                            idspct : idspct,
+                            soLuong: soLuong
+                        }),
+                        contentType: "application/json",
+                        dataType: "json",
+                        success:function (data){
+                            if(data.status==200){
+                                $('#form'+maHD).submit();
+                                modalResultQr.style.display = "none";
+                            }else {
+                                 soLuongError.text(data.errorSoLuong);
+                            }
+                        },
+                        error:function (e){
+                            console.log(e);
+                        }
+                    })
+                })
+                $(".formGioHang"+maHD).each(function (i,formGioHang){
+                    let id = formGioHang.getAttribute("id");
+                    $("#btn"+id).on("click",function (e){
+                        e.preventDefault();
+                        let soLuong = $("#soLuong"+id).val();
+                        let ma = $("#ma"+id).text();
+                        console.log(ma);
+                        $.ajax({
+                            type:"POST",
+                            url:"/validate1",
+                            processData: false,
+                            data:JSON.stringify({
+                                ma : ma,
+                                soLuong : soLuong
+                            }),
+                            contentType: "application/json",
+                            dataType: "json",
+                            success:function (data){
+                                if(data.status==200){
+                                    formGioHang.submit();
+                                }else {
+                                    Swal.fire({
+                                        icon:"error",
+                                        title:"Error",
+                                        text:data.errorSoLuong,
+                                    })
+                                }
+                            },
+                            error:function (e){
+                                console.log(e);
+                            }
+                        })
+                    })
+                })
             });
         });
-
+        // Chọn tab đầu tiên
+        var firstTab = tabs[0];
+        firstTab.click();
     });
 
 }
@@ -44,8 +106,6 @@ function scanQR(maHD) {
 }
 
 function sumbitQR(maHD,fn) {
-    let modalResultQr = document.getElementById("modalResultQr" + maHD);
-    let submitQr = document.getElementById("submitQr" + maHD);
     if (
         document.readyState === "complete" ||
         document.readyState === "interactive"
@@ -53,9 +113,6 @@ function sumbitQR(maHD,fn) {
         setTimeout(fn, 1000);
     } else {
         document.addEventListener("DOMContentLoaded", fn);
-    }
-    submitQr.onclick = function () {
-        modalResultQr.style.display = "none";
     }
 
 }
