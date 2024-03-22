@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>King Feet-Thương hiệu giày da hàng đầu</title>
+</head>
+<body>
+<header class="header header-9" th:fragment="header">
+    <div class="header-middle sticky-header">
+        <div class="container">
+            <div class="header-left">
+                <button class="mobile-menu-toggler">
+                    <span class="sr-only">Toggle mobile menu</span>
+                    <i class="icon-bars"></i>
+                </button>
+
+                <a href="/shop" class="logo">
+                    <img th:src="@{/fe/images/demos/demo-12/KF-removebg-preview.png}" alt="Molla Logo" width="82" height="25">
+                </a>
+            </div>
+
+            <div class="header-right">
+                <nav class="main-nav">
+                    <ul class="menu sf-arrows">
+                        <li>
+                            <a href="/shop">Trang chủ</a>
+                        </li>
+                        <li>
+                            <a href="#" class="sf-with-ul">Shop</a>
+
+                            <div class="megamenu megamenu-md">
+                                <div class="row no-gutters">
+                                    <div class="col-md-8">
+                                        <div class="menu-col">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="menu-title">Sản phẩm</div>
+                                                    <ul>
+                                                        <li><a href="/shop/tat-ca-san-pham">Tất cả sản phẩm</a></li>
+                                                        <li><a href="/shop/danh-muc-giay">Giày lười nam</a></li>
+                                                        <li><a href="/shop/danh-muc-giay">Giày tây nam</a></li>
+                                                        <li><a href="/shop/danh-muc-giay">Giày tăng chiều cao</a></li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li><a href="/shop/danh-muc-giay">Giày boots</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="menu-title">Dịch vụ</div>
+                                                    <ul>
+                                                        <li>
+                                                            <a href="/shop/voucher">Voucher</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/shop/gio-hang">Giỏ hàng</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/shop/thanh-toan">Thanh toán</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="banner banner-overlay">
+                                            <a href="#" class="banner banner-menu">
+                                                <img th:src="@{/fe/images/menu/Thiet-ke-sang-tao.jpg}" alt="Banner">
+
+                                                <div class="banner-content banner-content-top">
+                                                    <div class="banner-title text-white">Last <br>Chance<br><span><strong>Sale</strong></span></div><!-- End .banner-title -->
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="/login">Đăng ký</a>
+                        </li>
+                        <li>
+                            <a href="/shop/about">Giới thiệu</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="header-search">
+                    <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
+                    <form action="#" method="get">
+                        <div class="header-search-wrapper">
+                            <label for="q" class="sr-only">Search</label>
+                            <input type="search" class="form-control" name="q" id="q" placeholder="Bạn cần tìm gì..." required>
+                        </div>
+                    </form>
+                </div>
+                <div class="dropdown cart-dropdown">
+                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                        <i class="icon-shopping-cart"></i>
+                        <span class="cart-count">2</span>
+                        <span class="cart-txt">3,500,000 ₫</span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-cart-products">
+                            <div class="product">
+                                <div class="product-cart-details">
+                                    <h4 class="product-title">
+                                        <a href="/shop/detailSP">Giày da nam Penny Loafer trẻ trung cao cấp GNLAMJ238-F1-D</a>
+                                    </h4>
+
+                                    <span class="cart-product-info">
+                                                <span class="cart-product-qty">1</span>
+                                                x 1,750,000 ₫
+                                            </span>
+                                </div>
+
+                                <figure class="product-image-container">
+                                    <a href="/shop/detailSP" class="product-image">
+                                        <img th:src="@{/fe/images/cart/giay-luoi-nam-da-that-GNLAMJ238-F1-D.jpg}" alt="product">
+                                    </a>
+                                </figure>
+                                <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                            </div>
+
+                            <div class="product">
+                                <div class="product-cart-details">
+                                    <h4 class="product-title">
+                                        <a href="/shop/detailSP">Giày lười da nam họa tiết caro lịch lãm GNLA2122-N</a>
+                                    </h4>
+
+                                    <span class="cart-product-info">
+                                                <span class="cart-product-qty">1</span>
+                                                x 1,750,000 ₫
+                                            </span>
+                                </div>
+
+                                <figure class="product-image-container">
+                                    <a href="/shop/detailSP" class="product-image">
+                                        <img th:src="@{/fe/images/cart/giay-luoi-nam-cao-cap-GNLA2122-N.jpg}" alt="product">
+                                    </a>
+                                </figure>
+                                <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown-cart-total">
+                            <span>Tổng</span>
+
+                            <span class="cart-total-price">3,500,000 ₫</span>
+                        </div>
+
+                        <div class="dropdown-cart-action">
+                            <a href="/shop/gio-hang" class="btn btn-warning">Giỏ hàng</a>
+                            <a href="/shop/thanh-toan" class="btn btn-outline-success"><span>Thanh toán</span><i class="icon-long-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+</body>
+</html>
