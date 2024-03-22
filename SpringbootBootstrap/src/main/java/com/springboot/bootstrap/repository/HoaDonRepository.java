@@ -1,6 +1,7 @@
 package com.springboot.bootstrap.repository;
 
 import com.springboot.bootstrap.entity.HoaDon;
+import com.springboot.bootstrap.entity.KhachHang;
 import com.springboot.bootstrap.entity.NhanVien;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +18,7 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, UUID> {
 
     Page<HoaDon> findAll(Pageable pageable);
     List<HoaDon> findAllByMaAndNhanVienIsNullAndKhachHangAndNgayThanhToanAndNgayNhanAndNgayShipAndTinhTrang(
-            String ma,KhachHang khachHang,Date ngayThanhToan,Date ngayNhan,Date ngayShip,Integer tinhTrang,Pageable pageable
+            String ma, KhachHang khachHang, Date ngayThanhToan, Date ngayNhan, Date ngayShip, Integer tinhTrang, Pageable pageable
     );
     List<HoaDon> findAllByMaAndNhanVienIsNullAndKhachHangIsNullAndNgayThanhToanAndNgayNhanAndNgayShipAndTinhTrang(
             String ma,Date ngayThanhToan,Date ngayNhan,Date ngayShip,Integer tinhTrang,Pageable pageable

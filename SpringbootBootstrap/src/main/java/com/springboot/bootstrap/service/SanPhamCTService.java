@@ -9,7 +9,6 @@ public interface SanPhamCTService {
 
     SanPhamCT getOneByMa(String ma);
 
-    public String generateMaSPCT();
 
     void add(SanPhamCT sanPhamCT);
 
@@ -19,7 +18,11 @@ public interface SanPhamCTService {
 
     Page<SanPhamCT> getAllBySP(String idSP, Pageable pageable);
 
+    SanPhamCT getByMSAndKT(String idKT,String idMS,String idSP);
+
     public Page<SanPhamCT> search(String keyword, Pageable pageable);
 
     Page<SanPhamCT> getAll(Pageable pageable);
+
+    Page<SanPhamCT> getBySL(Pageable pageable);
 }

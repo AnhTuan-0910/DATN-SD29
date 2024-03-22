@@ -72,12 +72,14 @@
             border: 1px solid #888;
             width: 80%; /* Could be more or less, depending on screen size */
         }
+
         .close {
             color: #aaaaaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
         }
+
         .close:hover,
         .close:focus {
             color: #000;
@@ -100,11 +102,13 @@
         <div class="col-md-10">
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button  th:each="hd,i : ${listHD}" th:data-hd-ma="${hd.ma}" th:class="${i.index == 0} ? 'nav-link active' : 'nav-link'"
+                    <button th:each="hd,i : ${listHD}" th:data-hd-ma="${hd.ma}"
+                            th:class="${i.index == 0} ? 'nav-link active' : 'nav-link'"
                             th:id="'#'+${hd.ma}" data-bs-toggle="tab" th:data-bs-target="'#'+${hd.ma}" type="button"
                             role="tab" th:aria-controls="'#'+${hd.ma}" aria-selected="true"><span
-                            th:text="${hd.ma}"></span><a  th:href="@{giao_dich/deleteTab/(id=${hd.idHoaDon})}" class="close-tab"><i
-                             data-feather="x-circle"></i></a></button>
+                            th:text="${hd.ma}"></span><a th:href="@{giao_dich/deleteTab/(id=${hd.idHoaDon})}"
+                                                         class="close-tab"><i
+                            data-feather="x-circle"></i></a></button>
 
                 </div>
             </nav>
@@ -130,17 +134,22 @@
                                         <div th:id="'my-qr-reader'+${hd.ma}"></div>
                                     </div>
                                 </div>
-                                <div th:id="'modalResultQr' +${hd.ma}" class="modal" style="width:500px;left: calc(50% - 250px)">
+                                <div th:id="'modalResultQr' +${hd.ma}" class="modal"
+                                     style="width:500px;left: calc(50% - 250px)">
                                     <div class="modal-content">
                                         <span class="close">&times;</span>
-                                        <form method="post" name="spqr" th:action="@{/hoa_don_chi_tiet/add}">
-                                            <input th:id="'idhd'+${hd.ma}" type="text" th:value="${hd.idHoaDon}" name="idhd" hidden> <br/>
-                                            <label>Mã sản phẩm :</label>
+                                        <form th:id="'form'+${hd.ma}" th:action="@{/hoa_don_chi_tiet/add}" th:method="post">
+                                            <input th:id="'idhd'+${hd.ma}" type="text" th:value="${hd.idHoaDon}"
+                                                   name="idhd" readonly> <br/>
                                             <input th:id="'idCTSP'+${hd.ma}" type="text" name="idspct" readonly> <br/>
                                             <label>Số lượng :</label>
-                                            <input th:id="'soLuong'+${hd.ma}" type="number" name="soLuong"> <br/>
-                                            <button style="text-align: right" th:id="'submitQr'+${hd.ma}" type="submit">OK</button>
+                                            <input class="form-control" th:id="'soLuong'+${hd.ma}" type="number"
+                                                   name="soLuong"> <br/>
+                                            <span th:id="'soLuongError'+${hd.ma}" style="color: red"></span>
                                         </form>
+                                        <button class="btn btn-outline-primary" style="text-align: right"
+                                                th:id="'submitQr'+${hd.ma}">OK
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -188,17 +197,24 @@
                                     </thead>
                                     <tbody>
                                     <tr th:each="hdct:${hd?.listhdct}">
-                                        <form th:action="@{/hoa_don_chi_tiet/update/{idhdct}(idhdct=${hdct.idHoaDonChiTiet})}" method="post">
-                                        <td th:text="${hdct.sanPhamChiTiet.ma}"></td>
-                                        <td th:text="${hdct.sanPhamChiTiet.sanPham.ten}"></td>
-                                        <td class="badge" th:style="'background-color:'+${hdct.sanPhamChiTiet.mauSac.ten}" th:text="${hdct.sanPhamChiTiet.mauSac.ten}"></td>
-                                        <td th:text="${hdct.sanPhamChiTiet.kichThuoc.ten}"></td>
-                                        <td><input th:value="${hdct.soLuong}" type="text" name="soLuong" style="width: 50px"></td>
-                                        <td th:text="${hdct.gia}"></td>
-                                        <td>
-                                            <button type="submit">Sửa</button>
-                                            <button><a th:href="@{/hoa_don_chi_tiet/delete/{idhdct}(idhdct=${hdct.idHoaDonChiTiet})}">Xoá</a></button>
-                                        </td>
+                                        <form th:id="${hdct.idHoaDonChiTiet}" th:class="'formGioHang'+${hd.ma}" th:action="@{/hoa_don_chi_tiet/update/{idhdct}(idhdct=${hdct.idHoaDonChiTiet})}"
+                                              method="post">
+                                            <td th:id="'ma'+${hdct.idHoaDonChiTiet}" th:text="${hdct.sanPhamChiTiet.ma}"></td>
+                                            <td th:text="${hdct.sanPhamChiTiet.sanPham.ten}"></td>
+                                            <td><span class="badge"
+                                                      th:style="'background-color:'+${hdct.sanPhamChiTiet.mauSac.ten}"
+                                                      th:text="${hdct.sanPhamChiTiet.mauSac.ten}"></span></td>
+                                            <td th:text="${hdct.sanPhamChiTiet.kichThuoc.ten}"></td>
+                                            <td><input th:id="'soLuong'+${hdct.idHoaDonChiTiet}" th:value="${hdct.soLuong}" class="form-control" type="number"
+                                                       name="soLuong" style="width: 70px"></td>
+                                            <td th:text="${hdct.gia}"></td>
+                                            <td>
+                                                <button th:id="'btn'+${hdct.idHoaDonChiTiet}" class="btn btn-outline-primary" type="button"><i
+                                                        data-feather="edit-2"></i></button>
+                                                <a class="btn btn-outline-danger"
+                                                   th:href="@{/hoa_don_chi_tiet/delete/{idhdct}(idhdct=${hdct.idHoaDonChiTiet})}"><i
+                                                        data-feather="trash-2"></i></a>
+                                            </td>
                                         </form>
                                     </tr>
 
@@ -221,92 +237,110 @@
                             <form style="padding-top: 20px;padding-bottom: 20px" class="row">
                                 <div class="col-md-6">
 
-                                    <div class="col-form-label" style="float:left;margin-left: 20px">
+                                    <div class="col-form-label" style="float:left;margin-left: 20px;min-height: 70px">
                                         <b>Khách hàng</b>
                                     </div>
-                                    <div style="margin-left: 20px">
-                                        <input class="form-control" style="width: 200px;height: 38px" placeholder="SDT Khách Hàng" id="khachHangInput" name="sdtKhachHang" th:value="${khachHang.sdt}" readonly>
+                                    <div style="margin-left: 20px;min-height: 70px">
+                                        <input class="form-control" style="width: 200px;height: 38px"
+                                               placeholder="SDT Khách Hàng" th:id="'khachHangInput'+${hd.ma}"
+                                               name="sdtKhachHang" th:value="${khachHang.sdt}" readonly>
                                     </div>
 
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="col-form-label" style="margin-left: 20%;margin-left: 20px">
-                                        <b> <span>Khách lẻ</span></b>
+                                    <div style="margin-left: 20px;min-height: 70px">
                                     </div>
-                                    <div style="margin-left: 20px">
-                                        <button class="btn btn-outline-warning" type="button" data-bs-toggle="modal" th:data-bs-target="'#selectKhachHangModal'+${hd.ma}">
+                                    <div style="margin-left: 20px;min-height: 70px">
+                                        <button class="btn btn-outline-warning" type="button" data-bs-toggle="modal"
+                                                th:data-bs-target="'#selectKhachHangModal'+${hd.ma}">
                                             Chọn khách hàng
                                         </button>
 
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="col-form-label" style="margin-left: 20px">
+                                    <div class="col-form-label" style="margin-left: 20px;min-height: 70px">
                                         <b>Nhân viên</b>
                                     </div>
-
-                                    <div style="margin-left: 20px">
+                                    <div style="margin-left: 20px;min-height: 70px">
                                         <input class="form-control"
                                                style="width: 200px;height: 38px"
-                                               placeholder="Voucher" id="voucherInput" name="maVoucher" readonly>
+                                               placeholder="Voucher" th:id="'voucherInput'+${hd.ma}" name="maVoucher"
+                                               th:value="${hd.phieuGiamGia.ma}"
+                                               readonly>
                                     </div>
-                                    <div class="col-form-label" style="margin-left: 20px">
+                                    <div class="col-form-label" style="margin-left: 20px;min-height: 70px">
                                         <b>Tiền hàng</b>
                                     </div>
-                                    <div class="col-form-label" style="margin-left: 20px">
+                                    <div class="col-form-label" style="margin-left: 20px;min-height: 70px">
                                         <b>Giảm giá</b>
                                     </div>
-                                    <div class="col-form-label" style="margin-left: 20px">
+                                    <div class="col-form-label" style="margin-left: 20px;min-height: 70px">
                                         <b>Tổng tiền</b>
                                     </div>
-                                    <div class="col-form-label" style="margin-left: 20px">
+                                    <div class="col-form-label" style="margin-left: 20px;min-height: 70px">
                                         <b>Khách thanh toán</b>
                                     </div>
-                                    <div class="col-form-label" style="margin-left: 20px">
+                                    <div class="col-form-label" style="margin-left: 20px;min-height: 70px">
                                         <b>Tiền thiếu</b>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
-                                        <b th:text="${khachHang != null && khachHang.trangThai == 0 ? 'Khách này đang ngừng hoạt động!' : khachHang.ten}"></b>
+                                    <div class="col-form-label"
+                                         style="margin-left: 20%;margin-right: 20px;min-height: 70px">
+                                        <input class="form-control" type="text" value="ATUAN" readonly>
                                     </div>
 
-                                    <div style="margin-left: 20px">
+                                    <div style="margin-left: 20px;min-height: 70px">
                                         <button class="btn btn-outline-primary" type="button"
-                                                data-bs-toggle="modal" th:data-bs-target="'#selectVoucherModal'+${hd.ma}">Chọn voucher
+                                                data-bs-toggle="modal"
+                                                th:data-bs-target="'#selectVoucherModal'+${hd.ma}">Chọn voucher
                                         </button>
                                     </div>
 
 
-                                    <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
-                                        <b>600.000</b>
+                                    <div class="col-form-label"
+                                         style="margin-left: 20%;margin-right: 20px;min-height: 70px">
+                                        <input class="form-control" type="text" value="600000" readonly>
                                     </div>
 
-                                    <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
-                                      <span th:if="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
-                                        <b th:text="'Tiền Hàng * '+${phieuGiamGia.giaTriGiam/100}+' VNĐ'"></b>
-                                      </span>
-                                        <span th:unless="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
-                                       <b th:text="${phieuGiamGia != null ? phieuGiamGia.giaTriGiam : 'Unknown'} + ' VNĐ'"></b>
-                                      </span>
+                                    <div class="col-form-label"
+                                         style="margin-left: 20%;margin-right: 20px;min-height: 70px">
+                                        <div th:if="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
+                                            <input class="form-control" type="text"
+                                                   th:value="'Tiền Hàng * '+${phieuGiamGia.giaTriGiam/100}+' VNĐ'"
+                                                   readonly>
+                                        </div>
+                                        <div th:unless="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
+                                            <input class="form-control" type="text"
+                                                   th:value="${phieuGiamGia != null ? phieuGiamGia.giaTriGiam : 'Unknown'} + ' VNĐ'"
+                                                   readonly>
+                                        </div>
                                     </div>
 
-                                    <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
-                                          <span th:if="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
-                                          <b th:text="'Tiền Hàng - ' + 'Tiền Hàng * '+${phieuGiamGia.giaTriGiam/100}+' VNĐ'"></b>
-                                         </span>
-                                        <span th:unless="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
-                                        <b th:text="'Tiền Hàng - '+${phieuGiamGia != null ? phieuGiamGia.giaTriGiam : 'Unknown'}+' VNĐ'"></b>
-                                       </span>
+                                    <div class="col-form-label"
+                                         style="margin-left: 20%;margin-right: 20px;min-height: 70px">
+                                        <div th:if="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
+                                            <input type="text" class="form-control"
+                                                   th:value="'Tiền Hàng - ' + 'Tiền Hàng * '+${phieuGiamGia.giaTriGiam/100}+' VNĐ'"
+                                                   readonly>
+                                        </div>
+                                        <div th:unless="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
+                                            <input type="text" class="form-control"
+                                                   th:value="'Tiền Hàng - '+${phieuGiamGia != null ? phieuGiamGia.giaTriGiam : 'Unknown'}+' VNĐ'"
+                                                   readonly="">
+                                        </div>
                                     </div>
 
 
-                                    <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
-                                        <b>0</b>
+                                    <div class="col-form-label"
+                                         style="margin-left: 20%;margin-right: 20px;min-height: 70px">
+                                        <input class="form-control" type="text" value="0">
                                     </div>
 
-                                    <div class="col-form-label" style="margin-left: 20%;margin-right: 20px">
-                                        <b>540.000</b>
+                                    <div class="col-form-label"
+                                         style="margin-left: 20%;margin-right: 20px;min-height: 70px">
+                                        <input class="form-control" type="text" value="540000" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -324,7 +358,8 @@
                 </div>
             </div>
             <!--    modalVoucher-->
-            <div class="modal fade" th:id="'selectVoucherModal'+${hd.ma}" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <div class="modal fade" th:id="'selectVoucherModal'+${hd.ma}" tabindex="-1"
+                 aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
@@ -334,32 +369,45 @@
                         </div>
                         <div class="modal-body">
                             <div class="d-flex justify-content-end" style="width: 100%">
-                                <input type="text" id="searchInputVoucher" placeholder="Tìm Kiếm">
+                                <input type="text" th:id="'searchInputVoucher'+${hd.ma}" placeholder="Tìm Kiếm">
                                 <button class="btn btn-primary mx-2"><i data-feather="search"></i></button>
                             </div>
-                            <div th:each="x : ${listVoucher}" th:id="'voucherCard-'+${x.ma}" class="card-voucher form-check"
-                                 th:hidden="${x.ma == 'PGG000'}">
-                                <div class="d-flex align-items-center">
-                                <input class="form-check-input me-1" type="radio" name="flexRadioDefault"
-                                       th:id="${x.ma}" th:value="${x.ma}" checked>
-                                <label class="form-check-label align-content-center" th:for="${x.ma}"
-                                       style="width: 100%;">
-                                    <div class="card d-flex my-1">
-                                        <div class="card-body d-flex">
-                                            <span th:text="${x.ma}" class="modal-maVoucher col-4 col-sm-4 align-items-center" hidden></span>
-                                            <span th:text="${x.ten}" class="modal-tenVoucher col-4 col-sm-4 align-items-center"></span>
-                                            <span class="col-8 col-sm-8">Mô Tả:</span>
-                                        </div>
+                            <form id="voucherForm" th:action="@{'/giao_dich/add_voucher_to_hoa_don/'+${hd.idHoaDon}}"
+                                  method="post">
+                                <div th:each="x : ${listVoucher}" th:id="'voucherCard-'+${x.ma}"
+                                     th:class="'card-voucher'+${hd.ma}+ ' form-check'"
+                                     th:hidden="${x.ma == 'PGG000'}">
+                                    <div class="d-flex align-items-center">
+                                        <input class="form-check-input me-1 ipRadio" type="radio"
+                                               name="flexRadioDefault"
+                                               th:id="${x.ma}" th:value="${x.ma}"
+                                               th:attr="onclick=|selectVoucher('${x.id_pgg}')|">
+                                        <label class="form-check-label align-content-center" th:for="${x.ma}"
+                                               style="width: 100%;">
+                                            <div class="card d-flex my-1">
+                                                <div class="card-body d-flex">
+                                                    <span th:text="${x.ma}" class="modal-maVoucher"
+                                                          hidden></span>
+                                                    <span th:text="${x.id_pgg}"
+                                                          hidden></span>
+                                                    <span th:text="${x.ten}"
+                                                          class="modal-tenVoucher col-4 col-sm-4 align-items-center"></span>
+                                                    <span class="col-8 col-sm-8"
+                                                          th:text="${x.moTa}"></span>
+                                                </div>
+                                            </div>
+                                        </label>
                                     </div>
-                                </label>
                                 </div>
-                            </div>
-
+                                <input type="hidden" id="selected_id_pgg" name="id_pgg">
+                                <button type="submit" class="btn btn-primary d-block ms-auto"
+                                        th:id="'saveChangesBtn'+${hd.ma}"
+                                        data-bs-dismiss="modal">
+                                    Save Changes
+                                </button>
+                            </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="saveChangesBtn" data-bs-dismiss="modal">
-                                Save Changes
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -367,7 +415,8 @@
 
             <!--    modalSPCT-->
             <div class="modalTableSPCT">
-                <div class="modal fade" th:id="'spct'+${hd.ma}" tabindex="-1" aria-labelledby="label" aria-hidden="true">
+                <div class="modal fade" th:id="'spct'+${hd.ma}" tabindex="-1" aria-labelledby="label"
+                     aria-hidden="true">
                     <div class="modal-dialog modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -386,12 +435,14 @@
 
                                             </div>
                                             <div class="card-body px-0 pb-0">
-                                                <form th:id="'formFilter'+${hd.ma}" style="padding-top: 20px;padding-bottom: 20px">
+                                                <form th:id="'formFilter'+${hd.ma}"
+                                                      style="padding-top: 20px;padding-bottom: 20px">
                                                     <div style="margin-left: 1%;margin-right: 1%;height: 70px">
                                                         <div style="float: left;margin-left: 60px">
                                                             <label class="form-label">Kích thước</label>
                                                             <select class="form-select" style="width: 150px"
-                                                                    th:id="'kichThuocSearch'+${hd.ma}" name="kichThuocSearch">
+                                                                    th:id="'kichThuocSearch'+${hd.ma}"
+                                                                    name="kichThuocSearch">
                                                                 <option value="">Tất cả</option>
                                                                 <option th:each="kt :${listKT}" th:value="${kt.ten}"
                                                                         th:text="${kt.ten}"></option>
@@ -426,7 +477,8 @@
                                                         <div style="float: left;margin-left: 30px">
                                                             <label class="form-label">Thương hiệu</label>
                                                             <select class="form-select" style="width: 150px"
-                                                                    th:id="'thuongHieuSearch'+${hd.ma}" name="thuongHieuSearch">
+                                                                    th:id="'thuongHieuSearch'+${hd.ma}"
+                                                                    name="thuongHieuSearch">
                                                                 <option value="">Tất cả</option>
                                                                 <option th:each="th :${listTH}" th:value="${th.ten}"
                                                                         th:text="${th.ten}"></option>
@@ -523,7 +575,8 @@
 
             <!--    //modalAddGioHang-->
 
-            <div class="modal fade" th:id="'addGH'+${hd.ma}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" th:id="'addGH'+${hd.ma}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -549,12 +602,15 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td><input type="text" th:id="'idhd'+${hd.ma}" th:value="${hd.idHoaDon}" name="idhd" hidden></td>
-                                        <td><input type="text" th:id="'idSPCT'+${hd.ma}" name="idCTSP" hidden> <span
-                                                th:id="'maSPCT'+${hd.ma}"></span></td>
+
+                                        <td><input type="text" th:id="'idSPCT'+${hd.ma}" name="idspct" hidden>
+                                            <input type="text" th:id="'idhd'+${hd.ma}" th:value="${hd.idHoaDon}"
+                                                   name="idhd" hidden>
+                                            <span th:id="'maSPCT'+${hd.ma}"></span></td>
                                         <td><span th:id="'ktSPCT'+${hd.ma}"></span></td>
                                         <td><span class="badge" th:id="'msSPCT'+${hd.ma}"></span></td>
-                                        <td><input th:id="'slGH'+${hd.ma}" name="soLuong" class="form-control" style="width: 70px" type="number"
+                                        <td><input th:id="'slGH'+${hd.ma}" name="soLuong" class="form-control"
+                                                   style="width: 70px" type="number"
                                                    min="1"
                                                    value="1"/>
                                         </td>
@@ -578,7 +634,8 @@
             </div>
 
             <!--    //modalChonKhachHang-->
-            <div class="modal fade" th:id="'selectKhachHangModal'+${hd.ma}" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <div class="modal fade" th:id="'selectKhachHangModal'+${hd.ma}" tabindex="-1"
+                 aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
@@ -588,21 +645,27 @@
                         </div>
                         <div class="modal-body">
                             <div class="d-flex justify-content-end" style="width: 100%">
-                                <input type="text" id="searchInputKhachHang" placeholder="Tìm Kiếm">
+                                <input type="text" th:id="'searchInputKhachHang' +${hd.ma}" placeholder="Tìm Kiếm">
                                 <button class="btn btn-primary mx-2"><i data-feather="search"></i></button>
                             </div>
-                            <div th:each="kh : ${listKH}" th:id="'khachHangCard-'+${kh.sdt}" class="card-khachHang form-check"
-                                 th:hidden="${kh.sdt == '0555555555'}">
+                            <div th:each="kh : ${listKH}" th:id="'khachHangCard-'+${kh.sdt}"
+                                 th:class="'card-khachHang'+${hd.ma} + ' form-check'"
+                                 >
                                 <div class="d-flex align-items-center">
-                                    <input class="radio-khachHang form-check-input me-1" type="radio" name="flexRadioDefault"
+                                    <input class="radio-khachHang form-check-input me-1" type="radio"
+                                           name="flexRadioDefault"
                                            th:id="${kh.sdt}" th:value="${kh.sdt}" checked>
                                     <label class="form-check-label align-content-center" th:for="${kh.sdt}"
                                            style="width: 100%;">
                                         <div class="card d-flex my-1">
                                             <div class="card-body d-flex">
-                                                <span th:text="${kh.ma}" class="modal-maKhachHang col-4 col-sm-4 align-items-center" hidden></span>
-                                                <span th:text="${kh.ten}" class="modal-tenKhachHang col-4 col-sm-4 align-items-center"></span>
-                                                <span th:text="${kh.sdt}" class="modal-sdtKhachHang col-4 col-sm-4 align-items-center"></span>
+                                                <span th:text="${kh.ma}"
+                                                      class="modal-maKhachHang col-4 col-sm-4 align-items-center"
+                                                      hidden></span>
+                                                <span th:text="${kh.ten}"
+                                                      class="modal-tenKhachHang col-4 col-sm-4 align-items-center"></span>
+                                                <span th:text="${kh.sdt}"
+                                                      class="modal-sdtKhachHang col-4 col-sm-4 align-items-center"></span>
                                             </div>
                                         </div>
                                     </label>
@@ -611,7 +674,8 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="saveChangesBtnKH" data-bs-dismiss="modal">
+                            <button type="button" class="btn btn-primary" th:id="'saveChangesBtnKH'+${hd.ma}"
+                                    data-bs-dismiss="modal">
                                 Save Changes
                             </button>
                         </div>

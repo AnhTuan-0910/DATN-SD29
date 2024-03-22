@@ -1,14 +1,13 @@
 package com.springboot.bootstrap.controller;
 
 
-import com.springboot.bootstrap.entity.Anh;
+import com.springboot.bootstrap.entity.DTO.SanPhamDTO;
 import com.springboot.bootstrap.entity.DanhMuc;
 import com.springboot.bootstrap.entity.KichThuoc;
 import com.springboot.bootstrap.entity.MauSac;
 import com.springboot.bootstrap.entity.SanPham;
 import com.springboot.bootstrap.entity.SanPhamCT;
 import com.springboot.bootstrap.entity.ThuongHieu;
-import com.springboot.bootstrap.service.AnhService;
 import com.springboot.bootstrap.service.DanhMucService;
 import com.springboot.bootstrap.service.KichThuocService;
 import com.springboot.bootstrap.service.MauSacService;
@@ -19,21 +18,23 @@ import com.springboot.bootstrap.utility.QRCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.text.NumberFormat;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -53,8 +54,7 @@ public class ThemSPController {
     private ThuongHieuService thuongHieuService;
     @Autowired
     private QRCodeGenerator qrCodeGenerator;
-    @Autowired
-    private AnhService anhService;
+
 
     @GetMapping("")
     public String getAll(Model model) {
@@ -69,30 +69,20 @@ public class ThemSPController {
         return "/pages/them_sp";
     }
 
-    @PostMapping( "/addSPCT")
-    public String add(@ModelAttribute("spcta") SanPhamCT sanPhamCT,
-                      @RequestParam("tenSP") String ten,
-                      @RequestParam("trangThai") String trangThai,
-                      @RequestParam("thuongHieu") String thuongHieu,
-                      @RequestParam("danhMuc") String danhMuc,
-
-                      @RequestParam("idms") String[] idMSAr,
-                      @RequestParam("idkt") String[] idKTAr,
-                      @RequestParam("p") Optional<Integer> p,
-                      Model model) {
+    @PostMapping("/addSPCT")
+    public ResponseEntity<Map<String, String>> addSanPham(@RequestBody SanPhamDTO sanPhamDTO) {
         SanPham sanPham = SanPham.builder()
-                .ma(sanPhamService.generateMaSP())
-                .ten(ten)
-                .danhMuc(DanhMuc.builder().id(danhMuc).build())
-                .thuongHieu(ThuongHieu.builder().id(thuongHieu).build())
-                .trangThai(Integer.parseInt(trangThai)).build();
+                .ten(sanPhamDTO.getTen())
+                .danhMuc(DanhMuc.builder().id(sanPhamDTO.getDanhMuc()).build())
+                .thuongHieu(ThuongHieu.builder().id(sanPhamDTO.getThuongHieu()).build())
+                .trangThai(Integer.parseInt(sanPhamDTO.getTrangThai())).build();
         sanPhamService.add(sanPham);
+        sanPhamDTO.setIdSP(sanPham.getId());
 
-        for (String idKT : idKTAr) {
-            for (String idMS : idMSAr) {
+        for (String idKT : sanPhamDTO.getIdKTAr()) {
+            for (String idMS : sanPhamDTO.getIdMSAr()) {
                 double gia = 100000;
-                sanPhamCT = SanPhamCT.builder()
-                        .ma(sanPhamCTService.generateMaSPCT())
+                SanPhamCT sanPhamCT = SanPhamCT.builder()
                         .mauSac(MauSac.builder().id(idMS).build())
                         .kichThuoc(KichThuoc.builder().id(idKT).build())
                         .sanPham(SanPham.builder().id(sanPham.getId()).build())
@@ -101,19 +91,24 @@ public class ThemSPController {
                         .trangThai(1).build();
                 sanPhamCTService.add(sanPhamCT);
                 qrCodeGenerator.generateQrCode(sanPhamCT.getId(), 50, 50);
-                Locale vietnameseLocale = new Locale("vi", "VN");
-                NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(vietnameseLocale);
-                String formattedGia = currencyFormatter.format(gia);
-                model.addAttribute("gia", formattedGia);
+                System.out.println(qrCodeGenerator.generateQrCode(sanPhamCT.getId(), 50, 50));
 
             }
         }
 
-        Page<SanPhamCT> listSPCT = sanPhamCTService.getAllBySP(sanPham.getId(), PageRequest.of(p.orElse(0), 5));
-        model.addAttribute("listSPCT", listSPCT);
-        model.addAttribute("qrCodeGenerator", qrCodeGenerator);
-        getAll(model);
-        return "/pages/them_sp";
+        Map<String, String> response = new HashMap<>();
+        response.put("id", sanPham.getId());
+        response.put("message", "Success");
+        return ResponseEntity.ok(response);
+
+    }
+
+
+    @GetMapping("/showSPCT/{idSP}")
+    @ResponseBody
+    public Page<SanPhamCT> showSanPhamCT(@PathVariable String idSP, @RequestParam("p") int page) {
+
+        return sanPhamCTService.getAllBySP(idSP, PageRequest.of(page, 5));
     }
 
 
@@ -149,34 +144,31 @@ public class ThemSPController {
                          @RequestParam("p") Optional<Integer> p, Model model) {
 
         for (int i = 0; i < idSPCT.length; i++) {
-            String id = idSPCT[i];
             MultipartFile[] fs = file[i];
+            String id = idSPCT[i];
+            String idspct = idSPCT[i];
+            String soLuong = sl[i];
+            String donGia = gia[i];
+            String idms = idMS[i];
+            String idkt = idKT[i];
+            String ma = maSPCT[i];
             for (MultipartFile f : fs) {
                 try {
-                    Anh anh = Anh.builder().sanPhamCT(SanPhamCT.builder().id(id).build()).ten(f.getOriginalFilename()).data((f.getBytes())).build();
-                    anhService.add(anh);
+                    sanPhamCT = SanPhamCT.builder()
+                            .ma(ma)
+                            .sanPham(SanPham.builder().id(idSP).build())
+                            .mauSac(MauSac.builder().id(idms).build())
+                            .kichThuoc(KichThuoc.builder().id(idkt).build())
+                            .data(f.getBytes())
+                            .sl(Integer.parseInt(soLuong))
+                            .gia(Double.parseDouble(donGia)).build();
+                    sanPhamCTService.update(sanPhamCT, idspct);
                 } catch (IOException e) {
                     e.printStackTrace();
-
                 }
             }
         }
-        for (int a = 0; a < idSPCT.length; a++) {
-            String idspct = idSPCT[a];
-            String soLuong = sl[a];
-            String donGia = gia[a];
-            String idms = idMS[a];
-            String idkt = idKT[a];
-            String ma = maSPCT[a];
-            sanPhamCT = SanPhamCT.builder()
-                    .ma(ma)
-                    .sanPham(SanPham.builder().id(idSP).build())
-                    .mauSac(MauSac.builder().id(idms).build())
-                    .kichThuoc(KichThuoc.builder().id(idkt).build())
-                    .sl(Integer.parseInt(soLuong))
-                    .gia(Double.parseDouble(donGia)).build();
-            sanPhamCTService.update(sanPhamCT, idspct);
-        }
+
 
         Page<SanPham> listSP = sanPhamService.getAll(PageRequest.of(p.orElse(0), 5));
         model.addAttribute("listSP", listSP);
