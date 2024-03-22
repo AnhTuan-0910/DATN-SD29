@@ -87,7 +87,7 @@ public class ThanhToanController {
 
     @PostMapping("/add_tab")
     public String addTab(@ModelAttribute("hda") HoaDon hoaDon) {
-        hoaDon = HoaDon.builder().tinhTrang(4).build();
+        hoaDon = HoaDon.builder().tinhTrang(1).gia(0.0).thanhTien(0.0).build();
         hoaDonService.add(hoaDon);
         return "redirect:/giao_dich";
     }
