@@ -58,23 +58,22 @@ public class ThanhToanController {
     private HoaDonRepository hoaDonRepository;
 
     @GetMapping("")
-    public String getAll(@RequestParam(value = "maVoucher", defaultValue = "PGG000") String ma,
-                         @RequestParam(value = "sdtKhachHang", defaultValue = "0555555555") String sdt,
+    public String getAll(@RequestParam(value = "sdtKhachHang", defaultValue = "0555555555") String sdt,
                          Model model) {
         List<DanhMuc> listDM = danhMucService.findAllByTrangThai();
         List<ThuongHieu> listTH = thuongHieuService.findAllByTrangThai();
         List<KichThuoc> listKT = kichThuocService.findAllByTrangThai();
         List<MauSac> listMS = mauSacService.findAllByTrangThai();
         List<PhieuGiamGia> listPGG = phieuGiamGiaRepository.findAll();
-        PhieuGiamGia phieuGiamGia = phieuGiamGiaRepository.findByMa(ma);
         KhachHang khachHang = khachHangService.findBySdt(sdt);
         List<KhachHang> listKH = khachHangService.findAll();
         List<HoaDon> listHD = hoaDonService.renderTab();
+        List<PhieuGiamGia> phieuGiamGia=phieuGiamGiaRepository.findAllByTrangThai(1);
+        model.addAttribute("listVoucher", phieuGiamGia);
         model.addAttribute("khachHang", new KhachHang());
         model.addAttribute("listKH", listKH);
         model.addAttribute("listHD", listHD);
-        model.addAttribute("phieuGiamGia", new PhieuGiamGia());
-        model.addAttribute("listVoucher", listPGG);
+//        model.addAttribute("listVoucher", listPGG);
         model.addAttribute("listTH", listTH);
         model.addAttribute("listDM", listDM);
         model.addAttribute("listKT", listKT);
@@ -94,13 +93,25 @@ public class ThanhToanController {
     public String addVoucherToHoaDon(@RequestParam(value = "id_pgg",required = false) UUID id_pgg,@PathVariable(value = "id", required = false) UUID id,@ModelAttribute HoaDon hoaDon) {
         HoaDon existingHoaDon = hoaDonRepository.findById(id).orElse(null);
         PhieuGiamGia existingPhieuGiamGia = phieuGiamGiaRepository.findById(id_pgg).orElse(null);
-        if(existingPhieuGiamGia.getSoLuong()>0) {
-            existingPhieuGiamGia.setSoLuong(existingPhieuGiamGia.getSoLuong() - 1);
-        }
-        if (existingPhieuGiamGia != null) {
+        if (existingHoaDon.getPhieuGiamGia()==null){
+            existingPhieuGiamGia.setSoLuong(existingPhieuGiamGia.getSoLuong()-1);
             existingHoaDon.setPhieuGiamGia(existingPhieuGiamGia);
             hoaDonRepository.save(existingHoaDon);
+        }else {
+            PhieuGiamGia oldPhieuGiamGia=existingHoaDon.getPhieuGiamGia();
+            oldPhieuGiamGia.setSoLuong(oldPhieuGiamGia.getSoLuong()+1);
+            existingPhieuGiamGia.setSoLuong(existingPhieuGiamGia.getSoLuong()-1);
+            existingHoaDon.setPhieuGiamGia(existingPhieuGiamGia);
+            phieuGiamGiaRepository.save(oldPhieuGiamGia);
+            hoaDonRepository.save(existingHoaDon);
         }
+//        if(existingPhieuGiamGia.getSoLuong()>0) {
+//            existingPhieuGiamGia.setSoLuong(existingPhieuGiamGia.getSoLuong() - 1);
+//        }
+//        if (existingPhieuGiamGia != null) {
+//            existingHoaDon.setPhieuGiamGia(existingPhieuGiamGia);
+//            hoaDonRepository.save(existingHoaDon);
+//        }
         return "redirect:/giao_dich";
     }
 

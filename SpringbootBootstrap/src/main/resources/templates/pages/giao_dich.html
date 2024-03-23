@@ -266,7 +266,7 @@
                                         <input class="form-control"
                                                style="width: 200px;height: 38px"
                                                placeholder="Voucher" th:id="'voucherInput'+${hd.ma}" name="maVoucher"
-                                               th:value="${hd.phieuGiamGia.ma}"
+                                               th:value="${hd?.phieuGiamGia?.ma}"
                                                readonly>
                                     </div>
                                     <div class="col-form-label" style="margin-left: 20px;min-height: 70px">
@@ -379,10 +379,9 @@
                                      th:hidden="${x.ma == 'PGG000'}">
                                     <div class="d-flex align-items-center">
                                         <input class="form-check-input me-1 ipRadio" type="radio"
-                                               name="flexRadioDefault"
-                                               th:id="${x.ma}" th:value="${x.ma}"
-                                               th:attr="onclick=|selectVoucher('${x.id_pgg}')|">
-                                        <label class="form-check-label align-content-center" th:for="${x.ma}"
+                                               name="id_pgg"
+                                               th:id="${x.id_pgg}+${hd.ma}" th:value="${x.id_pgg}">
+                                        <label class="form-check-label align-content-center" th:for="${x.id_pgg}+${hd.ma}"
                                                style="width: 100%;">
                                             <div class="card d-flex my-1">
                                                 <div class="card-body d-flex">
@@ -398,8 +397,9 @@
                                             </div>
                                         </label>
                                     </div>
+<!--                                    <input type="hidden" th:id="'selected_id_pgg'+${hd.ma}" name="id_pgg">-->
                                 </div>
-                                <input type="hidden" id="selected_id_pgg" name="id_pgg">
+<!--                                <input type="hidden" th:id="'selected_id_pgg'+${hd.ma}" name="id_pgg">-->
                                 <button type="submit" class="btn btn-primary d-block ms-auto"
                                         th:id="'saveChangesBtn'+${hd.ma}"
                                         data-bs-dismiss="modal">

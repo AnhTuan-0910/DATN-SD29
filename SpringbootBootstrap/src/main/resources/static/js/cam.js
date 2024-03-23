@@ -118,9 +118,6 @@ function sumbitQR(maHD,fn) {
 }
 <!--    JS for modal Voucher -->
 function modalVCAndKH(maHD) {
-    var selectVoucherModal = document.getElementById('selectVoucherModal' + maHD);
-    var voucherInput = document.getElementById('voucherInput' + maHD);
-    var saveChangesBtn = document.getElementById('saveChangesBtn' + maHD);
     var selectKhachHangModal = document.getElementById('selectKhachHangModal'+maHD);
     var khachHangInput = document.getElementById('khachHangInput'+maHD);
     var saveChangesBtnKH = document.getElementById('saveChangesBtnKH'+maHD);
@@ -173,10 +170,6 @@ function seacrchModalVCAndKH(maHD) {
             }
         });
     });
-}
-
-function selectVoucher(id_pgg) {
-    document.getElementById('selected_id_pgg').value = id_pgg;
 }
 
 domReady();
