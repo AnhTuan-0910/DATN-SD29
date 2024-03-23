@@ -1,6 +1,7 @@
 package com.springboot.bootstrap.controller;
 
 import com.springboot.bootstrap.entity.DTO.SanPhamQrDTO;
+import com.springboot.bootstrap.entity.HoaDon;
 import com.springboot.bootstrap.entity.HoaDonChiTiet;
 import com.springboot.bootstrap.entity.SanPhamCT;
 import com.springboot.bootstrap.service.HoaDonChiTietService;
@@ -51,6 +52,18 @@ public class HoaDonChiTietController {
                     hoaDonChiTiet.setSoLuong(hoaDonChiTiet.getSoLuong()+soLuong);
                     hoaDonChiTiet.setGia(hoaDonChiTiet.getSoLuong()*sanPhamCT.getGia());
                     hoaDonChiTietService.update(hoaDonChiTiet);
+                    HoaDon hoaDon = hoaDonService.getOne(idhd);
+                    hoaDon.setGia(hoaDon.getGia()+hoaDonChiTiet.getGia());
+                    if(hoaDon.getPhieuGiamGia()==null){
+                        hoaDon.setThanhTien(hoaDon.getGia());
+                        hoaDonService.add(hoaDon);
+                    }else if(hoaDon.getPhieuGiamGia().getDonVi()==1){
+                        hoaDon.setThanhTien(hoaDon.getGia()-hoaDon.getPhieuGiamGia().getGiaTriGiam());
+                        hoaDonService.add(hoaDon);
+                    }else if(hoaDon.getPhieuGiamGia().getDonVi()==2){
+                        hoaDon.setThanhTien(hoaDon.getGia()*(100-hoaDon.getPhieuGiamGia().getGiaTriGiam())/100);
+                        hoaDonService.add(hoaDon);
+                    }
                     return "redirect:/giao_dich";
                 }
             }
@@ -66,6 +79,19 @@ public class HoaDonChiTietController {
         SanPhamCT sanPhamCT = hoaDonChiTietService.getOne(idhdct).getSanPhamChiTiet();
         sanPhamCT.setSl(tong+soLuong);
         sanPhamCTService.update(sanPhamCT,sanPhamCT.getId());
+        HoaDon hoaDon = hoaDonChiTietService.getOne(idhdct).getHoaDon();
+        hoaDon.setGia(hoaDon.getGia()-hoaDonChiTietService.getOne(idhdct).getGia());
+        if(hoaDon.getPhieuGiamGia()==null){
+            hoaDon.setThanhTien(hoaDon.getGia());
+            hoaDonService.add(hoaDon);
+        }else if(hoaDon.getPhieuGiamGia().getDonVi()==1){
+            hoaDon.setThanhTien(hoaDon.getGia()-hoaDon.getPhieuGiamGia().getGiaTriGiam());
+            hoaDonService.add(hoaDon);
+        }else if(hoaDon.getPhieuGiamGia().getDonVi()==2){
+            hoaDon.setThanhTien(hoaDon.getGia()*(100-hoaDon.getPhieuGiamGia().getGiaTriGiam())/100);
+            hoaDonService.add(hoaDon);
+        }
+        hoaDonService.add(hoaDon);
         hoaDonChiTietService.delete(idhdct);
         return "redirect:/giao_dich";
     }
@@ -73,11 +99,25 @@ public class HoaDonChiTietController {
     public String update(@PathVariable(name = "idhdct") UUID idhdct,
                          @RequestParam(name = "soLuong") Integer soLuong){
         HoaDonChiTiet hoaDonChiTiet = hoaDonChiTietService.getOne(idhdct);
+        HoaDon hoaDon = hoaDonChiTietService.getOne(idhdct).getHoaDon();
         SanPhamCT sanPhamCT = hoaDonChiTiet.getSanPhamChiTiet();
         sanPhamCT.setSl(sanPhamCT.getSl()+hoaDonChiTiet.getSoLuong()-soLuong);
         sanPhamCTService.update(sanPhamCT,sanPhamCT.getId());
+        hoaDon.setGia(hoaDon.getGia()-hoaDonChiTiet.getGia());
         hoaDonChiTiet.setSoLuong(soLuong);
         hoaDonChiTiet.setGia(hoaDonChiTiet.getSoLuong()*sanPhamCT.getGia());
+        hoaDon.setGia(hoaDon.getGia()+hoaDonChiTiet.getGia());
+        if(hoaDon.getPhieuGiamGia()==null){
+            hoaDon.setThanhTien(hoaDon.getGia());
+            hoaDonService.add(hoaDon);
+        }else if(hoaDon.getPhieuGiamGia().getDonVi()==1){
+            hoaDon.setThanhTien(hoaDon.getGia()-hoaDon.getPhieuGiamGia().getGiaTriGiam());
+            hoaDonService.add(hoaDon);
+        }else if(hoaDon.getPhieuGiamGia().getDonVi()==2){
+            hoaDon.setThanhTien(hoaDon.getGia()*(100-hoaDon.getPhieuGiamGia().getGiaTriGiam())/100);
+            hoaDonService.add(hoaDon);
+        }
+        hoaDonService.add(hoaDon);
         hoaDonChiTietService.update(hoaDonChiTiet);
         return "redirect:/giao_dich";
     }

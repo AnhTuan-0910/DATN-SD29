@@ -39,9 +39,10 @@ public class HoaDonServiceImpl implements HoaDonService {
         Date ngayNhan,ngayThanhToan,ngayShip;
         switch (hoaDon.getTinhTrang()){
             case "Chờ xác nhận":tinhTrang=1;break;
-            case "Chờ giao hàng":tinhTrang=2;break;
+            case "Đang xử lý":tinhTrang=2;break;
             case "Đang vận chuyển":tinhTrang=3;break;
             case "Hoàn thành":tinhTrang=4;break;
+            case "Huỷ đơn":tinhTrang=5;break;
         }
         if(hoaDon.getNgayNhan().toString().isEmpty()){
              ngayNhan = null;
@@ -58,19 +59,6 @@ public class HoaDonServiceImpl implements HoaDonService {
         }else {
             ngayThanhToan = Date.valueOf(hoaDon.getNgayThanhToan());
         }
-//        if(nhanVien==null&&khachHang==null){
-//            return hoaDonRepository.findAllByMaAndNhanVienIsNullAndKhachHangIsNullAndNgayThanhToanAndNgayNhanAndNgayShipAndTinhTrang(
-//                    hoaDon.getMa(),ngayThanhToan,ngayNhan,ngayShip,tinhTrang,pageable
-//            );
-//        }else if(khachHang==null){
-//            return hoaDonRepository.findAllByMaAndNhanVienAndKhachHangIsNullAndNgayThanhToanAndNgayNhanAndNgayShipAndTinhTrang(
-//                    hoaDon.getMa(),nhanVien,ngayThanhToan,ngayNhan,ngayShip,tinhTrang,pageable
-//            );
-//        }else if(nhanVien==null){
-//            return hoaDonRepository.findAllByMaAndNhanVienIsNullAndKhachHangAndNgayThanhToanAndNgayNhanAndNgayShipAndTinhTrang(
-//                    hoaDon.getMa(),khachHang,ngayThanhToan,ngayNhan,ngayShip,tinhTrang,pageable
-//            );
-//        }
         return hoaDonRepository.findAllByMaAndNhanVienAndKhachHangAndNgayThanhToanAndNgayNhanAndNgayShipAndTinhTrang(
                 hoaDon.getMa(),nhanVien,khachHang,ngayThanhToan,ngayNhan,ngayShip,tinhTrang,pageable
         );
@@ -79,6 +67,11 @@ public class HoaDonServiceImpl implements HoaDonService {
     @Override
     public Page<HoaDon> getAll(Pageable of) {
         return hoaDonRepository.findAll(of);
+    }
+
+    @Override
+    public HoaDon getOne(UUID id) {
+        return hoaDonRepository.findById(id).get();
     }
 
     @Override

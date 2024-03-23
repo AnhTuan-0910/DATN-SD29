@@ -24,4 +24,5 @@ public interface HoaDonService {
     Page<HoaDon> getAll(Pageable of);
 
 
+    HoaDon getOne(UUID fromString);
 }
