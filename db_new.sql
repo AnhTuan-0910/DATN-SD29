@@ -329,10 +329,27 @@ END;
             UPDATE san_pham_chi_tiet SET ma = @ma_spct WHERE id_spct = @id_spct;
         END;
 
+            CREATE TRIGGER update_status_phieu_giam_gia
+                ON phieu_giam_gia
+                AFTER INSERT, UPDATE
+                AS
+            BEGIN
+                UPDATE phieu_giam_gia
+                SET trang_thai =
+                        CASE
+                            WHEN phieu_giam_gia.so_luong <= 0 And phieu_giam_gia.trang_thai != 4 THEN 3
+                            WHEN phieu_giam_gia.ngay_ket_thuc <= CAST(GETDATE() AS DATE) And phieu_giam_gia.trang_thai != 4 THEN 2
+                            WHEN phieu_giam_gia.so_luong > 0 AND phieu_giam_gia.ngay_ket_thuc > CAST(GETDATE() AS DATE) And phieu_giam_gia.trang_thai != 4	 THEN 1
+                            ELSE phieu_giam_gia.trang_thai
+                            END
+                FROM inserted
+                WHERE phieu_giam_gia.id_pgg = inserted.id_pgg;
+            END;
+
             insert into phieu_giam_gia(ma, ten, don_vi, gia_tri_giam, gia_tri_toi_thieu, gia_tri_giam_toi_da,
                                        ngay_bat_dau, ngay_ket_thuc, mo_ta, so_luong, trang_thai)
             values ('PGG001', N'Phiếu Giảm Giá 1', 1, 10, 100000, 20000, '2024/1/1', '2024/12/12', N'Mô tả 1', 50, 1),
                    ('PGG002', N'Phiếu Giảm Giá 2', 2, 10000, 50000, 10000, '2024/1/1', '2024/12/12', N'Mô tả 2', 50, 1),
                    ('PGG000', 'Voucher Default', 1, 0, 0, 0, '2024/1/1', '2024/12/12', N'', 9999, 1)
             insert into khach_hang(ten,sdt,trang_thai) values
-            (N'Nguyễn Văn Hoàng',0555555555,1)
+            (N'Nguyễn Văn Hoàng','0555555555',1)
