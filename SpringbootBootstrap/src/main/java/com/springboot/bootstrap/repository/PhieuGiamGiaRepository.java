@@ -23,6 +23,10 @@ public interface PhieuGiamGiaRepository extends JpaRepository<PhieuGiamGia, UUID
 
     Page<PhieuGiamGia> findAll(Pageable pageable);
 
+    List<PhieuGiamGia> findAllByTrangThaiAndGiaTriToiThieuGreaterThanEqualAndGiaTriGiamToiDaLessThanEqual(int trangThai, double giaTriToiThieu, double giaTriGiamToiDa);
+
+    List<PhieuGiamGia> findAllByTrangThai(int trangThai);
+
     @Query("SELECT ms FROM PhieuGiamGia ms WHERE " +
             "LOWER(ms.ma) IS NULL OR   LOWER(ms.ma) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "LOWER(ms.ten) IS NULL OR  LOWER(ms.ten) LIKE LOWER(CONCAT('%', :keyword, '%'))")
