@@ -47,9 +47,6 @@ public class ThanhToanController {
     private PhieuGiamGiaRepository phieuGiamGiaRepository;
 
     @Autowired
-    private KhachHangRepository khachHangRepository;
-
-    @Autowired
     private KhachHangService khachHangService;
 
     @Autowired
@@ -60,20 +57,17 @@ public class ThanhToanController {
     @Autowired
     private HoaDonChiTietService hoaDonChiTietService;
     @GetMapping("")
-    public String getAll(@RequestParam(value = "sdtKhachHang", defaultValue = "0555555555") String sdt,
-                         Model model) {
+    public String getAll(Model model) {
         List<DanhMuc> listDM = danhMucService.findAllByTrangThai();
         List<ThuongHieu> listTH = thuongHieuService.findAllByTrangThai();
         List<KichThuoc> listKT = kichThuocService.findAllByTrangThai();
         List<MauSac> listMS = mauSacService.findAllByTrangThai();
         List<PhieuGiamGia> listPGG = phieuGiamGiaRepository.findAll();
-        KhachHang khachHang = khachHangService.findBySdt(sdt);
-        List<KhachHang> listKH = khachHangService.findAll();
+        List<KhachHang> khachHang = khachHangService.findAllByTrangThai();
         List<HoaDon> listHD = hoaDonService.renderTab();
         List<PhieuGiamGia> phieuGiamGia=phieuGiamGiaRepository.findAllByTrangThai(1);
         model.addAttribute("listVoucher", phieuGiamGia);
-        model.addAttribute("khachHang", new KhachHang());
-        model.addAttribute("listKH", listKH);
+        model.addAttribute("listKH", khachHang);
         model.addAttribute("listHD", listHD);
 //        model.addAttribute("listVoucher", listPGG);
         model.addAttribute("listTH", listTH);
@@ -92,7 +86,9 @@ public class ThanhToanController {
     }
 
     @PostMapping("/add_voucher_to_hoa_don/{id}")
-    public String addVoucherToHoaDon(@RequestParam(value = "id_pgg",required = false) UUID id_pgg,@PathVariable(value = "id", required = false) UUID id,@ModelAttribute HoaDon hoaDon) {
+    public String addVoucherToHoaDon(@RequestParam(value = "id_pgg",required = false) UUID id_pgg,
+                                     @PathVariable(value = "id", required = false) UUID id,
+                                     @ModelAttribute HoaDon hoaDon) {
         HoaDon existingHoaDon = hoaDonRepository.findById(id).orElse(null);
         PhieuGiamGia existingPhieuGiamGia = phieuGiamGiaRepository.findById(id_pgg).orElse(null);
         if (existingHoaDon.getPhieuGiamGia()==null){
@@ -114,6 +110,20 @@ public class ThanhToanController {
 //            existingHoaDon.setPhieuGiamGia(existingPhieuGiamGia);
 //            hoaDonRepository.save(existingHoaDon);
 //        }
+        return "redirect:/giao_dich";
+    }
+
+    @PostMapping("/add_khachHang_to_hoa_don/{id}")
+    public String addKhachHangToHoaDon(@RequestParam(value = "idKhachHang",required = false) String idKhachHang,
+                                     @PathVariable(value = "id", required = false) UUID id,
+                                     @ModelAttribute HoaDon hoaDon) {
+        HoaDon existingHoaDon = hoaDonRepository.findById(id).orElse(null);
+        KhachHang existingKhachHang = khachHangService.getOne(idKhachHang);
+        if (existingHoaDon.getKhachHang()==null){
+            existingKhachHang.setTen(existingKhachHang.getTen());
+            existingHoaDon.setKhachHang(existingKhachHang);
+            hoaDonRepository.save(existingHoaDon);
+        }
         return "redirect:/giao_dich";
     }
 

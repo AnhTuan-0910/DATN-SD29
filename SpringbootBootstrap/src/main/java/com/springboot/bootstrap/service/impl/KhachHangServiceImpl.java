@@ -78,6 +78,11 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
+    public List<KhachHang> findAllByTrangThai() {
+        return khachHangRepository.findAllByTrangThai(1);
+    }
+
+    @Override
     public KhachHang findBySdt(String sdt) {
         return khachHangRepository.findBySdt(sdt);
     }

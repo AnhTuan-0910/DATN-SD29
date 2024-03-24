@@ -18,6 +18,8 @@ public interface KhachHangRepository extends JpaRepository<KhachHang, String> {
 
     KhachHang findByMa(String ma);
 
+    List<KhachHang> findAllByTrangThai(int trangThai);
+
     @Query("SELECT kh FROM KhachHang kh ORDER BY kh.ma ASC")
     Page<KhachHang> findAll(Pageable pageable);
 

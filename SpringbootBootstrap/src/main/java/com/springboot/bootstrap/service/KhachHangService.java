@@ -21,6 +21,8 @@ public interface KhachHangService {
 
     List<KhachHang> findAll();
 
+    List<KhachHang> findAllByTrangThai();
+
     KhachHang findBySdt(String sdt);
 
     public String generateMaKH();
