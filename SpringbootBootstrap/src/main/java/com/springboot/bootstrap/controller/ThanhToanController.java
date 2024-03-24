@@ -122,6 +122,11 @@ public class ThanhToanController {
             sanPhamCT.setSl(sanPhamCT.getSl()-hdct.getSoLuong());
             sanPhamCTService.add(sanPhamCT);
         }
+        if(hoaDon.getPhieuGiamGia()!=null){
+            PhieuGiamGia phieuGiamGia = hoaDon.getPhieuGiamGia();
+            phieuGiamGia.setSoLuong(phieuGiamGia.getSoLuong()+1);
+            phieuGiamGiaRepository.save(phieuGiamGia);
+        }
         return "redirect:/giao_dich";
     }
 
