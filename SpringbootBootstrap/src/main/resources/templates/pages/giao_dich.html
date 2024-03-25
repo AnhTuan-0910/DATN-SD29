@@ -251,7 +251,7 @@
                                     <div class="col-form-label" style="margin-left: 20%;margin-right: 20px;min-height: 70px">
                                         <div th:if="${khachHang != null && khachHang.trangThai == 1}">
                                             <input class="form-control" type="text"
-                                                   th:value="${khachHang.ten}"
+                                                   th:value="${hd.khachHang.ten}"
                                                    readonly>
                                         </div>
                                         <div th:unless="${khachHang != null && khachHang.trangThai == 1}">

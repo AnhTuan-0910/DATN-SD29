@@ -117,12 +117,10 @@ public class ThanhToanController {
 
     @PostMapping("/add_khachHang_to_hoa_don/{id}")
     public String addKhachHangToHoaDon(@RequestParam(value = "idKhachHang",required = false) String idKhachHang,
-                                     @PathVariable(value = "id", required = false) UUID id,
-                                     @ModelAttribute HoaDon hoaDon) {
+                                     @PathVariable(value = "id", required = false) UUID id) {
         HoaDon existingHoaDon = hoaDonRepository.findById(id).orElse(null);
         KhachHang existingKhachHang = khachHangService.getOne(idKhachHang);
         if (existingHoaDon.getKhachHang()==null){
-            existingKhachHang.setTen(existingKhachHang.getTen());
             existingHoaDon.setKhachHang(existingKhachHang);
             hoaDonRepository.save(existingHoaDon);
         }
