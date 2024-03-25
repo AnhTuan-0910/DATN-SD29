@@ -278,12 +278,6 @@
                                     <div class="col-form-label" style="margin-left: 20px;min-height: 70px">
                                         <b>Tổng tiền</b>
                                     </div>
-                                    <div class="col-form-label" style="margin-left: 20px;min-height: 70px">
-                                        <b>Khách thanh toán</b>
-                                    </div>
-                                    <div class="col-form-label" style="margin-left: 20px;min-height: 70px">
-                                        <b>Tiền thiếu</b>
-                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="col-form-label"
@@ -301,51 +295,30 @@
 
                                     <div class="col-form-label"
                                          style="margin-left: 20%;margin-right: 20px;min-height: 70px">
-                                        <input class="form-control" type="text" value="600000" readonly>
+                                        <input class="form-control" type="text" th:value="${hd.gia}" readonly>
                                     </div>
 
                                     <div class="col-form-label"
                                          style="margin-left: 20%;margin-right: 20px;min-height: 70px">
-                                        <div th:if="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
+                                        <div>
                                             <input class="form-control" type="text"
-                                                   th:value="'Tiền Hàng * '+${phieuGiamGia.giaTriGiam/100}+' VNĐ'"
-                                                   readonly>
-                                        </div>
-                                        <div th:unless="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
-                                            <input class="form-control" type="text"
-                                                   th:value="${phieuGiamGia != null ? phieuGiamGia.giaTriGiam : 'Unknown'} + ' VNĐ'"
+                                                   th:value="${hd.thanhTien-hd.gia}"
                                                    readonly>
                                         </div>
                                     </div>
 
                                     <div class="col-form-label"
                                          style="margin-left: 20%;margin-right: 20px;min-height: 70px">
-                                        <div th:if="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
+                                        <div >
                                             <input type="text" class="form-control"
-                                                   th:value="'Tiền Hàng - ' + 'Tiền Hàng * '+${phieuGiamGia.giaTriGiam/100}+' VNĐ'"
+                                                   th:value="${hd.thanhTien}"
                                                    readonly>
                                         </div>
-                                        <div th:unless="${phieuGiamGia != null && phieuGiamGia.donVi == 1}">
-                                            <input type="text" class="form-control"
-                                                   th:value="'Tiền Hàng - '+${phieuGiamGia != null ? phieuGiamGia.giaTriGiam : 'Unknown'}+' VNĐ'"
-                                                   readonly="">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-form-label"
-                                         style="margin-left: 20%;margin-right: 20px;min-height: 70px">
-                                        <input class="form-control" type="text" value="0">
-                                    </div>
-
-                                    <div class="col-form-label"
-                                         style="margin-left: 20%;margin-right: 20px;min-height: 70px">
-                                        <input class="form-control" type="text" value="540000" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div style="text-align: center ">
-                                        <button class="btn btn-outline-warning" type="button">Xác nhận đặt hàng
+                                        <button class="btn btn-outline-warning" type="button"><a th:href="@{/hoa_don/thanh_toan/{idhd}(idhd=${hd.idHoaDon})}">Xác nhận đặt hàng</a>
                                         </button>
 
                                     </div>

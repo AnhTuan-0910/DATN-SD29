@@ -75,7 +75,6 @@ public class ThanhToanController {
         model.addAttribute("khachHang", new KhachHang());
         model.addAttribute("listKH", listKH);
         model.addAttribute("listHD", listHD);
-//        model.addAttribute("listVoucher", listPGG);
         model.addAttribute("listTH", listTH);
         model.addAttribute("listDM", listDM);
         model.addAttribute("listKT", listKT);
@@ -98,22 +97,25 @@ public class ThanhToanController {
         if (existingHoaDon.getPhieuGiamGia()==null){
             existingPhieuGiamGia.setSoLuong(existingPhieuGiamGia.getSoLuong()-1);
             existingHoaDon.setPhieuGiamGia(existingPhieuGiamGia);
+            if(existingPhieuGiamGia.getDonVi()==2){
+                existingHoaDon.setThanhTien(existingHoaDon.getGia()-existingPhieuGiamGia.getGiaTriGiam());
+            }else {
+                existingHoaDon.setThanhTien(existingHoaDon.getGia()*(100-existingPhieuGiamGia.getGiaTriGiam())/100);
+            }
             hoaDonRepository.save(existingHoaDon);
         }else {
             PhieuGiamGia oldPhieuGiamGia=existingHoaDon.getPhieuGiamGia();
             oldPhieuGiamGia.setSoLuong(oldPhieuGiamGia.getSoLuong()+1);
             existingPhieuGiamGia.setSoLuong(existingPhieuGiamGia.getSoLuong()-1);
             existingHoaDon.setPhieuGiamGia(existingPhieuGiamGia);
+            if(existingPhieuGiamGia.getDonVi()==2){
+                existingHoaDon.setThanhTien(existingHoaDon.getGia()-existingPhieuGiamGia.getGiaTriGiam());
+            }else {
+                existingHoaDon.setThanhTien(existingHoaDon.getGia()*(100-existingPhieuGiamGia.getGiaTriGiam())/100);
+            }
             phieuGiamGiaRepository.save(oldPhieuGiamGia);
             hoaDonRepository.save(existingHoaDon);
         }
-//        if(existingPhieuGiamGia.getSoLuong()>0) {
-//            existingPhieuGiamGia.setSoLuong(existingPhieuGiamGia.getSoLuong() - 1);
-//        }
-//        if (existingPhieuGiamGia != null) {
-//            existingHoaDon.setPhieuGiamGia(existingPhieuGiamGia);
-//            hoaDonRepository.save(existingHoaDon);
-//        }
         return "redirect:/giao_dich";
     }
 

@@ -59,4 +59,11 @@ public class HoaDonController {
         model.addAttribute("listTinhTrang",listTinhTrang);
         return "/pages/hoa_don";
     }
+    @GetMapping("/thanh_toan/{idhd}")
+    public String thanhToan(@PathVariable("idhd") UUID id){
+        HoaDon hoaDon = hoaDonService.getOne(id);
+        hoaDon.setTinhTrang(4);
+        hoaDonService.add(hoaDon);
+        return "redirect:/giao_dich";
+    }
 }

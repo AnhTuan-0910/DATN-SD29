@@ -28,11 +28,7 @@ public class HoaDonChiTietServiceImpl implements HoaDonChiTietService {
     }
 
     @Override
-    public void add(UUID idHoaDon, UUID idSpct, Integer soLuong) {
-        String a = idSpct.toString();
-        SanPhamCT sanPhamCT = sanPhamCTRepo.findById(idSpct.toString()).get();
-        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
-        HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet(sanPhamCT,hoaDon,sanPhamCT.getGia()*soLuong,soLuong);
+    public void add(HoaDonChiTiet hoaDonChiTiet) {
         hoaDonChiTietRepository.save(hoaDonChiTiet);
     }
 
