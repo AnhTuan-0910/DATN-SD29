@@ -119,6 +119,7 @@ public class HoaDonChiTietController {
         hoaDonChiTiet.setSoLuong(soLuong);
         hoaDonChiTiet.setGia(hoaDonChiTiet.getSoLuong()*sanPhamCT.getGia());
         hoaDon.setGia(hoaDon.getGia()+hoaDonChiTiet.getGia());
+        hoaDon.setGia(hoaDon.getGia()+hoaDonChiTiet.getGia());
         if(hoaDon.getPhieuGiamGia()==null){
             hoaDon.setThanhTien(hoaDon.getGia());
             hoaDonService.add(hoaDon);
