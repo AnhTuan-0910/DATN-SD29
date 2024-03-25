@@ -115,9 +115,9 @@ public class ThanhToanController {
         return "redirect:/giao_dich";
     }
 
-    @PostMapping("/add_khachHang_to_hoa_don/{id}")
+    @PostMapping("/add_khachHang_to_hoa_don/{idKH}")
     public String addKhachHangToHoaDon(@RequestParam(value = "idKhachHang",required = false) String idKhachHang,
-                                     @PathVariable(value = "id", required = false) UUID id,
+                                     @PathVariable(value = "idKH", required = false) UUID id,
                                      @ModelAttribute HoaDon hoaDon) {
         HoaDon existingHoaDon = hoaDonRepository.findById(id).orElse(null);
         KhachHang existingKhachHang = khachHangService.getOne(idKhachHang);

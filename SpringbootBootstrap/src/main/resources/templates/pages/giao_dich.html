@@ -637,8 +637,9 @@
                                      th:class="'card-khachHang'+${hd.ma} + ' form-check'"
                                      th:hidden="${kh.sdt == '0555555555'}">
                                     <div class="d-flex align-items-center">
-                                        <input class="radio-khachHang form-check-input me-1" type="radio"
-                                           name="flexRadioDefault"
+
+                                        <input class="form-check-input me-1" type="radio"
+                                           name="idKhachHang"
                                            th:id="${kh.idKhachHang}+${hd.ma}" th:value="${kh.idKhachHang}">
                                         <label class="form-check-label align-content-center" th:for="${kh.idKhachHang}+${hd.ma}"
                                            style="width: 100%;">
@@ -658,7 +659,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-primary" th:id="'saveChangesBtnKH'+${hd.ma}"
+                                <button type="submit" class="btn btn-primary" th:id="'saveChangesBtnKH'+${hd.ma}"
                                         data-bs-dismiss="modal">
                                     Save Changes
                                 </button>

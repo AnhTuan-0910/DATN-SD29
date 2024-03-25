@@ -6,7 +6,7 @@ function domReady(fn) {
                 let maHD = this.getAttribute('data-hd-ma');
                 scanQR(maHD);
                 sumbitQR(maHD,fn);
-                modalVCAndKH(maHD);
+
                 seacrchModalVCAndKH(maHD);
                 $('#submitQr'+maHD).on("click",function (e){
                     e.preventDefault();
@@ -116,20 +116,6 @@ function sumbitQR(maHD,fn) {
     }
 
 }
-<!--    JS for modal Voucher -->
-function modalVCAndKH(maHD) {
-    var selectKhachHangModal = document.getElementById('selectKhachHangModal'+maHD);
-    var khachHangInput = document.getElementById('khachHangInput'+maHD);
-    var saveChangesBtnKH = document.getElementById('saveChangesBtnKH'+maHD);
-    saveChangesBtnKH.addEventListener('click', function () {
-        var selectedRadio = selectKhachHangModal.querySelector('input[type="radio"]:checked');
-        if (selectedRadio) {
-            var selectedValue = selectedRadio.value;
-            khachHangInput.value = selectedValue;
-            window.location.href = 'http://localhost:8080/giao_dich?sdtKhachHang='+khachHangInput.value;
-        }
-    });
-}
 
 <!--    JS search for modal Voucher -->
 
@@ -153,7 +139,7 @@ function seacrchModalVCAndKH(maHD) {
         });
     })
     const searchInputKhachHang = document.getElementById("searchInputKhachHang"+ maHD);
-    const khachHangs = Array.from(document.getElementsByClassName("card-khachHang")+ maHD);
+    const khachHangs = Array.from(document.getElementsByClassName("card-khachHang"+ maHD));
     searchInputKhachHang.addEventListener("input", function () {
         const searchTerm = searchInputKhachHang.value.trim().toLowerCase();
         khachHangs.forEach(function (khachHang) {
