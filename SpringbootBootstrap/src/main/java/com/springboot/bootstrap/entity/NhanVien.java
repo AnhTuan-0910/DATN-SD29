@@ -3,10 +3,7 @@ package com.springboot.bootstrap.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import java.awt.*;
 import java.security.SecureRandom;
-import java.util.Date;
 import java.util.UUID;
 
 @Entity
