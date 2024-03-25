@@ -30,6 +30,13 @@ function domReady(fn) {
                             if(data.status==200){
                                 $('#form'+maHD).submit();
                                 modalResultQr.style.display = "none";
+                                Swal.fire({
+                                    position: "top-end",
+                                    icon: "success",
+                                    title: "Thêm thành công",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
                             }else {
                                  soLuongError.text(data.errorSoLuong);
                             }
@@ -59,6 +66,13 @@ function domReady(fn) {
                             success:function (data){
                                 if(data.status==200){
                                     formGioHang.submit();
+                                    Swal.fire({
+                                        position: "top-end",
+                                        icon: "success",
+                                        title: "Sửa thành công",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
                                 }else {
                                     Swal.fire({
                                         icon:"error",
@@ -155,6 +169,37 @@ function seacrchModalVCAndKH(maHD) {
                 khachHang.style.display = "none";
             }
         });
+    });
+}
+// xac nhan hoa don
+function xacNhan(){
+    Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Your work has been saved",
+        showConfirmButton: false,
+        timer: 1500
+    });
+}
+// xac nhan xoá
+function xacNhanXoa(idhdct){
+    Swal.fire({
+        title: "Are you sure?",
+        text: "Bạn muốn xoá giỏ hàng?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success"
+            });
+            window.location.assign("http://localhost:8080/hoa_don_chi_tiet/delete/"+idhdct);
+        }
     });
 }
 

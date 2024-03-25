@@ -85,14 +85,14 @@ public class HoaDonChiTietController {
     }
 
     @GetMapping("/delete/{idhdct}")
-    public String delete(@PathVariable(name = "idhdct") UUID idhdct){
-        Integer soLuong = hoaDonChiTietService.getOne(idhdct).getSoLuong();
-        Integer tong = hoaDonChiTietService.getOne(idhdct).getSanPhamChiTiet().getSl();
-        SanPhamCT sanPhamCT = hoaDonChiTietService.getOne(idhdct).getSanPhamChiTiet();
+    public String delete(@PathVariable(name = "idhdct") String idhdct){
+        Integer soLuong = hoaDonChiTietService.getOne(UUID.fromString(idhdct)).getSoLuong();
+        Integer tong = hoaDonChiTietService.getOne(UUID.fromString(idhdct)).getSanPhamChiTiet().getSl();
+        SanPhamCT sanPhamCT = hoaDonChiTietService.getOne(UUID.fromString(idhdct)).getSanPhamChiTiet();
         sanPhamCT.setSl(tong+soLuong);
         sanPhamCTService.update(sanPhamCT,sanPhamCT.getId());
-        HoaDon hoaDon = hoaDonChiTietService.getOne(idhdct).getHoaDon();
-        hoaDon.setGia(hoaDon.getGia()-hoaDonChiTietService.getOne(idhdct).getGia());
+        HoaDon hoaDon = hoaDonChiTietService.getOne(UUID.fromString(idhdct)).getHoaDon();
+        hoaDon.setGia(hoaDon.getGia()-hoaDonChiTietService.getOne(UUID.fromString(idhdct)).getGia());
         if(hoaDon.getPhieuGiamGia()==null){
             hoaDon.setThanhTien(hoaDon.getGia());
             hoaDonService.add(hoaDon);
@@ -104,7 +104,7 @@ public class HoaDonChiTietController {
             hoaDonService.add(hoaDon);
         }
         hoaDonService.add(hoaDon);
-        hoaDonChiTietService.delete(idhdct);
+        hoaDonChiTietService.delete(UUID.fromString(idhdct));
         return "redirect:/giao_dich";
     }
     @PostMapping("/update/{idhdct}")

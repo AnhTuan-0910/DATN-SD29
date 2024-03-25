@@ -211,7 +211,7 @@
                                             <td>
                                                 <button th:id="'btn'+${hdct.idHoaDonChiTiet}" class="btn btn-outline-primary" type="button"><i
                                                         data-feather="edit-2"></i></button>
-                                                <a class="btn btn-outline-danger"
+                                                <a class="btn btn-outline-danger" th:onclick="return confirm('Bạn có muốn xoá sản phẩm')" type="button"
                                                    th:href="@{/hoa_don_chi_tiet/delete/{idhdct}(idhdct=${hdct.idHoaDonChiTiet})}"><i
                                                         data-feather="trash-2"></i></a>
                                             </td>
@@ -312,7 +312,7 @@
                                          style="margin-left: 20%;margin-right: 20px;min-height: 70px">
                                         <div>
                                             <input class="form-control" type="text"
-                                                   th:value="${hd.thanhTien-hd.gia}"
+                                                   th:value="${hd.gia-hd.thanhTien}"
                                                    readonly>
                                         </div>
                                     </div>
@@ -328,7 +328,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div style="text-align: center ">
-                                        <button class="btn btn-outline-warning" type="button"><a th:href="@{/hoa_don/thanh_toan/{idhd}(idhd=${hd.idHoaDon})}">Xác nhận đặt hàng</a>
+                                        <button th:onclick="xacNhan()" class="btn btn-outline-warning" type="button"><a th:href="@{/hoa_don/thanh_toan/{idhd}(idhd=${hd.idHoaDon})}">Xác nhận đặt hàng</a>
                                         </button>
 
                                     </div>
