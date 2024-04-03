@@ -6,9 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Data
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class GioHangDTO {
+    private UUID idHoaDonChiTiet;
     private String ma;
     private Integer soLuong;
 }

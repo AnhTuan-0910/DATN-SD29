@@ -48,6 +48,7 @@ public class HoaDonController {
     }
     @GetMapping("/view/{id}")
     public String viewOne(Model model, @PathVariable("id") UUID id){
+        model.addAttribute("hoaDon",hoaDonService.getOne(id));
         model.addAttribute("listHoaDonChiTiet",hoaDonChiTietService.getList(id));
         return "/pages/hoa_don_chi_tiet";
     }

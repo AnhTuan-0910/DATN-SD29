@@ -58,6 +58,7 @@ function domReady(fn) {
                             url:"/validate1",
                             processData: false,
                             data:JSON.stringify({
+                                idHoaDonChiTiet : id,
                                 ma : ma,
                                 soLuong : soLuong
                             }),

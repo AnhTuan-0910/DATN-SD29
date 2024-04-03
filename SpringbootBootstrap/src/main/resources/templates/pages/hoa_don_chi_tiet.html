@@ -19,26 +19,53 @@
 <body>
 <div class="main-content container-fluid" layout:fragment="content">
     <div class="page-title">
-    <div th:switch="${listHoaDonChiTiet}">
-    <h2 th:case="null">Không có hoá đơn</h2>
-    <div th:case="*">
-        <h2>Hoá đơn chi tiết</h2>
-        <table>
+        <h4>Danh sách sản phẩm</h4>
+        <table style="margin: 10px 0">
             <thead>
             <tr>
+                <th>Mã sản phẩm</th>
                 <th>Tên sản phẩm</th>
+                <th>Màu sắc</th>
+                <th>Size</th>
                 <th>Số lượng</th>
                 <th>Giá</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="hoadonchitiet:${listHoaDonChiTiet}">
+                <td th:text="${hoadonchitiet.sanPhamChiTiet}?${hoadonchitiet.sanPhamChiTiet.sanPham.ma}:''"></td>
                 <td th:text="${hoadonchitiet.sanPhamChiTiet}?${hoadonchitiet.sanPhamChiTiet.sanPham.ten}:''"></td>
+                <td class="badge" th:style="'background-color:'+${hoadonchitiet.sanPhamChiTiet.mauSac.ten}" th:text="${hoadonchitiet.sanPhamChiTiet}?${hoadonchitiet.sanPhamChiTiet.mauSac.ten}:''"></td>
+                <td th:text="${hoadonchitiet.sanPhamChiTiet}?${hoadonchitiet.sanPhamChiTiet.kichThuoc.ten}:''"></td>
                 <td th:text="${hoadonchitiet.soLuong}"></td>
                 <td th:text="${hoadonchitiet.gia}"></td>
             </tr>
             </tbody>
         </table>
+        <div style="display: flex;flex-wrap: wrap">
+            <div style="width: 50%;">
+                <div >
+                    <p>Khách Hàng : <span th:text="${hoaDon.khachHang!=null?hoaDon.khachHang.ten:'Khách lẻ'}"></span></p>
+                </div>
+                <div>
+                    <p>SDT : <span th:text="${hoaDon.khachHang?.sdt}"></span></p>
+                </div>
+            </div>
+            <div style="width: 50%">
+                <div>
+                    <p>Tổng tiền : <span th:text="${hoaDon.gia}"></span></p>
+                </div>
+                <div>
+                    <p>Voucher : <span th:text="${hoaDon.phieuGiamGia.ma}"></span></p>
+                </div>
+                <div>
+                    <p>Giá trị giảm : <span th:text="${hoaDon.gia-hoaDon.thanhTien}"></span></p>
+                </div>
+                <div>
+                    <p>Thành tiền : <span th:text="${hoaDon.thanhTien}"></span></p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

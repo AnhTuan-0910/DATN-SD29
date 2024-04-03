@@ -12,8 +12,6 @@ public class HoaDonDTO {
     private String maKhachHang;
     private Double gia;
     private String ngayThanhToan;
-    private String ngayShip;
-    private String ngayNhan;
     private String tinhTrang;
     private String diaChi;
     private Double tienShip;

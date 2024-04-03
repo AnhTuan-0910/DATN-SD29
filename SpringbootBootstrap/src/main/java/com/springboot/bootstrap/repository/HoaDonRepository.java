@@ -17,15 +17,7 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, UUID> {
     List<HoaDon> findAllByTinhTrang(Integer tinhTrang);
 
     Page<HoaDon> findAll(Pageable pageable);
-    List<HoaDon> findAllByMaAndNhanVienIsNullAndKhachHangAndNgayThanhToanAndNgayNhanAndNgayShipAndTinhTrang(
-            String ma, KhachHang khachHang, Date ngayThanhToan, Date ngayNhan, Date ngayShip, Integer tinhTrang, Pageable pageable
-    );
-    List<HoaDon> findAllByMaAndNhanVienIsNullAndKhachHangIsNullAndNgayThanhToanAndNgayNhanAndNgayShipAndTinhTrang(
-            String ma,Date ngayThanhToan,Date ngayNhan,Date ngayShip,Integer tinhTrang,Pageable pageable
-    );
-    List<HoaDon> findAllByMaAndNhanVienAndKhachHangIsNullAndNgayThanhToanAndNgayNhanAndNgayShipAndTinhTrang(
-            String ma,NhanVien nhanVien,Date ngayThanhToan,Date ngayNhan,Date ngayShip,Integer tinhTrang,Pageable pageable
-    );
-    Page<HoaDon> findAllByMaAndNhanVienAndKhachHangAndNgayThanhToanAndNgayNhanAndNgayShipAndTinhTrang
-            (String ma,NhanVien nhanVien,KhachHang khachHang,Date ngayThanhToan,Date ngayNhan,Date ngayShip,Integer tinhTrang,Pageable pageable);
+    Page<HoaDon> findAllByMaAndNhanVienAndKhachHangAndNgayThanhToanAndTinhTrang
+            (String ma,NhanVien nhanVien,KhachHang khachHang,Date ngayThanhToan,Integer tinhTrang,Pageable pageable);
+
 }

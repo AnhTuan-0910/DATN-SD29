@@ -14,10 +14,14 @@
         th {
             text-align: center;
         }
-        form,label,input {
+        form,label,input,button {
             margin: 5px;
             padding: 5px;
         }
+        .item-form {
+            width: 50%;
+        }
+
     </style>
 </head>
 
@@ -29,38 +33,41 @@
     <h2 th:case="null">Không có hoá đơn</h2>
     <div th:case="*">
         <h2>Hoá đơn</h2>
-        <form action="#" th:action="@{/hoa_don/search}" method="post" th:object="${hoaDon}">
-            <label>Mã hoá đơn :</label>
-            <input type="text" th:field="*{ma}"/> <br/>
-            <label>Tên nhân viên :</label>
-            <input type="text" th:field="*{maNhanVien}"/> <br/>
-            <label>Tên khách hàng :</label>
-            <input type="text" th:field="*{maKhachHang}"/> <br/>
-            <label>Ngày thanh toán :</label>
-            <input type="date" th:field="*{ngayThanhToan}"> <br/>
-            <label>Ngày ship :</label>
-            <input type="date" th:field="*{ngayShip}"> <br/>
-            <label>Ngày nhận :</label>
-            <input type="date" th:field="*{ngayNhan}"> <br/>
-            <label>Tình trạng :</label>
-            <select th:field="*{tinhTrang}">
-                <option th:each="p:${listTinhTrang}" th:value="${p}" th:text="${p}"/>
-            </select>
-            <button type="submit">Search</button>
+        <form style="display: flex;flex-wrap: wrap" action="#" th:action="@{/hoa_don/search}" method="post" th:object="${hoaDon}">
+            <div class="item-form">
+                <label>Mã hoá đơn :</label>
+                <input type="text" th:field="*{ma}"/> <br/>
+            </div>
+            <div class="item-form">
+                <label>Mã nhân viên :</label>
+                <input type="text" th:field="*{maNhanVien}"/> <br/>
+            </div>
+            <div class="item-form">
+                <label>Mã khách hàng :</label>
+                <input type="text" th:field="*{maKhachHang}"/> <br/>
+            </div>
+            <div class="item-form">
+                <label>Ngày thanh toán :</label>
+                <input type="date" th:field="*{ngayThanhToan}"> <br/>
+            </div>
+            <div class="item-form">
+                <label>Tình trạng :</label>
+                <select th:field="*{tinhTrang}">
+                    <option th:each="p:${listTinhTrang}" th:value="${p}" th:text="${p}"/>
+                </select>
+            </div> <br/>
+            <div style="width: 100%;display: flex">
+                <button type="submit">Search</button>
+            </div>
         </form>
         <table>
             <thead>
             <tr>
                 <th>Mã</th>
-                <th>Nhân viên</th>
-                <th>Khách hàng</th>
+                <th>Tên khách hàng</th>
+                <th>Ngày tạo</th>
                 <th>Giá</th>
-                <th>Ngày thanh toán</th>
-                <th>Ngày ship</th>
-                <th>Ngày nhận</th>
                 <th>Tình trạng</th>
-                <th>Địa chỉ</th>
-                <th>Tiền ship</th>
                 <th>Thành tiền</th>
                 <th>Chỉnh sửa</th>
             </tr>
@@ -68,20 +75,15 @@
             <tbody>
             <tr th:each="hoadon:${listHoaDon}">
                 <td th:text="${hoadon.ma}"></td>
-                <td th:text="${hoadon.nhanVien}?${hoadon.nhanVien.ten}:''"></td>
-                <td th:text="${hoadon.khachHang}?${hoadon.khachHang.ten}:''"></td>
+                <td th:text="${hoadon.khachHang?.ten}"></td>
+                <td th:text="${hoadon.taoLuc}"></td>
                 <td th:text="${hoadon.gia}+' VND'"></td>
-                <td th:text="${hoadon.ngayThanhToan}"></td>
-                <td th:text="${hoadon.ngayShip}"></td>
-                <td th:text="${hoadon.ngayNhan}"></td>
                 <td th:switch="${hoadon.tinhTrang}">
                     <span th:case="1">Chờ xác nhận</span>
                     <span th:case="2">Chờ giao hàng</span>
                     <span th:case="3">Đang vận chuyển</span>
                     <span th:case="4">Hoàn thành</span>
                 </td>
-                <td th:text="${hoadon.diaChi}"></td>
-                <td th:text="${hoadon.tienShip}+' VND'"></td>
                 <td th:text="${hoadon.thanhTien}+' VND'"></td>
                 <td><a th:href="@{hoa_don/view/{id}(id=${hoadon.idHoaDon})}">Chi tiết</a></td>
             </tr>

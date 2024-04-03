@@ -44,23 +44,13 @@ public class HoaDonServiceImpl implements HoaDonService {
             case "Hoàn thành":tinhTrang=4;break;
             case "Huỷ đơn":tinhTrang=5;break;
         }
-        if(hoaDon.getNgayNhan().toString().isEmpty()){
-             ngayNhan = null;
-        }else {
-            ngayNhan = Date.valueOf(hoaDon.getNgayNhan());
-        }
-        if(hoaDon.getNgayShip().toString().isEmpty()){
-            ngayShip = null;
-        }else {
-            ngayShip = Date.valueOf(hoaDon.getNgayShip());
-        }
         if(hoaDon.getNgayThanhToan().toString().isEmpty()){
             ngayThanhToan = null;
         }else {
             ngayThanhToan = Date.valueOf(hoaDon.getNgayThanhToan());
         }
-        return hoaDonRepository.findAllByMaAndNhanVienAndKhachHangAndNgayThanhToanAndNgayNhanAndNgayShipAndTinhTrang(
-                hoaDon.getMa(),nhanVien,khachHang,ngayThanhToan,ngayNhan,ngayShip,tinhTrang,pageable
+        return hoaDonRepository.findAllByMaAndNhanVienAndKhachHangAndNgayThanhToanAndTinhTrang(
+                hoaDon.getMa(),nhanVien,khachHang,ngayThanhToan,tinhTrang,pageable
         );
     }
 
