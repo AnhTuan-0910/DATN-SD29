@@ -346,6 +346,29 @@ END;
                 WHERE phieu_giam_gia.id_pgg = inserted.id_pgg;
             END;
 
+                CREATE OR ALTER TRIGGER Update_ThanhTien
+                    ON gio_hang_chi_tiet
+                    AFTER INSERT, UPDATE, DELETE
+                    AS
+                BEGIN
+                    -- Cập nhật thanh_tien trong gio_hang
+                    UPDATE gio_hang
+                    SET thanh_tien = (
+                        SELECT SUM(don_gia * so_luong)
+                        FROM gio_hang_chi_tiet
+                        WHERE id_gio_hang IN (
+                            SELECT id_gio_hang FROM inserted
+                            UNION
+                            SELECT id_gio_hang FROM deleted
+                        )
+                    )
+                    WHERE id_gio_hang IN (
+                        SELECT id_gio_hang FROM inserted
+                        UNION
+                        SELECT id_gio_hang FROM deleted
+                    )
+                End
+
             insert into phieu_giam_gia(ma, ten, don_vi, gia_tri_giam, gia_tri_toi_thieu, gia_tri_giam_toi_da,
                                        ngay_bat_dau, ngay_ket_thuc, mo_ta, so_luong, trang_thai)
             values ('PGG001', N'Phiếu Giảm Giá 1', 1, 10, 100000, 20000, '2024/1/1', '2024/12/12', N'Mô tả 1', 50, 1),
