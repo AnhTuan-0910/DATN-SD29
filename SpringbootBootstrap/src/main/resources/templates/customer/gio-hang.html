@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>King Feet-Thương hiệu giày da hàng đầu</title>
+    <script th:src="@{/js/gio_hang.js}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -46,20 +49,20 @@
                                     <td class="price-col" th:text="${x.sanPhamCT.gia}+' VNĐ'"></td>
                                     <td class="quantity-col">
                                         <div class="cart-product-quantity">
-                                            <input type="number" class="form-control" name="soLuong" th:id="soLuong" th:value="${x.soLuong}" min="1" max="10" step="1" data-decimals="0" required>
+                                            <input type="number" class="form-control SLSanPham" name="soLuong" th:id="${x.sanPhamCT.id}" th:value="${x.soLuong}" min="1" max="10" step="1" data-decimals="0" required>
                                         </div>
                                     </td>
                                     <td class="total-col" th:id="tong" th:value="${x.donGia*x.soLuong}" th:text="${x.donGia*x.soLuong}+' VNĐ'"></td>
                                     <td class="remove-col"><button class="btn-remove"><i class="icon-close"></i></button></td>
                                 </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="price-col">Tổng Tiền</td>
-                                    <td class="total-col" th:text="${gioHang.thanhTien}+' VNĐ'"></td>
-                                    <td></td>
-                                </tr>
+<!--                                <tr>-->
+<!--                                    <td></td>-->
+<!--                                    <td></td>-->
+<!--                                    <td></td>-->
+<!--                                    <td class="price-col">Tổng Tiền</td>-->
+<!--                                    <td class="total-col" th:text="${gioHang?.thanhTien}+' VNĐ'"></td>-->
+<!--                                    <td></td>-->
+<!--                                </tr>-->
                                 </tbody>
                             </table>
 
@@ -78,11 +81,8 @@
                                         <td id="tongHoaDon">0 VNĐ</td>
                                     </tr>
                                 </table>
-
-                                <a href="/shop/thanh-toan" class="btn btn-outline-primary-2 btn-order btn-block">THANH TOÁN NGAY</a>
+                                <button th:id="thanhToan">THANH TOÁN NGAY</button>
                             </div>
-
-                            <a href="/shop/tat-ca-san-pham" class="btn btn-outline-dark-2 btn-block mb-3"><span>TIẾP TỤC MUA SẮM</span><i class="icon-refresh"></i></a>
                         </aside>
                     </div>
                 </div>

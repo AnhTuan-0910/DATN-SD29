@@ -1,6 +1,7 @@
 package com.springboot.bootstrap.controller;
 
 import com.springboot.bootstrap.entity.DTO.GioHangDTO;
+import com.springboot.bootstrap.entity.DTO.GioHangTqDTO;
 import com.springboot.bootstrap.entity.DTO.ResponseSanPhamQrDTO;
 import com.springboot.bootstrap.entity.DTO.SanPhamQrDTO;
 import com.springboot.bootstrap.entity.HoaDonChiTiet;
@@ -43,7 +44,7 @@ public class HoaDonChiTietRestController {
         }
     }
     @PostMapping("/validate1")
-    public ResponseSanPhamQrDTO validate1(@RequestBody GioHangDTO gioHangDTO){
+    public ResponseSanPhamQrDTO validate1(@RequestBody GioHangTqDTO gioHangDTO){
         Integer soLuong = sanPhamCTService.getOneByMa(gioHangDTO.getMa()).getSl();
         Integer soLuongGh = hoaDonChiTietService.getOne(gioHangDTO.getIdHoaDonChiTiet()).getSoLuong();
         if(gioHangDTO.getSoLuong()==null){
