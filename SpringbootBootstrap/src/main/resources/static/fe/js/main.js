@@ -19,23 +19,27 @@ $(document).ready(function () {
         checkbox.addEventListener('change', updateTotal);
     });
 
-    function updateSoLuong(productId, newQuantity) {
-        console.log("aaaaaaaaaaaa");
-        $.ajax({
-            url: '/shop/gio-hang/update-so-luong',
-            type: 'POST',
-            data: {
-                productId: productId,
-                newQuantity: newQuantity
-            },
-            success: function(response) {
-                // Xử lý kết quả nếu cần
-            },
-            error: function(xhr, status, error) {
-                console.error(error);
-            }
-        });
-    }
+    // function updateSoLuong() {
+    //     console.log("updateSoLuong");
+    // }
+
+    // function updateSoLuong(idGhct, soLuong) {
+    //     console.log("updateSoLuong");
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '/shop/gio-hang/update-so-luong',
+    //         data: {
+    //             idGhct: idGhct,
+    //             soLuong: soLuong
+    //         },
+    //         success: function(response) {
+    //
+    //         },
+    //         error: function(xhr, status, error) {
+    //             console.error(error);
+    //         }
+    //     });
+    // }
 
     //----------------------------------
 
