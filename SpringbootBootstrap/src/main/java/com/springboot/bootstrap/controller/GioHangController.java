@@ -33,12 +33,20 @@ public class GioHangController{
         return "/customer/gio-hang";
     }
 
-    @PostMapping("/update-so-luong")
-    public String updateSoLuong(@RequestParam(name = "idGhct") UUID idGhct,
-                              @RequestParam(name = "soLuong") int soLuong) {
-        GioHangChiTiet gioHangChiTiet=gioHangChiTietRepository.findById(idGhct).orElse(null);
-        gioHangChiTiet.setSoLuong(soLuong);
-        gioHangChiTietRepository.save(gioHangChiTiet);
+    @PostMapping("/update-so-luong/{idGhct}")
+//    @ResponseBody
+    public String updateSoLuong(@PathVariable(value = "idGhct", required = false) UUID idGhct
+                                ,@RequestParam(name = "soLuong") int soLuong) {
+            GioHangChiTiet gioHangChiTiet=gioHangChiTietRepository.findById(idGhct).orElse(null);
+            gioHangChiTiet.setSoLuong(soLuong);
+            gioHangChiTietRepository.save(gioHangChiTiet);
+        return "redirect:/shop/gio-hang";
+    }
+
+    @GetMapping("/delete/{idGhct}")
+    public String deleteItem(Model model,
+                             @PathVariable("idGhct") UUID idGhct) {
+        gioHangChiTietRepository.deleteById(idGhct);
         return "redirect:/shop/gio-hang";
     }
 }
