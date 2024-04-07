@@ -36,7 +36,7 @@
                                         <div class="product">
                                             <figure class="product-media">
                                                 <a th:href="@{'/shop/detailSP/'+${x.sanPhamCT.id}}">
-                                                    <input name="idGhct" th:value="${x.idGhct}">
+                                                    <input name="idGhct" th:id="idGhct" th:value="${x.idGhct}" hidden>
 <!--                                                    <img th:src="@{${x.sanPhamCT.anh}}" alt="Product image">-->
                                                     <img th:src="@{/fe/images/cart/giay-luoi-nam-cao-cap-GNLA2122-N.jpg}" alt="Product image">
                                                 </a>
@@ -53,16 +53,29 @@
                                         </div>
                                     </td>
                                     <td class="total-col" th:id="tong" th:value="${x.donGia*x.soLuong}" th:text="${x.donGia*x.soLuong}+' VNĐ'"></td>
-                                    <td class="remove-col"><button class="btn-remove"><i class="icon-close"></i></button></td>
+                                    <td class="remove-col">
+                                            <button th:onclick="return confirm('Bạn có muốn thay đổi số lượng sản phẩm?')" class="btn btn-primary btn-remove" type="submit"> Sửa
+    <!--                                            icon sửa-->
+                                            </button>
+                                        </a>
+                                        <a th:onclick="return confirm('Bạn có muốn xoá sản phẩm này?')" type="button"
+                                           th:href="@{/shop/gio-hang/delete/{idGhct}(idGhct=${x.idGhct})}">
+                                           <button class="btn-remove" type="button">
+                                                <i class="icon-close"></i>
+                                            </button>
+                                        </a>
+                                    </td>
+                                    </form>
                                 </tr>
-<!--                                <tr>-->
-<!--                                    <td></td>-->
-<!--                                    <td></td>-->
-<!--                                    <td></td>-->
-<!--                                    <td class="price-col">Tổng Tiền</td>-->
-<!--                                    <td class="total-col" th:text="${gioHang?.thanhTien}+' VNĐ'"></td>-->
-<!--                                    <td></td>-->
-<!--                                </tr>-->
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="price-col">Tổng Tiền</td>
+                                    <td class="total-col" th:text="${gioHang.thanhTien}+' VNĐ'"></td>
+                                    <td></td>
+                                </tr>
+
                                 </tbody>
                             </table>
 
