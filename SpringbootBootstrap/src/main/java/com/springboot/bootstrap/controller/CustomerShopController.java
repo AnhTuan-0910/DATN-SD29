@@ -28,11 +28,6 @@ public class CustomerShopController {
         return "/customer/detailSP";
     }
 
-    @RequestMapping("/thanh-toan")
-    public String thanhToan() {
-        return "/customer/thanh-toan";
-    }
-
     @RequestMapping("/gio-hang")
     public String gioHang() {
         return "/customer/gio-hang";

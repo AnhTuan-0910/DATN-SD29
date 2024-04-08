@@ -92,7 +92,8 @@
                     <thead>
                     <tr>
                       <th>Sản phẩm</th>
-                      <th>Tổng</th>
+                      <th>Giá</th>
+                      <th>Số Lượng</th>
                     </tr>
                     </thead>
 
@@ -169,8 +170,10 @@
                   </div>
 
                   <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
-                    <span class="btn-text">Đặt hàng</span>
-                    <span class="btn-hover-text">Tiến hành kiểm tra</span>
+                    <a th:href="@{/online/save}">
+                      <span class="btn-text">Đặt hàng</span>
+                      <span class="btn-hover-text">Tiến hành kiểm tra</span>
+                    </a>
                   </button>
                 </div>
               </aside>
