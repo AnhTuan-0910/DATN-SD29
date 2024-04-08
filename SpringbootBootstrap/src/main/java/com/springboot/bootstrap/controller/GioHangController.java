@@ -1,6 +1,7 @@
 package com.springboot.bootstrap.controller;
 
 
+import com.springboot.bootstrap.entity.FormatHelper;
 import com.springboot.bootstrap.entity.GioHang;
 import com.springboot.bootstrap.entity.GioHangChiTiet;
 import com.springboot.bootstrap.repository.GioHangChiTietRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,6 +32,7 @@ public class GioHangController{
         model.addAttribute("listGioHangCT",listGioHang);
         GioHang gioHang=gioHangRepository.findAllByKhachHang_Ma("KH001");
         model.addAttribute("gioHang",gioHang);
+        model.addAttribute("formatHelper", new FormatHelper());
         return "/customer/gio-hang";
     }
 
@@ -49,5 +52,7 @@ public class GioHangController{
         gioHangChiTietRepository.deleteById(idGhct);
         return "redirect:/shop/gio-hang";
     }
+
+
 }
 
