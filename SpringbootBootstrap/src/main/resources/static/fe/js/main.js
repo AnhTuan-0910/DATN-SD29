@@ -1,23 +1,23 @@
 // Main Js File
 $(document).ready(function () {
     //update Giá Trị Hóa Đơn
-    function updateTotal() {
-        var total = 0;
-        var checkboxes = document.querySelectorAll('input[name="selectedProducts"]:checked');
-        var tongHoaDon = document.getElementById('tongHoaDon');
-
-        checkboxes.forEach(function(checkbox) {
-            var currentRow = checkbox.closest('tr');
-            var tong = currentRow.querySelector('.total-col').innerText.replace(' VNĐ', '');
-            total += parseInt(tong);
-        });
-
-        tongHoaDon.innerText = total + ' VNĐ';
-    }
-    var checkboxes = document.querySelectorAll('input[name="selectedProducts"]');
-    checkboxes.forEach(function(checkbox) {
-        checkbox.addEventListener('change', updateTotal);
-    });
+    // function updateTotal() {
+    //     var total = 0;
+    //     var checkboxes = document.querySelectorAll('input[name="selectedProducts"]:checked');
+    //     var tongHoaDon = document.getElementById('tongHoaDon');
+    //
+    //     checkboxes.forEach(function(checkbox) {
+    //         var currentRow = checkbox.closest('tr');
+    //         var tong = currentRow.querySelector('.total-col').innerText.replace(' VNĐ', '');
+    //         total += parseInt(tong);
+    //     });
+    //
+    //     tongHoaDon.innerText = total + ' VNĐ';
+    // }
+    // var checkboxes = document.querySelectorAll('input[name="selectedProducts"]');
+    // checkboxes.forEach(function(checkbox) {
+    //     checkbox.addEventListener('change', updateTotal);
+    // });
 
     // function updateSoLuong() {
     //     console.log("updateSoLuong");
