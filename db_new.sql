@@ -354,8 +354,9 @@ END;
                     -- Cập nhật thanh_tien trong gio_hang
                     UPDATE gio_hang
                     SET thanh_tien = (
-                        SELECT SUM(don_gia * so_luong)
-                        FROM gio_hang_chi_tiet
+                        SELECT SUM(san_pham_chi_tiet.gia_ban * so_luong)
+                        FROM gio_hang_chi_tiet Join san_pham_chi_tiet
+						on gio_hang_chi_tiet.id_spct = san_pham_chi_tiet.id_spct
                         WHERE id_gio_hang IN (
                             SELECT id_gio_hang FROM inserted
                             UNION
