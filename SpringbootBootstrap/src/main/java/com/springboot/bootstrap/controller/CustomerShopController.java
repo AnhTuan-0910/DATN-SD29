@@ -42,4 +42,7 @@ public class CustomerShopController {
     public String about() {
         return "/customer/about";
     }
+
+    @RequestMapping("/thanh-toan")
+    public String thanhToan(){return "/customer/thanh-toan";}
 }
