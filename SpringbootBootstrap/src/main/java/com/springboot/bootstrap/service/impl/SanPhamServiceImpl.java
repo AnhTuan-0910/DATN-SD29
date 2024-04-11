@@ -13,7 +13,7 @@ public class SanPhamServiceImpl implements SanPhamService {
     @Autowired
     private SanPhamRepo sanPhamRepo;
 
-
+    //tai quay
     @Override
     public void update(String id, SanPham sanPham) {
         sanPham.setId(id);
@@ -35,5 +35,11 @@ public class SanPhamServiceImpl implements SanPhamService {
         return sanPhamRepo.findById(id).get();
     }
 
+//online
+
+    @Override
+    public Page<SanPham> getAllByTT(Pageable pageable) {
+        return sanPhamRepo.getAllByTrangThai(pageable);
+    }
 
 }

@@ -31,6 +31,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script th:src="@{/js/online/header.js}"></script>
+    <script th:src="@{/js/feather.min.js}"></script>
 </head>
 
 <body>
@@ -58,17 +60,167 @@
                         <a href="#">
                             <img th:src="@{/fe/images/category/boxed/danh-muc-giay-luoi-nam.jpg}" alt="Banner">
                         </a>
+                    </div>
+                </div>
+
+                <div class="mb-3"></div><!-- End .mb-3 -->
+            </div>
+            <div class="bg-lighter pt-5 pb-5 mb-5">
+                <div class="container">
+                    <div class="heading text-center mb-4">
+                        <h2 class="title">Sản phẩm bán chạy nhất</h2>
+                    </div>
+
+                    <div class="owl-carousel owl-simple" data-toggle="owl"
+                         data-owl-options='{
+                            "nav": false,
+                            "dots": true,
+                            "margin": 20,
+                            "loop": false,
+                            "responsive": {
+                                "0": {
+                                    "items":2
+                                },
+                                "480": {
+                                    "items":2
+                                },
+                                "768": {
+                                    "items":3
+                                },
+                                "992": {
+                                    "items":4
+                                },
+                                "1200": {
+                                    "items":4,
+                                    "nav": true
+                                }
+                            }
+                        }'>
+                        <div class="product product-4">
+                            <figure class="product-media">
+                                <a href="/shop/detailSP">
+                                    <img th:src="@{/fe/images/demos/demo-12/products/product1-1.jpg}" alt="Product image" class="product-image">
+                                    <img th:src="@{/fe/images/demos/demo-12/products/product1-2.jpg}" alt="Product image" class="product-image-hover">
+                                </a>
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
+                                </div>
+                            </figure>
+
+                            <div class="product-body">
+                                <h3 class="product-title"><a href="/shop/detailSP">Giày Derby tăng chiều cao đẹp sang trọng GCLA851-20-XA</a></h3>
+                                <div class="product-price">
+                                    2,200,000 ₫
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product product-4">
+                            <figure class="product-media">
+                                <span class="product-label label-primary">Sale</span>
+                                <a href="/shop/detailSP">
+                                    <img th:src="@{/fe/images/demos/demo-12/products/product2-1.jpg}" alt="Product image" class="product-image">
+                                    <img th:src="@{/fe/images/demos/demo-12/products/product2-2.jpg}" alt="Product image" class="product-image-hover">
+                                </a>
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
+                                </div>
+                            </figure>
+
+                            <div class="product-body">
+                                <h3 class="product-title"><a href="/shop/detailSP">Giày lười nam da bò mặt da cá đuối đẹp GNLAJD6611-1028-D</a></h3><!-- End .product-title -->
+                                <div class="old-price">
+                                    2,100,000 ₫
+                                </div>
+                                <div class="product-price">
+                                    1,900,000 ₫
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product product-4">
+                            <figure class="product-media">
+                                <a href="/shop/detailSP">
+                                    <img th:src="@{/fe/images/demos/demo-12/products/product3-1.jpg}" alt="Product image" class="product-image">
+                                    <img th:src="@{/fe/images/demos/demo-12/products/product3-2.jpg}" alt="Product image" class="product-image-hover">
+                                </a>
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
+                                </div>
+                            </figure>
+
+                            <div class="product-body">
+                                <h3 class="product-title"><a href="/shop/detailSP">Giày tây nam Spectator Oxford da bò GNLAA176-R8-V</a></h3><!-- End .product-title -->
+                                <div class="product-price">
+                                    1,990,000 ₫
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product product-4">
+                            <figure class="product-media">
+                                <a href="/shop/detailSP">
+                                    <img th:src="@{/fe/images/demos/demo-12/products/product4-1.jpg}" alt="Product image" class="product-image">
+                                    <img th:src="@{/fe/images/demos/demo-12/products/product4-2.jpg}" alt="Product image" class="product-image-hover">
+                                </a>
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
+                                </div>
+                            </figure>
+
+                            <div class="product-body">
+                                <h3 class="product-title"><a href="/shop/detailSP">Giày lười nam tăng chiều cao Penny Loafer GCLA926-6-N</a></h3><!-- End .product-title -->
+                                <div class="product-price">
+                                    2,150,000 ₫
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product product-4">
+                            <figure class="product-media">
+                                <a href="/shop/detailSP">
+                                    <img th:src="@{/fe/images/demos/demo-12/products/product5-1.jpg}" alt="Product image" class="product-image">
+                                    <img th:src="@{/fe/images/demos/demo-12/products/product5-2.jpg}" alt="Product image" class="product-image-hover">
+                                </a>
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
+                                </div>
+                            </figure>
+
+                            <div class="product-body">
+                                <h3 class="product-title"><a href="/shop/detailSP">Giày da nam Penny Loafers công sở GNLA1268-NDO</a></h3><!-- End .product-title -->
+                                <div class="product-price">
+                                    1,800,000 ₫
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product product-4">
+                            <figure class="product-media">
+                                <a href="/shop/detailSP">
+                                    <img th:src="@{/fe/images/demos/demo-12/products/product6-1.jpg}" alt="Product image" class="product-image">
+                                    <img th:src="@{/fe/images/demos/demo-12/products/product6-2.jpg}" alt="Product image" class="product-image-hover">
+                                </a>
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
+                                </div>
+                            </figure>
+
+                            <div class="product-body">
+                                <h3 class="product-title"><a href="/shop/detailSP">Giày Boots nam da bò cổ cao phối màu GNLA36700-R58-XN</a></h3><!-- End .product-title -->
+                                <div class="product-price">
+                                    2,350,000 ₫
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="mb-3"></div><!-- End .mb-3 -->
-        </div>
-        <div class="bg-lighter pt-5 pb-5 mb-5">
             <div class="container">
                 <div class="heading text-center mb-4">
-                    <h2 class="title">Sản phẩm bán chạy nhất</h2>
+                    <h2 class="title">Sản phẩm mới</h2>
                 </div>
-
                 <div class="owl-carousel owl-simple" data-toggle="owl"
                      data-owl-options='{
                             "nav": false,
@@ -96,6 +248,7 @@
                         }'>
                     <div class="product product-4">
                         <figure class="product-media">
+                            <span class="product-label label-new">New</span>
                             <a href="/shop/detailSP">
                                 <img th:src="@{/fe/images/demos/demo-12/products/product1-1.jpg}" alt="Product image" class="product-image">
                                 <img th:src="@{/fe/images/demos/demo-12/products/product1-2.jpg}" alt="Product image" class="product-image-hover">
@@ -106,7 +259,7 @@
                         </figure>
 
                         <div class="product-body">
-                            <h3 class="product-title"><a href="/shop/detailSP">Giày Derby tăng chiều cao đẹp sang trọng GCLA851-20-XA</a></h3>
+                            <h3 class="product-title"><a href="/shop/detailSP">Giày Derby tăng chiều cao đẹp sang trọng GCLA851-20-XA</a></h3><!-- End .product-title -->
                             <div class="product-price">
                                 2,200,000 ₫
                             </div>
@@ -115,7 +268,7 @@
 
                     <div class="product product-4">
                         <figure class="product-media">
-                            <span class="product-label label-primary">Sale</span>
+                            <span class="product-label label-new">New</span>
                             <a href="/shop/detailSP">
                                 <img th:src="@{/fe/images/demos/demo-12/products/product2-1.jpg}" alt="Product image" class="product-image">
                                 <img th:src="@{/fe/images/demos/demo-12/products/product2-2.jpg}" alt="Product image" class="product-image-hover">
@@ -138,6 +291,7 @@
 
                     <div class="product product-4">
                         <figure class="product-media">
+                            <span class="product-label label-new">New</span>
                             <a href="/shop/detailSP">
                                 <img th:src="@{/fe/images/demos/demo-12/products/product3-1.jpg}" alt="Product image" class="product-image">
                                 <img th:src="@{/fe/images/demos/demo-12/products/product3-2.jpg}" alt="Product image" class="product-image-hover">
@@ -157,6 +311,7 @@
 
                     <div class="product product-4">
                         <figure class="product-media">
+                            <span class="product-label label-new">New</span>
                             <a href="/shop/detailSP">
                                 <img th:src="@{/fe/images/demos/demo-12/products/product4-1.jpg}" alt="Product image" class="product-image">
                                 <img th:src="@{/fe/images/demos/demo-12/products/product4-2.jpg}" alt="Product image" class="product-image-hover">
@@ -176,6 +331,7 @@
 
                     <div class="product product-4">
                         <figure class="product-media">
+                            <span class="product-label label-new">New</span>
                             <a href="/shop/detailSP">
                                 <img th:src="@{/fe/images/demos/demo-12/products/product5-1.jpg}" alt="Product image" class="product-image">
                                 <img th:src="@{/fe/images/demos/demo-12/products/product5-2.jpg}" alt="Product image" class="product-image-hover">
@@ -186,7 +342,7 @@
                         </figure>
 
                         <div class="product-body">
-                            <h3 class="product-title"><a href="/shop/detailSP">Giày da nam Penny Loafers công sở GNLA1268-NDO</a></h3><!-- End .product-title -->
+                            <h3 class="product-title"><a href="/shop/detailSP">Giày da nam Penny Loafers công sở GNLA1268-NDO</a></h3>
                             <div class="product-price">
                                 1,800,000 ₫
                             </div>
@@ -195,6 +351,7 @@
 
                     <div class="product product-4">
                         <figure class="product-media">
+                            <span class="product-label label-new">New</span>
                             <a href="/shop/detailSP">
                                 <img th:src="@{/fe/images/demos/demo-12/products/product6-1.jpg}" alt="Product image" class="product-image">
                                 <img th:src="@{/fe/images/demos/demo-12/products/product6-2.jpg}" alt="Product image" class="product-image-hover">
@@ -212,219 +369,64 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="container">
-            <div class="heading text-center mb-4">
-                <h2 class="title">Sản phẩm mới</h2>
-            </div>
-            <div class="owl-carousel owl-simple" data-toggle="owl"
-                 data-owl-options='{
-                            "nav": false,
-                            "dots": true,
-                            "margin": 20,
-                            "loop": false,
-                            "responsive": {
-                                "0": {
-                                    "items":2
-                                },
-                                "480": {
-                                    "items":2
-                                },
-                                "768": {
-                                    "items":3
-                                },
-                                "992": {
-                                    "items":4
-                                },
-                                "1200": {
-                                    "items":4,
-                                    "nav": true
-                                }
-                            }
-                        }'>
-                <div class="product product-4">
-                    <figure class="product-media">
-                        <span class="product-label label-new">New</span>
-                        <a href="/shop/detailSP">
-                            <img th:src="@{/fe/images/demos/demo-12/products/product1-1.jpg}" alt="Product image" class="product-image">
-                            <img th:src="@{/fe/images/demos/demo-12/products/product1-2.jpg}" alt="Product image" class="product-image-hover">
-                        </a>
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
-                        </div>
-                    </figure>
-
-                    <div class="product-body">
-                        <h3 class="product-title"><a href="/shop/detailSP">Giày Derby tăng chiều cao đẹp sang trọng GCLA851-20-XA</a></h3><!-- End .product-title -->
-                        <div class="product-price">
-                            2,200,000 ₫
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product product-4">
-                    <figure class="product-media">
-                        <span class="product-label label-new">New</span>
-                        <a href="/shop/detailSP">
-                            <img th:src="@{/fe/images/demos/demo-12/products/product2-1.jpg}" alt="Product image" class="product-image">
-                            <img th:src="@{/fe/images/demos/demo-12/products/product2-2.jpg}" alt="Product image" class="product-image-hover">
-                        </a>
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
-                        </div>
-                    </figure>
-
-                    <div class="product-body">
-                        <h3 class="product-title"><a href="/shop/detailSP">Giày lười nam da bò mặt da cá đuối đẹp GNLAJD6611-1028-D</a></h3><!-- End .product-title -->
-                        <div class="old-price">
-                            2,100,000 ₫
-                        </div>
-                        <div class="product-price">
-                            1,900,000 ₫
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product product-4">
-                    <figure class="product-media">
-                        <span class="product-label label-new">New</span>
-                        <a href="/shop/detailSP">
-                            <img th:src="@{/fe/images/demos/demo-12/products/product3-1.jpg}" alt="Product image" class="product-image">
-                            <img th:src="@{/fe/images/demos/demo-12/products/product3-2.jpg}" alt="Product image" class="product-image-hover">
-                        </a>
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
-                        </div>
-                    </figure>
-
-                    <div class="product-body">
-                        <h3 class="product-title"><a href="/shop/detailSP">Giày tây nam Spectator Oxford da bò GNLAA176-R8-V</a></h3><!-- End .product-title -->
-                        <div class="product-price">
-                            1,990,000 ₫
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product product-4">
-                    <figure class="product-media">
-                        <span class="product-label label-new">New</span>
-                        <a href="/shop/detailSP">
-                            <img th:src="@{/fe/images/demos/demo-12/products/product4-1.jpg}" alt="Product image" class="product-image">
-                            <img th:src="@{/fe/images/demos/demo-12/products/product4-2.jpg}" alt="Product image" class="product-image-hover">
-                        </a>
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
-                        </div>
-                    </figure>
-
-                    <div class="product-body">
-                        <h3 class="product-title"><a href="/shop/detailSP">Giày lười nam tăng chiều cao Penny Loafer GCLA926-6-N</a></h3><!-- End .product-title -->
-                        <div class="product-price">
-                            2,150,000 ₫
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product product-4">
-                    <figure class="product-media">
-                        <span class="product-label label-new">New</span>
-                        <a href="/shop/detailSP">
-                            <img th:src="@{/fe/images/demos/demo-12/products/product5-1.jpg}" alt="Product image" class="product-image">
-                            <img th:src="@{/fe/images/demos/demo-12/products/product5-2.jpg}" alt="Product image" class="product-image-hover">
-                        </a>
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
-                        </div>
-                    </figure>
-
-                    <div class="product-body">
-                        <h3 class="product-title"><a href="/shop/detailSP">Giày da nam Penny Loafers công sở GNLA1268-NDO</a></h3>
-                        <div class="product-price">
-                            1,800,000 ₫
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product product-4">
-                    <figure class="product-media">
-                        <span class="product-label label-new">New</span>
-                        <a href="/shop/detailSP">
-                            <img th:src="@{/fe/images/demos/demo-12/products/product6-1.jpg}" alt="Product image" class="product-image">
-                            <img th:src="@{/fe/images/demos/demo-12/products/product6-2.jpg}" alt="Product image" class="product-image-hover">
-                        </a>
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
-                        </div>
-                    </figure>
-
-                    <div class="product-body">
-                        <h3 class="product-title"><a href="/shop/detailSP">Giày Boots nam da bò cổ cao phối màu GNLA36700-R58-XN</a></h3><!-- End .product-title -->
-                        <div class="product-price">
-                            2,350,000 ₫
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="icon-boxes-container bg-transparent">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="icon-box icon-box-side">
+                <div class="icon-boxes-container bg-transparent">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="icon-box icon-box-side">
                                     <span class="icon-box-icon">
                                         <i class="icon-rocket"></i>
                                     </span>
-                                <div class="icon-box-content">
-                                    <h3 class="icon-box-title">Free Ship</h3>
-                                    <p>Đơn hàng 100,000 ₫ trở lên</p>
+                                    <div class="icon-box-content">
+                                        <h3 class="icon-box-title">Free Ship</h3>
+                                        <p>Đơn hàng 100,000 ₫ trở lên</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="icon-box icon-box-side">
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="icon-box icon-box-side">
                                     <span class="icon-box-icon">
                                         <i class="icon-rotate-left"></i>
                                     </span>
 
-                                <div class="icon-box-content">
-                                    <h3 class="icon-box-title">Free trả hàng</h3>
-                                    <p>Dưới 30 ngày</p>
+                                    <div class="icon-box-content">
+                                        <h3 class="icon-box-title">Free trả hàng</h3>
+                                        <p>Dưới 30 ngày</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="icon-box icon-box-side">
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="icon-box icon-box-side">
                                     <span class="icon-box-icon">
                                         <i class="icon-info-circle"></i>
                                     </span>
 
-                                <div class="icon-box-content">
-                                    <h3 class="icon-box-title">Được giảm giá 20% cho 1 mặt hàng</h3>
-                                    <p>Khi đăng ký</p>
+                                    <div class="icon-box-content">
+                                        <h3 class="icon-box-title">Được giảm giá 20% cho 1 mặt hàng</h3>
+                                        <p>Khi đăng ký</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="icon-box icon-box-side">
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="icon-box icon-box-side">
                                     <span class="icon-box-icon">
                                         <i class="icon-life-ring"></i>
                                     </span>
 
-                                <div class="icon-box-content">
-                                    <h3 class="icon-box-title">Hân hạnh hỗ trợ</h3>
-                                    <p>24/7</p>
+                                    <div class="icon-box-content">
+                                        <h3 class="icon-box-title">Hân hạnh hỗ trợ</h3>
+                                        <p>24/7</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </main>
     <span th:replace="customer/footer :: footer"></span>
 </div>

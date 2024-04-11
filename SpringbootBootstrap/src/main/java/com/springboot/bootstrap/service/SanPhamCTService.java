@@ -4,6 +4,8 @@ import com.springboot.bootstrap.entity.SanPhamCT;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface SanPhamCTService {
     Page<SanPhamCT> searchByFilter(String danhMucId, String kichThuocId, String mauSacId, String thuongHieuId, Pageable pageable);
 
@@ -25,4 +27,10 @@ public interface SanPhamCTService {
     Page<SanPhamCT> getAll(Pageable pageable);
 
     Page<SanPhamCT> getBySL(Pageable pageable);
+
+    Page<SanPhamCT> getByMSAndKTSPCT( String kichThuocId, String mauSacId, String sanPhamId, Pageable pageable);
+
+    Page<SanPhamCT> searchbyKeyWord(String keyword, Pageable pageable);
+
+    List<SanPhamCT> findAllBySP(String idSP);
 }

@@ -13,10 +13,7 @@ public class CustomerShopController {
         return "/customer/index";
     }
 
-    @RequestMapping("/tat-ca-san-pham")
-    public String tatCaSanPham() {
-        return "/customer/tat-ca-san-pham";
-    }
+
 
     @RequestMapping("/danh-muc-giay")
     public String danhMucSanPham() {
