@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>King Feet-Thương hiệu giày da hàng đầu</title>
+  <script th:src="@{/js/shop_thanh_toan.js}"></script>
 </head>
 
 <body>
@@ -92,84 +93,24 @@
                     <thead>
                     <tr>
                       <th>Sản phẩm</th>
-                      <th>Giá</th>
                       <th>Số Lượng</th>
+                      <th>Giá</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    <tr>
-                      <td><a href="#">Giày da nam Penny Loafer trẻ trung cao cấp GNLAMJ238-F1-D</a></td>
-                      <td>1,750,000 ₫</td>
-                    </tr>
-
-                    <tr>
-                      <td><a href="#">Giày lười da nam họa tiết caro lịch lãm GNLA2122-N</a></td>
-                      <td>1,750,000 ₫</td>
-                    </tr>
-                    <tr class="summary-subtotal">
-                      <td>Tổng giá trị:</td>
-                      <td>3,500,000 ₫</td>
-                    </tr>
-                    <tr>
-                      <td>Đang chuyển hàng:</td>
-                      <td>Miễn phí vận chuyển</td>
+                    <tr th:each="gh:${listGioHangCt}">
+                      <td th:text="${gh.sanPhamCT.sanPham.ten}"></td>
+                      <td th:text="${gh.soLuong}"></td>
+                      <td th:text="${gh.soLuong*gh.donGia}"></td>
                     </tr>
                     <tr class="summary-total">
                       <td>Thành tiền:</td>
-                      <td>3,500,000 ₫</td>
+                      <td th:text="${giohang?.thanhTien}"></td>
                     </tr>
                     </tbody>
                   </table>
-
-                  <div class="accordion-summary" id="accordion-payment">
-                    <div class="card">
-                      <div class="card-header" id="heading-1">
-                        <h2 class="card-title">
-                          <a role="button" data-toggle="collapse" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
-                            Chuyển khoản trực tiếp
-                          </a>
-                        </h2>
-                      </div>
-                      <div id="collapse-1" class="collapse show" aria-labelledby="heading-1" data-parent="#accordion-payment">
-                        <div class="card-body">
-                          Thực hiện thanh toán trực tiếp vào tài khoản ngân hàng của chúng tôi. Vui lòng sử dụng ID đơn hàng của bạn làm tài liệu tham khảo thanh toán. Đơn đặt hàng của bạn sẽ không được vận chuyển cho đến khi tiền đã được xóa trong tài khoản của chúng tôi.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="card">
-                      <div class="card-header" id="heading-2">
-                        <h2 class="card-title">
-                          <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-2" aria-expanded="false" aria-controls="collapse-2">
-                            Kiểm tra thanh toán
-                          </a>
-                        </h2>
-                      </div>
-                      <div id="collapse-2" class="collapse" aria-labelledby="heading-2" data-parent="#accordion-payment">
-                        <div class="card-body">
-                          ...
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="card">
-                      <div class="card-header" id="heading-3">
-                        <h2 class="card-title">
-                          <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-3" aria-expanded="false" aria-controls="collapse-3">
-                            Thanh toán khi giao hàng
-                          </a>
-                        </h2>
-                      </div>
-                      <div id="collapse-3" class="collapse" aria-labelledby="heading-3" data-parent="#accordion-payment">
-                        <div class="card-body">
-                          ...
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+                  <button type="submit" id="thanhToan" class="btn btn-outline-primary-2 btn-order btn-block">
                     <a th:href="@{/online/save}">
                       <span class="btn-text">Đặt hàng</span>
                       <span class="btn-hover-text">Tiến hành kiểm tra</span>
