@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SanPhamCTServiceImpl implements SanPhamCTService {
     @Autowired
@@ -65,5 +67,20 @@ public class SanPhamCTServiceImpl implements SanPhamCTService {
     @Override
     public SanPhamCT getByMSAndKT(String idKT, String idMS, String idSP) {
         return sanPhamCTRepo.findByMauSacAndKichThuoc(idKT, idMS,idSP);
+    }
+
+    @Override
+    public Page<SanPhamCT> getByMSAndKTSPCT(String kichThuocId, String mauSacId, String sanPhamId, Pageable pageable) {
+        return sanPhamCTRepo.findByMSAndKTSPCT(kichThuocId, mauSacId, sanPhamId, pageable);
+    }
+
+    @Override
+    public Page<SanPhamCT> searchbyKeyWord(String keyword, Pageable pageable) {
+        return sanPhamCTRepo.searchbyKeyWord(keyword, pageable);
+    }
+
+    @Override
+    public List<SanPhamCT> findAllBySP(String idSP) {
+        return sanPhamCTRepo.findAllBySanPham(idSP);
     }
 }

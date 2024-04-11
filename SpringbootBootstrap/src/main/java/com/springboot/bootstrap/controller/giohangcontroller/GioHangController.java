@@ -1,4 +1,4 @@
-package com.springboot.bootstrap.controller.giohangcontroller;
+package com.springboot.bootstrap.controller;
 
 
 import com.springboot.bootstrap.entity.FormatHelper;
@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/gio-hang")
+@RequestMapping("/shop/gio-hang")
 public class GioHangController{
 
     @Autowired
@@ -26,6 +26,9 @@ public class GioHangController{
     @Autowired
     private GioHangChiTietRepository gioHangChiTietRepository;
 
+    @Autowired
+    private Base64Image base64Image;
+
     @GetMapping
     public String getAll(Model model){
         List<GioHangChiTiet> listGioHang=gioHangChiTietRepository.findAllByGioHang_KhachHang_Ma("KH001");
@@ -33,6 +36,7 @@ public class GioHangController{
         GioHang gioHang=gioHangRepository.findAllByKhachHang_Ma("KH001");
         model.addAttribute("gioHang",gioHang);
         model.addAttribute("formatHelper", new FormatHelper());
+        model.addAttribute("base64Image", base64Image);
         return "/customer/gio-hang";
     }
 

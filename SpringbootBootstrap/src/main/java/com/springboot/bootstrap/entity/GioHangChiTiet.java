@@ -2,6 +2,7 @@ package com.springboot.bootstrap.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "gio_hang_chi_tiet")
+@Builder
 public class GioHangChiTiet {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

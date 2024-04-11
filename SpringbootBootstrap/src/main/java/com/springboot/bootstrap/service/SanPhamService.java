@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface SanPhamService {
 
-
+    //tại quầy
     void add(SanPham sanPham);
 
     void update(String id,SanPham sanPham);
@@ -14,4 +14,6 @@ public interface SanPhamService {
     SanPham detail(String id);
 
     Page<SanPham> getAll(Pageable pageable);
+    //online
+    Page<SanPham> getAllByTT(Pageable pageable);
 }
