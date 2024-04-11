@@ -1,4 +1,4 @@
-package com.springboot.bootstrap.controller;
+package com.springboot.bootstrap.controller.khachhangcontroller;
 
 import com.springboot.bootstrap.entity.DiaChi;
 import com.springboot.bootstrap.entity.KhachHang;

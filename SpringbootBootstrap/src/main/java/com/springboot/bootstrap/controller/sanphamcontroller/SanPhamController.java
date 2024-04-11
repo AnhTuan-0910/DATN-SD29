@@ -1,4 +1,4 @@
-package com.springboot.bootstrap.controller;
+package com.springboot.bootstrap.controller.sanphamcontroller;
 
 import com.springboot.bootstrap.entity.DanhMuc;
 import com.springboot.bootstrap.entity.KichThuoc;

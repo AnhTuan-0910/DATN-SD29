@@ -1,4 +1,4 @@
-package com.springboot.bootstrap.controller;
+package com.springboot.bootstrap.controller.sanphamcontroller;
 
 import com.springboot.bootstrap.entity.ThuongHieu;
 import com.springboot.bootstrap.service.ThuongHieuService;
@@ -30,7 +30,6 @@ public class ThuongHieuController {
     @GetMapping("/viewOne/")
     @ResponseBody
     public ThuongHieu viewUpdate(String id) {
-
         return thuongHieuService.getOne(id);
     }
     @PostMapping("/add")

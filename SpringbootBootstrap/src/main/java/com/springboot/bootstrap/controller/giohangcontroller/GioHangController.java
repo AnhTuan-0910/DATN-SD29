@@ -1,4 +1,4 @@
-package com.springboot.bootstrap.controller;
+package com.springboot.bootstrap.controller.giohangcontroller;
 
 
 import com.springboot.bootstrap.entity.FormatHelper;
@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/shop/gio-hang")
+@RequestMapping("/gio-hang")
 public class GioHangController{
 
     @Autowired

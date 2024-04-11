@@ -1,8 +1,7 @@
-package com.springboot.bootstrap.controller;
+package com.springboot.bootstrap.controller.sanphamcontroller;
 
-
-import com.springboot.bootstrap.entity.MauSac;
-import com.springboot.bootstrap.service.MauSacService;
+import com.springboot.bootstrap.entity.DanhMuc;
+import com.springboot.bootstrap.service.DanhMucService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,49 +16,52 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Optional;
 
-@RequestMapping("/mau_sac")
+@RequestMapping("/danh_muc")
 @Controller
-public class MauSacController {
+public class DanhMucController {
     @Autowired
-    private MauSacService mauSacService;
+    private DanhMucService danhMucService;
 
     @GetMapping("")
     public String getAll(@RequestParam("p") Optional<Integer> p, Model model) {
-        Page<MauSac> listMS = mauSacService.getAll(PageRequest.of(p.orElse(0), 5));
-        model.addAttribute("listMS", listMS);
-        return "/pages/mau_sac";
+        Page<DanhMuc> listDM = danhMucService.getAll(PageRequest.of(p.orElse(0), 5));
+        model.addAttribute("listDM", listDM);
+        return "/pages/danh_muc";
     }
+
     @GetMapping("/viewOne/")
     @ResponseBody
-    public MauSac viewUpdate(String id) {
+    public DanhMuc viewUpdate(String id) {
 
-        return mauSacService.getOne(id);
+        return danhMucService.getOne(id);
     }
+
     @PostMapping("/add")
-    public String add(@ModelAttribute("msa") MauSac mauSac,
+    public String add(@ModelAttribute("dma") DanhMuc danhMuc,
                       @RequestParam("ten") String ten,
                       @RequestParam("trangThai") String trangThai,
                       @RequestParam("p") Optional<Integer> p, Model model) {
-        mauSac = MauSac.builder().ma(mauSacService.generateMaMS()).ten(ten).trangThai(Integer.parseInt(trangThai)).build();
-        mauSacService.add(mauSac);
-        Page<MauSac> listMS = mauSacService.getAll(PageRequest.of(p.orElse(0), 5));
-        model.addAttribute("listMS", listMS);
-        return "redirect:/mau_sac";
+        danhMuc = DanhMuc.builder().ten(ten).trangThai(Integer.parseInt(trangThai)).build();
+        danhMucService.add(danhMuc);
+        Page<DanhMuc> listDM = danhMucService.getAll(PageRequest.of(p.orElse(0), 5));
+        model.addAttribute("listDM", listDM);
+        return "redirect:/danh_muc";
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute("msu") MauSac mauSac,
+    public String update(@ModelAttribute("dmu") DanhMuc danhMuc,
                          @RequestParam("id") String id,
                          @RequestParam("ma") String ma,
                          @RequestParam("ten") String ten,
                          @RequestParam("trangThai") String trangThai,
                          @RequestParam("p") Optional<Integer> p, Model model) {
-        mauSac = MauSac.builder().ma(ma).ten(ten).trangThai(Integer.parseInt(trangThai)).build();
-        mauSacService.update(mauSac, id);
-        Page<MauSac> listMS = mauSacService.getAll(PageRequest.of(p.orElse(0), 5));
-        model.addAttribute("listMS", listMS);
-        return "redirect:/mau_sac";
+        danhMuc = DanhMuc.builder().ma(ma).ten(ten).trangThai(Integer.parseInt(trangThai)).build();
+        danhMucService.update(danhMuc, id);
+        Page<DanhMuc> listDM = danhMucService.getAll(PageRequest.of(p.orElse(0), 5));
+        model.addAttribute("listDM", listDM);
+        return "redirect:/danh_muc";
     }
+
 
     @GetMapping("/search")
     public String search(@RequestParam("p") Optional<Integer> page,
@@ -72,27 +74,27 @@ public class MauSacController {
         if (currentPage < 0) {
             return "redirect:/mau_sac?p=0";
         }
-        Page<MauSac> listMS = null;
+        Page<DanhMuc> listDM = null;
 
 
 
         if (keyword != null && !keyword.isEmpty()) {
-            listMS = mauSacService.searchCodeOrName(keyword, PageRequest.of(currentPage, pageSize));
+            listDM = danhMucService.searchCodeOrName(keyword, PageRequest.of(currentPage, pageSize));
         } else if (trangThai != null && !trangThai.isEmpty()) {
 
-            listMS = mauSacService.searchTrangThai(Integer.parseInt(trangThai), PageRequest.of(currentPage, pageSize));
+            listDM = danhMucService.searchTrangThai(Integer.parseInt(trangThai), PageRequest.of(currentPage, pageSize));
 
         }  else {
-            listMS = mauSacService.getAll(PageRequest.of(currentPage, pageSize));
+            listDM = danhMucService.getAll(PageRequest.of(currentPage, pageSize));
         }
 
 
-        model.addAttribute("listMS", listMS);
+        model.addAttribute("listDM", listDM);
 
 
 
 
-        return "/pages/mau_sac";
+        return "/pages/danh_muc";
     }
 
 }

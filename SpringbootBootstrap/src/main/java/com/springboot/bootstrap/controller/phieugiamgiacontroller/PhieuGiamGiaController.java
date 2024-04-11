@@ -1,4 +1,4 @@
-package com.springboot.bootstrap.controller;
+package com.springboot.bootstrap.controller.phieugiamgiacontroller;
 
 import com.springboot.bootstrap.entity.PhieuGiamGia;
 import com.springboot.bootstrap.repository.PhieuGiamGiaRepository;

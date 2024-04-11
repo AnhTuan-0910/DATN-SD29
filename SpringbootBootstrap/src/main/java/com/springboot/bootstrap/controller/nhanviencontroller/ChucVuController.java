@@ -1,4 +1,4 @@
-package com.springboot.bootstrap.controller;
+package com.springboot.bootstrap.controller.nhanviencontroller;
 
 import com.springboot.bootstrap.entity.ChucVu;
 import com.springboot.bootstrap.service.ChucVuService;

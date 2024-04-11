@@ -1,4 +1,4 @@
-package com.springboot.bootstrap.controller;
+package com.springboot.bootstrap.controller.thanhtoancontroller;
 
 import com.springboot.bootstrap.entity.GioHangChiTiet;
 import com.springboot.bootstrap.entity.HoaDon;

@@ -1,4 +1,4 @@
-package com.springboot.bootstrap.controller;
+package com.springboot.bootstrap.controller.thanhtoancontroller;
 
 import com.springboot.bootstrap.entity.*;
 import com.springboot.bootstrap.entity.DTO.SanPhamQrDTO;
@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/giao_dich")
+@RequestMapping("/offline/giao_dich")
 public class ThanhToanController {
     @Autowired
     private SanPhamCTService sanPhamCTService;
