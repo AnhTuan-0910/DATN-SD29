@@ -6,6 +6,13 @@ $(document).ready(function () {
 
 
 });
+function formatCurrency(value) {
+    var number = Number(value);
+
+    // Sử dụng phương thức toLocaleString để định dạng số tiền
+    // Với cấu hình mặc định, phương thức này sẽ định dạng số tiền dựa trên cài đặt ngôn ngữ và quốc gia của người dùng
+    return number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+}
 
 function findOneSP() {
     var idSP = $('#idSP').val();
@@ -83,7 +90,7 @@ function findTTSP() {
                 type: 'GET',
                 url: 'http://localhost:8080/spOnl/gia_min?id=' + data.id,
                 success: function (dgmin) {
-                    minPrice = dgmin;
+                    minPrice = formatCurrency(dgmin);
                     console.log(minPrice);
                 }
             });
@@ -91,7 +98,7 @@ function findTTSP() {
                 type: 'GET',
                 url: 'http://localhost:8080/spOnl/gia_max?id=' + data.id,
                 success: function (dgmax) {
-                    maxPrice = dgmax;
+                    maxPrice = formatCurrency(dgmax);
 
                     console.log(maxPrice);
                 }
@@ -101,7 +108,7 @@ function findTTSP() {
                 type: 'GET',
                 url: 'http://localhost:8080/spOnl/spct?id=' + data.id,
                 success: function (spctdata) {
-                    $('#giaSP').append(`  ${minPrice}₫ - ${maxPrice}₫`)
+                    $('#giaSP').append(`  ${minPrice} - ${maxPrice}`)
 
                     $.ajax({
                         type: 'GET',
@@ -210,12 +217,13 @@ $(document).ready(function () {
             type: 'GET',
             url: 'http://localhost:8080/shop/user/spctGH?id=' + idSP + '&idMS=' + idMS + '&idKT=' + idKT,
             success: function (dtspct) {
+                var dgSPCT=formatCurrency(dtspct.gia);
                 $('#idSPCT').val(dtspct.id);
                 console.log('idspct:' + $('#idSPCT').val());
                 $('#slTon').empty();
                 $('#slTon').append(` <p>Số lượng tồn: </p> <p>${dtspct.sl}</p>`);
                 $('#giaSP').empty();
-                $('#giaSP').append(`${dtspct.gia}₫ `);
+                $('#giaSP').append(dgSPCT);
 
                 slTon = dtspct.sl;
             },

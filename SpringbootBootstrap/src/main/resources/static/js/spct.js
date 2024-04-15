@@ -160,6 +160,7 @@ function getOneSPCT() {
                 $('.formUpdate #soLuongUpd').val(spct.sl);
                 $('.formUpdate #ipFileFake').val(spct.data);
                 $('.formUpdate #donGiaUpd').val(spct.gia);
+                $('.formUpdate #tgTao').val(spct.taoLuc);
 
             },
             error: function (xhr, status, error) {

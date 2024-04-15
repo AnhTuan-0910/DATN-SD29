@@ -27,13 +27,13 @@
 
                                 <tbody>
                                 <tr th:each="x : ${listGioHangCT}">
-                                    <form th:action="@{/shop/user/gio-hang/update-so-luong/{idGhct}(idGhct=${x.idGhct})}"
+                                    <form th:action="@{/shop/gio-hang/update-so-luong/{idGhct}(idGhct=${x.idGhct})}"
                                           method="post" onsubmit="return validateQuantity()">
                                         <!--                                    <td><input type="checkbox" id="selectedProducts" name="selectedProducts" th:value="${x.sanPhamCT.id}" onchange="updateTotal()"></td>-->
                                         <td class="product-col">
                                             <div class="product">
                                                 <figure class="product-media">
-                                                    <a th:href="@{'/shop/detailSP/'+${x.sanPhamCT.id}}">
+                                                    <a th:href="@{'/shop/detailSP/'+${x.sanPhamCT.sanPham.id}}">
                                                         <input name="idGhct" th:id="idGhct" th:value="${x.idGhct}"
                                                                hidden>
                                                         <!--                                                    <img th:src="@{${x.sanPhamCT.anh}}" alt="Product image">-->
@@ -42,14 +42,14 @@
                                                     </a>
                                                 </figure>
                                                 <h3 class="product-title">
-                                                    <a th:href="@{'/shop/detailSP/'+${x.sanPhamCT.id}}"
-                                                       th:text="${x.sanPhamCT.sanPham.ten}+'-'+${x.sanPhamCT.ma}"></a>
+                                                    <a th:href="@{'/shop/detailSP/'+${x.sanPhamCT.sanPham.id}}"
+                                                       th:text="${x.sanPhamCT.sanPham.ten}"></a>
                                                     <div>Màu:<span th:text="${x.sanPhamCT.mauSac.ten}" th:style="'background-color:'+${x.sanPhamCT.mauSac.ten}" class="badge"></span></div>
                                                     <div th:text="'Size'+${x.sanPhamCT.kichThuoc.ten}"></div>
                                                 </h3>
                                             </div>
                                         </td>
-                                        <td class="price-col"
+                                        <td class="price-col" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: red"
                                             th:text="${formatHelper.formatCurrency(x.sanPhamCT.gia)}+' VNĐ'"></td>
                                         <td class="quantity-col">
                                             <div class="cart-product-quantity">
@@ -61,13 +61,13 @@
 
                                             </div>
                                         </td>
-                                        <td class="total-col" th:id="tong" th:value="${x.donGia}"
+                                        <td class="total-col" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" th:id="tong" th:value="${x.donGia}"
                                             th:text="${formatHelper.formatCurrency(x.donGia)}+' VNĐ'">
 
                                         </td>
                                         <td>
-                                            <button style="width:50px" class="btn btn-outline-primary" type="submit" th:onclick="return confirm('Bạn có muốn thay đổi số lượng sản phẩm?')">
-                                                Sửa
+                                            <button style="font-size:20px" class="btn btn-outline-primary" type="submit" th:onclick="return confirm('Bạn có muốn thay đổi số lượng sản phẩm?')">
+                                                &#9998;
                                             </button>
                                         </td>
                                         <td >
@@ -75,7 +75,7 @@
 
                                             <a th:onclick="return confirm('Bạn có muốn xoá sản phẩm này?')"
                                                type="button"
-                                               th:href="@{/shop/user/gio-hang/delete/{idGhct}(idGhct=${x.idGhct})}">
+                                               th:href="@{/shop/gio-hang/delete/{idGhct}(idGhct=${x.idGhct})}">
                                                 <button class="btn-remove" type="button">
                                                     <i class="icon-close"></i>
                                                 </button>
@@ -106,7 +106,7 @@
                                     <tbody>
                                     <tr class="summary-subtotal">
                                         <td>Tổng giá trị:</td>
-                                        <td id="tongHoaDon"
+                                        <td style="color: red" id="tongHoaDon"
                                             th:text="${formatHelper.formatCurrency(gioHang.thanhTien)}+' VNĐ'">0 VNĐ
                                         </td>
                                     </tr>

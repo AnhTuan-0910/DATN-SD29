@@ -12,6 +12,10 @@ $(document).ready(function () {
     });
 });
 
+function formatCurrency(value) {
+    var number = Number(value);
+    return number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+}
 
 function getSLAndDGGHCT() {
     var tongTien = 0;
@@ -22,12 +26,12 @@ function getSLAndDGGHCT() {
         success: function (dt) {
 
             $.each(dt, function (index, ghct1) {
-                tongTien = ghct1.gioHang.thanhTien;
+                tongTien = formatCurrency(ghct1.gioHang.thanhTien);
                 console.log("tt:" + tongTien)
 
             });
             soLuongSP += dt.length;
-            $('.tongTiendr').text(tongTien + '₫');
+            $('.tongTiendr').text(tongTien );
             $('#slSPCT').text(soLuongSP);
         },
         error: function (xhr, status, error) {
@@ -46,19 +50,19 @@ function findAllGH(page) {
 
             $('#rdGHCT').empty();
             $.each(dtGHCT.content, function (index, ghct) {
-
+                var giaSPCT = formatCurrency(ghct.donGia);
                 $('#rdGHCT').append(`
                  <div class="product">
                                 <div class="product-cart-details">
                                     <h4 class="product-title">
-                                        <a href="/shop/detailSP">${ghct.sanPhamCT.sanPham.ten}</a>
+                                        <a href="/shop/detailSP/${ghct.sanPhamCT.sanPham.id}">${ghct.sanPhamCT.sanPham.ten}</a>
                                     </h4>
                                          <div >
                                                <span class="cart-product-qty">SL:${ghct.soLuong}</span>
                                         </div>
 
                                     <div >
-                                                 <span class="cart-product-qty">Giá:${ghct.donGia}₫</span>
+                                                 Giá:<span class="cart-product-qty" style="color: red">${giaSPCT}</span>
                                                 
                                     </div>
                                         <div >
@@ -73,12 +77,12 @@ function findAllGH(page) {
                                 </div>
 
                                 <figure  class="product-image-container">
-                                 <a href="/shop/detailSP" class="product-image">
+                                 <a href="/shop/detailSP/${ghct.sanPhamCT.sanPham.id}" class="product-image">
                                         <img id="imgSPCT${ghct.idGhct}" src="" alt="product">
                                     </a>
                                 
                                 </figure>
-                                <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                               
                  </div>
                  `)
 

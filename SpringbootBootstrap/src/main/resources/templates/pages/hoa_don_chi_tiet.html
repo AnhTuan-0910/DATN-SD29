@@ -56,7 +56,7 @@
                     <p>Tổng tiền : <span th:text="${hoaDon.gia}"></span></p>
                 </div>
                 <div>
-                    <p>Voucher : <span th:text="${hoaDon.phieuGiamGia.ma}"></span></p>
+                    <p>Voucher : <span th:text="${hoaDon.phieuGiamGia==null?'':hoaDon.phieuGiamGia.ma}"></span></p>
                 </div>
                 <div>
                     <p>Giá trị giảm : <span th:text="${hoaDon.gia-hoaDon.thanhTien}"></span></p>

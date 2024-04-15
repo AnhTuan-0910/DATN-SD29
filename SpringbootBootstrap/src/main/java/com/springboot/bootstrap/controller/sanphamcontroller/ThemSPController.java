@@ -32,6 +32,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,10 +73,12 @@ public class ThemSPController {
 
     @PostMapping("/addSPCT")
     public ResponseEntity<Map<String, String>> addSanPham(@RequestBody SanPhamDTO sanPhamDTO) {
+
         SanPham sanPham = SanPham.builder()
                 .ten(sanPhamDTO.getTen())
                 .danhMuc(DanhMuc.builder().id(sanPhamDTO.getDanhMuc()).build())
                 .thuongHieu(ThuongHieu.builder().id(sanPhamDTO.getThuongHieu()).build())
+                .taoLuc(LocalDateTime.now())
                 .trangThai(Integer.parseInt(sanPhamDTO.getTrangThai())).build();
         sanPhamService.add(sanPham);
         sanPhamDTO.setIdSP(sanPham.getId());
@@ -88,6 +92,7 @@ public class ThemSPController {
                         .sanPham(SanPham.builder().id(sanPham.getId()).build())
                         .gia(gia)
                         .sl(100)
+                        .taoLuc(LocalDateTime.now())
                         .trangThai(1).build();
                 sanPhamCTService.add(sanPhamCT);
                 qrCodeGenerator.generateQrCode(sanPhamCT.getId(), 50, 50);
@@ -161,6 +166,8 @@ public class ThemSPController {
                             .kichThuoc(KichThuoc.builder().id(idkt).build())
                             .data(f.getBytes())
                             .sl(Integer.parseInt(soLuong))
+                            .taoLuc(LocalDateTime.now())
+                            .trangThai(1)
                             .gia(Double.parseDouble(donGia)).build();
                     sanPhamCTService.update(sanPhamCT, idspct);
                 } catch (IOException e) {

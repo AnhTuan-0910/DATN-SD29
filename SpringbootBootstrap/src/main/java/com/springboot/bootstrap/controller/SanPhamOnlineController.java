@@ -71,7 +71,7 @@ public class SanPhamOnlineController {
     @GetMapping("/all")
     @ResponseBody
     public ResponseEntity<Page<SanPham>> getAll(@RequestParam("p") Optional<Integer> p) {
-        Page<SanPham> listSP = sanPhamService.getAllByTT(PageRequest.of(p.orElse(0), 3));
+        Page<SanPham> listSP = sanPhamService.getAllByTT(PageRequest.of(p.orElse(0), 9));
 
         return ResponseEntity.ok(listSP);
     }
@@ -114,7 +114,7 @@ public class SanPhamOnlineController {
     public ResponseEntity<Page<SanPham>> ftDM(@RequestParam("listDM") List<String> listDM, @RequestParam("p") Optional<Integer> p) {
 
 
-        return ResponseEntity.ok(sanPhamRepo.findByTenDMs(listDM, PageRequest.of(p.orElse(0), 5)));
+        return ResponseEntity.ok(sanPhamRepo.findByTenDMs(listDM, PageRequest.of(p.orElse(0), 9)));
     }
 
     @GetMapping("/filterByTH")
@@ -122,7 +122,7 @@ public class SanPhamOnlineController {
     public ResponseEntity<Page<SanPham>> ftTH(@RequestParam("listTH") List<String> listTH, @RequestParam("p") Optional<Integer> p) {
 
 
-        return ResponseEntity.ok(sanPhamRepo.findByTenTHs(listTH, PageRequest.of(p.orElse(0), 5)));
+        return ResponseEntity.ok(sanPhamRepo.findByTenTHs(listTH, PageRequest.of(p.orElse(0), 9)));
     }
 
     @GetMapping("/filterByMS")
@@ -130,7 +130,7 @@ public class SanPhamOnlineController {
     public ResponseEntity<Page<SanPham>> ftMS(@RequestParam("listMS") List<String> listMS, @RequestParam("p") Optional<Integer> p) {
 
 
-        return ResponseEntity.ok(sanPhamRepo.findByTenMSs(listMS, PageRequest.of(p.orElse(0), 5)));
+        return ResponseEntity.ok(sanPhamRepo.findByTenMSs(listMS, PageRequest.of(p.orElse(0), 9)));
     }
 
     @GetMapping("/filterByKT")
@@ -138,7 +138,22 @@ public class SanPhamOnlineController {
     public ResponseEntity<Page<SanPham>> ftKT(@RequestParam("listKT") List<String> listKT, @RequestParam("p") Optional<Integer> p) {
 
 
-        return ResponseEntity.ok(sanPhamRepo.findByTenKTs(listKT, PageRequest.of(p.orElse(0), 5)));
+        return ResponseEntity.ok(sanPhamRepo.findByTenKTs(listKT, PageRequest.of(p.orElse(0), 9)));
+    }
+
+    @GetMapping("/top6SPBC")
+    @ResponseBody
+    public ResponseEntity<List<SanPham>> spbc() {
+
+
+        return ResponseEntity.ok(sanPhamRepo.findTop6SanPhamBanChay());
+    }
+    @GetMapping("/top6SPNEW")
+    @ResponseBody
+    public ResponseEntity<List<SanPham>> spnew() {
+
+
+        return ResponseEntity.ok(sanPhamRepo.findTop6SanPhamMoiNhat());
     }
 }
 

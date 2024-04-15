@@ -28,12 +28,12 @@ public class SanPhamCTServiceImpl implements SanPhamCTService {
 
     @Override
     public SanPhamCT getOneByMa(String ma) {
-        return sanPhamCTRepo.findByMa(ma);
+        return sanPhamCTRepo.findByMaSPCT(ma);
     }
 
     @Override
     public Page<SanPhamCT> searchByFilter(String danhMucId, String kichThuocId, String mauSacId, String thuongHieuId, Pageable pageable) {
-        return sanPhamCTRepo.findBySanPhamDanhMucIdAndKichThuocIdAndMauSacIdAndSanPhamThuongHieuId(danhMucId, kichThuocId, mauSacId, thuongHieuId, pageable);
+        return sanPhamCTRepo.findBySPDMIdAndKTIdAndMSIdAndSPTHId(danhMucId, kichThuocId, mauSacId, thuongHieuId, pageable);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class SanPhamCTServiceImpl implements SanPhamCTService {
 
     @Override
     public SanPhamCT getByMSAndKT(String idKT, String idMS, String idSP) {
-        return sanPhamCTRepo.findByMauSacAndKichThuoc(idKT, idMS,idSP);
+        return sanPhamCTRepo.findByMSAndKT(idKT, idMS,idSP);
     }
 
     @Override
@@ -81,6 +81,6 @@ public class SanPhamCTServiceImpl implements SanPhamCTService {
 
     @Override
     public List<SanPhamCT> findAllBySP(String idSP) {
-        return sanPhamCTRepo.findAllBySanPham(idSP);
+        return sanPhamCTRepo.findAllBySP(idSP);
     }
 }

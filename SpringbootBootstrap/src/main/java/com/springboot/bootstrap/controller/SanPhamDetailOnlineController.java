@@ -98,13 +98,6 @@ public class SanPhamDetailOnlineController {
         return ResponseEntity.ok(sanPhamCTRepo.findKTByMS(id, idMS));
     }
 
-    @GetMapping("/user/spctGH")
-    @ResponseBody
-    public ResponseEntity<SanPhamCT> spctAddGH(@RequestParam("id") String id, @RequestParam("idMS") String idMS, @RequestParam("idKT") String idKT) {
-
-
-        return ResponseEntity.ok(sanPhamCTRepo.findSPCTByKTAndMS(id, idMS, idKT));
-    }
 
     @GetMapping("/ktSP")
     @ResponseBody
@@ -138,28 +131,39 @@ public class SanPhamDetailOnlineController {
 
         return ResponseEntity.ok(sanPhamCTRepo.giaMax(id));
     }
+
+    @GetMapping("/user/spctGH")
+    @ResponseBody
+    public ResponseEntity<SanPhamCT> spctAddGH(@RequestParam("id") String id, @RequestParam("idMS") String idMS, @RequestParam("idKT") String idKT) {
+
+
+        return ResponseEntity.ok(sanPhamCTRepo.findSPCTByKTAndMS(id, idMS, idKT));
+    }
+
     @GetMapping("/user/findAllGHCT")
     @ResponseBody
     public ResponseEntity<Page<GioHangChiTiet>> spct(@RequestParam("p") Optional<Integer> p) {
         String idKH = "CF0A193C-B149-4F91-8A4A-1BC84237F155";
         KhachHang khachHang = khachHangService.getOne(idKH);
-        Page<GioHangChiTiet> listGHCT=gioHangCTRepo.findAllByKhachHang(khachHang, PageRequest.of(p.orElse(0),3));
+        Page<GioHangChiTiet> listGHCT = gioHangCTRepo.findAllByKH(khachHang, PageRequest.of(p.orElse(0), 3));
         return ResponseEntity.ok(listGHCT);
     }
+
     @GetMapping("/user/getAllGHCT")
     @ResponseBody
     public ResponseEntity<List<GioHangChiTiet>> allGHCTList() {
         String idKH = "CF0A193C-B149-4F91-8A4A-1BC84237F155";
         KhachHang khachHang = khachHangService.getOne(idKH);
-        List<GioHangChiTiet> listGHCT=gioHangCTRepo.getAllByKhachHang(khachHang);
+        List<GioHangChiTiet> listGHCT = gioHangCTRepo.getAllByKhachHang(khachHang);
         return ResponseEntity.ok(listGHCT);
     }
+
     @GetMapping("/user/getGHCTBySPCT")
     @ResponseBody
     public ResponseEntity<GioHangChiTiet> validateSL(@RequestParam("idSPCT") String idSPCT) {
         String idKH = "CF0A193C-B149-4F91-8A4A-1BC84237F155";
         KhachHang khachHang = khachHangService.getOne(idKH);
-        GioHangChiTiet ghct=gioHangCTRepo.getBySPCT(idSPCT,khachHang);
+        GioHangChiTiet ghct = gioHangCTRepo.getBySPCT(idSPCT, khachHang);
         return ResponseEntity.ok(ghct);
     }
 
@@ -167,7 +171,7 @@ public class SanPhamDetailOnlineController {
     public ResponseEntity<Map<String, String>> addSanPham(@RequestBody GioHangAddDTO gioHangAddDTO) {
         String idKH = "CF0A193C-B149-4F91-8A4A-1BC84237F155";
         KhachHang khachHang = khachHangService.getOne(idKH);
-        GioHang gh =  gioHangRepo.findByKhachHang(khachHang);
+        GioHang gh = gioHangRepo.findByKhachHang(khachHang);
 
         SanPhamCT sanPhamCT = sanPhamCTRepo.findById(gioHangAddDTO.getIdSPCT()).get();
 

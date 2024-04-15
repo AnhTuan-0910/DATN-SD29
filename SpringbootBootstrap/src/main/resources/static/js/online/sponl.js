@@ -117,14 +117,14 @@ function finAllSP(page) {
                         type: 'GET',
                         url: 'http://localhost:8080/spOnl/gia_min?id=' + sp.id,
                         success: function (dgmin) {
-                            minPrice = dgmin;
+                            minPrice = formatCurrency(dgmin);
                         }
                     });
                     $.ajax({
                         type: 'GET',
                         url: 'http://localhost:8080/spOnl/gia_max?id=' + sp.id,
                         success: function (dgmax) {
-                            maxPrice = dgmax;
+                            maxPrice = formatCurrency(dgmax);
                         }
                     });
                     $.ajax({
@@ -154,13 +154,16 @@ function finAllSP(page) {
                     <img id="${idImg}" src="" alt="Product image"
                          class="product-image">
                 </a>
-        
+        <div class="product-action">
+                                    <a href="/shop/detailSP/${sp.id}" class="btn-product btn-cart">
+                                    <span>Xem chi tiết</span></a>
+                                </div>
             </figure>
 
             <div class="product-body">
-                <h3 class="product-title"><a style="text-decoration: none" href="/shop/detailSP/${sp.id}">${sp.ten} ${sp.thuongHieu.ten}</a></h3>
+                <h3 class="product-title"><a style="text-decoration: none" href="/shop/detailSP/${sp.id}">${sp.ten}</a></h3>
                 <div class="product-price">
-                 ${minPrice}₫ - ${maxPrice}₫
+                 ${minPrice} - ${maxPrice}
                 </div>
             </div>
         </div>
@@ -216,14 +219,14 @@ function filterDM(listDM, page) {
                         type: 'GET',
                         url: 'http://localhost:8080/spOnl/gia_min?id=' + sp.id,
                         success: function (dgmin) {
-                            minPrice = dgmin;
+                            minPrice = formatCurrency(dgmin);
                         }
                     });
                     $.ajax({
                         type: 'GET',
                         url: 'http://localhost:8080/spOnl/gia_max?id=' + sp.id,
                         success: function (dgmax) {
-                            maxPrice = dgmax;
+                            maxPrice = formatCurrency(dgmax);
                         }
                     });
                     $.ajax({
@@ -253,13 +256,17 @@ function filterDM(listDM, page) {
                     <img id="${idImg}" src="" alt="Product image"
                          class="product-image">
                 </a>
+                <div class="product-action">
+                                    <a href="/shop/detailSP/${sp.id}" class="btn-product btn-cart">
+                                    <span>Xem chi tiết</span></a>
+                                </div>
         
             </figure>
 
             <div class="product-body">
-                <h3 class="product-title"><a style="text-decoration: none" href="/shop/detailSP/${sp.id}">${sp.ten} ${sp.thuongHieu.ten}</a></h3>
+                <h3 class="product-title"><a style="text-decoration: none" href="/shop/detailSP/${sp.id}">${sp.ten} </a></h3>
                 <div class="product-price">
-                 ${minPrice}₫ - ${maxPrice}₫
+                 ${minPrice} - ${maxPrice}
                 </div>
             </div>
         </div>
@@ -315,14 +322,14 @@ function filterTH(listTH, page) {
                         type: 'GET',
                         url: 'http://localhost:8080/spOnl/gia_min?id=' + sp.id,
                         success: function (dgmin) {
-                            minPrice = dgmin;
+                            minPrice = formatCurrency(dgmin);
                         }
                     });
                     $.ajax({
                         type: 'GET',
                         url: 'http://localhost:8080/spOnl/gia_max?id=' + sp.id,
                         success: function (dgmax) {
-                            maxPrice = dgmax;
+                            maxPrice = formatCurrency(dgmax);
                         }
                     });
                     $.ajax({
@@ -352,13 +359,16 @@ function filterTH(listTH, page) {
                     <img id="${idImg}" src="" alt="Product image"
                          class="product-image">
                 </a>
-        
+        <div class="product-action">
+                                    <a href="/shop/detailSP/${sp.id}" class="btn-product btn-cart">
+                                    <span>Xem chi tiết</span></a>
+                                </div>
             </figure>
 
             <div class="product-body">
-                <h3 class="product-title"><a style="text-decoration: none" href="/shop/detailSP/${sp.id}">${sp.ten} ${sp.thuongHieu.ten}</a></h3>
+                <h3 class="product-title"><a style="text-decoration: none" href="/shop/detailSP/${sp.id}">${sp.ten} </a></h3>
                 <div class="product-price">
-                 ${minPrice}₫ - ${maxPrice}₫
+                 ${minPrice} - ${maxPrice}
                 </div>
             </div>
         </div>
@@ -393,8 +403,17 @@ function filterTH(listTH, page) {
 
 
 }
+function formatCurrency(value) {
+    var number = Number(value);
+
+    // Sử dụng phương thức toLocaleString để định dạng số tiền
+    // Với cấu hình mặc định, phương thức này sẽ định dạng số tiền dựa trên cài đặt ngôn ngữ và quốc gia của người dùng
+    return number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+}
 
 function filterKT(listKT, page) {
+
+
     var url = 'http://localhost:8080/spOnl/filterByKT?listKT=' + listKT + '&p=' + page;
     $.ajax({
         type: 'GET',
@@ -414,14 +433,14 @@ function filterKT(listKT, page) {
                         type: 'GET',
                         url: 'http://localhost:8080/spOnl/gia_min?id=' + sp.id,
                         success: function (dgmin) {
-                            minPrice = dgmin;
+                            minPrice = formatCurrency(dgmin);
                         }
                     });
                     $.ajax({
                         type: 'GET',
                         url: 'http://localhost:8080/spOnl/gia_max?id=' + sp.id,
                         success: function (dgmax) {
-                            maxPrice = dgmax;
+                            maxPrice = formatCurrency(dgmax);
                         }
                     });
                     $.ajax({
@@ -451,13 +470,16 @@ function filterKT(listKT, page) {
                     <img id="${idImg}" src="" alt="Product image"
                          class="product-image">
                 </a>
-        
+        <div class="product-action">
+                                    <a href="/shop/detailSP/${sp.id}" class="btn-product btn-cart">
+                                    <span>Xem chi tiết</span></a>
+                                </div>
             </figure>
 
             <div class="product-body">
-                <h3 class="product-title"><a style="text-decoration: none" href="/shop/detailSP/${sp.id}">${sp.ten} ${sp.thuongHieu.ten}</a></h3>
+                <h3 class="product-title"><a style="text-decoration: none" href="/shop/detailSP/${sp.id}">${sp.ten} </a></h3>
                 <div class="product-price">
-                 ${minPrice}₫ - ${maxPrice}₫
+                 ${minPrice} - ${maxPrice}
                 </div>
             </div>
         </div>
@@ -513,14 +535,14 @@ function filterMS(listMS, page) {
                         type: 'GET',
                         url: 'http://localhost:8080/spOnl/gia_min?id=' + sp.id,
                         success: function (dgmin) {
-                            minPrice = dgmin;
+                            minPrice = formatCurrency(dgmin);
                         }
                     });
                     $.ajax({
                         type: 'GET',
                         url: 'http://localhost:8080/spOnl/gia_max?id=' + sp.id,
                         success: function (dgmax) {
-                            maxPrice = dgmax;
+                            maxPrice = formatCurrency(dgmax);
                         }
                     });
                     $.ajax({
@@ -550,13 +572,16 @@ function filterMS(listMS, page) {
                     <img id="${idImg}" src="" alt="Product image"
                          class="product-image">
                 </a>
-        
+        <div class="product-action">
+                                    <a href="/shop/detailSP/${sp.id}" class="btn-product btn-cart">
+                                    <span>Xem chi tiết</span></a>
+                                </div>
             </figure>
 
             <div class="product-body">
-                <h3 class="product-title"><a style="text-decoration: none" href="/shop/detailSP/${sp.id}">${sp.ten} ${sp.thuongHieu.ten}</a></h3>
+                <h3 class="product-title"><a style="text-decoration: none" href="/shop/detailSP/${sp.id}">${sp.ten} </a></h3>
                 <div class="product-price">
-                 ${minPrice}₫ - ${maxPrice}₫
+                 ${minPrice} - ${maxPrice}
                 </div>
             </div>
         </div>

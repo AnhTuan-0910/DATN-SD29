@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,6 +88,7 @@ public class SPCTController {
                         .data(f.getBytes())
                         .kichThuoc(KichThuoc.builder().id(idKT).build())
                         .sl(Integer.parseInt(soLuong))
+                        .taoLuc(LocalDateTime.now())
                         .gia(Double.parseDouble(donGia)).build();
                 sanPhamCTService.add(sanPhamCT);
             } catch (IOException e) {
@@ -110,6 +111,7 @@ public class SPCTController {
                          @RequestParam("mauSacUpd") String idMS,
                          @RequestParam("donGiaUpd") String donGia,
                          @RequestParam("soLuongUpd") String soLuong,
+                         @RequestParam("tgTao") String tgTao,
                          @RequestParam("fileUpd") MultipartFile file) {
 
 
@@ -123,6 +125,8 @@ public class SPCTController {
                     .data(ipFF.getBytes())
                     .kichThuoc(KichThuoc.builder().id(idKT).build())
                     .sl(Integer.parseInt(soLuong))
+                    .taoLuc(LocalDateTime.parse(tgTao))
+                    .suaLuc(LocalDateTime.now())
                     .gia(Double.parseDouble(donGia)).build();
 
             if (!file.isEmpty()) {

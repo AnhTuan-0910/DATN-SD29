@@ -28,4 +28,24 @@ public interface SanPhamRepo extends JpaRepository<SanPham,String> {
     @Query("SELECT spct.sanPham FROM SanPhamCT spct WHERE spct.mauSac.id IN :idMS")
     Page<SanPham> findByTenMSs(List<String> idMS,Pageable pageable);
 
+    @Query("SELECT sp ,SUM(hdct.soLuong) " +
+            "FROM HoaDonChiTiet hdct " +
+            "JOIN hdct.sanPhamChiTiet spct " +
+            "JOIN hdct.sanPhamChiTiet.sanPham sp " +
+            "GROUP BY sp " +
+            "ORDER BY COUNT(hdct.soLuong) DESC")
+    List<SanPham> findSPBanChay();
+    default List<SanPham> findTop6SanPhamBanChay() {
+        List<SanPham> allSPBC = findSPBanChay();
+        return allSPBC.subList(0, Math.min(6, allSPBC.size()));
+    }
+
+    @Query("SELECT sp FROM SanPham sp where sp.trangThai=1 ORDER BY sp.taoLuc DESC")
+    List<SanPham> findAllSPByTaoLuc();
+    default List<SanPham> findTop6SanPhamMoiNhat() {
+        List<SanPham> allSPNEW = findAllSPByTaoLuc();
+        return allSPNEW.subList(0, Math.min(6, allSPNEW.size()));
+    }
+
+
 }

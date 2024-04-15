@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface SanPhamCTRepo extends JpaRepository<SanPhamCT, String> {
     @Query("SELECT spct FROM SanPhamCT spct JOIN spct.sanPham sp  WHERE spct.ma = :maSPCT AND sp.trangThai = 1 AND spct.sl>0 ORDER BY spct.ma")
-    SanPhamCT findByMa(String maSPCT);
+    SanPhamCT findByMaSPCT(String maSPCT);
 
     Page<SanPhamCT> findAll(Pageable pageable);
 
@@ -25,7 +25,7 @@ public interface SanPhamCTRepo extends JpaRepository<SanPhamCT, String> {
     Page<SanPhamCT> findAllBySanPhamIdAndOrderByTenMS(String sanPhamId, Pageable pageable);
 
     @Query("SELECT spct FROM SanPhamCT spct JOIN spct.kichThuoc kt JOIN spct.mauSac ms JOIN spct.sanPham sp WHERE kt.id = :kichThuocId AND ms.id = :mauSacId AND sp.id= :sanPhamId")
-    SanPhamCT findByMauSacAndKichThuoc(String kichThuocId, String mauSacId, String sanPhamId);
+    SanPhamCT findByMSAndKT(String kichThuocId, String mauSacId, String sanPhamId);
 
 
     @Query("SELECT p FROM SanPhamCT p JOIN p.sanPham sp WHERE LOWER(p.ma) LIKE LOWER(CONCAT('%', :keyword, '%')) AND sp.trangThai = 1 AND p.sl>0")
@@ -40,7 +40,7 @@ public interface SanPhamCTRepo extends JpaRepository<SanPhamCT, String> {
             "AND (:mauSacId IS NULL OR LOWER(mauSac.ten) LIKE LOWER(CONCAT('%', :mauSacId, '%'))) " +
             "AND (:thuongHieuId IS NULL OR LOWER(sanPham.thuongHieu.ten) LIKE LOWER(CONCAT('%', :thuongHieuId, '%')))" +
             " AND sanPham.trangThai = 1 AND spct.sl>0 ")
-    Page<SanPhamCT> findBySanPhamDanhMucIdAndKichThuocIdAndMauSacIdAndSanPhamThuongHieuId(String danhMucId, String kichThuocId, String mauSacId, String thuongHieuId, Pageable pageable);
+    Page<SanPhamCT> findBySPDMIdAndKTIdAndMSIdAndSPTHId(String danhMucId, String kichThuocId, String mauSacId, String thuongHieuId, Pageable pageable);
 
 
 
@@ -59,7 +59,7 @@ public interface SanPhamCTRepo extends JpaRepository<SanPhamCT, String> {
 
     //onl
     @Query("SELECT spct FROM SanPhamCT spct JOIN spct.sanPham sp  WHERE sp.id = :sanPhamId  ")
-    List<SanPhamCT> findAllBySanPham(String sanPhamId);
+    List<SanPhamCT> findAllBySP(String sanPhamId);
 
     @Query("SELECT MAX(spct.gia) FROM SanPhamCT spct JOIN spct.sanPham sp  WHERE sp.id = :sanPhamId  ")
     String giaMax (String sanPhamId);

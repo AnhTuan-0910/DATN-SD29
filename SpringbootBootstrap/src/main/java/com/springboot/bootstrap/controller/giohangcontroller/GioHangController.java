@@ -1,4 +1,4 @@
-package com.springboot.bootstrap.controller;
+package com.springboot.bootstrap.controller.giohangcontroller;
 
 
 import com.springboot.bootstrap.entity.FormatHelper;
@@ -6,6 +6,7 @@ import com.springboot.bootstrap.entity.GioHang;
 import com.springboot.bootstrap.entity.GioHangChiTiet;
 import com.springboot.bootstrap.repository.GioHangChiTietRepository;
 import com.springboot.bootstrap.repository.GioHangRepository;
+import com.springboot.bootstrap.utility.Base64Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,9 +32,9 @@ public class GioHangController{
 
     @GetMapping
     public String getAll(Model model){
-        List<GioHangChiTiet> listGioHang=gioHangChiTietRepository.findAllByGioHang_KhachHang_Ma("KH001");
+        List<GioHangChiTiet> listGioHang=gioHangChiTietRepository.findAllByGioHang_KhachHang_Ma("KH005");
         model.addAttribute("listGioHangCT",listGioHang);
-        GioHang gioHang=gioHangRepository.findAllByKhachHang_Ma("KH001");
+        GioHang gioHang=gioHangRepository.findAllByKhachHang_Ma("KH005");
         model.addAttribute("gioHang",gioHang);
         model.addAttribute("formatHelper", new FormatHelper());
         model.addAttribute("base64Image", base64Image);
@@ -46,6 +47,7 @@ public class GioHangController{
                                 ,@RequestParam(name = "soLuong") int soLuong) {
             GioHangChiTiet gioHangChiTiet=gioHangChiTietRepository.findById(idGhct).orElse(null);
             gioHangChiTiet.setSoLuong(soLuong);
+            gioHangChiTiet.setDonGia(gioHangChiTiet.getSanPhamCT().getGia()*gioHangChiTiet.getSoLuong());
             gioHangChiTietRepository.save(gioHangChiTiet);
         return "redirect:/shop/gio-hang";
     }
