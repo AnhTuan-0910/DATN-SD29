@@ -13,12 +13,9 @@ import java.util.List;
 @Repository
 public interface NhanVienRepo extends JpaRepository<NhanVien, String> {
 
-    Page<NhanVien> findAllByOrderByMaAsc(Pageable pageable);
-
     List<NhanVien> findAllByTrangThai(int trangThai);
 
     @Query("SELECT nv FROM NhanVien nv WHERE " +
-            "LOWER(nv.ma) IS NULL OR   LOWER(nv.ma) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "LOWER(nv.ten) IS NULL OR  LOWER(nv.ten) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     Page<NhanVien> searchCodeOrName(@Param("keyword") String keyword, Pageable pageable );
 
@@ -26,5 +23,5 @@ public interface NhanVienRepo extends JpaRepository<NhanVien, String> {
             " (:trangThai IS NULL OR nv.trangThai = :trangThai) " )
     Page<NhanVien> searchTrangThai(@Param("trangThai") int trangThai,Pageable pageable );
 
-    NhanVien findByMa(String ma);
+    NhanVien findByEmail(String username);
 }

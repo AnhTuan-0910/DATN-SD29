@@ -37,7 +37,7 @@ public class ChucVuController {
                       @RequestParam("ten") String ten,
                       @RequestParam("trangThai") int trangThai,
                       @RequestParam("p") Optional<Integer> p, Model model) {
-        chucVu = ChucVu.builder().ma(chucVuService.generateMaCV()).ten(ten).trangThai(Integer.parseInt(String.valueOf(trangThai))).build();
+        chucVu = ChucVu.builder().ten(ten).build();
         chucVuService.add(chucVu);
         Page<ChucVu> listCV = chucVuService.getAll(PageRequest.of(p.orElse(0), 5));
         model.addAttribute("listCV", listCV);
@@ -47,11 +47,9 @@ public class ChucVuController {
     @PostMapping("/update")
     public String update(@ModelAttribute("cvu") ChucVu chucVu,
                          @RequestParam("id_chuc_vu") String idCV,
-                         @RequestParam("ma") String ma,
                          @RequestParam("ten") String ten,
-                         @RequestParam("trangThai") String trangThai,
                          @RequestParam("p") Optional<Integer> p, Model model) {
-        chucVu = ChucVu.builder().ma(ma).ten(ten).trangThai(Integer.parseInt(trangThai)).build();
+        chucVu = ChucVu.builder().ten(ten).build();
         chucVuService.update(chucVu, idCV);
         Page<ChucVu> listCV = chucVuService.getAll(PageRequest.of(p.orElse(0), 5));
         model.addAttribute("listCV", listCV);

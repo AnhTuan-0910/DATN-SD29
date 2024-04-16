@@ -15,12 +15,7 @@ public interface ChucVuRepo extends JpaRepository<ChucVu, String> {
 
     Page<ChucVu> findAll(Pageable pageable);
 
-    Page<ChucVu> findAllByOrderByMaAsc(Pageable pageable);
-
-    List<ChucVu> findAllByTrangThai(int trangThai);
-
     @Query("SELECT cv FROM ChucVu cv WHERE " +
-            "LOWER(cv.ma) IS NULL OR   LOWER(cv.ma) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "LOWER(cv.ten) IS NULL OR  LOWER(cv.ten) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     Page<ChucVu> searchCodeOrName(@Param("keyword") String keyword, Pageable pageable );
 

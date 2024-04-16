@@ -8,13 +8,9 @@ import java.util.List;
 
 public interface ChucVuService {
 
-    public String generateMaCV();
-
     Page<ChucVu> getAll(Pageable pageable);
 
     ChucVu getOne(String idCV);
-
-    List<ChucVu> findAllByTrangThai();
 
     void add(ChucVu chucVu);
 
@@ -25,4 +21,5 @@ public interface ChucVuService {
     Page<ChucVu> searchTrangThai(int trangThai, Pageable pageable);
 
 
+    List<ChucVu> findAll();
 }

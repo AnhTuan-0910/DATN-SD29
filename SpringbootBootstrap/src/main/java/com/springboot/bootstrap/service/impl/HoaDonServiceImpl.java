@@ -33,8 +33,8 @@ public class HoaDonServiceImpl implements HoaDonService {
 
     @Override
     public Page<HoaDon> getListSearch(HoaDonDTO hoaDon,Pageable pageable) {
-        KhachHang khachHang = khachHangRepository.findByMa(hoaDon.getMaNhanVien());
-        NhanVien nhanVien = nhanVienRepo.findByMa(hoaDon.getMaKhachHang());
+        KhachHang khachHang = khachHangRepository.findById(hoaDon.getIdKhachHang()).get();
+        NhanVien nhanVien = nhanVienRepo.findById(hoaDon.getIdNhanVien()).get();
         Integer tinhTrang=0;
         Date ngayNhan,ngayThanhToan,ngayShip;
         switch (hoaDon.getTinhTrang()){

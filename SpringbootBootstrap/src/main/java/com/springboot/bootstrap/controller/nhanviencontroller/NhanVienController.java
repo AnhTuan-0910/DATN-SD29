@@ -30,7 +30,7 @@ public class NhanVienController {
     public String getAll(@RequestParam("p") Optional<Integer> p, Model model) {
         Page<NhanVien> listNV = nhanVienService.getAll(PageRequest.of(p.orElse(0), 5));
         model.addAttribute("listNV", listNV);
-        java.util.List<ChucVu> listCV = chucVuService.findAllByTrangThai();
+        java.util.List<ChucVu> listCV = chucVuService.findAll();
         model.addAttribute("listCV", listCV);
         return "/pages/nhan_vien";
     }
@@ -45,18 +45,17 @@ public class NhanVienController {
     @PostMapping("/add")
     public String add(@ModelAttribute("nva") NhanVien nhanVien,
                       @RequestParam("ten") String ten,
-                      @RequestParam("trangThai") String trangThai,
                       @RequestParam("email") String email,
                       @RequestParam("diaChi") String diaChi,
                       @RequestParam("sdt") String sdt,
 //                      @RequestParam("gioiTinh") String gioiTinh,
 //                      @RequestParam("matKhau") String matKhau,
                       @RequestParam("p") Optional<Integer> p, Model model) {
-        nhanVien = NhanVien.builder().ma(nhanVienService.generateMaNV()).ten(ten).trangThai(Integer.parseInt(trangThai)).email(email).diaChi(diaChi).sdt(sdt).build();
+        nhanVien = NhanVien.builder().ten(ten).email(email).diaChi(diaChi).sdt(sdt).build();
         nhanVienService.add(nhanVien);
         Page<NhanVien> listNV = nhanVienService.getAll(PageRequest.of(p.orElse(0), 5));
         model.addAttribute("listNV", listNV);
-        java.util.List<ChucVu> listCV = chucVuService.findAllByTrangThai();
+        java.util.List<ChucVu> listCV = chucVuService.findAll();
         model.addAttribute("listCV", listCV);
         return "redirect:/nhan_vien";
     }
@@ -64,18 +63,16 @@ public class NhanVienController {
     @PostMapping("/update")
     public String update(@Valid @ModelAttribute("nvu") NhanVien nhanVien,
                          @RequestParam("id_nhan_vien") String idNV,
-                         @RequestParam("ma") String ma,
                          @RequestParam("ten") String ten,
-                         @RequestParam("trangThai") String trangThai,
                          @RequestParam("email") String email,
                          @RequestParam("diaChi") String diaChi,
                          @RequestParam("sdt") String sdt,
                          @RequestParam("p") Optional<Integer> p, Model model) {
-        nhanVien = NhanVien.builder().ma(ma).ten(ten).trangThai(Integer.parseInt(trangThai)).email(email).diaChi(diaChi).sdt(sdt).build();
+        nhanVien = NhanVien.builder().ten(ten).email(email).diaChi(diaChi).sdt(sdt).build();
         nhanVienService.update(nhanVien, idNV);
         Page<NhanVien> listNV = nhanVienService.getAll(PageRequest.of(p.orElse(0), 5));
         model.addAttribute("listNV", listNV);
-        List<ChucVu> listCV = chucVuService.findAllByTrangThai();
+        List<ChucVu> listCV = chucVuService.findAll();
         model.addAttribute("listCV", listCV);
         return "redirect:/nhan_vien";
     }

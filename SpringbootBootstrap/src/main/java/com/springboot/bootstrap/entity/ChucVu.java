@@ -28,19 +28,8 @@ public class ChucVu {
     @Column(name = "id_chuc_vu", nullable = false)
     private String idCV;
 
-    @Column(name = "ma")
-    private String ma;
-
     @Column(name = "ten")
     private String ten;
-
-    @Column(name = "trang_thai")
-    private int trangThai;
-
-    @Override
-    public int hashCode() {
-        return 42;
-    }
 
 }
 

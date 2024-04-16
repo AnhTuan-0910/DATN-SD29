@@ -3,10 +3,11 @@ package com.springboot.bootstrap.service;
 import com.springboot.bootstrap.entity.NhanVien;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface NhanVienService {
+public interface NhanVienService extends UserDetailsService {
 
     public String generateMaNV();
 

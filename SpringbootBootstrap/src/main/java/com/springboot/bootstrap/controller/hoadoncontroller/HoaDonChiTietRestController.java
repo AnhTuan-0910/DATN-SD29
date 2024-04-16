@@ -11,11 +11,13 @@ import com.springboot.bootstrap.service.SanPhamCTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/hoa_don_chi_tiet")
 public class HoaDonChiTietRestController {
     @Autowired
     private SanPhamCTService sanPhamCTService;
