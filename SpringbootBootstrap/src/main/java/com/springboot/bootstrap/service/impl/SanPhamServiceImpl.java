@@ -35,11 +35,5 @@ public class SanPhamServiceImpl implements SanPhamService {
         return sanPhamRepo.findById(id).get();
     }
 
-//online
-
-    @Override
-    public Page<SanPham> getAllByTT(Pageable pageable) {
-        return sanPhamRepo.getAllByTrangThai(pageable);
-    }
 
 }

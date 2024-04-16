@@ -14,6 +14,5 @@ public interface SanPhamService {
     SanPham detail(String id);
 
     Page<SanPham> getAll(Pageable pageable);
-    //online
-    Page<SanPham> getAllByTT(Pageable pageable);
+
 }

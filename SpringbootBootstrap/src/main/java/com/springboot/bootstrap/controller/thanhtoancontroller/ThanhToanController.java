@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/offline/giao_dich")
+@RequestMapping("/giao_dich")
 public class ThanhToanController {
     @Autowired
     private SanPhamCTService sanPhamCTService;

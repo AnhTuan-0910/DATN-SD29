@@ -79,8 +79,5 @@ public class SanPhamCTServiceImpl implements SanPhamCTService {
         return sanPhamCTRepo.searchbyKeyWord(keyword, pageable);
     }
 
-    @Override
-    public List<SanPhamCT> findAllBySP(String idSP) {
-        return sanPhamCTRepo.findAllBySP(idSP);
-    }
+
 }

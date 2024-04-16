@@ -32,5 +32,5 @@ public interface SanPhamCTService {
 
     Page<SanPhamCT> searchbyKeyWord(String keyword, Pageable pageable);
 
-    List<SanPhamCT> findAllBySP(String idSP);
+
 }
