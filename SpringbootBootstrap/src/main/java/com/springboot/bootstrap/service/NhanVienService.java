@@ -9,13 +9,11 @@ import java.util.List;
 
 public interface NhanVienService extends UserDetailsService {
 
-    public String generateMaNV();
-
     Page<NhanVien> getAll(Pageable pageable);
 
     NhanVien getOne(String idNV);
 
-    List<NhanVien> findAllByTrangThai();
+    List<NhanVien> findAll();
 
     void add(NhanVien nhanVien);
 

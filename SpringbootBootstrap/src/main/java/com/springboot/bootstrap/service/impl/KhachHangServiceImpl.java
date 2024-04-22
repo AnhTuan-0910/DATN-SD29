@@ -87,44 +87,4 @@ public class KhachHangServiceImpl implements KhachHangService {
         return khachHangRepository.findBySdt(sdt);
     }
 
-    @Override
-    public String generateMaKH() {
-        counter++;
-        return ma + String.format("%03d", counter);
-    }
-
-//    @Override
-//    public Page<KhachHang> searchTrangThai(int trangThai, Pageable pageable) {
-//        return khachHangRepository.searchTrangThai(trangThai, pageable);
-//    }
-//
-//    @Override
-//    public String ImageUpload(UUID id, MultipartFile khImage) {
-//        String fileName="";
-//
-//        String khFolder = "C:/Users/Admin/Documents/DATN-SD29-master/SpringbootBootstrap/src/main/resources/static/upload";
-//        //Save image
-//        try {
-//            byte[] bytes = khImage.getBytes();
-//
-//            //Create directory if not exists
-//            File file = new File(khFolder+"/"+id);
-//            if (!file.exists()) {
-//                file.mkdirs();
-//            }
-//
-//            fileName = khImage.getName()+".jpeg";
-//
-//            String fileWithFolderName = khFolder+"/"+id+"/"+fileName;
-//
-//            BufferedOutputStream stream = new BufferedOutputStream(
-//                    new FileOutputStream(
-//                    new File(fileWithFolderName)));
-//            stream.write(bytes);
-//            stream.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return fileName;
-//    }
 }

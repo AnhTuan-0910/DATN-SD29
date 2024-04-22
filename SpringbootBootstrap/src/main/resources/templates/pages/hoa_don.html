@@ -29,22 +29,21 @@
 <div class="main-content container-fluid" layout:fragment="content">
 <div class="page-title">
 
-<div th:switch="${listHoaDon}">
-    <h2 th:case="null">Không có hoá đơn</h2>
-    <div th:case="*">
+<div>
+    <div>
         <h2>Hoá đơn</h2>
-        <form style="display: flex;flex-wrap: wrap" action="#" th:action="@{/hoa_don/search}" method="post" th:object="${hoaDon}">
+        <form style="display: flex;flex-wrap: wrap" th:action="@{/hoa_don/search}" method="post" th:object="${hoaDon}">
             <div class="item-form">
                 <label>Mã hoá đơn :</label>
                 <input type="text" th:field="*{ma}"/> <br/>
             </div>
             <div class="item-form">
                 <label>Mã nhân viên :</label>
-                <input type="text" th:field="*{maNhanVien}"/> <br/>
+                <input type="text" th:field="*{idNhanVien}"/> <br/>
             </div>
             <div class="item-form">
                 <label>Mã khách hàng :</label>
-                <input type="text" th:field="*{maKhachHang}"/> <br/>
+                <input type="text" th:field="*{idKhachHang}"/> <br/>
             </div>
             <div class="item-form">
                 <label>Ngày thanh toán :</label>

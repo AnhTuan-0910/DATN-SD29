@@ -21,7 +21,7 @@ public class NhanVien {
     private String idNV;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_chuc_vu", referencedColumnName = "id_chuc_vu")
+    @JoinColumn(name = "id_role")
     private ChucVu idCV;
 
     @Column(name = "email")
@@ -47,7 +47,7 @@ public class NhanVien {
     private String matKhau;
 
     @Column(name = "trang_thai")
-    private int trangThai;
+    private Integer trangThai;
 
     @Column(name = "tao_luc")
     @DateTimeFormat(pattern = "yyyy-MM-dd")

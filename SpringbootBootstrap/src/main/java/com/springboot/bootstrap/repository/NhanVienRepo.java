@@ -20,7 +20,7 @@ public interface NhanVienRepo extends JpaRepository<NhanVien, String> {
     Page<NhanVien> searchCodeOrName(@Param("keyword") String keyword, Pageable pageable );
 
     @Query("SELECT nv FROM NhanVien nv WHERE " +
-            " (:trangThai IS NULL OR nv.trangThai = :trangThai) " )
+            " (nv.trangThai = :trangThai) " )
     Page<NhanVien> searchTrangThai(@Param("trangThai") int trangThai,Pageable pageable );
 
     NhanVien findByEmail(String username);

@@ -26,16 +26,15 @@ public class NhanVienServiceImpl implements NhanVienService{
 
     @Autowired
     private NhanVienRepo nhanVienRepo;
-    private static final String ma = "KT";
     private static int counter = 0;
 
     @Autowired
     private ChucVuRepo chucVuRepo;
 
     @Override
-    public List<NhanVien> findAllByTrangThai() {
+    public List<NhanVien> findAll() {
 
-        return nhanVienRepo.findAllByTrangThai(1);
+        return nhanVienRepo.findAll();
     }
 
     @Override
@@ -73,19 +72,13 @@ public class NhanVienServiceImpl implements NhanVienService{
     }
 
     @Override
-    public String generateMaNV() {
-        counter++;
-        return ma + String.format("%03d", counter);
-    }
-
-    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         NhanVien nhanVien = nhanVienRepo.findByEmail(username);
         if(nhanVien == null){
             throw new UsernameNotFoundException("Invalid username and password.");
         }
         Set<GrantedAuthority> listAuthorities = new HashSet<>();
-        listAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        listAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         return new User(nhanVien.getIdNV(),nhanVien.getMatKhau(),listAuthorities);
     }
 }

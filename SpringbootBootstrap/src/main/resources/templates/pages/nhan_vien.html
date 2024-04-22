@@ -63,7 +63,6 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Mã</th>
                                 <th>Tên</th>
                                 <th>Trạng thái</th>
                                 <th>Email</th>
@@ -75,7 +74,6 @@
                             <tbody>
                             <tr th:each="nv,start :${listNV.content}">
                                 <td th:text="${start.index+1}"></td>
-                                <td th:text="${nv.ma}"></td>
                                 <td th:text="${nv.ten}"></td>
                                 <td>
                                     <div class="form-check form-switch">

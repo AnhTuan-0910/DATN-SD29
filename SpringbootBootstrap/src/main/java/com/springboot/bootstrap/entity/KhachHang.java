@@ -26,9 +26,6 @@ public class KhachHang {
     @JoinColumn(name = "id_dia_chi", referencedColumnName = "id_dia_chi")
     private DiaChi idDiaChi;
 
-    @Column(name = "ma")
-    private String ma;
-
 //    @NotEmpty(message = "Không Được Để Trống Tên")
     @Column(name = "ten")
     private String ten;
@@ -76,57 +73,4 @@ public class KhachHang {
     @Column(name = "sdt")
     private String sdt;
 
-    @Override
-    public int hashCode() {
-        return 42;
-    }
-
-    public static String generatePassword() {
-        String upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String lower = "abcdefghijklmnopqrstuvwxyz";
-        String digits = "0123456789";
-        String specialChars = "@";
-
-        SecureRandom random = new SecureRandom();
-        StringBuilder password = new StringBuilder();
-        int length = 8;  // Độ dài mật khẩu mong muốn
-
-        // Chọn ít nhất 1 ký tự đặc biệt và 1 số
-        password.append(specialChars.charAt(random.nextInt(specialChars.length())));
-        password.append(digits.charAt(random.nextInt(digits.length())));
-
-        // Độ dài còn lại để hoàn thành mật khẩu
-        int remainingLength = length - 2;
-
-        String allCharacters = upper + lower + digits + specialChars;
-
-        for (int i = 0; i < remainingLength; i++) {
-            int index = random.nextInt(allCharacters.length());
-            password.append(allCharacters.charAt(index));
-        }
-        return password.toString();
-    }
-
-    private String generateMaKhachHang() {
-        // Tạo một UUID mới
-        UUID uuid = UUID.randomUUID();
-
-        // Chuyển UUID thành chuỗi và loại bỏ các ký tự '-'
-        String uuidString = uuid.toString().replace("-", "");
-
-        // Lấy 6 ký tự đầu của chuỗi UUID
-        return "KH" + uuidString.toUpperCase().substring(0, 9);
-    }
-
-    @PrePersist
-    public void prePersist(){
-        // Tạo mã ngẫu nhiên không trùng nhau
-        if (ma == null) {
-            ma = generateMaKhachHang();
-        }
-        // Tạo mật khẩu ngẫu nhiên nếu trường matKhau là null hoặc trống
-        if (matKhau == null) {
-            matKhau = generatePassword();
-        }
-    }
 }
