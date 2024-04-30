@@ -22,7 +22,7 @@ public class SanPhamServiceImpl implements SanPhamService {
 
     @Override
     public Page<SanPham> getAll(Pageable pageable) {
-        return sanPhamRepo.findAllByOrderByMaAsc(pageable);
+        return sanPhamRepo.findAllByOrderByTaoLucDesc(pageable);
     }
 
     @Override

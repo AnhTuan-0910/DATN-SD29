@@ -5,10 +5,15 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script th:src="@{/js/them_sp.js}"></script>
+    <style>
+        .imagePreview {
+            margin: 10px;
+        }
+    </style>
 </head>
 <body>
 <div class="main-content container-fluid" layout:fragment="content">
-    <form id="formAddSP" style="margin-top: 30px; min-height:650px;background-color:white;border-radius:10px  ">
+    <form id="formAddSP" style="margin-top: 30px; min-height:650px;background-color:white;border-radius:10px  " enctype="multipart/form-data">
         <div style="text-align: center;padding-top: 20px;color: #052c65"><h3><b>Thêm sản phẩm</b></h3></div>
         <div style="padding-left: 10%;padding-right: 10%;padding-top: 20px">
             <div class="row" style="border-radius: 10px;border: 1px solid #9dc1d3">
@@ -71,6 +76,12 @@
 
 
                 </div>
+                <div  class="col-md-11" style="background: white;padding-bottom: 20px;margin-left: 20px;padding-left: 5%">
+                    <label class="form-label"><b>Hình ảnh : </b></label>
+                    <a class="btn btn-outline-warning custom-file-upload"><i data-feather="upload"></i></a>
+                    <input type="file" class="imageInput" name="file"  style="display: none"  multiple>
+                    <div style="border: 2px solid gray; min-height: 125px;margin-top: 10px" class="imagePreviewContainer"></div>
+                </div>
             </div>
         </div>
         <div style="padding-left: 10%;padding-right: 10%;padding-top: 20px">
@@ -82,7 +93,9 @@
                             <div class="col-md-10">
                                 <label class="form-label"><b>Kích thước</b></label>
 
-                                <div class="form-control" id="selectedKT" style="min-height:37px; "></div>
+                                <div class="form-control" id="selectedKT" style="min-height:37px; ">
+
+                                </div>
 
 
                             </div>
@@ -135,7 +148,6 @@
                     <th>Số lượng</th>
                     <th>Đơn giá</th>
                     <th>Thao tác</th>
-                    <th>Hình ảnh</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -153,7 +165,7 @@
         </div>
         <div style="padding-top: 30px;padding-left: 45%;padding-right: 40%;padding-bottom: 20px">
 
-            <button type="submit" class="btn btn-outline-warning" id="confirmUpdateBtn">Xác nhận thêm</button>
+            <button type="submit" class="btn btn-outline-warning" id="confirmUpdateBtn">Xác nhận sửa</button>
         </div>
     </form>
 
@@ -169,13 +181,13 @@
                                 aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form th:action="@{them_sp/addDM}" th:object="${dma}" method="post">
+                        <form id="fAddDM" th:action="@{them_sp/addDM}" th:object="${dma}" method="post">
 
                             <div class="row">
                                 <div style="background: white;padding-bottom: 20px">
                                     <div class="mb-3" style="padding-top: 20px">
                                         <label class="form-label"><b>Tên </b></label>
-                                        <input name="ten" class="form-control">
+                                        <input id="nameDM" name="ten" class="form-control">
 
                                     </div>
 
@@ -184,7 +196,7 @@
                                 </div>
                             </div>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                            <button type="submit" class="btn btn-primary">Thêm</button>
+                            <button type="submit" id="btnThemDM" class="btn btn-primary">Thêm</button>
                         </form>
 
                     </div>
@@ -207,13 +219,13 @@
                                 aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form th:action="@{them_sp/addTH}" th:object="${tha}" method="post">
+                        <form id="fAddTH" th:action="@{them_sp/addTH}" th:object="${tha}" method="post">
 
                             <div class="row">
                                 <div style="background: white;padding-bottom: 20px">
                                     <div class="mb-3" style="padding-top: 20px">
                                         <label class="form-label"><b>Tên </b></label>
-                                        <input name="ten" class="form-control">
+                                        <input id="nameTH" name="ten" class="form-control">
 
                                     </div>
                                     <input type="hidden">
@@ -221,7 +233,7 @@
                                 </div>
                             </div>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                            <button type="submit" class="btn btn-primary">Thêm</button>
+                            <button type="submit" id="btnThemTH" class="btn btn-primary">Thêm</button>
                         </form>
 
                     </div>

@@ -1,6 +1,7 @@
 package com.springboot.bootstrap.controller.sanphamcontroller;
 
 
+import com.springboot.bootstrap.entity.Anh;
 import com.springboot.bootstrap.entity.DTO.SanPhamDTO;
 import com.springboot.bootstrap.entity.DanhMuc;
 import com.springboot.bootstrap.entity.KichThuoc;
@@ -8,12 +9,15 @@ import com.springboot.bootstrap.entity.MauSac;
 import com.springboot.bootstrap.entity.SanPham;
 import com.springboot.bootstrap.entity.SanPhamCT;
 import com.springboot.bootstrap.entity.ThuongHieu;
+import com.springboot.bootstrap.repository.AnhRepo;
+import com.springboot.bootstrap.service.AnhService;
 import com.springboot.bootstrap.service.DanhMucService;
 import com.springboot.bootstrap.service.KichThuocService;
 import com.springboot.bootstrap.service.MauSacService;
 import com.springboot.bootstrap.service.SanPhamCTService;
 import com.springboot.bootstrap.service.SanPhamService;
 import com.springboot.bootstrap.service.ThuongHieuService;
+import com.springboot.bootstrap.utility.Base64Image;
 import com.springboot.bootstrap.utility.QRCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -55,6 +59,9 @@ public class ThemSPController {
     @Autowired
     private ThuongHieuService thuongHieuService;
     @Autowired
+    private AnhService anhService;
+
+    @Autowired
     private QRCodeGenerator qrCodeGenerator;
 
 
@@ -72,24 +79,46 @@ public class ThemSPController {
     }
 
     @PostMapping("/addSPCT")
-    public ResponseEntity<Map<String, String>> addSanPham(@RequestBody SanPhamDTO sanPhamDTO) {
+    public ResponseEntity<Map<String, String>> addSanPham(@RequestParam("ten") String ten,
+                                                          @RequestParam("danhMuc") String danhMuc,
+                                                          @RequestParam("trangThai") String trangThai,
+                                                          @RequestParam("thuongHieu") String thuongHieu,
+                                                          @RequestParam("idMSAr") String[] idMSAr,
+                                                          @RequestParam("idKTAr") String[] idKTAr,
+                                                          @RequestParam("file") MultipartFile[] file) {
 
         SanPham sanPham = SanPham.builder()
-                .ten(sanPhamDTO.getTen())
-                .danhMuc(DanhMuc.builder().id(sanPhamDTO.getDanhMuc()).build())
-                .thuongHieu(ThuongHieu.builder().id(sanPhamDTO.getThuongHieu()).build())
+                .ten(ten)
+                .danhMuc(DanhMuc.builder().id(danhMuc).build())
+                .thuongHieu(ThuongHieu.builder().id(thuongHieu).build())
                 .taoLuc(LocalDateTime.now())
-                .trangThai(Integer.parseInt(sanPhamDTO.getTrangThai())).build();
+                .trangThai(Integer.parseInt(trangThai)).build();
         sanPhamService.add(sanPham);
-        sanPhamDTO.setIdSP(sanPham.getId());
 
-        for (String idKT : sanPhamDTO.getIdKTAr()) {
-            for (String idMS : sanPhamDTO.getIdMSAr()) {
+
+        for (MultipartFile f : file) {
+            try {
+                Anh anh = Anh.builder()
+                        .sanPham(sanPham)
+                        .data(f.getBytes()).build();
+                anhService.add(anh);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+        for (String idKT : idKTAr) {
+
+            for (String idMS : idMSAr) {
                 double gia = 100000;
+                KichThuoc kt = kichThuocService.getOne(idKT);
+                MauSac ms = mauSacService.getOne(idMS);
                 SanPhamCT sanPhamCT = SanPhamCT.builder()
-                        .mauSac(MauSac.builder().id(idMS).build())
-                        .kichThuoc(KichThuoc.builder().id(idKT).build())
-                        .sanPham(SanPham.builder().id(sanPham.getId()).build())
+                        .mauSac(ms)
+                        .kichThuoc(kt)
+                        .sanPham(sanPham)
                         .gia(gia)
                         .sl(100)
                         .taoLuc(LocalDateTime.now())
@@ -142,14 +171,12 @@ public class ThemSPController {
                          @RequestParam("idMS") String idMS[],
                          @RequestParam("idKT") String idKT[],
                          @RequestParam("ma") String maSPCT[],
-                         @RequestParam("file") MultipartFile[][] file,
                          @RequestParam("sl") String sl[],
                          @RequestParam("gia") String gia[],
 
                          @RequestParam("p") Optional<Integer> p, Model model) {
 
         for (int i = 0; i < idSPCT.length; i++) {
-            MultipartFile[] fs = file[i];
             String id = idSPCT[i];
             String idspct = idSPCT[i];
             String soLuong = sl[i];
@@ -157,29 +184,21 @@ public class ThemSPController {
             String idms = idMS[i];
             String idkt = idKT[i];
             String ma = maSPCT[i];
-            for (MultipartFile f : fs) {
-                try {
-                    sanPhamCT = SanPhamCT.builder()
-                            .ma(ma)
-                            .sanPham(SanPham.builder().id(idSP).build())
-                            .mauSac(MauSac.builder().id(idms).build())
-                            .kichThuoc(KichThuoc.builder().id(idkt).build())
-                            .data(f.getBytes())
-                            .sl(Integer.parseInt(soLuong))
-                            .taoLuc(LocalDateTime.now())
-                            .trangThai(1)
-                            .gia(Double.parseDouble(donGia)).build();
-                    sanPhamCTService.update(sanPhamCT, idspct);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+
+            sanPhamCT = SanPhamCT.builder()
+                    .ma(ma)
+                    .sanPham(SanPham.builder().id(idSP).build())
+                    .mauSac(MauSac.builder().id(idms).build())
+                    .kichThuoc(KichThuoc.builder().id(idkt).build())
+                    .sl(Integer.parseInt(soLuong))
+                    .taoLuc(LocalDateTime.now())
+                    .trangThai(1)
+                    .gia(Double.parseDouble(donGia)).build();
+            sanPhamCTService.update(sanPhamCT, idspct);
+
+
         }
-
-
-        Page<SanPham> listSP = sanPhamService.getAll(PageRequest.of(p.orElse(0), 5));
-        model.addAttribute("listSP", listSP);
-        return "/pages/san_pham";
+        return  "redirect:/san_pham";
     }
 
     @PostMapping("/addDM")

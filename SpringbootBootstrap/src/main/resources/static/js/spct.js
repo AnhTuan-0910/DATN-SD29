@@ -1,68 +1,10 @@
 $(document).ready(function () {
-
-    fakeInput()
-    getAnh();
     getOneSPCT();
     valiDateThemSPCT();
     valiDateSuaSPCT();
 
 });
 
-//render ảnh từ pc
-function fakeInput() {
-    // Lắng nghe sự kiện click trên nút tùy chỉnh
-    $('.custom-file-upload').on('click', function () {
-        // Kích hoạt sự kiện click trên input thực sự trong hàng chứa nút tùy chỉnh
-        $(this).siblings('.imageInput').click();
-    });
-};
-
-function getAnh() {
-    // Lắng nghe sự kiện change trên mọi input có class 'imageInput'
-    $('.imageInput').on('change', function (event) {
-        var files = event.target.files;
-        var imagePreviewContainer = $(this).siblings('.imagePreviewContainer')[0];
-        var maxFiles = 1; // Số lượng tệp tối đa được chọn
-
-        // Kiểm tra số lượng tệp đã chọn
-        if (files.length > maxFiles) {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Bạn chỉ có thể chọn tối đa " + maxFiles + " tệp ảnh",
-            });
-
-            event.target.value = ''; // Xóa tất cả các tệp đã chọn
-            return;
-        }
-
-        // Xóa tất cả các thẻ <img> hiện có trong container
-        imagePreviewContainer.innerHTML = '';
-
-        // Duyệt qua từng file và hiển thị hình ảnh
-        for (var i = 0; i < files.length; i++) {
-            var file = files[i];
-            if (!file.type.startsWith('image/')) {
-                continue
-            }
-
-            var reader = new FileReader();
-            var img = document.createElement('img');
-            img.style.maxWidth = '100px';
-            img.style.maxHeight = '100px';
-
-            reader.onload = (function (theImg) {
-                return function (e) {
-                    theImg.src = e.target.result;
-                };
-            })(img);
-
-            reader.readAsDataURL(file);
-            imagePreviewContainer.appendChild(img);
-        }
-
-    });
-};
 
 function updatePagination(data) {
     var totalPages = data.totalPages;
@@ -115,23 +57,7 @@ function updatePagination(data) {
 
 }
 
-// Thay đổi giá trị của input file và hiển thị hình ảnh
-function updateImagePreview(imageData) {
-    // Đặt giá trị cho input file
-    $('.formUpdate #imageUpd').val('');
 
-    // Xóa tất cả các thẻ <img> hiện có trong container
-    $('.formUpdate .imagePreviewContainer').empty();
-
-    // Tạo một thẻ img mới với dữ liệu hình ảnh
-    var img = $('<img>').attr('src', 'data:image/jpeg;base64,' + imageData);
-    img.css('maxWidth', '100px');
-    img.css('maxHeight', '100px');
-
-
-    // Thêm hình ảnh vào container
-    $('.formUpdate .imagePreviewContainer').append(img);
-}
 
 
 function getOneSPCT() {
@@ -142,17 +68,7 @@ function getOneSPCT() {
             type: 'GET', // Sử dụng phương thức GET để lấy dữ liệu spct từ href
             url: href, // Gửi yêu cầu GET đến URL được chỉ định trong thuộc tính href
             success: function (spct) {
-                $.ajax({
-                    type: 'GET',
-                    url: '/spct/convertToBase64?id=' + spct.id,
-                    success: function (response) {
-                        updateImagePreview(response);
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error:', error);
-                    }
 
-                });
                 $('.formUpdate #idSPCTUpd').val(spct.id);
                 $('.formUpdate #kichThuocUpd').val(spct.kichThuoc.id);
                 $('.formUpdate #maSPCTUpd').val(spct.ma);
@@ -194,7 +110,7 @@ function valiDateThemSPCT() {
 
     $("#cfAddBtn").click(function (e) {
 
-        if (!validateFiles() || !validateSoLuongAdd() || !validateGiaAdd() || !validateMSAndKT()) {
+        if ( !validateSoLuongAdd() || !validateGiaAdd() || !validateMSAndKT()) {
 
             e.preventDefault();
             return;
@@ -329,30 +245,7 @@ function validateMSAndKT() {
     return true;
 }
 
-function validateFiles() {
-    var fileInputs = $("#imageAdd");
-    var isValid = true;
 
-    fileInputs.each(function () {
-
-        if ($(this).get(0).files.length === 0) {
-
-            isValid = false;
-
-            Swal.fire({
-                title: "Error!",
-                text: "Vui lòng chọn ảnh cho  sản phẩm",
-                icon: "warning",
-
-            });
-
-            return false;
-        }
-    });
-
-
-    return isValid;
-}
 
 
 function validateGiaAdd() {
