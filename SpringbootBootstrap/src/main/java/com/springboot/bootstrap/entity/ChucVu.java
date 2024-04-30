@@ -15,7 +15,7 @@ import lombok.Setter;
 import java.util.Date;
 
 @Entity
-@Table(name = "chuc_vu")
+@Table(name = "_role")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -25,22 +25,11 @@ public class ChucVu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id_chuc_vu", nullable = false)
+    @Column(name = "id_role")
     private String idCV;
-
-    @Column(name = "ma")
-    private String ma;
 
     @Column(name = "ten")
     private String ten;
-
-    @Column(name = "trang_thai")
-    private int trangThai;
-
-    @Override
-    public int hashCode() {
-        return 42;
-    }
 
 }
 

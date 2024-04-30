@@ -23,15 +23,9 @@ public class ChucVuServiceImpl implements ChucVuService {
     Timestamp currentTimestamp;
 
     @Override
-    public List<ChucVu> findAllByTrangThai() {
-
-        return chucVuRepo.findAllByTrangThai(1);
-    }
-
-    @Override
     public Page<ChucVu> getAll(Pageable pageable) {
 
-        return chucVuRepo.findAllByOrderByMaAsc(pageable);
+        return chucVuRepo.findAll(pageable);
     }
 
     @Override
@@ -62,9 +56,8 @@ public class ChucVuServiceImpl implements ChucVuService {
     }
 
     @Override
-    public String generateMaCV() {
-        counter++;
-        return ma + String.format("%03d", counter);
+    public List<ChucVu> findAll() {
+        return chucVuRepo.findAll();
     }
 
 }

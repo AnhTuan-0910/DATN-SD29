@@ -34,8 +34,6 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-<!--                                <th>Ảnh</th>-->
-                                <th>Mã</th>
                                 <th>Tên</th>
                                 <th>Ngày sinh</th>
                                 <th>Giới tính</th>
@@ -51,10 +49,6 @@
                             <tbody>
                             <tr th:each="kh,start :${listKH?.content}">
                                 <td th:text="${start.index+1}"></td>
-<!--                                <td>-->
-<!--                                    <img th:src="@{'SpringbootBootstrap/src/main/resources/static/upload/'+ ${kh.anhNhanVien}}" width="100px" class="img-circle" alt="Ảnh khách hàng"/>-->
-<!--                                </td>-->
-                                <td th:text="${kh.ma}"></td>
                                 <td th:text="${kh.ten}"></td>
                                 <td th:text="${kh.ngaySinh}"></td>
                                 <td th:text="${kh.gioiTinh}"></td>

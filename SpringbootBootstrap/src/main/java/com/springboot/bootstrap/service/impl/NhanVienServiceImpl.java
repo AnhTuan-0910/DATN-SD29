@@ -1,38 +1,48 @@
 package com.springboot.bootstrap.service.impl;
 
+import com.springboot.bootstrap.entity.ChucVu;
+import com.springboot.bootstrap.entity.KhachHang;
 import com.springboot.bootstrap.entity.NhanVien;
 import com.springboot.bootstrap.repository.ChucVuRepo;
 import com.springboot.bootstrap.repository.NhanVienRepo;
+import com.springboot.bootstrap.service.ChucVuService;
 import com.springboot.bootstrap.service.NhanVienService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.management.relation.Role;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class NhanVienServiceImpl implements NhanVienService{
 
     @Autowired
     private NhanVienRepo nhanVienRepo;
-    private static final String ma = "KT";
-    private static int counter = 0;
+    private static String id_role = "C2B6AD75-6513-4DEC-91CE-DC93157699AE";
 
     @Autowired
-    private ChucVuRepo chucVuRepo;
+    private ChucVuService chucVuService;
 
     @Override
-    public List<NhanVien> findAllByTrangThai() {
+    public List<NhanVien> findAll() {
 
-        return nhanVienRepo.findAllByTrangThai(1);
+        return nhanVienRepo.findAll();
     }
 
     @Override
     public Page<NhanVien> getAll(Pageable pageable) {
 
-        return nhanVienRepo.findAllByOrderByMaAsc(pageable);
+        return nhanVienRepo.findAll(pageable);
     }
 
     @Override
@@ -43,7 +53,8 @@ public class NhanVienServiceImpl implements NhanVienService{
 
     @Override
     public void add(NhanVien nhanVien) {
-
+        ChucVu chucVu = chucVuService.getOne(id_role);
+        nhanVien.setChucVu(chucVu);
         nhanVienRepo.save(nhanVien);
     }
 
@@ -54,19 +65,23 @@ public class NhanVienServiceImpl implements NhanVienService{
     }
 
     @Override
-    public Page<NhanVien> searchCodeOrName(String keyword, Pageable pageable) {
-        return nhanVienRepo.searchCodeOrName(keyword, pageable);
-    }
-
-    @Override
     public Page<NhanVien> searchTrangThai(int trangThai, Pageable pageable) {
         return nhanVienRepo.searchTrangThai(trangThai, pageable);
     }
 
     @Override
-    public String generateMaNV() {
-        counter++;
-        return ma + String.format("%03d", counter);
+    public Page<NhanVien> searchByEmail(String keyword, Pageable pageable) {
+        return nhanVienRepo.findAllByEmailContaining(keyword,pageable);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        NhanVien nhanVien = nhanVienRepo.findByEmail(username);
+        if(nhanVien == null){
+            throw new UsernameNotFoundException("Invalid username and password.");
+        }
+        Set<GrantedAuthority> listAuthorities = new HashSet<>();
+        listAuthorities.add(new SimpleGrantedAuthority(nhanVien.getChucVu().getTen()));
+        return new User(nhanVien.getIdNV(),nhanVien.getMatKhau(),listAuthorities);
+    }
 }

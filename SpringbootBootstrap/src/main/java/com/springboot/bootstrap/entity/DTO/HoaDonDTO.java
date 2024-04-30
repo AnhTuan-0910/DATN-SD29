@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class HoaDonDTO {
     private String ma;
-    private String maNhanVien;
-    private String maKhachHang;
+    private String idNhanVien;
+    private String idKhachHang;
     private Double gia;
     private String ngayThanhToan;
     private String tinhTrang;

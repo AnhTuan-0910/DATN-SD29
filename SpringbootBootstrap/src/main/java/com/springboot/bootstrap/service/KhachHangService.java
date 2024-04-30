@@ -25,9 +25,4 @@ public interface KhachHangService {
 
     KhachHang findBySdt(String sdt);
 
-    public String generateMaKH();
-
-//    Page<KhachHang> searchTrangThai( int trangThai,Pageable pageable );
-//
-//    String ImageUpload(UUID id, MultipartFile khImage);
 }
