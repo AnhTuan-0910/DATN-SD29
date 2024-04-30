@@ -136,6 +136,7 @@ create table khach_hang
     gioi_tinh     int,
     email         varchar(50),
     sdt           varchar(10),
+    dia_chi       nvarchar(100),
     mat_khau      varchar(MAX),
     trang_thai    int,
     tao_luc       date,
