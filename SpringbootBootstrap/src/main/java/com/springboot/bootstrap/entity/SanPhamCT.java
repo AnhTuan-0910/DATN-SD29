@@ -41,8 +41,6 @@ public class SanPhamCT {
     private int sl;
     @Column(name = "gia_ban")
     private double gia;
-    @Column(name = "anh")
-    private byte[] data;
     @Column(name = "trang_thai")
     private int trangThai;
     @Column(name = "tao_luc")

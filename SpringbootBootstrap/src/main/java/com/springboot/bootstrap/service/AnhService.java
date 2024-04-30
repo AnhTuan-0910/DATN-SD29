@@ -4,4 +4,5 @@ import com.springboot.bootstrap.entity.Anh;
 
 public interface AnhService {
     void add(Anh anh);
+    Anh delete(String idImg);
 }

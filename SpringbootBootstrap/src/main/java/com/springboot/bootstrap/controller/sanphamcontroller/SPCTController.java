@@ -76,26 +76,20 @@ public class SPCTController {
                              @RequestParam("kichThuocAdd") String idKT,
                              @RequestParam("mauSacAdd") String idMS,
                              @RequestParam("donGiaAdd") String donGia,
-                             @RequestParam("soLuongAdd") String soLuong,
-                             @RequestParam("fileAdd") MultipartFile[] file) {
+                             @RequestParam("soLuongAdd") String soLuong) {
 
-        for (MultipartFile f : file) {
-            try {
                 sanPhamCT = SanPhamCT.builder()
 
                         .sanPham(SanPham.builder().id(idSP).build())
                         .mauSac(MauSac.builder().id(idMS).build())
-                        .data(f.getBytes())
+
                         .kichThuoc(KichThuoc.builder().id(idKT).build())
                         .sl(Integer.parseInt(soLuong))
                         .taoLuc(LocalDateTime.now())
                         .gia(Double.parseDouble(donGia)).build();
                 sanPhamCTService.add(sanPhamCT);
-            } catch (IOException e) {
-                e.printStackTrace();
 
-            }
-        }
+
 
 
         return "redirect:/spct/viewDetail/" + idSP;
@@ -104,39 +98,24 @@ public class SPCTController {
     @PostMapping("/updateSPCT")
     public String update(@ModelAttribute("spctu") SanPhamCT sanPhamCT,
                          @RequestParam("maSPCTUpd") String maSP,
-                         @RequestParam("ipFileFake") String ipFF,
                          @RequestParam("idSPCTUpd") String idSPCT,
                          @RequestParam("idSPUpd") String idSP,
                          @RequestParam("kichThuocUpd") String idKT,
                          @RequestParam("mauSacUpd") String idMS,
                          @RequestParam("donGiaUpd") String donGia,
                          @RequestParam("soLuongUpd") String soLuong,
-                         @RequestParam("tgTao") String tgTao,
-                         @RequestParam("fileUpd") MultipartFile file) {
+                         @RequestParam("tgTao") String tgTao) {
 
-
-
-
-        try {
             sanPhamCT = SanPhamCT.builder()
                     .ma(maSP)
                     .sanPham(SanPham.builder().id(idSP).build())
                     .mauSac(MauSac.builder().id(idMS).build())
-                    .data(ipFF.getBytes())
                     .kichThuoc(KichThuoc.builder().id(idKT).build())
                     .sl(Integer.parseInt(soLuong))
                     .taoLuc(LocalDateTime.parse(tgTao))
                     .suaLuc(LocalDateTime.now())
                     .gia(Double.parseDouble(donGia)).build();
 
-            if (!file.isEmpty()) {
-                sanPhamCT.setData(file.getBytes());
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
         sanPhamCTService.update(sanPhamCT, idSPCT);
         return "redirect:/spct/viewDetail/" + idSP;
     }
@@ -149,14 +128,7 @@ public class SPCTController {
         return sanPhamCTService.getOne(id);
     }
 
-    @GetMapping("/convertToBase64")
-    @ResponseBody
-    public String ViewImg(@RequestParam("id") String id) {
-        SanPhamCT spct = sanPhamCTService.getOne(id);
-        byte[] imageData = spct.getData();
-        String base64Data = base64Image.bytesToBase64(imageData);
-        return base64Data;
-    }
+
 
     @PostMapping("/checkMSAndKTSPCT")
     public @ResponseBody

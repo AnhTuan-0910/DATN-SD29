@@ -1,14 +1,44 @@
 $(document).ready(function () {
+    fakeInput();
+    getAnh();
+    renderMS();
+    renderKT();
+    validDMandTH();
     $("#formAddSP").submit(function (e) {
         e.preventDefault();
+        var formData = new FormData();
+        var fileInputs = $(".imageInput");
+        // Lấy giá trị của các trường input
         var tenSP = $("#tenSP").val();
         var danhMuc = $("#danhMuc").val();
         var trangThai = $("#trangThai").val();
         var thuongHieu = $("#thuongHieu").val();
         var idMSArray = getIdMSArray();
+        console.log("idMS:" + idMSArray);
         var idKTArray = getIdKTArray();
+        console.log("idKT:" + idKTArray);
+        // Lấy danh sách các tệp đã chọn trong trường input file và thêm chúng vào FormData
+        var files = $('.imageInput')[0].files;
+        for (var i = 0; i < files.length; i++) {
+            formData.append('file', files[i]);
+        }
 
-        if (tenSP.trim() === '' ) {
+        for (var a = 0; a < idMSArray.length; a++) {
+            formData.append("idMSAr", idMSArray[a]);
+        }
+
+        for (var j = 0; j < idKTArray.length; j++) {
+            formData.append("idKTAr", idKTArray[j]);
+        }
+
+        // Thêm các giá trị khác vào FormData
+        formData.append('ten', tenSP);
+        formData.append('danhMuc', danhMuc);
+        formData.append('trangThai', trangThai);
+        formData.append('thuongHieu', thuongHieu);
+
+
+        if (tenSP.trim() === '') {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
@@ -16,6 +46,21 @@ $(document).ready(function () {
             });
             return;
         }
+
+        if ($(fileInputs).get(0).files.length === 0) {
+
+            isValid = false;
+
+            Swal.fire({
+                title: "Error!",
+                text: "Vui lòng chọn ảnh cho sản phẩm",
+                icon: "warning",
+
+            });
+
+            return false;
+        }
+
 
         if (idMSArray.length === 0 || idKTArray.length === 0) {
             Swal.fire({
@@ -38,23 +83,16 @@ $(document).ready(function () {
                 $.ajax({
                     type: "POST",
                     url: "/them_sp/addSPCT",
-                    data: JSON.stringify({
-                        ten: tenSP,
-                        danhMuc: danhMuc,
-                        trangThai: trangThai,
-                        thuongHieu: thuongHieu,
-                        idMSAr: idMSArray,
-                        idKTAr: idKTArray
-                    }),
-                    contentType: "application/json",
-                    dataType: "json",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function (response) {
-
+                        $("#formAddSP :input").prop("disabled", true);
                         addSPCT(response, 0);
                         $(document).on('click', '.page-link', function (event) {
                             event.preventDefault();
                             var page = $(this).data('page');
-                            addSPCT(response,page);
+                            addSPCT(response, page);
                         });
                     },
                     error: function (xhr, status, error) {
@@ -73,13 +111,44 @@ $(document).ready(function () {
         });
 
 
-
     });
+    $(document).on('input', '.soLuong, .donGia', function () {
+        var id = $(this).closest('tr').find('[name="idSPCT"]').val();
+        var sl = $(this).closest('tr').find('.soLuong').val();
+        var gia = $(this).closest('tr').find('.donGia').val();
+        var data = {sl: sl, gia: gia};
+        localStorage.setItem('spct_' + id, JSON.stringify(data));
+    });
+    $('#tenSP').val( localStorage.getItem('tenSP') || $('#tenSP').val());
+    $('#danhMuc').val( localStorage.getItem('danhMuc') || $('#danhMuc').val());
+    $('#trangThai').val( localStorage.getItem('trangThai') || $('#trangThai').val());
+    $('#thuongHieu').val( localStorage.getItem('thuongHieu') || $('#thuongHieu').val());
+
+
+    // Lưu giá trị vào localStorage khi người dùng thay đổi các trường input
+    $('#tenSP').on('input', function () {
+        localStorage.setItem('tenSP', $(this).val());
+    });
+
+    $('#danhMuc').on('change', function () {
+        localStorage.setItem('danhMuc', $(this).val());
+    });
+
+    $('#trangThai').on('change', function () {
+        localStorage.setItem('trangThai', $(this).val());
+    });
+
+    $('#thuongHieu').on('change', function () {
+        localStorage.setItem('thuongHieu', $(this).val());
+    });
+
 });
+
+
 $(document).ready(function () {
 
-    $("#confirmUpdateBtn").click(function(e) {
-        if($('#table1 tbody tr').length===0){
+    $("#confirmUpdateBtn").click(function (e) {
+        if ($('#table1 tbody tr').length === 0) {
             e.preventDefault();
             Swal.fire({
                 title: "Error!",
@@ -89,7 +158,7 @@ $(document).ready(function () {
             });
             return;
         }
-        if (!validateFiles() || !validateSoLuong() || !validateGia()) {
+        if (!validateSoLuong() || !validateGia()) {
 
             e.preventDefault();
             return;
@@ -97,13 +166,95 @@ $(document).ready(function () {
         e.preventDefault();
 
         showConFirm();
+        localStorage.setItem('tenSP', '');
+        localStorage.setItem('danhMuc', $('#danhMuc option:first').val());
+        localStorage.setItem('trangThai', $('#trangThai option:first').val());
+        localStorage.setItem('thuongHieu', $('#thuongHieu option:first').val());
     });
-
 
 });
 
+function validDMandTH() {
+    $(document).on('click', '#btnThemDM', function (e){
+        e.preventDefault();
 
-function showConFirm(){
+        var tenDM = $('#nameDM').val();
+        if (tenDM.trim() === "") {
+            e.preventDefault();
+            Swal.fire({
+                title: "Error!",
+                text: "Vui lòng nhập tên cho danh mục",
+                icon: "warning",
+
+            });
+            return;
+        }
+
+        e.preventDefault();
+        $("#fAddDM").off("submit");
+        Swal.fire({
+            title: "Tạo danh mục?",
+            text: "Bạn có chắc muốn tạo 1 danh mục mới?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Có,tôi chắc chắn"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $("#fAddDM").submit();
+                Swal.fire({
+                    title: "Thành công!",
+                    text: "Đã tạo sản phẩm thành công.",
+                    icon: "success"
+                });
+            }
+        });
+
+    });
+
+    $(document).on('click', '#btnThemTH', function (e) {
+        e.preventDefault();
+
+        var tenTH = $('#nameTH').val();
+        if (tenTH.trim() === "") {
+            e.preventDefault();
+            Swal.fire({
+                title: "Error!",
+                text: "Vui lòng nhập tên cho thương hiệu",
+                icon: "warning",
+
+            });
+            return;
+        }
+
+
+        $("#fAddTH").off("submit");
+        Swal.fire({
+            title: "Tạo danh mục?",
+            text: "Bạn có chắc muốn tạo 1 thương hiệu mới?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Có,tôi chắc chắn"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $("#fAddTH").submit();
+                Swal.fire({
+                    title: "Thành công!",
+                    text: "Đã tạo thương hiệu thành công.",
+                    icon: "success"
+                });
+            }
+        });
+
+    });
+
+
+
+}
+function showConFirm() {
     $("#updateFormSPCT").off("submit");
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -133,6 +284,7 @@ function showConFirm(){
         }
     });
 }
+
 function addSPCT(response, page = 0) {
     $.ajax({
         type: "GET",
@@ -140,15 +292,16 @@ function addSPCT(response, page = 0) {
         success: function (data) {
             $('#table1 tbody').empty();
             $.each(data.content, function (index, spct) {
+                var savedData = JSON.parse(localStorage.getItem('spct_' + spct.id)) || {sl: spct.sl, gia: spct.gia};
 
                 $('#table1 tbody').append(
                     `<tr>
-                                <td> ${index+1} </td>
+                                <td> ${index + 1} </td>
                                 <td> ${spct.sanPham.ten} </td>
                                 <td> ${spct.kichThuoc.ten} </td>
                                 <td> <span class="badge" style="background-color: ${spct.mauSac.ten}">${spct.mauSac.ten}</span> </td>
-                                <td><input type="text" value="${spct.sl}"  name="sl" class="form-control soLuong"></td>
-                                <td><input type="text" value="${spct.gia}"  name="gia" class="form-control donGia"></td>
+                                <td><input type="text" value="${savedData.sl}"  name="sl" class="form-control soLuong"></td>
+                                <td><input type="text" value="${savedData.gia}"  name="gia" class="form-control donGia"></td>
                                
                                 <td>
                                  <a class="btn btn-outline-danger"><i data-feather="trash-2"></i></a>
@@ -159,16 +312,14 @@ function addSPCT(response, page = 0) {
                                 <input type="hidden" value="${spct.sanPham.id}" name="idSP">
                                 <input type="hidden" value="${spct.mauSac.id}" name="idMS">
                                 <input type="hidden" value="${spct.kichThuoc.id}" name="idKT">
-                                <a class="btn btn-outline-warning custom-file-upload"><i data-feather="plus-circle"></i></a>
-                                <input type="file" class="imageInput" name="file"  style="display: none"  multiple>
-                                <div class="imagePreviewContainer"></div>
+                                
+                                
                                 </td>
                                 </tr>`);
 
 
             })
-            fakeInput();
-            getAnh();
+
             updatePagination(data);
             feather.replace();
         },
@@ -251,7 +402,7 @@ function updatePagination(data) {
 }
 
 //render kt
-$(document).ready(function () {
+function renderKT() {
     var selectedItems = [];
 
     $('.itemKT').click(function () {
@@ -281,11 +432,11 @@ $(document).ready(function () {
         $(this).remove();
     });
 
-});
+};
 
 
 //render ms
-$(document).ready(function () {
+function renderMS() {
     var selectedItems = [];
 
     $('.itemMS').click(function () {
@@ -314,7 +465,7 @@ $(document).ready(function () {
         $(this).remove();
     });
 
-});
+};
 
 //render ảnh từ pc
 function fakeInput() {
@@ -330,7 +481,7 @@ function getAnh() {
     $('.imageInput').on('change', function (event) {
         var files = event.target.files;
         var imagePreviewContainer = $(this).siblings('.imagePreviewContainer')[0];
-        var maxFiles = 1; // Số lượng tệp tối đa được chọn
+        var maxFiles = 6; // Số lượng tệp tối đa được chọn
 
         // Kiểm tra số lượng tệp đã chọn
         if (files.length > maxFiles) {
@@ -356,14 +507,17 @@ function getAnh() {
 
             var reader = new FileReader();
             var img = document.createElement('img');
-            img.style.maxWidth = '50px';
-            img.style.maxHeight = '50px';
-
+            img.style.maxWidth = '100px';
+            img.style.maxHeight = '100px';
+            img.style.minWidth = '100px';
+            img.style.minHeight = '100px';
+            img.classList.add('imagePreview');
             reader.onload = (function (theImg) {
                 return function (e) {
                     theImg.src = e.target.result;
                 };
             })(img);
+
 
             reader.readAsDataURL(file);
             imagePreviewContainer.appendChild(img);
@@ -374,7 +528,7 @@ function getAnh() {
 
 function validateGia() {
     var gia = document.querySelector(".donGia").value;
-    if (gia.trim() === ""|| isNaN(gia)) {
+    if (gia.trim() === "" || isNaN(gia)) {
         Swal.fire({
             title: "Error!",
             text: "Vui lòng nhập giá hợp lệ",
@@ -383,7 +537,7 @@ function validateGia() {
         });
         return false;
     }
-    if (gia<=0) {
+    if (gia <= 0) {
         Swal.fire({
             title: "Error!",
             text: "Giá sản phẩm phải lớn hơn 0 ",
@@ -393,31 +547,6 @@ function validateGia() {
         return false;
     }
     return true;
-}
-
-function validateFiles() {
-    var fileInputs = $("#table1 tbody tr .imageInput");
-    var isValid = true;
-
-    fileInputs.each(function() {
-
-        if ($(this).get(0).files.length === 0) {
-
-            isValid = false;
-
-            Swal.fire({
-                title: "Error!",
-                text: "Vui lòng chọn ảnh cho từng sản phẩm",
-                icon: "warning",
-
-            });
-
-            return false;
-        }
-    });
-
-
-    return isValid;
 }
 
 
@@ -432,14 +561,15 @@ function validateSoLuong() {
         });
         return false;
     }
-    if (sl<=0) {
+    if (sl <= 0) {
         Swal.fire({
             title: "Error!",
             text: "Số lượng sản phẩm phải lớn hơn 0 ",
             icon: "warning",
 
         });
-        return false;}
+        return false;
+    }
 
     return true;
 }

@@ -96,7 +96,6 @@
                             <tr>
                                 <th>#</th>
                                 <th>Mã SPCT</th>
-                                <th>Ảnh</th>
                                 <th>Tên</th>
                                 <th>Kích thước</th>
                                 <th>Màu sắc</th>
@@ -110,13 +109,6 @@
                             <tr th:each="spct,start :${listSPCT}">
                                 <td th:text="${start.index+1}"></td>
                                 <td th:text="${spct.ma}"></td>
-                                <td>
-                                    <div>
-                                        <img th:src="'data:image/jpeg;base64,' + ${base64Image.bytesToBase64(spct.data)}"
-                                             alt="*.*" width="70" height="70">
-
-                                    </div>
-                                </td>
                                 <td th:text="${spct.sanPham.ten}"></td>
                                 <td th:text="${spct.kichThuoc.ten}"></td>
                                 <td>
@@ -213,22 +205,7 @@
                                         <input type="text" class="form-control " id="slAdd" name="soLuongAdd">
 
                                     </div>
-                                    <div class="mb-3" style="padding-top: 20px">
-                                        <div>
-                                            <div class="modal-body">
-                                                <a class="btn btn-outline-warning custom-file-upload"><i
-                                                        data-feather="plus-circle"></i></a>
-                                                <input type="file" class="imageInput" id="imageAdd" name="fileAdd"
-                                                       style="display: none" multiple>
-                                                <div style="padding-top: 10px" class="imagePreviewContainer"></div>
 
-                                            </div>
-                                        </div>
-                                        <div id="renderImgAdd">
-
-                                        </div>
-
-                                    </div>
 
                                 </div>
 
@@ -301,15 +278,6 @@
                                     <div class="mb-3" style="padding-top: 20px">
                                         <div>
 
-                                            <div class="modal-body">
-                                                <input type="text" id="ipFileFake" name="ipFileFake" hidden>
-                                                <a class="btn btn-outline-warning custom-file-upload"><i
-                                                        data-feather="plus-circle"></i></a>
-                                                <input type="file" class="imageInput" id="imageUpd" name="fileUpd"
-                                                       style="display: none" multiple>
-                                                <div style="padding-top: 10px" class="imagePreviewContainer"></div>
-
-                                            </div>
                                             <input type="text" id="maSPCTUpd" name="maSPCTUpd" hidden>
                                             <input type="text" id="tgTao" name="tgTao" hidden>
                                             <input type="text" id="idSPCTUpd" name="idSPCTUpd" hidden>

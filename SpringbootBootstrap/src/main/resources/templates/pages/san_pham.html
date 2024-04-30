@@ -4,6 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script th:src="@{/js/sp.js}"></script>
+    <style>
+        .image-container {
+            position: relative;
+            display: inline-block;
+
+
+        }
+
+        .text-overlay {
+            position: absolute;
+            bottom: 35px;
+            left: 50px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            opacity: 0; /* Ẩn văn bản ban đầu */
+            transition: opacity 0.3s ease;
+
+        }
+        .text-overlay > a {
+
+            color: white; /* Đặt màu văn bản thành đen */
+            text-decoration: none; /* Loại bỏ gạch chân */
+
+        }
+
+        .image-container:hover img {
+            filter: brightness(50%); /* Làm tối ảnh khi hover */
+        }
+
+        .image-container:hover .text-overlay {
+            opacity: 1; /* Hiển thị văn bản khi hover */
+        }
+
+
+    </style>
 </head>
 <body>
 <div class="main-content container-fluid" layout:fragment="content">
@@ -95,6 +132,7 @@
                                 <th>#</th>
                                 <th>Mã</th>
                                 <th>Tên</th>
+                                <th>Anh</th>
                                 <th>Danh mục</th>
                                 <th>Thương hiệu</th>
                                 <th>Trạng thái</th>
@@ -107,6 +145,21 @@
                                 <td th:text="${start.index+1}"></td>
                                 <td th:text="${sp.ma}"></td>
                                 <td th:text="${sp.ten}"></td>
+                                <td>
+                                   <div class="carousel-container" style="height: 100px;width:100px;overflow: hidden">
+                                       <div class="carousel slide" id="carouselExampleIndicators" data-bs-ride="carousel">
+                                           <div class="carousel-inner">
+                                               <div th:each="anh, iterStat : ${mapAnhSanPham[sp.id]}"
+                                                    class="carousel-item"
+                                                    th:classappend="${iterStat.first} ? 'active'">
+                                                   <img th:src="'data:image/jpeg;base64,' + ${base64Image.bytesToBase64(anh.data)}"
+                                                        style="max-height: 100px; max-width: 100px;min-height: 100px; min-width: 100px"
+                                                        class="d-block w-100" alt="...">
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                                </td>
                                 <td th:text="${sp.danhMuc.ten}"></td>
                                 <td th:text="${sp.thuongHieu.ten}"></td>
                                 <td>
@@ -118,10 +171,12 @@
 
                                 </td>
                                 <td>
-                                    <a th:href="@{/san_pham/viewOne/(id=${sp.id})}" class="btn btn-outline-primary uBtn" data-bs-toggle="modal">
+                                    <a th:href="@{/san_pham/viewOne/(id=${sp.id})}" class="btn btn-outline-primary uBtn" >
                                         <i data-feather="edit"></i></a>
-                                    <a th:href="@{/spct/viewDetail/{id}(id=${sp.id})}" class="btn btn-outline-danger ">
+                                    <a th:href="@{/spct/viewDetail/{id}(id=${sp.id})}" class="btn btn-outline-info ">
                                         <i data-feather="eye"></i></a>
+                                    <a th:href="@{/san_pham/viewImage/(idSP=${sp.id})}" class="btn btn-outline-secondary iBtn">
+                                        <i data-feather="image"></i></a>
 
                                 </td>
                             </tr>
@@ -159,18 +214,40 @@
                     <div class="modal-header">
                         <h1 style="color: black" class="modal-title fs-5" id="labelSua"><i
                                 class="fa-solid fa-circle-info"></i>
-                            Sửa danh mục</h1>
+                            Sửa sản phẩm</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form th:action="@{/san_pham/updateSP}" th:object="${spu}" method="post">
 
-                            <div class="row">
-                                <div style="background: white;padding-bottom: 20px">
 
+                                <div class="row" style="background: white;padding-bottom: 20px">
+                                    <div class="col-md-6" style="padding-top: 20px">
+                                        <label ><b id="lbTaoLuc"></b></label>
+                                        <input id="taoLuc" type="text" name="taoLuc"
+                                               hidden>
+
+                                    </div>
+                                    <div class="col-md-6" style="padding-top: 20px">
+                                        <label ><b id="lbSuaLuc"></b></label>
+
+
+                                    </div>
+                                    <div class="col-md-6" style="padding-top: 20px">
+                                        <label ><b id="lbTaoBoi"></b></label>
+                                        <input id="taoBoi" type="text" name="taoBoi"
+                                               hidden>
+
+                                    </div>
+                                    <div class="col-md-6" style="padding-top: 20px">
+                                        <label ><b id="lbSuaBoi"></b></label>
+                                        <input id="suaBoi" type="text" name="suaBoi"
+                                               hidden>
+
+                                    </div>
 
                                     <div class="mb-3" style="padding-top: 20px">
-                                        <label class="form-label"><b>Mã </b></label>
+                                        <label class="form-label" ><b>Mã </b></label>
                                         <input id="ma" placeholder="Mã" type="text" name="ma" class="form-control"
                                                readonly>
 
@@ -217,7 +294,7 @@
                                     <input type="hidden" id="id" name="id">
 
                                 </div>
-                            </div>
+
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                             <button type="submit" class="btn btn-primary">Sửa</button>
                         </form>
@@ -230,23 +307,40 @@
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function () {
-            $('#table1 .uBtn').on('click', function (event) {
-                event.preventDefault();
-                var href = $(this).attr('href');
-                $.get(href, function (sp) {
-                    $('.formUpdate #ma').val(sp.ma);
-                    $('.formUpdate #ten').val(sp.ten);
-                    $('.formUpdate #danhMuc').val(sp.danhMuc.id);
-                    $('.formUpdate #thuongHieu').val(sp.thuongHieu.id);
-                    $('.formUpdate #trangThaiUpdate').prop('checked', sp.trangThai);
-                    $('.formUpdate #id').val(sp.id);
-                })
-                $('.formUpdate #suaSP').modal('show');
-            })
-        })
-    </script>
+    <div class="formUpdateImage">
+        <div class="modal fade" id="suaImage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div>
+                            <h1 style="color: black" class="modal-title fs-5" id="lbsuaImage"><i
+                                    class="fa-solid fa-circle-info"></i>
+                            </h1>
+                        </div>
+                       <div style="float: right;padding-right: 20px">
+                           <form id="formAddImage" >
+                               <a  class="btn btn-outline-warning btn-fecht-input ">Thêm ảnh</i></a>
+                               <input type="file" class="imageIP"   style="display: none" multiple hidden>
+                               <input type="text" id="idSPImg" hidden >
+                           </form>
+                       </div>
+                       <div>
+                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                       </div>
+                    </div>
+                    <div class="modal-body">
+                                <div class="row" style="background: white;padding-bottom: 20px" id="fillImage">
+
+                                </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

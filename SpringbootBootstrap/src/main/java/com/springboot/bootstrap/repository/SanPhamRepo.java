@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface SanPhamRepo extends JpaRepository<SanPham,String> {
-    Page<SanPham> findAllByOrderByMaAsc(Pageable pageable);
+    Page<SanPham> findAllByOrderByTaoLucDesc(Pageable pageable);
 
     @Query("SELECT sp FROM SanPham sp  WHERE sp.trangThai = 1 ORDER BY sp.ma")
     Page<SanPham> getAllByTrangThai(Pageable pageable);
