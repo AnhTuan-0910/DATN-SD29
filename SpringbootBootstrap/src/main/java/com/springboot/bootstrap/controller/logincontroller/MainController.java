@@ -15,6 +15,6 @@ public class MainController {
     @GetMapping("/")
     public String home(){
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-        return "/pages/index";
+        return "/pages/giao_dich";
     }
 }

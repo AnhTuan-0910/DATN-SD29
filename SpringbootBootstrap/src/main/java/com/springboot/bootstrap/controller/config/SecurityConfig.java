@@ -16,6 +16,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, HandlerMappingIntrospector introspector) throws Exception {
         MvcRequestMatcher.Builder mvc = new MvcRequestMatcher.Builder(introspector);
+        httpSecurity.csrf(csrf -> csrf.disable());
         httpSecurity.authorizeHttpRequests((authorize)->{
             authorize.requestMatchers(mvc.pattern("/registration**")).permitAll();
             authorize.requestMatchers(mvc.pattern("/js/**")).permitAll();

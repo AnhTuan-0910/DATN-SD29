@@ -5,6 +5,7 @@ import com.springboot.bootstrap.entity.KhachHang;
 import com.springboot.bootstrap.entity.NhanVien;
 import com.springboot.bootstrap.repository.ChucVuRepo;
 import com.springboot.bootstrap.repository.NhanVienRepo;
+import com.springboot.bootstrap.service.ChucVuService;
 import com.springboot.bootstrap.service.NhanVienService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.management.relation.Role;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,10 +28,10 @@ public class NhanVienServiceImpl implements NhanVienService{
 
     @Autowired
     private NhanVienRepo nhanVienRepo;
-    private static int counter = 0;
+    private static String id_role = "C2B6AD75-6513-4DEC-91CE-DC93157699AE";
 
     @Autowired
-    private ChucVuRepo chucVuRepo;
+    private ChucVuService chucVuService;
 
     @Override
     public List<NhanVien> findAll() {
@@ -51,7 +53,8 @@ public class NhanVienServiceImpl implements NhanVienService{
 
     @Override
     public void add(NhanVien nhanVien) {
-
+        ChucVu chucVu = chucVuService.getOne(id_role);
+        nhanVien.setChucVu(chucVu);
         nhanVienRepo.save(nhanVien);
     }
 
@@ -62,13 +65,13 @@ public class NhanVienServiceImpl implements NhanVienService{
     }
 
     @Override
-    public Page<NhanVien> searchCodeOrName(String keyword, Pageable pageable) {
-        return nhanVienRepo.searchCodeOrName(keyword, pageable);
+    public Page<NhanVien> searchTrangThai(int trangThai, Pageable pageable) {
+        return nhanVienRepo.searchTrangThai(trangThai, pageable);
     }
 
     @Override
-    public Page<NhanVien> searchTrangThai(int trangThai, Pageable pageable) {
-        return nhanVienRepo.searchTrangThai(trangThai, pageable);
+    public Page<NhanVien> searchByEmail(String keyword, Pageable pageable) {
+        return nhanVienRepo.findAllByEmailContaining(keyword,pageable);
     }
 
     @Override
@@ -78,7 +81,7 @@ public class NhanVienServiceImpl implements NhanVienService{
             throw new UsernameNotFoundException("Invalid username and password.");
         }
         Set<GrantedAuthority> listAuthorities = new HashSet<>();
-        listAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        listAuthorities.add(new SimpleGrantedAuthority(nhanVien.getChucVu().getTen()));
         return new User(nhanVien.getIdNV(),nhanVien.getMatKhau(),listAuthorities);
     }
 }

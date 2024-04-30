@@ -24,4 +24,5 @@ public interface NhanVienRepo extends JpaRepository<NhanVien, String> {
     Page<NhanVien> searchTrangThai(@Param("trangThai") int trangThai,Pageable pageable );
 
     NhanVien findByEmail(String username);
+    Page<NhanVien> findAllByEmailContaining(String keyword,Pageable pageable);
 }

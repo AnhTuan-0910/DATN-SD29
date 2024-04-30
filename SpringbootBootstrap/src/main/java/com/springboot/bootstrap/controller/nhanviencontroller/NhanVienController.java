@@ -8,12 +8,13 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,79 +26,59 @@ public class NhanVienController {
     private NhanVienService nhanVienService;
     @Autowired
     private ChucVuService chucVuService;
-
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
     @GetMapping("")
     public String getAll(@RequestParam("p") Optional<Integer> p, Model model) {
         Page<NhanVien> listNV = nhanVienService.getAll(PageRequest.of(p.orElse(0), 5));
         model.addAttribute("listNV", listNV);
-        java.util.List<ChucVu> listCV = chucVuService.findAll();
-        model.addAttribute("listCV", listCV);
         return "/pages/nhan_vien";
     }
 
     @GetMapping("/viewOne/{id}")
     @ResponseBody
     public NhanVien viewUpdate(@PathVariable("id") String idNV) {
-
         return nhanVienService.getOne(idNV);
     }
 
     @PostMapping("/add")
-    public String add(@ModelAttribute("nva") NhanVien nhanVien,
-                      @RequestParam("ten") String ten,
+    public String add(@RequestParam("ten") String ten,
                       @RequestParam("email") String email,
+                      @RequestParam("matKhau") String matKhau,
+                      @RequestParam("ngaySinh") Date ngaySinh,
+                      @RequestParam("gioiTinh") Integer gioiTinh,
                       @RequestParam("diaChi") String diaChi,
-                      @RequestParam("sdt") String sdt,
-//                      @RequestParam("gioiTinh") String gioiTinh,
-//                      @RequestParam("matKhau") String matKhau,
-                      @RequestParam("p") Optional<Integer> p, Model model) {
-        nhanVien = NhanVien.builder().ten(ten).email(email).diaChi(diaChi).sdt(sdt).build();
+                      @RequestParam("sdt") String sdt) {
+        NhanVien nhanVien = NhanVien.builder().ten(ten).trangThai(1).gioiTinh(gioiTinh).ngaySinh(ngaySinh).matKhau(passwordEncoder.encode(matKhau)).email(email).diaChi(diaChi).sdt(sdt).build();
         nhanVienService.add(nhanVien);
-        Page<NhanVien> listNV = nhanVienService.getAll(PageRequest.of(p.orElse(0), 5));
-        model.addAttribute("listNV", listNV);
-        java.util.List<ChucVu> listCV = chucVuService.findAll();
-        model.addAttribute("listCV", listCV);
         return "redirect:/nhan_vien";
     }
 
     @PostMapping("/update")
-    public String update(@Valid @ModelAttribute("nvu") NhanVien nhanVien,
-                         @RequestParam("id_nhan_vien") String idNV,
+    public String update(@RequestParam("id_nhan_vien") String idNV,
                          @RequestParam("ten") String ten,
                          @RequestParam("email") String email,
                          @RequestParam("diaChi") String diaChi,
-                         @RequestParam("sdt") String sdt,
-                         @RequestParam("p") Optional<Integer> p, Model model) {
-        nhanVien = NhanVien.builder().ten(ten).email(email).diaChi(diaChi).sdt(sdt).build();
+                         @RequestParam("sdt") String sdt) {
+        NhanVien nhanVien = nhanVienService.getOne(idNV);
+        nhanVien.setTen(ten);
+        nhanVien.setEmail(email);
+        nhanVien.setDiaChi(diaChi);
+        nhanVien.setSdt(sdt);
         nhanVienService.update(nhanVien, idNV);
-        Page<NhanVien> listNV = nhanVienService.getAll(PageRequest.of(p.orElse(0), 5));
-        model.addAttribute("listNV", listNV);
-        List<ChucVu> listCV = chucVuService.findAll();
-        model.addAttribute("listCV", listCV);
         return "redirect:/nhan_vien";
     }
 
     @GetMapping("/search")
     public String search(@RequestParam("p") Optional<Integer> page,
                          @RequestParam(value = "keyword", required = false) String keyword,
-                         @RequestParam(value = "trangThaiSearch", required = false) String trangThai,
-
                          Model model) {
         int currentPage = page.orElse(0);
         int pageSize = 5;
         if (currentPage < 0) {
             return "redirect:/nhan_vien?p=0";
         }
-        Page<NhanVien> listNV = null;
-        if (keyword != null && !keyword.isEmpty()) {
-            listNV = nhanVienService.searchCodeOrName(keyword, PageRequest.of(currentPage, pageSize));
-        } else if (trangThai != null && !trangThai.isEmpty()) {
-
-            listNV = nhanVienService.searchTrangThai(Integer.parseInt(trangThai), PageRequest.of(currentPage, pageSize));
-
-        } else {
-            listNV = nhanVienService.getAll(PageRequest.of(currentPage, pageSize));
-        }
+        Page<NhanVien> listNV = nhanVienService.searchByEmail(keyword,PageRequest.of(page.orElse(0), 5));
         model.addAttribute("listNV", listNV);
         return "/pages/nhan_vien";
     }

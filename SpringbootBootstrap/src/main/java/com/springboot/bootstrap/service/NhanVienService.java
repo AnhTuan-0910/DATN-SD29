@@ -19,8 +19,7 @@ public interface NhanVienService extends UserDetailsService {
 
     void update(NhanVien nhanVien, String idNV);
 
-    Page<NhanVien> searchCodeOrName(String keyword, Pageable pageable);
-
     Page<NhanVien> searchTrangThai(int trangThai, Pageable pageable);
 
+    Page<NhanVien> searchByEmail(String keyword,Pageable pageable);
 }
