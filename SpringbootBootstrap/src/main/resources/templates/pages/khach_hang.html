@@ -275,22 +275,30 @@
                 url: "/khach_hang/validateUpdateKhachHang",
                 processData:false,
                 data: JSON.stringify({
-                    ten : $('#tenAdd').val(),
-                    email : $('#emailAdd').val(),
-                    ngaySinh:$('#ngaySinhAdd').val(),
-                    sdt : $('#sdtAdd').val()
+                    ten : $('#tenUpdate').val(),
+                    email : $('#emailUpdate').val(),
+                    ngaySinh:$('#ngaySinhUpdate').val(),
+                    sdt : $('#sdtUpdate').val()
                 }),
                 contentType: "application/json",
                 dataType: "json",
                 success:function (data){
-                    $('#formUpdate').submit();
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: "Sửa thành công",
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
+                    if(data.success){
+                        $('#formUpdate').submit();
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Sửa thành công",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }else {
+                        Swal.fire({
+                            icon:"error",
+                            title:"Error",
+                            text:data.message,
+                        })
+                    }
                 },
                 error:function (e) {
                     console.log(e);

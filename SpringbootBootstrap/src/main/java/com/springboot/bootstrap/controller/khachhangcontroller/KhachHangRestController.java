@@ -23,7 +23,7 @@ public class KhachHangRestController {
     private static String regexPhoneNumber = "(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\\b";
     @PostMapping("/validateAddKhachHang")
     public ValidateDTO validateAddkhachHang(@RequestBody KhachHang khachHang){
-        if(khachHang.getTen().isEmpty()||khachHang.getEmail()==null||khachHang.getMatKhau().isEmpty()||khachHang.getSdt().isEmpty()
+        if(khachHang.getTen().isEmpty()||khachHang.getEmail()==null||khachHang.getEmail().isEmpty()||khachHang.getMatKhau().isEmpty()||khachHang.getSdt().isEmpty()
                 ||khachHang.getNgaySinh()==null){
             return ValidateDTO.builder().success(false).message("Vui lòng điền đủ thông tin").build();
         }else if(!VALID_EMAIL_ADDRESS_REGEX.matcher(khachHang.getEmail()).matches()){
@@ -43,7 +43,7 @@ public class KhachHangRestController {
     public ValidateDTO validateUpdatekhachHang(@RequestBody KhachHang khachHang){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         KhachHang khachHang1 = khachHangService.getOne(userDetails.getUsername());
-        if(khachHang.getTen().isEmpty()||khachHang.getEmail()==null||khachHang.getSdt().isEmpty()
+        if(khachHang.getTen().isEmpty()||khachHang.getEmail()==null||khachHang.getEmail().isEmpty()||khachHang.getSdt().isEmpty()
                 ||khachHang.getNgaySinh()==null){
             return ValidateDTO.builder().success(false).message("Vui lòng điền đủ thông tin").build();
         }else if(!VALID_EMAIL_ADDRESS_REGEX.matcher(khachHang.getEmail()).matches()){

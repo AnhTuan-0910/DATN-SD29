@@ -44,7 +44,7 @@ public class NhanVienRestController {
     public ValidateDTO validateUpdateNhanVien(@RequestBody NhanVien nhanVien){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         NhanVien nhanVien1 = nhanVienService.getOne(userDetails.getUsername());
-        if(nhanVien.getTen().isEmpty()||nhanVien.getEmail()==null||nhanVien.getDiaChi().isEmpty()||nhanVien.getSdt().isEmpty()
+        if(nhanVien.getTen().isEmpty()||nhanVien.getEmail().isEmpty()||nhanVien.getDiaChi().isEmpty()||nhanVien.getSdt().isEmpty()
                 ||nhanVien.getNgaySinh()==null){
             return ValidateDTO.builder().success(false).message("Vui lòng điền đủ thông tin").build();
         }else if(!VALID_EMAIL_ADDRESS_REGEX.matcher(nhanVien.getEmail()).matches()){
