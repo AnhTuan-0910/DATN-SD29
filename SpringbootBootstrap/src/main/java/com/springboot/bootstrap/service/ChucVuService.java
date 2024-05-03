@@ -22,4 +22,6 @@ public interface ChucVuService {
 
 
     List<ChucVu> findAll();
+
+    ChucVu getByRole(String role_staff);
 }

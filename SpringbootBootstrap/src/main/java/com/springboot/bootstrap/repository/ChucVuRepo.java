@@ -23,4 +23,6 @@ public interface ChucVuRepo extends JpaRepository<ChucVu, String> {
             " (:trangThai IS NULL OR cv.trangThai = :trangThai) " )
     Page<ChucVu> searchTrangThai(@Param("trangThai") int trangThai,Pageable pageable );
 
+    ChucVu findByTen(String ten);
+
 }

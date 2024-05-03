@@ -28,7 +28,6 @@ public class NhanVienServiceImpl implements NhanVienService{
 
     @Autowired
     private NhanVienRepo nhanVienRepo;
-    private static String id_role = "559453AE-71E3-4073-BB4E-8F68212331EA";
 
     @Autowired
     private ChucVuService chucVuService;
@@ -53,7 +52,7 @@ public class NhanVienServiceImpl implements NhanVienService{
 
     @Override
     public void add(NhanVien nhanVien) {
-        ChucVu chucVu = chucVuService.getOne(id_role);
+        ChucVu chucVu = chucVuService.getByRole("ROLE_STAFF");
         nhanVien.setChucVu(chucVu);
         nhanVienRepo.save(nhanVien);
     }

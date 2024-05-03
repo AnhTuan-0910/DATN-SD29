@@ -60,4 +60,9 @@ public class ChucVuServiceImpl implements ChucVuService {
         return chucVuRepo.findAll();
     }
 
+    @Override
+    public ChucVu getByRole(String role_staff) {
+        return chucVuRepo.findByTen(role_staff);
+    }
+
 }
