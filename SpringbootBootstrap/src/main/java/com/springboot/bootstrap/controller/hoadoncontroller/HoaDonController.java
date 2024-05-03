@@ -29,9 +29,10 @@ public class HoaDonController {
     List<String> listTinhTrang = new ArrayList();
     public HoaDonController() {
         listTinhTrang.add("Chờ xác nhận");
-        listTinhTrang.add("Chờ giao hàng");
-        listTinhTrang.add("Đang vận chuyển");
+        listTinhTrang.add("Chờ lấy hàng");
+        listTinhTrang.add("Đang giao");
         listTinhTrang.add("Hoàn thành");
+        listTinhTrang.add("Đã huỷ");
     }
 
     @Autowired
@@ -47,14 +48,16 @@ public class HoaDonController {
         return "/pages/hoa_don";
     }
     @GetMapping("/view/{id}")
-    public String viewOne(Model model, @PathVariable("id") UUID id){
+    public String viewOne(Model model,@RequestParam("p") Optional<Integer> p, @PathVariable("id") UUID id){
         model.addAttribute("hoaDon",hoaDonService.getOne(id));
-        model.addAttribute("listHoaDonChiTiet",hoaDonChiTietService.getList(id));
+        model.addAttribute("listHoaDonChiTiet",hoaDonChiTietService.getPage(id,PageRequest.of(p.orElse(0), 5)));
         return "/pages/hoa_don_chi_tiet";
     }
-    @PostMapping("/search")
-    public String search(Model model,@Validated HoaDonDTO hoaDon,@RequestParam("p") Optional<Integer> p){
-        Page<HoaDon> listHoaDon = hoaDonService.getListSearch(hoaDon,PageRequest.of(p.orElse(0), 5));
+    @GetMapping("/search")
+    public String search(@RequestParam("p") Optional<Integer> page,
+                         @RequestParam(value = "keyword", required = false) String keyword,
+                         Model model){
+        Page<HoaDon> listHoaDon = hoaDonService.getListSearch(keyword,PageRequest.of(page.orElse(0), 5));
         model.addAttribute("listHoaDon",listHoaDon);
         model.addAttribute("hoaDon",new HoaDonDTO());
         model.addAttribute("listTinhTrang",listTinhTrang);

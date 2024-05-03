@@ -28,6 +28,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "hoa_don")
+// hinh_thuc : 0 - offline, 1 - online
 public class HoaDon {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -54,6 +55,8 @@ public class HoaDon {
     private Date ngayNhan;
     @Column(name = "tinh_trang")
     private Integer tinhTrang;
+    @Column(name = "hinh_thuc")
+    private Integer hinhThuc;
     @Column(name = "dia_chi")
     private String diaChi;
     @Column(name = "tien_ship")

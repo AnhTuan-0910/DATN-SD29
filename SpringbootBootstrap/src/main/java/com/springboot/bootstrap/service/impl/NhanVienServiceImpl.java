@@ -28,7 +28,7 @@ public class NhanVienServiceImpl implements NhanVienService{
 
     @Autowired
     private NhanVienRepo nhanVienRepo;
-    private static String id_role = "C2B6AD75-6513-4DEC-91CE-DC93157699AE";
+    private static String id_role = "559453AE-71E3-4073-BB4E-8F68212331EA";
 
     @Autowired
     private ChucVuService chucVuService;
@@ -60,7 +60,6 @@ public class NhanVienServiceImpl implements NhanVienService{
 
     @Override
     public void update(NhanVien nhanVien, String idNV) {
-        nhanVien.setIdNV(idNV);
         nhanVienRepo.save(nhanVien);
     }
 

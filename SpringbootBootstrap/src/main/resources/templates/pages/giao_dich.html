@@ -292,7 +292,7 @@
                                 <div class="col-md-6">
                                     <div class="col-form-label"
                                          style="margin-left: 20%;margin-right: 20px;min-height: 70px">
-                                        <input class="form-control" type="text" value="ATUAN" readonly>
+                                        <input class="form-control" type="text" th:value="${namenv}" readonly>
                                     </div>
 
                                     <div style="margin-left: 20px;min-height: 70px">
@@ -640,15 +640,12 @@
 
                                         <input class="form-check-input me-1" type="radio"
                                            name="idKhachHang"
-                                           th:id="${kh.idKhachHang}+${hd.ma}" th:value="${kh.idKhachHang}">
-                                        <label class="form-check-label align-content-center" th:for="${kh.idKhachHang}+${hd.ma}"
+                                           th:id="${kh.idKH}+${hd.ma}" th:value="${kh.idKH}">
+                                        <label class="form-check-label align-content-center" th:for="${kh.idKH}+${hd.ma}"
                                            style="width: 100%;">
                                             <div class="card d-flex my-1">
                                                 <div class="card-body d-flex">
-                                                    <span th:text="${kh.ma}"
-                                                      class="modal-maKhachHang col-4 col-sm-4 align-items-center"
-                                                      hidden></span>
-                                                    <span th:text="${kh.idKhachHang}"
+                                                    <span th:text="${kh.idKH}"
                                                           hidden></span>
                                                     <span th:text="${kh.ten}"
                                                       class="modal-tenKhachHang col-4 col-sm-4 align-items-center"></span>

@@ -4,6 +4,7 @@ import com.springboot.bootstrap.entity.ChucVu;
 import com.springboot.bootstrap.entity.NhanVien;
 import com.springboot.bootstrap.service.ChucVuService;
 import com.springboot.bootstrap.service.NhanVienService;
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -57,14 +58,20 @@ public class NhanVienController {
     @PostMapping("/update")
     public String update(@RequestParam("id_nhan_vien") String idNV,
                          @RequestParam("ten") String ten,
+                         @RequestParam("ngaySinh") Date ngaySinh,
+                         @RequestParam("gioiTinh") Integer gioiTinh,
                          @RequestParam("email") String email,
                          @RequestParam("diaChi") String diaChi,
-                         @RequestParam("sdt") String sdt) {
+                         @RequestParam("sdt") String sdt,
+                         @Nullable @RequestParam(name = "trangThai") Object trangThai) {
         NhanVien nhanVien = nhanVienService.getOne(idNV);
         nhanVien.setTen(ten);
+        nhanVien.setNgaySinh(ngaySinh);
         nhanVien.setEmail(email);
         nhanVien.setDiaChi(diaChi);
         nhanVien.setSdt(sdt);
+        nhanVien.setGioiTinh(gioiTinh);
+        nhanVien.setTrangThai(trangThai!=null?1:0);
         nhanVienService.update(nhanVien, idNV);
         return "redirect:/nhan_vien";
     }
@@ -73,11 +80,6 @@ public class NhanVienController {
     public String search(@RequestParam("p") Optional<Integer> page,
                          @RequestParam(value = "keyword", required = false) String keyword,
                          Model model) {
-        int currentPage = page.orElse(0);
-        int pageSize = 5;
-        if (currentPage < 0) {
-            return "redirect:/nhan_vien?p=0";
-        }
         Page<NhanVien> listNV = nhanVienService.searchByEmail(keyword,PageRequest.of(page.orElse(0), 5));
         model.addAttribute("listNV", listNV);
         return "/pages/nhan_vien";

@@ -20,13 +20,8 @@ public class KhachHang {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id_kh")
-    private String idKhachHang;
+    private String idKH;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_dia_chi", referencedColumnName = "id_dia_chi")
-    private DiaChi idDiaChi;
-
-//    @NotEmpty(message = "Không Được Để Trống Tên")
     @Column(name = "ten")
     private String ten;
 
@@ -34,7 +29,7 @@ public class KhachHang {
     private java.sql.Date ngaySinh;
 
     @Column(name = "gioi_tinh")
-    private String gioiTinh;
+    private Integer gioiTinh;
 
 //    @NotEmpty(message = "Không Được Để Trống Email")
 //    @Email(message = "Email Chưa Đúng Định Dạng")
@@ -45,9 +40,6 @@ public class KhachHang {
 //    @Length(min = 8, message = "*Mật khẩu phải có ít nhất 8 ký tự")
 //    @NotEmpty(message = "*Không Được Để Trống Mật Khẩu")
     private String matKhau;
-
-    @Column(name = "anh_nhan_vien")
-    private String anhNhanVien;
 
     @Column(name = "trang_thai")
     private int trangThai;

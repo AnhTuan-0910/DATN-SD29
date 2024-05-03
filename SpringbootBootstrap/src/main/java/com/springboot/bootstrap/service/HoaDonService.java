@@ -19,7 +19,7 @@ public interface HoaDonService {
 
     List<HoaDon> getList();
 
-    Page<HoaDon> getListSearch(HoaDonDTO hoaDon,Pageable pageable);
+    Page<HoaDon> getListSearch(String keyword,Pageable pageable);
 
     Page<HoaDon> getAll(Pageable of);
 

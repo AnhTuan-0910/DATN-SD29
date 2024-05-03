@@ -1,6 +1,7 @@
 package com.springboot.bootstrap.repository;
 
 import com.springboot.bootstrap.entity.KhachHang;
+import com.springboot.bootstrap.entity.NhanVien;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,8 +15,6 @@ import java.util.List;
 @Repository
 public interface KhachHangRepository extends JpaRepository<KhachHang, String> {
 
-    KhachHang findBySdt(String sdt);
-
     List<KhachHang> findAllByTrangThai(int trangThai);
 
     Page<KhachHang> findAll(Pageable pageable);
@@ -27,4 +26,6 @@ public interface KhachHangRepository extends JpaRepository<KhachHang, String> {
     @Query("SELECT dc FROM KhachHang dc WHERE " +
             " (:trangThai IS NULL OR dc.trangThai = :trangThai) " )
     Page<KhachHang> searchTrangThai(@Param("trangThai") int trangThai, Pageable pageable);
+
+    Page<KhachHang> findAllByEmailContaining(String keyword, Pageable pageable);
 }

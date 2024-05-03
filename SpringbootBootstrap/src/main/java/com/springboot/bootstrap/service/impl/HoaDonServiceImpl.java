@@ -32,26 +32,8 @@ public class HoaDonServiceImpl implements HoaDonService {
     }
 
     @Override
-    public Page<HoaDon> getListSearch(HoaDonDTO hoaDon,Pageable pageable) {
-        KhachHang khachHang = khachHangRepository.findById(hoaDon.getIdKhachHang()).get();
-        NhanVien nhanVien = nhanVienRepo.findById(hoaDon.getIdNhanVien()).get();
-        Integer tinhTrang=0;
-        Date ngayNhan,ngayThanhToan,ngayShip;
-        switch (hoaDon.getTinhTrang()){
-            case "Chờ xác nhận":tinhTrang=1;break;
-            case "Đang xử lý":tinhTrang=2;break;
-            case "Đang vận chuyển":tinhTrang=3;break;
-            case "Hoàn thành":tinhTrang=4;break;
-            case "Huỷ đơn":tinhTrang=5;break;
-        }
-        if(hoaDon.getNgayThanhToan().toString().isEmpty()){
-            ngayThanhToan = null;
-        }else {
-            ngayThanhToan = Date.valueOf(hoaDon.getNgayThanhToan());
-        }
-        return hoaDonRepository.findAllByMaAndNhanVienAndKhachHangAndNgayThanhToanAndTinhTrang(
-                hoaDon.getMa(),nhanVien,khachHang,ngayThanhToan,tinhTrang,pageable
-        );
+    public Page<HoaDon> getListSearch(String keyword,Pageable pageable) {
+        return hoaDonRepository.findAllByMaContaining(keyword,pageable);
     }
 
     @Override

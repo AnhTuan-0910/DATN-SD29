@@ -11,11 +11,15 @@ import com.springboot.bootstrap.service.HoaDonService;
 import com.springboot.bootstrap.service.KhachHangService;
 import com.springboot.bootstrap.service.KichThuocService;
 import com.springboot.bootstrap.service.MauSacService;
+import com.springboot.bootstrap.service.NhanVienService;
 import com.springboot.bootstrap.service.SanPhamCTService;
 import com.springboot.bootstrap.service.ThuongHieuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,14 +60,18 @@ public class ThanhToanController {
     private HoaDonRepository hoaDonRepository;
     @Autowired
     private HoaDonChiTietService hoaDonChiTietService;
+    @Autowired
+    private NhanVienService nhanVienService;
     @GetMapping("")
     public String getAll(Model model) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        NhanVien nhanVien = nhanVienService.getOne(userDetails.getUsername());
         List<DanhMuc> listDM = danhMucService.findAllByTrangThai();
         List<ThuongHieu> listTH = thuongHieuService.findAllByTrangThai();
         List<KichThuoc> listKT = kichThuocService.findAllByTrangThai();
         List<MauSac> listMS = mauSacService.findAllByTrangThai();
         List<PhieuGiamGia> listPGG = phieuGiamGiaRepository.findAll();
-        List<KhachHang> khachHang = khachHangService.findAllByTrangThai();
+        List<KhachHang> khachHang = khachHangService.findAll();
         List<HoaDon> listHD = hoaDonService.renderTab();
         List<PhieuGiamGia> phieuGiamGia=phieuGiamGiaRepository.findAllByTrangThai(1);
         model.addAttribute("listVoucher", phieuGiamGia);
@@ -73,13 +81,16 @@ public class ThanhToanController {
         model.addAttribute("listDM", listDM);
         model.addAttribute("listKT", listKT);
         model.addAttribute("listMS", listMS);
+        model.addAttribute("namenv",nhanVien.getTen());
         model.addAttribute("spqr",new SanPhamQrDTO());
         return "/pages/giao_dich";
     }
 
     @PostMapping("/add_tab")
-    public String addTab(@ModelAttribute("hda") HoaDon hoaDon) {
-        hoaDon = HoaDon.builder().tinhTrang(1).gia(0.0).thanhTien(0.0).build();
+    public String addTab() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        NhanVien nhanVien = nhanVienService.getOne(userDetails.getUsername());
+        HoaDon hoaDon = HoaDon.builder().nhanVien(nhanVien).hinhThuc(0).tinhTrang(1).gia(0.0).thanhTien(0.0).build();
         hoaDonService.add(hoaDon);
         return "redirect:/giao_dich";
     }

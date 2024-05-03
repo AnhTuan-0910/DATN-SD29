@@ -3,109 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <style>
-        table {
-            border-collapse: collapse;
-        }
-        table,tr,td,th {
-            border: 1px solid;
-            padding: 2px;
-        }
-        th {
-            text-align: center;
-        }
-        form,label,input,button {
-            margin: 5px;
-            padding: 5px;
-        }
-        .item-form {
-            width: 50%;
-        }
-
-    </style>
 </head>
 
 <body>
 <div class="main-content container-fluid" layout:fragment="content">
-<div class="page-title">
+    <div class="page-title">
+        <h3>Hoá đơn</h3>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-12 ">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">Bộ lọc</h4>
+                </div>
+                <div class="card-body px-0 pb-0">
+                    <form method="post" style="padding-top: 20px;padding-bottom: 20px" th:action="@{/hoa_don/search}">
+                        <div style="text-align: center;height: 70px">
+                            <div style="display: inline-flex">
+                                <label class="col-form-label">Mã hoá đơn : </label>
+                                <input class="form-control" name="keyword" placeholder="Tìm kiếm"
+                                       style="width: 200px;height: 38px">
+                            </div>
+                        </div>
 
-<div>
-    <div>
-        <h2>Hoá đơn</h2>
-        <form style="display: flex;flex-wrap: wrap" th:action="@{/hoa_don/search}" method="post" th:object="${hoaDon}">
-            <div class="item-form">
-                <label>Mã hoá đơn :</label>
-                <input type="text" th:field="*{ma}"/> <br/>
+                        <div style="text-align: center">
+                            <button class="btn btn-danger" type="submit">Tìm kiếm</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="item-form">
-                <label>Mã nhân viên :</label>
-                <input type="text" th:field="*{idNhanVien}"/> <br/>
-            </div>
-            <div class="item-form">
-                <label>Mã khách hàng :</label>
-                <input type="text" th:field="*{idKhachHang}"/> <br/>
-            </div>
-            <div class="item-form">
-                <label>Ngày thanh toán :</label>
-                <input type="date" th:field="*{ngayThanhToan}"> <br/>
-            </div>
-            <div class="item-form">
-                <label>Tình trạng :</label>
-                <select th:field="*{tinhTrang}">
-                    <option th:each="p:${listTinhTrang}" th:value="${p}" th:text="${p}"/>
-                </select>
-            </div> <br/>
-            <div style="width: 100%;display: flex">
-                <button type="submit">Search</button>
-            </div>
-        </form>
-        <table>
-            <thead>
-            <tr>
-                <th>Mã</th>
-                <th>Tên khách hàng</th>
-                <th>Ngày tạo</th>
-                <th>Giá</th>
-                <th>Tình trạng</th>
-                <th>Thành tiền</th>
-                <th>Chỉnh sửa</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="hoadon:${listHoaDon}">
-                <td th:text="${hoadon.ma}"></td>
-                <td th:text="${hoadon.khachHang?.ten}"></td>
-                <td th:text="${hoadon.taoLuc}"></td>
-                <td th:text="${hoadon.gia}+' VND'"></td>
-                <td th:switch="${hoadon.tinhTrang}">
-                    <span th:case="1">Chờ xác nhận</span>
-                    <span th:case="2">Chờ giao hàng</span>
-                    <span th:case="3">Đang vận chuyển</span>
-                    <span th:case="4">Hoàn thành</span>
-                </td>
-                <td th:text="${hoadon.thanhTien}+' VND'"></td>
-                <td><a th:href="@{hoa_don/view/{id}(id=${hoadon.idHoaDon})}">Chi tiết</a></td>
-            </tr>
-            </tbody>
-        </table>
-        <div style="float: right;padding-top: 20px">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a th:href="@{'?p='+${listHoaDon.number-1}}" class="page-link"> < </a>
-                    </li>
-                    <li th:each="page : ${#numbers.sequence(0, listHoaDon.totalPages - 1)}"
-                        class="page-item">
-                        <a th:text="${page + 1}" th:href="@{'?p='+${page}}" class="page-link"></a>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div><h4 class="card-title">Danh sách hoá đơn</h4></div>
+                </div>
+                <div class="card-body px-0 pb-0">
+                    <div class="table-responsive">
+                        <table class='table mb-0' id="table1">
+                            <thead>
+                            <tr>
+                                <th>Mã</th>
+                                <th>Tên khách hàng</th>
+                                <th>Ngày tạo</th>
+                                <th>Giá</th>
+                                <th>Tình trạng</th>
+                                <th>Thành tiền</th>
+                                <th>Chỉnh sửa</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="hoadon:${listHoaDon}" th:scope="row">
+                                <td th:text="${hoadon.ma}"></td>
+                                <td th:text="${hoadon.khachHang?.ten}"></td>
+                                <td th:text="${hoadon.taoLuc}"></td>
+                                <td th:text="${hoadon.gia}+' VND'"></td>
+                                <td th:switch="${hoadon.tinhTrang}">
+                                    <span th:case="1">Chờ xác nhận</span>
+                                    <span th:case="2">Chờ giao hàng</span>
+                                    <span th:case="3">Đang vận chuyển</span>
+                                    <span th:case="4">Hoàn thành</span>
+                                </td>
+                                <td th:text="${hoadon.thanhTien}+' VND'"></td>
+                                <td><a th:href="@{hoa_don/view/{id}(id=${hoadon.idHoaDon})}">Chi tiết</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div style="float: right">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a class="page-link" th:href="@{'?p='+${listHoaDon.number-1}}"> < </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" th:text="${listHoaDon.number+1}"></a>
 
-                    </li>
-                    <li class="page-item">
-                        <a th:href="@{'?p='+${listHoaDon.number+1}}" class="page-link"> > </a>
-                    </li>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" th:href="@{'?p='+${listHoaDon.number+1}}"> > </a>
+                                    </li>
 
-                </ul>
-            </nav>
+                                </ul>
+                            </nav>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

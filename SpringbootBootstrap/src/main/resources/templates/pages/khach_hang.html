@@ -8,7 +8,7 @@
 <body>
 <div class="main-content container-fluid" layout:fragment="content">
     <div class="page-title">
-        <h3>Nhân Viên</h3>
+        <h3>Khách hàng</h3>
 
     </div>
     <div class="row mb-4">
@@ -19,10 +19,10 @@
 
                 </div>
                 <div class="card-body px-0 pb-0">
-                    <form th:action="@{/nhan_vien/search}" method="get" style="padding-top: 20px;padding-bottom: 20px">
+                    <form th:action="@{/khach_hang/search}" method="get" style="padding-top: 20px;padding-bottom: 20px">
                         <div style="text-align: center;height: 70px">
                             <div style="display: inline-flex">
-                                <label class="col-form-label">Email nhân viên : </label>
+                                <label class="col-form-label">Email khách hàng : </label>
                                 <input name="keyword" class="form-control" style="width: 200px;height: 38px"
                                        placeholder="Tìm kiếm">
                             </div>
@@ -40,7 +40,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <div><h4 class="card-title">Danh sách nhân viên</h4></div>
+                    <div><h4 class="card-title">Danh sách khách hàng</h4></div>
                     <div style="float: right">
                         <button class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#themNV"><i data-feather="plus-circle"></i></button>
@@ -56,28 +56,26 @@
                                 <th>Tên</th>
                                 <th>Trạng thái</th>
                                 <th>Email</th>
-                                <th>Địa chỉ</th>
                                 <th>Số điện thoại</th>
                                 <th>Thao tác</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="nv,start :${listNV.content}">
+                            <tr th:each="kh,start :${listKH.content}">
                                 <td th:text="${start.index+1}"></td>
-                                <td th:text="${nv.ten}"></td>
+                                <td th:text="${kh.ten}"></td>
                                 <td>
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" role="switch"
-                                               id="flexSwitchCheckDefault" th:checked="${nv.trangThai==1?true:false}">
+                                               id="flexSwitchCheckDefault" th:checked="${kh.trangThai==1?true:false}">
                                         <label class="form-check-label" for="flexSwitchCheckDefault"></label>
                                     </div>
                                 </td>
-                                <td th:text="${nv.email}">
-                                <td th:text="${nv.diaChi}">
-                                <td th:text="${nv.sdt}">
+                                <td th:text="${kh.email}">
+                                <td th:text="${kh.sdt}">
 
                                 <td>
-                                    <a th:href="@{nhan_vien/viewOne/{id}(id=${nv.idNV})}"
+                                    <a th:href="@{khach_hang/viewOne/{id}(id=${kh.idKH})}"
                                        class="btn btn-outline-primary uBtn">
                                         <i data-feather="edit"></i></a></a>
 
@@ -91,14 +89,14 @@
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
                                     <li class="page-item">
-                                        <a th:href="@{'?p='+${listNV.number-1}}" class="page-link"> < </a>
+                                        <a th:href="@{'?p='+${listKH.number-1}}" class="page-link"> < </a>
                                     </li>
                                     <li class="page-item">
-                                        <a th:text="${listNV.number+1}" class="page-link"></a>
+                                        <a th:text="${listKH.number+1}" class="page-link"></a>
 
                                     </li>
                                     <li class="page-item">
-                                        <a th:href="@{'?p='+${listNV.number+1}}" class="page-link"> > </a>
+                                        <a th:href="@{'?p='+${listKH.number+1}}" class="page-link"> > </a>
                                     </li>
 
                                 </ul>
@@ -117,11 +115,11 @@
                     <div class="modal-header">
                         <h1 style="color: black" class="modal-title fs-5" id="labelSua"><i
                                 class="fa-solid fa-circle-info"></i>
-                            Sửa nhân viên</h1>
+                            Sửa khách hàng</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formUpdate" th:action="@{/nhan_vien/update}" method="post">
+                        <form id="formUpdate" th:action="@{/khach_hang/update}" method="post">
 
                             <div class="row">
                                 <div style="background: white;padding-bottom: 20px">
@@ -154,12 +152,6 @@
                                                class="form-control">
 
                                     </div>
-                                    <div class="mb-3" style="padding-top: 20px">
-                                        <label class="form-label"><b>Địa chỉ</b></label>
-                                        <input id="diaChiUpdate" placeholder="Địa chỉ" type="text" name="diaChi"
-                                               class="form-control">
-
-                                    </div>
 
                                     <div class="mb-3" style="padding-top: 20px">
                                         <label class="form-label"><b>Số điện thoại </b></label>
@@ -174,7 +166,7 @@
                                         </div>
                                     </div>
 
-                                    <input type="hidden" id="idNV" name="id_nhan_vien">
+                                    <input type="hidden" id="idKH" name="id_khach_hang">
 
                                 </div>
                             </div>
@@ -196,12 +188,12 @@
                     <div class="modal-header">
                         <h1 style="color: black" class="modal-title fs-5" id="labelThem"><i
                                 class="fa-solid fa-circle-info"></i>
-                            Thêm nhân viên</h1>
+                            Thêm khách hàng</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formAdd" th:action="@{/nhan_vien/add}" method="post">
+                        <form id="formAdd" th:action="@{/khach_hang/add}" method="post">
 
                             <div class="row">
                                 <div style="background: white;padding-bottom: 20px">
@@ -238,11 +230,6 @@
 
                                     </div>
                                     <div class="mb-3" style="padding-top: 20px">
-                                        <label class="form-label"><b>Địa chỉ </b></label>
-                                        <input id="diaChiAdd" type="text" name="diaChi" class="form-control">
-
-                                    </div>
-                                    <div class="mb-3" style="padding-top: 20px">
                                         <label class="form-label"><b>Số điện thoại </b></label>
                                         <input id="sdtAdd" type="text" name="sdt" class="form-control">
 
@@ -255,7 +242,7 @@
                         </form>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                         <button id="btnFormAdd" type="button" class="btn btn-primary">Thêm</button>
-                     </div>
+                    </div>
                     <div class="modal-footer">
 
                     </div>
@@ -275,9 +262,8 @@
                     $('input:radio[name=gioiTinh]').filter(`[value=${kt.gioiTinh}]`).prop('checked', true);
                     $('.formUpdate #trangThaiUpdate').prop(kt.trangThai==1?"checked":"",true);
                     $('.formUpdate #emailUpdate').val(kt.email);
-                    $('.formUpdate #diaChiUpdate').val(kt.diaChi);
                     $('.formUpdate #sdtUpdate').val(kt.sdt);
-                    $('.formUpdate #idNV').val(kt.idNV);
+                    $('.formUpdate #idKH').val(kt.idKH);
                 })
                 $('.formUpdate #suaNV').modal('show');
             })
@@ -286,14 +272,13 @@
             e.preventDefault();
             $.ajax({
                 type: "POST",
-                url: "/nhan_vien/validateUpdateNhanVien",
-                proccessData:false,
+                url: "/khach_hang/validateUpdateKhachHang",
+                processData:false,
                 data: JSON.stringify({
-                    ten : $('#tenUpdate').val(),
-                    email : $('#emaiUpdate').val(),
-                    ngaySinh:$('#ngaySinhUpdate').val(),
-                    diaChi: $('#diaChiUpdate').val(),
-                    sdt : $('#sdtUpdate').val()
+                    ten : $('#tenAdd').val(),
+                    email : $('#emailAdd').val(),
+                    ngaySinh:$('#ngaySinhAdd').val(),
+                    sdt : $('#sdtAdd').val()
                 }),
                 contentType: "application/json",
                 dataType: "json",
@@ -316,14 +301,13 @@
             event.preventDefault();
             $.ajax({
                 type:"POST",
-                url:"/nhan_vien/validateAddNhanVien",
+                url:"/khach_hang/validateAddKhachHang",
                 processData: false,
                 data:JSON.stringify({
                     ten : $('#tenAdd').val(),
                     email : $('#emailAdd').val(),
                     ngaySinh:$('#ngaySinhAdd').val(),
                     matKhau : $('#matKhauAdd').val(),
-                    diaChi: $('#diaChiAdd').val(),
                     sdt : $('#sdtAdd').val()
                 }),
                 contentType: "application/json",

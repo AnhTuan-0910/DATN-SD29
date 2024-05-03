@@ -2,12 +2,14 @@ package com.springboot.bootstrap.service;
 
 import com.springboot.bootstrap.entity.KhachHang;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface KhachHangService {
 
-    Page<KhachHang> getAll(Integer pageNo);
+    Page<KhachHang> getAll(Pageable pageable);
 
     KhachHang getOne(String id);
 
@@ -21,8 +23,5 @@ public interface KhachHangService {
 
     List<KhachHang> findAll();
 
-    List<KhachHang> findAllByTrangThai();
-
-    KhachHang findBySdt(String sdt);
-
+    Page<KhachHang> searchByEmail(String keyword,Pageable pageable);
 }

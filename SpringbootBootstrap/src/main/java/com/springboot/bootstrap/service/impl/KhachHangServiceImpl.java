@@ -18,14 +18,11 @@ public class KhachHangServiceImpl implements KhachHangService {
 
     @Autowired
     private KhachHangRepository khachHangRepository;
-    private static final String ma = "KH";
-    private static int counter = 0;
 
     Timestamp currentTimestamp;
 
     @Override
-    public Page<KhachHang> getAll(Integer pageNo) {
-        Pageable pageable = PageRequest.of(pageNo -1, 4);
+    public Page<KhachHang> getAll(Pageable pageable) {
         return khachHangRepository.findAll(pageable);
     }
 
@@ -36,19 +33,11 @@ public class KhachHangServiceImpl implements KhachHangService {
 
     @Override
     public void add(KhachHang khachHang) {
-        khachHang.setAnhNhanVien(null);
-        java.util.Date currentDate = new java.util.Date();
-        currentTimestamp = new Timestamp(currentDate.getTime());
-        khachHang.setTaoLuc(currentTimestamp);
         khachHangRepository.save(khachHang);
     }
 
     @Override
     public void update(KhachHang khachHang) {
-        khachHang.setAnhNhanVien(null);
-        java.util.Date currentDate = new java.util.Date();
-        currentTimestamp = new Timestamp(currentDate.getTime());
-        khachHang.setSuaLuc(currentTimestamp);
         khachHangRepository.save(khachHang);
     }
 
@@ -78,13 +67,8 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
-    public List<KhachHang> findAllByTrangThai() {
-        return khachHangRepository.findAllByTrangThai(1);
-    }
-
-    @Override
-    public KhachHang findBySdt(String sdt) {
-        return khachHangRepository.findBySdt(sdt);
+    public Page<KhachHang> searchByEmail(String keyword,Pageable pageable) {
+        return khachHangRepository.findAllByEmailContaining(keyword,pageable);
     }
 
 }

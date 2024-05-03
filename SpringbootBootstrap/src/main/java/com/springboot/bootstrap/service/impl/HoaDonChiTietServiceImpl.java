@@ -8,6 +8,10 @@ import com.springboot.bootstrap.repository.HoaDonRepository;
 import com.springboot.bootstrap.repository.SanPhamCTRepo;
 import com.springboot.bootstrap.service.HoaDonChiTietService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +28,8 @@ public class HoaDonChiTietServiceImpl implements HoaDonChiTietService {
     @Override
     public List<HoaDonChiTiet> getList(UUID id) {
         HoaDon hoaDon = hoaDonRepository.findById(id).get();
-        return hoaDonChiTietRepository.findAllByHoaDon(hoaDon);
+        List<HoaDonChiTiet> list = hoaDonChiTietRepository.findAllByHoaDon(hoaDon);
+        return list;
     }
 
     @Override
@@ -45,5 +50,13 @@ public class HoaDonChiTietServiceImpl implements HoaDonChiTietService {
     @Override
     public HoaDonChiTiet getOne(UUID idhdct) {
         return hoaDonChiTietRepository.findById(idhdct).get();
+    }
+
+    @Override
+    public Page<HoaDonChiTiet> getPage(UUID id, PageRequest pageable) {
+        HoaDon hoaDon = hoaDonRepository.findById(id).get();
+        List<HoaDonChiTiet> list = hoaDonChiTietRepository.findAllByHoaDon(hoaDon);
+        Page<HoaDonChiTiet> page = new PageImpl(list,pageable,list.size());
+        return page;
     }
 }
