@@ -29,7 +29,7 @@ public class HoaDonController {
     List<String> listTinhTrang = new ArrayList();
     public HoaDonController() {
         listTinhTrang.add("Chờ xác nhận");
-        listTinhTrang.add("Chờ lấy hàng");
+        listTinhTrang.add("Đang lấy hàng");
         listTinhTrang.add("Đang giao");
         listTinhTrang.add("Hoàn thành");
         listTinhTrang.add("Đã huỷ");
@@ -43,8 +43,6 @@ public class HoaDonController {
     public String view(Model model,@RequestParam("p") Optional<Integer> p) {
         Page<HoaDon> listTH=hoaDonService.getAll(PageRequest.of(p.orElse(0), 5));
         model.addAttribute("listHoaDon",listTH);
-        model.addAttribute("hoaDon",new HoaDonDTO());
-        model.addAttribute("listTinhTrang",listTinhTrang);
         return "/pages/hoa_don";
     }
     @GetMapping("/view/{id}")
@@ -59,8 +57,6 @@ public class HoaDonController {
                          Model model){
         Page<HoaDon> listHoaDon = hoaDonService.getListSearch(keyword,PageRequest.of(page.orElse(0), 5));
         model.addAttribute("listHoaDon",listHoaDon);
-        model.addAttribute("hoaDon",new HoaDonDTO());
-        model.addAttribute("listTinhTrang",listTinhTrang);
         return "/pages/hoa_don";
     }
     @GetMapping("/thanh_toan/{idhd}")
@@ -69,5 +65,23 @@ public class HoaDonController {
         hoaDon.setTinhTrang(4);
         hoaDonService.add(hoaDon);
         return "redirect:/giao_dich";
+    }
+    @PostMapping("/xac_nhan")
+    public String xacNhan(@RequestParam("ghiChu") String ghiChu,
+                          @RequestParam("idHoaDon") UUID idHoaDon){
+        HoaDon hoaDon = hoaDonService.getOne(idHoaDon);
+        hoaDon.setTinhTrang(hoaDon.getTinhTrang()+1);
+        hoaDon.setGhiChu(ghiChu);
+        hoaDonService.save(hoaDon);
+        return "redirect:/hoa_don/view/"+idHoaDon;
+    }
+    @PostMapping("/huy")
+    public String huy(@RequestParam("ghiChu") String ghiChu,
+                      @RequestParam("idHoaDon") UUID idHoaDon){
+        HoaDon hoaDon = hoaDonService.getOne(idHoaDon);
+        hoaDon.setTinhTrang(5);
+        hoaDon.setGhiChu(ghiChu);
+        hoaDonService.save(hoaDon);
+        return "redirect:/";
     }
 }

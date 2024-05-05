@@ -100,7 +100,7 @@
                 </div>
                 <div class="card-body px-0 pb-0">
                     <ul class="timeline" id="timeline">
-                        <li class="li complete">
+                        <li class="li" th:classappend="${hoaDon.tinhTrang>=1} ? complete : ''">
                             <div class="timestamp">
                                 <span class="author">Abhi Sharma</span>
                                 <span class="date">11/15/2014<span>
@@ -109,7 +109,7 @@
                                 <h4> Chờ xác nhận </h4>
                             </div>
                         </li>
-                        <li class="li complete">
+                        <li class="li" th:classappend="${hoaDon.tinhTrang>=2} ? complete : ''">
                             <div class="timestamp">
                                 <span class="author">PAM Admin</span>
                                 <span class="date">11/15/2014<span>
@@ -118,7 +118,7 @@
                                 <h4> Đang lấy hàng </h4>
                             </div>
                         </li>
-                        <li class="li complete">
+                        <li class="li" th:classappend="${hoaDon.tinhTrang>=3} ? complete : ''">
                             <div class="timestamp">
                                 <span class="author">Aaron Rodgers</span>
                                 <span class="date">11/15/2014<span>
@@ -127,7 +127,7 @@
                                 <h4> Đang giao </h4>
                             </div>
                         </li>
-                        <li class="li">
+                        <li class="li" th:classappend="${hoaDon.tinhTrang>=4} ? complete : ''">
                             <div class="timestamp">
                                 <span class="author">PAM Admin</span>
                                 <span class="date">TBD<span>
@@ -141,7 +141,51 @@
             </div>
         </div>
     </div>
-    <button id="toggleButton">Toggle</button>
+    <button id="xacNhan" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#formXacNhan" th:disabled="${hoaDon.tinhTrang>=4}">Xác nhận</button>
+<!--    modal xác nhận-->
+    <div class="modal fade" id="formXacNhan" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form th:action="@{/hoa_don/xac_nhan}" method="post">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Xác nhận</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                        <label class="form-label" for="ghiChu">Ghi chú</label>
+                        <textarea class="form-control" th:text="${hoaDon.ghiChu}" name="ghiChu" id="ghiChu" cols="30" rows="3"></textarea>
+                        <input type="text" name="idHoaDon" th:value="${hoaDon.idHoaDon}" hidden>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <button id="huy" class="btn btn-secondary m-3" data-bs-toggle="modal" data-bs-target="#formHuy" th:disabled="${hoaDon.tinhTrang>=4}">Huỷ</button>
+    <div class="modal fade" id="formHuy" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form th:action="@{/hoa_don/huy}" method="post">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Xác nhận huỷ</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                        <label class="form-label" for="ghiChuHuy">Ghi chú</label>
+                        <textarea class="form-control" th:text="${hoaDon.ghiChu}" name="ghiChuHuy" id="ghiChuHuy" cols="30" rows="10"></textarea>
+                        <input type="text" name="idHoaDon" th:value="${hoaDon.idHoaDon}" hidden>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="row mb-4">
         <div class="col-md-12">
             <div class="card">

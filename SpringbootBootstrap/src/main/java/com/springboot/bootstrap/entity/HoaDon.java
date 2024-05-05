@@ -55,10 +55,6 @@ public class HoaDon {
     private Date ngayNhan;
     @Column(name = "tinh_trang")
     private Integer tinhTrang;
-    @Column(name = "hinh_thuc")
-    private Integer hinhThuc;
-    @Column(name = "dia_chi")
-    private String diaChi;
     @Column(name = "tien_ship")
     private Double tienShip;
     @Column(name = "thanh_tien")
@@ -67,6 +63,18 @@ public class HoaDon {
     private Date taoLuc;
     @Column(name = "sua_luc")
     private Date suaLuc;
+    @Column(name = "thanh_pho")
+    private String thanhPho;
+    @Column(name = "quan_huyen")
+    private String quanHuyen;
+    @Column(name = "phuong_xa")
+    private String phuongXa;
+    @Column(name = "dia_chi")
+    private String diaChi;
+    @Column(name = "hinh_thuc")
+    private Integer hinhThuc;
+    @Column(name = "ghi_chu")
+    private String ghiChu;
     @OneToMany(mappedBy = "hoaDon",cascade = CascadeType.ALL)
     private List<HoaDonChiTiet> listhdct;
     public HoaDon(KhachHang khachHang, NhanVien nhanVien, String ma, Date ngayThanhToan, Date ngayShip, Date ngayNhan, Integer tinhTrang) {

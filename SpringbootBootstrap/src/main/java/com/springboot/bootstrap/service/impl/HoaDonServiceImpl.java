@@ -47,6 +47,11 @@ public class HoaDonServiceImpl implements HoaDonService {
     }
 
     @Override
+    public void save(HoaDon hoaDon) {
+        hoaDonRepository.save(hoaDon);
+    }
+
+    @Override
     public List<HoaDon> renderTab() {
         return hoaDonRepository.findAllByTinhTrang(1);
     }

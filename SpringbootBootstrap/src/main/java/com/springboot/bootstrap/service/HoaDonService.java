@@ -25,4 +25,6 @@ public interface HoaDonService {
 
 
     HoaDon getOne(UUID fromString);
+
+    void save(HoaDon hoaDon);
 }
