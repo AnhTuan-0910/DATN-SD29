@@ -70,11 +70,25 @@ public class ThanhToanController {
         List<ThuongHieu> listTH = thuongHieuService.findAllByTrangThai();
         List<KichThuoc> listKT = kichThuocService.findAllByTrangThai();
         List<MauSac> listMS = mauSacService.findAllByTrangThai();
-        List<PhieuGiamGia> listPGG = phieuGiamGiaRepository.findAll();
+//        List<PhieuGiamGia> listPGG = phieuGiamGiaRepository.findAll();
         List<KhachHang> khachHang = khachHangService.findAll();
         List<HoaDon> listHD = hoaDonService.renderTab();
-        List<PhieuGiamGia> phieuGiamGia=phieuGiamGiaRepository.findAllByTrangThai(1);
-        model.addAttribute("listVoucher", phieuGiamGia);
+//        List<PhieuGiamGia> phieuGiamGia=phieuGiamGiaRepository.findAllByTrangThai(1);
+//        List<PhieuGiamGia> listPGG = phieuGiamGiaRepository.findAllByTrangThai(1);
+//        PhieuGiamGia selectVoucher=new PhieuGiamGia();
+//        for (HoaDon hoaDon: listHD){
+//            for (PhieuGiamGia phieuGiamGia: listPGG) {
+//                double giaTriToiThieu=hoaDon.getGia();
+//                double giaTriGiamToiDa=0;
+//                if (phieuGiamGia.getDonVi()==1){
+//                    giaTriGiamToiDa=hoaDon.getGia() * phieuGiamGia.getGiaTriGiam();
+//                }if (phieuGiamGia.getDonVi()==2){
+//                    giaTriGiamToiDa=hoaDon.getGia() - phieuGiamGia.getGiaTriGiam();
+//                }
+//                selectVoucher = phieuGiamGiaRepository.findTop1ByTrangThaiAndGiaTriToiThieuGreaterThanEqualAndGiaTriGiamToiDaLessThanEqual(1, giaTriToiThieu, giaTriGiamToiDa);
+//            }
+//        }
+//        model.addAttribute("selectVoucher", selectVoucher);
         model.addAttribute("listKH", khachHang);
         model.addAttribute("listHD", listHD);
         model.addAttribute("listTH", listTH);
@@ -128,8 +142,8 @@ public class ThanhToanController {
 
     @PostMapping("/add_khachHang_to_hoa_don/{idKH}")
     public String addKhachHangToHoaDon(@RequestParam(value = "idKhachHang",required = false) String idKhachHang,
-                                     @PathVariable(value = "idKH", required = false) UUID id,
-                                     @ModelAttribute HoaDon hoaDon) {
+                                       @PathVariable(value = "idKH", required = false) UUID id,
+                                       @ModelAttribute HoaDon hoaDon) {
         HoaDon existingHoaDon = hoaDonRepository.findById(id).orElse(null);
         KhachHang existingKhachHang = khachHangService.getOne(idKhachHang);
         if (existingHoaDon.getKhachHang()==null){

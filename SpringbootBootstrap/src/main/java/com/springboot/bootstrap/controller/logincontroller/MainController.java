@@ -17,4 +17,9 @@ public class MainController {
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         return "/pages/giao_dich";
     }
+
+    @GetMapping("/home")
+    public String thongKe() {
+        return "/pages/landing_page";
+    }
 }

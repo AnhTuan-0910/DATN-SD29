@@ -23,7 +23,23 @@ public interface PhieuGiamGiaRepository extends JpaRepository<PhieuGiamGia, UUID
 
     Page<PhieuGiamGia> findAll(Pageable pageable);
 
-    List<PhieuGiamGia> findAllByTrangThaiAndGiaTriToiThieuGreaterThanEqualAndGiaTriGiamToiDaLessThanEqual(int trangThai, double giaTriToiThieu, double giaTriGiamToiDa);
+    PhieuGiamGia findTop1ByTrangThaiAndGiaTriToiThieuGreaterThanEqualAndGiaTriGiamToiDaLessThanEqual(int trangThai, double giaTriToiThieu, double giaTriGiamToiDa);
+
+    @Query("SELECT pgg FROM PhieuGiamGia pgg " +
+            "WHERE pgg.trangThai = 1 " +
+            "AND pgg.giaTriToiThieu <= :gia " +
+            "AND (" +
+            "   (pgg.donVi = 1)"+
+            "   OR " +
+            "   (pgg.donVi = 2 AND pgg.giaTriGiamToiDa >= pgg.giaTriGiam)" +
+            ") " +
+            "ORDER BY " +
+            "   CASE " +
+            "       WHEN pgg.donVi = 1 THEN :gia * (pgg.giaTriGiam/100)" +
+            "       ELSE pgg.giaTriGiam " +
+            "   END DESC")
+    List<PhieuGiamGia> findTopPhieuGiamGia(@Param("gia") double gia, Pageable pageable);
+
 
     List<PhieuGiamGia> findAllByTrangThai(int trangThai);
 
