@@ -53,7 +53,7 @@ public class HoaDonServiceImpl implements HoaDonService {
 
     @Override
     public List<HoaDon> renderTab() {
-        return hoaDonRepository.findAllByTinhTrang(1);
+        return hoaDonRepository.findAllByTinhTrang(5);
     }
 
     @Override
