@@ -1,14 +1,36 @@
 package com.springboot.bootstrap.controller.hoadoncontroller;
 
 import com.springboot.bootstrap.entity.DTO.HoaDonDTO;
+import com.springboot.bootstrap.entity.DanhMuc;
 import com.springboot.bootstrap.entity.HoaDon;
+import com.springboot.bootstrap.entity.HoaDonChiTiet;
+import com.springboot.bootstrap.entity.HoaDonTimeline;
+import com.springboot.bootstrap.entity.KhachHang;
+import com.springboot.bootstrap.entity.KichThuoc;
+import com.springboot.bootstrap.entity.MauSac;
+import com.springboot.bootstrap.entity.NhanVien;
+import com.springboot.bootstrap.entity.PhieuGiamGia;
+import com.springboot.bootstrap.entity.SanPhamCT;
 import com.springboot.bootstrap.entity.ThuongHieu;
+import com.springboot.bootstrap.repository.HoaDonTLRepo;
+import com.springboot.bootstrap.repository.PhieuGiamGiaRepository;
+import com.springboot.bootstrap.service.DanhMucService;
+import com.springboot.bootstrap.service.KhachHangService;
+import com.springboot.bootstrap.service.KichThuocService;
+import com.springboot.bootstrap.service.MauSacService;
+import com.springboot.bootstrap.service.NhanVienService;
+import com.springboot.bootstrap.service.SanPhamCTService;
+import com.springboot.bootstrap.service.ThuongHieuService;
 import com.springboot.bootstrap.service.impl.HoaDonChiTietServiceImpl;
 import com.springboot.bootstrap.service.impl.HoaDonServiceImpl;
+import com.springboot.bootstrap.utility.FormatDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +40,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +52,7 @@ public class HoaDonController {
     List<String> listTinhTrang = new ArrayList();
     public HoaDonController() {
         listTinhTrang.add("Chờ xác nhận");
-        listTinhTrang.add("Đang lấy hàng");
+        listTinhTrang.add("Chờ lấy hàng");
         listTinhTrang.add("Đang giao");
         listTinhTrang.add("Hoàn thành");
         listTinhTrang.add("Đã huỷ");
@@ -38,16 +61,46 @@ public class HoaDonController {
     @Autowired
     private HoaDonServiceImpl hoaDonService;
     @Autowired
+    private FormatDate formatDate;
+    @Autowired
+    private HoaDonTLRepo hoaDonTLRepo;
+    @Autowired
     private HoaDonChiTietServiceImpl hoaDonChiTietService;
+    @Autowired
+    private NhanVienService nhanVienService;
+    @Autowired
+    private KichThuocService kichThuocService;
+    @Autowired
+    private MauSacService mauSacService;
+    @Autowired
+    private SanPhamCTService sanPhamCTService;
+    @Autowired
+    private DanhMucService danhMucService;
+    @Autowired
+    private ThuongHieuService thuongHieuService;
+    @Autowired
+    private PhieuGiamGiaRepository phieuGiamGiaRepository;
     @GetMapping("")
     public String view(Model model,@RequestParam("p") Optional<Integer> p) {
         Page<HoaDon> listTH=hoaDonService.getAll(PageRequest.of(p.orElse(0), 5));
         model.addAttribute("listHoaDon",listTH);
+        model.addAttribute("hoaDon",new HoaDonDTO());
+        model.addAttribute("listTinhTrang",listTinhTrang);
         return "/pages/hoa_don";
     }
     @GetMapping("/view/{id}")
     public String viewOne(Model model,@RequestParam("p") Optional<Integer> p, @PathVariable("id") UUID id){
+        List<DanhMuc> listDM = danhMucService.findAllByTrangThai();
+        List<ThuongHieu> listTH = thuongHieuService.findAllByTrangThai();
+        List<KichThuoc> listKT = kichThuocService.findAllByTrangThai();
+        List<MauSac> listMS = mauSacService.findAllByTrangThai();
+        model.addAttribute("listMS", listMS);
+        model.addAttribute("listTH", listTH);
+        model.addAttribute("listDM", listDM);
+        model.addAttribute("listKT", listKT);
         model.addAttribute("hoaDon",hoaDonService.getOne(id));
+        model.addAttribute("formatDate",formatDate);
+        model.addAttribute("listHoaDonTL",hoaDonTLRepo.findAllByHoaDonOrderByNgayTaoAsc(hoaDonService.getOne(id)));
         model.addAttribute("listHoaDonChiTiet",hoaDonChiTietService.getPage(id,PageRequest.of(p.orElse(0), 5)));
         return "/pages/hoa_don_chi_tiet";
     }
@@ -57,31 +110,216 @@ public class HoaDonController {
                          Model model){
         Page<HoaDon> listHoaDon = hoaDonService.getListSearch(keyword,PageRequest.of(page.orElse(0), 5));
         model.addAttribute("listHoaDon",listHoaDon);
+        model.addAttribute("hoaDon",new HoaDonDTO());
+        model.addAttribute("listTinhTrang",listTinhTrang);
         return "/pages/hoa_don";
     }
     @GetMapping("/thanh_toan/{idhd}")
     public String thanhToan(@PathVariable("idhd") UUID id){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        NhanVien nhanVien = nhanVienService.getOne(userDetails.getUsername());
         HoaDon hoaDon = hoaDonService.getOne(id);
         hoaDon.setTinhTrang(4);
         hoaDonService.add(hoaDon);
+        HoaDonTimeline hoaDonTimeline= HoaDonTimeline.builder()
+                .hoaDon(hoaDon)
+                .nguoiTao(nhanVien.getTen())
+                .trangThai(hoaDon.getTinhTrang())
+                .ngayTao(LocalDateTime.now()).build();
+        hoaDonTLRepo.save(hoaDonTimeline);
         return "redirect:/giao_dich";
     }
-    @PostMapping("/xac_nhan")
-    public String xacNhan(@RequestParam("ghiChu") String ghiChu,
-                          @RequestParam("idHoaDon") UUID idHoaDon){
-        HoaDon hoaDon = hoaDonService.getOne(idHoaDon);
-        hoaDon.setTinhTrang(hoaDon.getTinhTrang()+1);
-        hoaDon.setGhiChu(ghiChu);
-        hoaDonService.save(hoaDon);
-        return "redirect:/hoa_don/view/"+idHoaDon;
+    @PostMapping("/confirm/{id}")
+    public String confirm(Model model, @PathVariable("id") UUID id, @RequestParam("moTa") String moTa) {
+        HoaDon hoaDon=hoaDonService.getOne(id);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        NhanVien nhanVien = nhanVienService.getOne(userDetails.getUsername());
+        if(hoaDon.getTinhTrang()!=0){
+            hoaDon.setTinhTrang(hoaDon.getTinhTrang()+1);
+            hoaDonService.add(hoaDon);
+            HoaDonTimeline hoaDonTimeline= HoaDonTimeline.builder()
+                    .hoaDon(hoaDon)
+                    .moTa(moTa)
+                    .nguoiTao(nhanVien.getTen())
+                    .trangThai(hoaDon.getTinhTrang())
+                    .ngayTao(LocalDateTime.now()).build();
+            hoaDonTLRepo.save(hoaDonTimeline);
+        }
+
+        return "redirect:/hoa_don/view/"+hoaDon.getIdHoaDon();
     }
-    @PostMapping("/huy")
-    public String huy(@RequestParam("ghiChuHuy") String ghiChu,
-                      @RequestParam("idHoaDon") UUID idHoaDon){
-        HoaDon hoaDon = hoaDonService.getOne(idHoaDon);
-        hoaDon.setTinhTrang(5);
-        hoaDon.setGhiChu(ghiChu);
-        hoaDonService.save(hoaDon);
-        return "redirect:/";
+    @PostMapping("/confirm/ship/{id}")
+    public String confirmShip(Model model, @PathVariable("id") UUID id, @RequestParam("moTa") String moTa,@RequestParam("giaShip") String giaShip) {
+        HoaDon hoaDon=hoaDonService.getOne(id);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        NhanVien nhanVien = nhanVienService.getOne(userDetails.getUsername());
+        if(hoaDon.getTinhTrang()!=0){
+            hoaDon.setTinhTrang(hoaDon.getTinhTrang()+1);
+            hoaDon.setTienShip(Double.parseDouble(giaShip));
+            hoaDon.setThanhTien(hoaDon.getThanhTien()+hoaDon.getTienShip());
+            hoaDonService.add(hoaDon);
+            HoaDonTimeline hoaDonTimeline= HoaDonTimeline.builder()
+                    .hoaDon(hoaDon)
+                    .moTa(moTa)
+                    .nguoiTao(nhanVien.getTen())
+                    .trangThai(hoaDon.getTinhTrang())
+                    .ngayTao(LocalDateTime.now()).build();
+            hoaDonTLRepo.save(hoaDonTimeline);
+        }
+
+        return "redirect:/hoa_don/view/"+hoaDon.getIdHoaDon();
+    }
+    @PostMapping("/cancel/{id}")
+    public String cancel(Model model, @PathVariable("id") UUID id,@RequestParam("moTa") String moTa) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        NhanVien nhanVien = nhanVienService.getOne(userDetails.getUsername());
+        HoaDon hoaDon=hoaDonService.getOne(id);
+        List<HoaDonChiTiet> list = hoaDonChiTietService.getList(id);
+        for(HoaDonChiTiet hdct:list){
+            SanPhamCT sanPhamCT = sanPhamCTService.getOne(hdct.getSanPhamChiTiet().getId());
+            sanPhamCT.setSl(sanPhamCT.getSl()+hdct.getSoLuong());
+            sanPhamCTService.add(sanPhamCT);
+        }
+        if(hoaDon.getPhieuGiamGia()!=null){
+            PhieuGiamGia phieuGiamGia = hoaDon.getPhieuGiamGia();
+            phieuGiamGia.setSoLuong(phieuGiamGia.getSoLuong()+1);
+            phieuGiamGiaRepository.save(phieuGiamGia);
+        }
+        hoaDon.setTinhTrang(0);
+        hoaDonService.add(hoaDon);
+        HoaDonTimeline hoaDonTimeline= HoaDonTimeline.builder()
+                .hoaDon(hoaDon)
+                .moTa(moTa)
+                .nguoiTao(nhanVien.getTen())
+                .trangThai(hoaDon.getTinhTrang())
+                .ngayTao(LocalDateTime.now()).build();
+        hoaDonTLRepo.save(hoaDonTimeline);
+        return "redirect:/hoa_don/view/"+hoaDon.getIdHoaDon();
+    }
+    @PostMapping("/addSPCTTL")
+    public String addHdct(@RequestParam(name = "idhd") UUID idhd,
+                          @RequestParam(name = "idspct") UUID idspct,
+                          @RequestParam(name = "soLuong") Integer soLuong){
+        SanPhamCT sanPhamCT = sanPhamCTService.getOne(idspct.toString());
+        sanPhamCT.setSl(sanPhamCT.getSl()-soLuong);
+        sanPhamCTService.update(sanPhamCT,idspct.toString());
+        HoaDon hoaDon = hoaDonService.getOne(idhd);
+        List<HoaDonChiTiet> list = hoaDonChiTietService.getList(idhd);
+        Pageable pageable= PageRequest.of(0,1);
+
+        if(list!=null){
+            for(HoaDonChiTiet hoaDonChiTiet:list){
+                if(hoaDonChiTiet.getSanPhamChiTiet().getId().equalsIgnoreCase(idspct.toString())){
+                    hoaDonChiTiet.setSoLuong(hoaDonChiTiet.getSoLuong()+soLuong);
+                    hoaDonChiTiet.setGia(hoaDonChiTiet.getSanPhamChiTiet().getGia());//set gia
+                    hoaDonChiTietService.update(hoaDonChiTiet);
+                    hoaDon.setGia(hoaDon.getGia()+hoaDonChiTiet.getGia()*soLuong);//vd sp 100k thì ở đây giá bằng 100k
+                    hoaDon.setThanhTien(hoaDon.getThanhTien()+hoaDonChiTiet.getGia()*soLuong);
+                    if(hoaDon.getPhieuGiamGia()==null){
+                        hoaDon.setThanhTien(hoaDon.getGia());
+                        hoaDonService.add(hoaDon);
+                    }else if(hoaDon.getPhieuGiamGia().getDonVi()==2){
+                        hoaDon.setThanhTien(hoaDon.getGia()-hoaDon.getPhieuGiamGia().getGiaTriGiam());
+                        hoaDonService.add(hoaDon);
+                    }else if(hoaDon.getPhieuGiamGia().getDonVi()==1){
+                        if(hoaDon.getPhieuGiamGia().getGiaTriGiamToiDa() <= hoaDon.getGia()*(hoaDon.getPhieuGiamGia().getGiaTriGiam()/100)) {
+                            hoaDon.setThanhTien(hoaDon.getGia() - hoaDon.getPhieuGiamGia().getGiaTriGiamToiDa());
+                        }else{
+                            hoaDon.setThanhTien(hoaDon.getGia() * (100 - hoaDon.getPhieuGiamGia().getGiaTriGiam()) / 100);
+                        }
+
+                        hoaDonService.add(hoaDon);
+                    }
+
+                    return "redirect:/hoa_don/view/"+hoaDon.getIdHoaDon();
+                }
+            }
+        }
+        HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet(sanPhamCT,hoaDon,sanPhamCT.getGia(),soLuong);
+        hoaDonChiTietService.add(hoaDonChiTiet);
+        hoaDon.setGia(hoaDon.getGia()+hoaDonChiTiet.getGia()*soLuong);
+
+        if(hoaDon.getPhieuGiamGia()==null){
+            hoaDon.setThanhTien(hoaDon.getGia());
+            hoaDonService.add(hoaDon);
+        }else if(hoaDon.getPhieuGiamGia().getDonVi()==2){
+            hoaDon.setThanhTien(hoaDon.getGia()-hoaDon.getPhieuGiamGia().getGiaTriGiam());
+            hoaDonService.add(hoaDon);
+        }else if(hoaDon.getPhieuGiamGia().getDonVi()==1){
+            if(hoaDon.getPhieuGiamGia().getGiaTriGiamToiDa() <= hoaDon.getGia()*(hoaDon.getPhieuGiamGia().getGiaTriGiam()/100)) {
+                hoaDon.setThanhTien(hoaDon.getGia() - hoaDon.getPhieuGiamGia().getGiaTriGiamToiDa());
+            }else{
+                hoaDon.setThanhTien(hoaDon.getGia() * (100 - hoaDon.getPhieuGiamGia().getGiaTriGiam()) / 100);
+            }
+
+            hoaDonService.add(hoaDon);
+        }
+
+        return "redirect:/hoa_don/view/"+hoaDon.getIdHoaDon();
+    }
+    @GetMapping("/deleteSPCTTL/{idhdct}")
+    public String delete(@PathVariable(name = "idhdct") String idhdct){
+        Integer soLuong = hoaDonChiTietService.getOne(UUID.fromString(idhdct)).getSoLuong();
+        Integer tong = hoaDonChiTietService.getOne(UUID.fromString(idhdct)).getSanPhamChiTiet().getSl();
+        SanPhamCT sanPhamCT = hoaDonChiTietService.getOne(UUID.fromString(idhdct)).getSanPhamChiTiet();
+        sanPhamCT.setSl(tong+soLuong);
+        sanPhamCTService.update(sanPhamCT,sanPhamCT.getId());
+        HoaDon hoaDon = hoaDonChiTietService.getOne(UUID.fromString(idhdct)).getHoaDon();
+
+        hoaDon.setGia(hoaDon.getGia()-hoaDonChiTietService.getOne(UUID.fromString(idhdct)).getGia()*soLuong);
+        Pageable pageable= PageRequest.of(0,1);
+
+        if(hoaDon.getPhieuGiamGia()==null){
+            hoaDon.setThanhTien(hoaDon.getGia());
+            hoaDonService.add(hoaDon);
+        }else if(hoaDon.getPhieuGiamGia().getDonVi()==2){
+            hoaDon.setThanhTien(hoaDon.getGia()-hoaDon.getPhieuGiamGia().getGiaTriGiam());
+            hoaDonService.add(hoaDon);
+        }else if(hoaDon.getPhieuGiamGia().getDonVi()==1){
+            if(hoaDon.getPhieuGiamGia().getGiaTriGiamToiDa() <= hoaDon.getGia()*(hoaDon.getPhieuGiamGia().getGiaTriGiam()/100)) {
+                hoaDon.setThanhTien(hoaDon.getGia() - hoaDon.getPhieuGiamGia().getGiaTriGiamToiDa());
+            }else{
+                hoaDon.setThanhTien(hoaDon.getGia() * (100 - hoaDon.getPhieuGiamGia().getGiaTriGiam()) / 100);
+            }
+            hoaDonService.add(hoaDon);
+        }
+        hoaDonService.add(hoaDon);
+        hoaDonChiTietService.delete(UUID.fromString(idhdct));
+
+        return "redirect:/hoa_don/view/"+hoaDon.getIdHoaDon();
+    }
+    @PostMapping("/updateSPCTTL/{idhdct}")
+    public String update(@PathVariable(name = "idhdct") UUID idhdct,
+                         @RequestParam(name = "soLuong") Integer soLuong){
+        HoaDonChiTiet hoaDonChiTiet = hoaDonChiTietService.getOne(idhdct);
+        HoaDon hoaDon = hoaDonChiTietService.getOne(idhdct).getHoaDon();
+        Pageable pageable= PageRequest.of(0,1);
+
+
+        SanPhamCT sanPhamCT = hoaDonChiTiet.getSanPhamChiTiet();
+        sanPhamCT.setSl(sanPhamCT.getSl()+hoaDonChiTiet.getSoLuong()-soLuong);
+        sanPhamCTService.update(sanPhamCT,sanPhamCT.getId());
+        hoaDon.setGia(hoaDon.getGia()-hoaDonChiTiet.getGia()*hoaDonChiTiet.getSoLuong());
+        hoaDonChiTiet.setSoLuong(soLuong);
+        hoaDonChiTiet.setGia(hoaDonChiTiet.getSanPhamChiTiet().getGia());
+        hoaDon.setGia(hoaDon.getGia()+hoaDonChiTiet.getGia()*soLuong);
+        if(hoaDon.getPhieuGiamGia()==null){
+            hoaDon.setThanhTien(hoaDon.getGia());
+            hoaDonService.add(hoaDon);
+        }else if(hoaDon.getPhieuGiamGia().getDonVi()==2){
+            hoaDon.setThanhTien(hoaDon.getGia()-hoaDon.getPhieuGiamGia().getGiaTriGiam());
+            hoaDonService.add(hoaDon);
+        }else if(hoaDon.getPhieuGiamGia().getDonVi()==1){
+            if(hoaDon.getPhieuGiamGia().getGiaTriGiamToiDa() <= hoaDon.getGia()*(hoaDon.getPhieuGiamGia().getGiaTriGiam()/100)) {
+                hoaDon.setThanhTien(hoaDon.getGia() - hoaDon.getPhieuGiamGia().getGiaTriGiamToiDa());
+            }else{
+                hoaDon.setThanhTien(hoaDon.getGia() * (100 - hoaDon.getPhieuGiamGia().getGiaTriGiam()) / 100);
+            }
+            hoaDonService.add(hoaDon);
+        }
+        hoaDonService.add(hoaDon);
+        hoaDonChiTietService.update(hoaDonChiTiet);
+
+        return "redirect:/hoa_don/view/"+hoaDon.getIdHoaDon();
     }
 }

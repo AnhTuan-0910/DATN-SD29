@@ -3,6 +3,7 @@ package com.springboot.bootstrap.controller.thanhtoancontroller;
 import com.springboot.bootstrap.entity.*;
 import com.springboot.bootstrap.entity.DTO.SanPhamQrDTO;
 import com.springboot.bootstrap.repository.HoaDonRepository;
+import com.springboot.bootstrap.repository.HoaDonTLRepo;
 import com.springboot.bootstrap.repository.KhachHangRepository;
 import com.springboot.bootstrap.repository.PhieuGiamGiaRepository;
 import com.springboot.bootstrap.service.DanhMucService;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -58,8 +60,12 @@ public class ThanhToanController {
 
     @Autowired
     private HoaDonRepository hoaDonRepository;
+
     @Autowired
     private HoaDonChiTietService hoaDonChiTietService;
+
+    @Autowired
+    private HoaDonTLRepo hoaDonTLRepo;
     @Autowired
     private NhanVienService nhanVienService;
     @GetMapping("")
@@ -104,8 +110,15 @@ public class ThanhToanController {
     public String addTab() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         NhanVien nhanVien = nhanVienService.getOne(userDetails.getUsername());
-        HoaDon hoaDon = HoaDon.builder().nhanVien(nhanVien).hinhThuc(0).tinhTrang(1).gia(0.0).thanhTien(0.0).build();
+        HoaDon hoaDon = HoaDon.builder().nhanVien(nhanVien).hinhThuc(0).tinhTrang(5).gia(0.0).thanhTien(0.0).build();
         hoaDonService.add(hoaDon);
+        HoaDonTimeline hoaDonTimeline= HoaDonTimeline.builder()
+                .hoaDon(hoaDon)
+                .nguoiTao(nhanVien.getTen())
+                .trangThai(hoaDon.getTinhTrang())
+                .ngayTao(LocalDateTime.now()).build();
+        hoaDonTLRepo.save(hoaDonTimeline);
+
         return "redirect:/giao_dich";
     }
 
@@ -161,13 +174,21 @@ public class ThanhToanController {
     }
     @GetMapping("/deleteTab/")
     public String deleteTab(@RequestParam("id") String id) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        NhanVien nhanVien = nhanVienService.getOne(userDetails.getUsername());
         HoaDon hoaDon = hoaDonService.getOne(UUID.fromString(id));
-        hoaDon.setTinhTrang(5);
+        hoaDon.setTinhTrang(0);
         hoaDonService.add(hoaDon);
+        HoaDonTimeline hoaDonTimeline= HoaDonTimeline.builder()
+                .hoaDon(hoaDon)
+                .nguoiTao(nhanVien.getTen())
+                .trangThai(hoaDon.getTinhTrang())
+                .ngayTao(LocalDateTime.now()).build();
+        hoaDonTLRepo.save(hoaDonTimeline);
         List<HoaDonChiTiet> list = hoaDonChiTietService.getList(UUID.fromString(id));
         for(HoaDonChiTiet hdct:list){
             SanPhamCT sanPhamCT = sanPhamCTService.getOne(hdct.getSanPhamChiTiet().getId());
-            sanPhamCT.setSl(sanPhamCT.getSl()-hdct.getSoLuong());
+            sanPhamCT.setSl(sanPhamCT.getSl()+hdct.getSoLuong());
             sanPhamCTService.add(sanPhamCT);
         }
         if(hoaDon.getPhieuGiamGia()!=null){
