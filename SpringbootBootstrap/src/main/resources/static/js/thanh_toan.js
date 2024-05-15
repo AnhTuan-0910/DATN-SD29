@@ -11,7 +11,61 @@ $(document).ready(function () {
 
     });
 
+    createChart("myChart1","http://localhost:8080/home/x","http://localhost:8080/home/y-so-don-hang","Biểu đồ Số đơn hàng");
+    createChart("myChart2","http://localhost:8080/home/x","http://localhost:8080/home/y-so-san-pham","Biểu đồ Số sản phẩm đã bán");
+    createChart("myChart3","http://localhost:8080/home/x","http://localhost:8080/home/y-doanh-thu","Biểu đồ Doanh Thu");
 });
+
+function createChart(chartId,xApi,yApi,ten){
+    var x = [];
+    var y = [];
+    // var tuNgay=$('#tuNgay').val();
+    // var denNgay=$('#denNgay').val();
+    const urlParams = new URLSearchParams(window.location.search);
+    const thoiGian = urlParams.get('thoiGian');
+    const tuNgay = urlParams.get('tuNgay');
+    const denNgay = urlParams.get('denNgay');
+    fetch(`${xApi}?thoiGian=${thoiGian}&tuNgay=${tuNgay}&denNgay=${denNgay}`)
+        .then(response => response.json())
+        .then(data => {
+            x = data;
+            // Gọi hàm createChartWithData() sau khi fetch danh sách
+            fetch(`${yApi}?thoiGian=${thoiGian}&tuNgay=${tuNgay}&denNgay=${denNgay}`)
+                .then(response => response.json())
+                .then(data => {
+                    y = data;
+                    createChartWithData(chartId, x, y, ten);
+                });
+        });
+}
+
+function createChartWithData(chartId, x, y, ten) {
+    new Chart(chartId, {
+        type: "bar",
+        data: {
+            labels: x,
+            datasets: [{
+                backgroundColor: "red",
+                data: y
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: ten
+            },
+            legend: { display: false },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    }
+                }]
+            }
+        }
+    });
+}
+
 function spctAll(maHD) {
     var isSearching = false;
     var isFillter = false;

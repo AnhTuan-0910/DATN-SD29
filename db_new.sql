@@ -96,7 +96,6 @@ create table san_pham_chi_tiet
     sua_luc       date,
     tao_boi       nvarchar(20),
     sua_boi       nvarchar(20),
-
 )
 
 create table _role

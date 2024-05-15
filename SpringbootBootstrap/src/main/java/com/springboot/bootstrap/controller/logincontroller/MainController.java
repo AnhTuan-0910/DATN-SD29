@@ -18,8 +18,8 @@ public class MainController {
         return "/pages/giao_dich";
     }
 
-    @GetMapping("/home")
-    public String thongKe() {
-        return "/pages/landing_page";
-    }
+//    @GetMapping("/home")
+//    public String thongKe() {
+//        return "/pages/landing_page";
+//    }
 }

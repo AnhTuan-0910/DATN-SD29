@@ -43,6 +43,7 @@ public class SecurityConfig {
             authorize.requestMatchers(mvc.pattern("/thuong_hieu/**")).hasRole("ADMIN");
             authorize.requestMatchers(mvc.pattern("/giao_dich/**")).hasRole("ADMIN");
             authorize.requestMatchers(mvc.pattern("/giao_dich/**")).hasRole("STAFF");
+            authorize.requestMatchers(mvc.pattern("/home/**")).hasRole("ADMIN");
             authorize.anyRequest().authenticated();
         })
                 .formLogin(form -> form.loginPage("/login").permitAll())
