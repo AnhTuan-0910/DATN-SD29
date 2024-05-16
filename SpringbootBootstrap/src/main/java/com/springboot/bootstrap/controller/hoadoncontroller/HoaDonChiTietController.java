@@ -59,11 +59,6 @@ public class HoaDonChiTietController {
         HoaDon hoaDon = hoaDonService.getOne(idhd);
         List<HoaDonChiTiet> list = hoaDonChiTietService.getList(idhd);
         Pageable pageable= PageRequest.of(0,1);
-//        List<PhieuGiamGia> phieuGiamGia= phieuGiamGiaRepository.findTopPhieuGiamGia(hoaDon.getGia(), pageable);
-//        if(!phieuGiamGia.isEmpty()){
-//            hoaDon.setPhieuGiamGia(phieuGiamGia.get(0));
-//            hoaDonRepository.save(hoaDon);
-//        }
         if(list!=null){
             for(HoaDonChiTiet hoaDonChiTiet:list){
                 if(hoaDonChiTiet.getSanPhamChiTiet().getId().equalsIgnoreCase(idspct.toString())){
@@ -73,8 +68,20 @@ public class HoaDonChiTietController {
                     hoaDon.setGia(hoaDon.getGia()+hoaDonChiTiet.getGia()*soLuong);//vd sp 100k thì ở đây giá bằng 100k
                     List<PhieuGiamGia> phieuGiamGia= phieuGiamGiaRepository.findTopPhieuGiamGia(hoaDon.getGia(), pageable);
                     if(!phieuGiamGia.isEmpty()){
-                        hoaDon.setPhieuGiamGia(phieuGiamGia.get(0));
-                        hoaDonRepository.save(hoaDon);
+                        if (hoaDon.getPhieuGiamGia()==null){
+                            hoaDon.setPhieuGiamGia(phieuGiamGia.get(0));
+                            hoaDonRepository.save(hoaDon);
+                            PhieuGiamGia getVoucher=phieuGiamGiaRepository.findByMa(hoaDon.getPhieuGiamGia().getMa());
+                            getVoucher.setSoLuong(getVoucher.getSoLuong()-1);
+                        }else {
+                            PhieuGiamGia getOldVoucher=phieuGiamGiaRepository.findByMa(hoaDon.getPhieuGiamGia().getMa());
+                            getOldVoucher.setSoLuong(getOldVoucher.getSoLuong()+1);
+                            hoaDon.setPhieuGiamGia(phieuGiamGia.get(0));
+                            hoaDonRepository.save(hoaDon);
+                            PhieuGiamGia getVoucher=phieuGiamGiaRepository.findByMa(hoaDon.getPhieuGiamGia().getMa());
+                            getVoucher.setSoLuong(getVoucher.getSoLuong()-1);
+
+                        }
                     }
                     if(hoaDon.getPhieuGiamGia()==null){
                         hoaDon.setThanhTien(hoaDon.getGia());
@@ -88,7 +95,6 @@ public class HoaDonChiTietController {
                         }else{
                             hoaDon.setThanhTien(hoaDon.getGia() * (100 - hoaDon.getPhieuGiamGia().getGiaTriGiam()) / 100);
                         }
-//                        hoaDon.setThanhTien(hoaDon.getGia()*(100-hoaDon.getPhieuGiamGia().getGiaTriGiam())/100);
                         hoaDonService.add(hoaDon);
                     }
                     return "redirect:/giao_dich";
@@ -100,8 +106,19 @@ public class HoaDonChiTietController {
         hoaDon.setGia(hoaDon.getGia()+hoaDonChiTiet.getGia()*soLuong);
         List<PhieuGiamGia> phieuGiamGia= phieuGiamGiaRepository.findTopPhieuGiamGia(hoaDon.getGia(), pageable);
         if(!phieuGiamGia.isEmpty()){
-            hoaDon.setPhieuGiamGia(phieuGiamGia.get(0));
-            hoaDonRepository.save(hoaDon);
+            if (hoaDon.getPhieuGiamGia()==null){
+                hoaDon.setPhieuGiamGia(phieuGiamGia.get(0));
+                hoaDonRepository.save(hoaDon);
+                PhieuGiamGia getVoucher=phieuGiamGiaRepository.findByMa(hoaDon.getPhieuGiamGia().getMa());
+                getVoucher.setSoLuong(getVoucher.getSoLuong()-1);
+            }else {
+                PhieuGiamGia getOldVoucher=phieuGiamGiaRepository.findByMa(hoaDon.getPhieuGiamGia().getMa());
+                getOldVoucher.setSoLuong(getOldVoucher.getSoLuong()+1);
+                hoaDon.setPhieuGiamGia(phieuGiamGia.get(0));
+                hoaDonRepository.save(hoaDon);
+                PhieuGiamGia getVoucher=phieuGiamGiaRepository.findByMa(hoaDon.getPhieuGiamGia().getMa());
+                getVoucher.setSoLuong(getVoucher.getSoLuong()-1);
+            }
         }
         if(hoaDon.getPhieuGiamGia()==null){
             hoaDon.setThanhTien(hoaDon.getGia());
@@ -115,13 +132,9 @@ public class HoaDonChiTietController {
             }else{
                 hoaDon.setThanhTien(hoaDon.getGia() * (100 - hoaDon.getPhieuGiamGia().getGiaTriGiam()) / 100);
             }
-//            hoaDon.setThanhTien(hoaDon.getGia()*(100-hoaDon.getPhieuGiamGia().getGiaTriGiam())/100);
             hoaDonService.add(hoaDon);
         }
-//        if(hoaDon.getGia()==0){
-//            hoaDon.setPhieuGiamGia(null);
-//            hoaDonRepository.save(hoaDon);
-//        }
+
         return "redirect:/giao_dich";
     }
 
@@ -133,22 +146,28 @@ public class HoaDonChiTietController {
         sanPhamCT.setSl(tong+soLuong);
         sanPhamCTService.update(sanPhamCT,sanPhamCT.getId());
         HoaDon hoaDon = hoaDonChiTietService.getOne(UUID.fromString(idhdct)).getHoaDon();
-//        Pageable pageable= PageRequest.of(0,1);
-//        List<PhieuGiamGia> phieuGiamGia= phieuGiamGiaRepository.findTopPhieuGiamGia(hoaDon.getGia(), pageable);
-//        if(!phieuGiamGia.isEmpty()){
-//            hoaDon.setPhieuGiamGia(phieuGiamGia.get(0));
-//            hoaDonRepository.save(hoaDon);
-//        }
         hoaDon.setGia(hoaDon.getGia()-hoaDonChiTietService.getOne(UUID.fromString(idhdct)).getGia()*soLuong);
         Pageable pageable= PageRequest.of(0,1);
+        PhieuGiamGia getOldVoucher=phieuGiamGiaRepository.findByMa(hoaDon.getPhieuGiamGia().getMa());
         List<PhieuGiamGia> phieuGiamGia= phieuGiamGiaRepository.findTopPhieuGiamGia(hoaDon.getGia(), pageable);
         if(!phieuGiamGia.isEmpty()){
-            hoaDon.setPhieuGiamGia(phieuGiamGia.get(0));
-            hoaDonRepository.save(hoaDon);
+            if (hoaDon.getPhieuGiamGia()==null){
+                hoaDon.setPhieuGiamGia(phieuGiamGia.get(0));
+                hoaDonRepository.save(hoaDon);
+                PhieuGiamGia getVoucher=phieuGiamGiaRepository.findByMa(hoaDon.getPhieuGiamGia().getMa());
+                getVoucher.setSoLuong(getVoucher.getSoLuong()-1);
+            }else {
+                hoaDon.setPhieuGiamGia(phieuGiamGia.get(0));
+                hoaDonRepository.save(hoaDon);
+                PhieuGiamGia getVoucher=phieuGiamGiaRepository.findByMa(hoaDon.getPhieuGiamGia().getMa());
+                getVoucher.setSoLuong(getVoucher.getSoLuong()-1);
+                getOldVoucher.setSoLuong(getOldVoucher.getSoLuong()+1);
+            }
         }
         if(hoaDon.getGia()==0){
             hoaDon.setPhieuGiamGia(null);
             hoaDonRepository.save(hoaDon);
+            getOldVoucher.setSoLuong(getOldVoucher.getSoLuong()+1);
         }
         if(hoaDon.getPhieuGiamGia()==null){
             hoaDon.setThanhTien(hoaDon.getGia());
@@ -177,9 +196,20 @@ public class HoaDonChiTietController {
         HoaDon hoaDon = hoaDonChiTietService.getOne(idhdct).getHoaDon();
         Pageable pageable= PageRequest.of(0,1);
         List<PhieuGiamGia> phieuGiamGia= phieuGiamGiaRepository.findTopPhieuGiamGia(hoaDon.getGia(), pageable);
+        PhieuGiamGia getOldVoucher=phieuGiamGiaRepository.findByMa(hoaDon.getPhieuGiamGia().getMa());
         if(!phieuGiamGia.isEmpty()){
-        hoaDon.setPhieuGiamGia(phieuGiamGia.get(0));
-        hoaDonRepository.save(hoaDon);
+            if (hoaDon.getPhieuGiamGia()==null){
+                hoaDon.setPhieuGiamGia(phieuGiamGia.get(0));
+                hoaDonRepository.save(hoaDon);
+                PhieuGiamGia getVoucher=phieuGiamGiaRepository.findByMa(hoaDon.getPhieuGiamGia().getMa());
+                getVoucher.setSoLuong(getVoucher.getSoLuong()-1);
+            }else {
+                hoaDon.setPhieuGiamGia(phieuGiamGia.get(0));
+                hoaDonRepository.save(hoaDon);
+                PhieuGiamGia getVoucher=phieuGiamGiaRepository.findByMa(hoaDon.getPhieuGiamGia().getMa());
+                getVoucher.setSoLuong(getVoucher.getSoLuong()-1);
+                getOldVoucher.setSoLuong(getVoucher.getSoLuong()+1);
+            }
         }
 
         SanPhamCT sanPhamCT = hoaDonChiTiet.getSanPhamChiTiet();
@@ -206,10 +236,6 @@ public class HoaDonChiTietController {
         }
         hoaDonService.add(hoaDon);
         hoaDonChiTietService.update(hoaDonChiTiet);
-//        if(hoaDon.getGia()==0){
-//            hoaDon.setPhieuGiamGia(null);
-//            hoaDonRepository.save(hoaDon);
-//        }
         return "redirect:/giao_dich";
     }
 }

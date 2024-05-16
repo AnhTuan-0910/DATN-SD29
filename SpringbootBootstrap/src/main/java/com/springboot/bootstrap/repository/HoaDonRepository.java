@@ -23,55 +23,23 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, UUID> {
     Page<HoaDon> findAll(Pageable pageable);
     Page<HoaDon> findAllByMaContaining(String keyword,Pageable pageable);
 
-    @Query("SELECT SUM(h.thanhTien) FROM HoaDon h")
-    Double tongDoanhThu();
-
-    //tính số đơn hàng
-//    @Query("SELECT YEAR(h.taoLuc) AS Nam, MONTH(h.taoLuc) AS Thang, DAY(h.taoLuc) AS Ngay, COUNT(h) AS SoDonHang " +
-//            "FROM HoaDon h " +
-//            "WHERE h.taoLuc BETWEEN :tuNgay AND :denNgay " +
-//            "GROUP BY YEAR(h.taoLuc), MONTH(h.taoLuc), DAY(h.taoLuc)")
-//    List<Map<String, Object>> soDonHangTheoCacNgay(LocalDate tuNgay, LocalDate denNgay);
-//
-//    @Query("SELECT COUNT(h) AS SoDonHang " +
-//            "FROM HoaDon h " +
-//            "WHERE h.taoLuc BETWEEN :tuNgay AND :denNgay " +
-//            "GROUP BY YEAR(h.taoLuc), MONTH(h.taoLuc)")
-//    List<Map<String, Object>> soDonHangTheoCacThang(LocalDate tuNgay, LocalDate denNgay);
-//
-//    @Query("SELECT YEAR(h.taoLuc) AS Nam, COUNT(h) AS SoDonHang " +
-//            "FROM HoaDon h " +
-//            "WHERE h.taoLuc BETWEEN :tuNgay AND :denNgay " +
-//            "GROUP BY YEAR(h.taoLuc)")
-//    List<Map<String, Object>> soDonHangTheoCacNam(LocalDate tuNgay, LocalDate denNgay);
-
-
-//    @Query("SELECT COUNT(h) FROM HoaDon h WHERE h.taoLuc BETWEEN :tuNgay AND :denNgay")
-//    Integer soDonHangTheoKhoangThoiGian(LocalDate tuNgay, LocalDate denNgay);
-
-    @Query("SELECT COUNT(h) FROM HoaDon h WHERE h.taoLuc = :taoLuc")
+    @Query("SELECT COUNT(h) FROM HoaDon h WHERE YEAR(h.taoLuc) = YEAR(:taoLuc) AND MONTH(h.taoLuc) = MONTH(:taoLuc) AND DAY(h.taoLuc) = DAY(:taoLuc) AND (h.tinhTrang = 2 OR h.tinhTrang = 3 OR h.tinhTrang = 4)")
     Integer soDonHangTheoNgayTao(Date taoLuc);
 
-    @Query("SELECT COUNT(h) FROM HoaDon h WHERE YEAR(h.taoLuc) = YEAR(:taoLuc) AND MONTH(h.taoLuc) = MONTH(:taoLuc)")
+    @Query("SELECT COUNT(h) FROM HoaDon h WHERE YEAR(h.taoLuc) = YEAR(:taoLuc) AND MONTH(h.taoLuc) = MONTH(:taoLuc) AND (h.tinhTrang = 2 OR h.tinhTrang = 3 OR h.tinhTrang = 4)")
     Integer soDonHangTheoThangVaNam(Date taoLuc);
 
-    @Query("SELECT COUNT(h) FROM HoaDon h WHERE YEAR(h.taoLuc) = YEAR(:taoLuc)")
+    @Query("SELECT COUNT(h) FROM HoaDon h WHERE YEAR(h.taoLuc) = YEAR(:taoLuc) AND (h.tinhTrang = 2 OR h.tinhTrang = 3 OR h.tinhTrang = 4)")
     Integer soDonHangTheoNam(Date taoLuc);
 
-    //tính doanh thu
-//    @Query("SELECT COALESCE(SUM(h.thanhTien), 0) FROM HoaDon h WHERE h.ngayThanhToan BETWEEN :tuNgay AND :denNgay")
-//    Double doanhThuTheoKhoangThoiGian(LocalDate tuNgay, LocalDate denNgay);
 
-    @Query("SELECT COALESCE(SUM(h.thanhTien), 0) FROM HoaDon h WHERE h.taoLuc = :taoLuc")
+    @Query("SELECT COALESCE(SUM(h.thanhTien), 0) FROM HoaDon h WHERE YEAR(h.taoLuc) = YEAR(:taoLuc) AND MONTH(h.taoLuc) = MONTH(:taoLuc) AND DAY(h.taoLuc) = DAY(:taoLuc) AND h.tinhTrang = 4")
     Integer doanhThuTheoNgayTao(Date taoLuc);
 
-    @Query("SELECT COALESCE(SUM(h.thanhTien), 0) FROM HoaDon h WHERE YEAR(h.taoLuc) = YEAR(:taoLuc) AND MONTH(h.taoLuc) = MONTH(:taoLuc)")
+    @Query("SELECT COALESCE(SUM(h.thanhTien), 0) FROM HoaDon h WHERE YEAR(h.taoLuc) = YEAR(:taoLuc) AND MONTH(h.taoLuc) = MONTH(:taoLuc) AND h.tinhTrang = 4")
     Integer doanhThuTheoThangVaNam(Date taoLuc);
 
-    @Query("SELECT COALESCE(SUM(h.thanhTien), 0) FROM HoaDon h WHERE YEAR(h.taoLuc) = YEAR(:taoLuc)")
+    @Query("SELECT COALESCE(SUM(h.thanhTien), 0) FROM HoaDon h WHERE YEAR(h.taoLuc) = YEAR(:taoLuc) AND h.tinhTrang = 4")
     Integer doanhThuTheoNam(Date taoLuc);
-
-//    long countAllByTinhTrangAndHinhThucAndTaoLucBetween(int tinhTrang,int hinhThuc, Date tuNgay, Date denNgay);
-//b   double sumThanhTienByNgayThanhToanBetween(Date startDate, Date endDate);
 
 }

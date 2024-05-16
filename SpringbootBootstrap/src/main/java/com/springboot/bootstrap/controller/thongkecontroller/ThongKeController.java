@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 @Controller
@@ -26,6 +27,14 @@ public class ThongKeController {
 //    @Autowired
 //    private NgayThang ngayThang;
 
+    //
+
+    // 0=hủy
+    // 1=chờ xác nhận
+    // 2=đang xử lý
+    // 3=đang giao
+    // 4= hoàn tất
+    // 5= chờ thanh toán
     public Date getNgayHomQua(Date ngayHienTai) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(ngayHienTai);
@@ -89,13 +98,6 @@ public class ThongKeController {
             ssDoanhThu=doanhThu-(hoaDonRepository.doanhThuTheoNgayTao(getNgayHomQua(homNay)));
         }
 
-//        Integer soDon=hoaDonRepository.soDonHangTheoNgayTao(homNay);
-//        Integer ssSoDon=soDon- hoaDonRepository.soDonHangTheoNgayTao(getNgayHomQua(homNay));
-//        Integer sanPhamDaBan= hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(homNay);
-//        Integer ssSanPhamDaBan= sanPhamDaBan-hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(getNgayHomQua(homNay));
-//        Double doanhThu= hoaDonRepository.doanhThuTheoNgayTao(homNay);
-//        Double ssDoanhThu=doanhThu-(hoaDonRepository.doanhThuTheoNgayTao(getNgayHomQua(homNay)));
-
         model.addAttribute("soDon",soDon);
         model.addAttribute("sanPhamDaBan",sanPhamDaBan);
         model.addAttribute("doanhThu",doanhThu);
@@ -123,7 +125,26 @@ public class ThongKeController {
         String titleDoanhThu="Thống Kê Doanh Thu Theo";
         Date homNay = Date.valueOf(LocalDate.now());
         FormatHelper formatHelper=new FormatHelper();
-            if (thoiGian.equals("1")||thoiGian==""){
+        if (thoiGian==null){
+            if (hoaDonRepository.soDonHangTheoNgayTao(homNay)!=null){
+                soDon=hoaDonRepository.soDonHangTheoNgayTao(homNay);
+                ssSoDon=soDon- hoaDonRepository.soDonHangTheoNgayTao(getNgayHomQua(homNay));
+            }
+            if (hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(homNay)!=null){
+                sanPhamDaBan= hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(homNay);
+                ssSanPhamDaBan= sanPhamDaBan-hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(getNgayHomQua(homNay));
+            }
+            if (hoaDonRepository.doanhThuTheoNgayTao(homNay)!=null){
+                doanhThu= hoaDonRepository.doanhThuTheoNgayTao(homNay);
+                ssDoanhThu=doanhThu-(hoaDonRepository.doanhThuTheoNgayTao(getNgayHomQua(homNay)));
+            }
+            title="Thông Số Hôm Nay";
+            ssTitle="So Sánh Với Hôm Qua";
+            titleSoDon=titleSoDon+" Ngày";
+            titleSoSanPham=titleSoSanPham+" Ngày";
+            titleDoanhThu=titleDoanhThu+" Ngày";
+            // Tổng đơn trong ngày hôm nay
+        }else if (thoiGian.equals("1")){
                 if (hoaDonRepository.soDonHangTheoNgayTao(homNay)!=null){
                     soDon=hoaDonRepository.soDonHangTheoNgayTao(homNay);
                     ssSoDon=soDon- hoaDonRepository.soDonHangTheoNgayTao(getNgayHomQua(homNay));

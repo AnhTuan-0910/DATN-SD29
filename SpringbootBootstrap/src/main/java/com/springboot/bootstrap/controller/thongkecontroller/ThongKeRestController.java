@@ -33,7 +33,12 @@ public class ThongKeRestController {
         List<LocalDate> listNgay=ThoiGianHelper.danhSachNgayLocalDate(tuNgay,denNgay);
         List<LocalDate> listThang=ThoiGianHelper.danhSachThangLocalDate(tuNgay,denNgay);
         List<LocalDate> listNam=ThoiGianHelper.danhSachNamLocalDate(tuNgay,denNgay);
-        if (thoiGian.equals("1")){
+        if (thoiGian==null){
+            for (LocalDate ngay:listNgay){
+                Date ngayFormatted=Date.valueOf(ngay);
+                listSoDonHang.add(hoaDonRepository.soDonHangTheoNgayTao(ngayFormatted));
+            }
+        }else if (thoiGian.equals("1")){
             for (LocalDate ngay:listNgay){
                 Date ngayFormatted=Date.valueOf(ngay);
                 listSoDonHang.add(hoaDonRepository.soDonHangTheoNgayTao(ngayFormatted));
@@ -65,7 +70,12 @@ public class ThongKeRestController {
         List<LocalDate> listNgay=ThoiGianHelper.danhSachNgayLocalDate(tuNgay,denNgay);
         List<LocalDate> listThang=ThoiGianHelper.danhSachThangLocalDate(tuNgay,denNgay);
         List<LocalDate> listNam=ThoiGianHelper.danhSachNamLocalDate(tuNgay,denNgay);
-        if (thoiGian.equals("1")){
+        if (thoiGian==null){
+            for (LocalDate ngay:listNgay){
+                Date ngayFormatted=Date.valueOf(ngay);
+                listSoSanPhamDaBan.add(hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(ngayFormatted));
+            }
+        }else if (thoiGian.equals("1")){
             for (LocalDate ngay:listNgay){
                 Date ngayFormatted=Date.valueOf(ngay);
                 listSoSanPhamDaBan.add(hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(ngayFormatted));
@@ -97,7 +107,12 @@ public class ThongKeRestController {
         List<LocalDate> listNgay=ThoiGianHelper.danhSachNgayLocalDate(tuNgay,denNgay);
         List<LocalDate> listThang=ThoiGianHelper.danhSachThangLocalDate(tuNgay,denNgay);
         List<LocalDate> listNam=ThoiGianHelper.danhSachNamLocalDate(tuNgay,denNgay);
-        if (thoiGian.equals("1")){
+        if (thoiGian==null){
+            for (LocalDate ngay:listNgay){
+                Date ngayFormatted=Date.valueOf(ngay);
+                listDoanhThu.add(hoaDonRepository.doanhThuTheoNgayTao(ngayFormatted));
+            }
+        }else if (thoiGian.equals("1")){
             for (LocalDate ngay:listNgay){
                 Date ngayFormatted=Date.valueOf(ngay);
                 listDoanhThu.add(hoaDonRepository.doanhThuTheoNgayTao(ngayFormatted));
@@ -126,7 +141,9 @@ public class ThongKeRestController {
             ,@RequestParam(value = "tuNgay", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate tuNgay
             ,@RequestParam(value = "denNgay", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate denNgay) {
         ThoiGianHelper thoiGianHelper=new ThoiGianHelper();
-        if (thoiGian.equals("1")){
+        if (thoiGian==null){
+            return thoiGianHelper.danhSachNgay(tuNgay,denNgay);
+        }else if (thoiGian.equals("1")){
             return thoiGianHelper.danhSachNgay(tuNgay,denNgay);
         }else if (thoiGian.equals("2")){
             return thoiGianHelper.danhSachThang(tuNgay,denNgay);
