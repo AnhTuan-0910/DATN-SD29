@@ -8,6 +8,12 @@ $(document).ready(function () {
     messegesXoaSPCT();
     messegesAddGH();
 })
+
+function formatCurrency(value) {
+    var number = Number(value);
+    var formattedNumber = number.toLocaleString('vi-VN', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    return formattedNumber + ' VNĐ';
+}
 function spctAll() {
     var isSearching = false;
     var isFillter = false;
@@ -112,6 +118,7 @@ function filterProducts(danhMucId, kichThuocId, mauSacId, thuongHieuId, page = 0
             if (data) {
                 $('#table1 tbody').empty();
                 $.each(data.content, function (index, spct) {
+                    var giaSPCT = formatCurrency(spct.gia);
                     $('#table1 tbody').append(`
    
                                                 <tr>
@@ -125,7 +132,7 @@ function filterProducts(danhMucId, kichThuocId, mauSacId, thuongHieuId, page = 0
                                                         <div class="badge" style="background-color:${spct.mauSac.ten};">${spct.mauSac.ten}</div>
                                                     </td>
                                                     <td >${spct.sl}</td>
-                                                    <td >${spct.gia}</td>
+                                                    <td >${giaSPCT}</td>
                                                     <td><a class="btn btn-outline-warning aBtn" data-bs-toggle="modal" data-bs-target="#addGH" data-id="${spct.id}"><i data-feather="shopping-cart"></i></a></td>
                                                 </tr>
 
@@ -160,6 +167,7 @@ function searchProducts(keyword, page = 0) {
                 $('#table1 tbody').empty();
                 // Add new data
                 $.each(data.content, function (index, spct) {
+                    var giaSPCT = formatCurrency(spct.gia);
                     $('#table1 tbody').append(`
    
                                                 <tr>
@@ -172,7 +180,7 @@ function searchProducts(keyword, page = 0) {
                                                         <div class="badge" style="background-color:${spct.mauSac.ten};">${spct.mauSac.ten}</div>
                                                     </td>
                                                     <td >${spct.sl}</td>
-                                                    <td >${spct.gia}</td>
+                                                    <td >${giaSPCT}</td>
                                                     <td><a class="btn btn-outline-warning aBtn" data-bs-toggle="modal" data-bs-target="#addGH" data-id="${spct.id}"><i data-feather="shopping-cart"></i></a></td>
 
                                                 </tr>
@@ -205,6 +213,7 @@ function fetchProducts(page = 0) {
             $('#table1 tbody').empty();
             // Add new data
             $.each(data.content, function (index, spct) {
+                var giaSPCT = formatCurrency(spct.gia);
                 $('#table1 tbody').append(`
    
                                                 <tr>
@@ -217,7 +226,7 @@ function fetchProducts(page = 0) {
                                                         <div class="badge" style="background-color:${spct.mauSac.ten};">${spct.mauSac.ten}</div>
                                                     </td>
                                                     <td >${spct.sl}</td>
-                                                    <td >${spct.gia}</td>
+                                                    <td >${giaSPCT}</td>
                                                     <td><a class="btn btn-outline-warning aBtn" data-bs-toggle="modal" data-bs-target="#addGH" data-id="${spct.id}"><i data-feather="shopping-cart"></i></a></td>
 
                                                 </tr>

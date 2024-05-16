@@ -112,11 +112,12 @@
                                 <td th:text="${spct.sanPham.ten}"></td>
                                 <td th:text="${spct.kichThuoc.ten}"></td>
                                 <td>
-                                    <div class="badge" th:style="'background-color:'+${spct.mauSac.ten}"
-                                         th:text="${spct.mauSac.ten}"></div>
+                                    <div class="badge" th:style="'background-color: ' + ${spct.mauSac.ten}">
+                                        <span id="textCL" th:text="${spct.mauSac.ten}"></span>
+                                    </div>
                                 </td>
                                 <td th:text="${spct.sl}"></td>
-                                <td th:text="${spct.gia}"></td>
+                                <td th:text="${formatHelper.formatCurrency(spct.gia)}+' VNĐ'"></td>
 
                                 </td>
                                 <td>
@@ -301,6 +302,7 @@
             </div>
         </div>
     </div>
+
 </div>
 </body>
 </html>

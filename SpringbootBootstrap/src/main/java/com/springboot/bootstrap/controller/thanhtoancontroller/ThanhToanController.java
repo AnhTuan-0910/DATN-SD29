@@ -76,31 +76,17 @@ public class ThanhToanController {
         List<ThuongHieu> listTH = thuongHieuService.findAllByTrangThai();
         List<KichThuoc> listKT = kichThuocService.findAllByTrangThai();
         List<MauSac> listMS = mauSacService.findAllByTrangThai();
-//        List<PhieuGiamGia> listPGG = phieuGiamGiaRepository.findAll();
+
         List<KhachHang> khachHang = khachHangService.findAll();
         List<HoaDon> listHD = hoaDonService.renderTab();
-//        List<PhieuGiamGia> phieuGiamGia=phieuGiamGiaRepository.findAllByTrangThai(1);
-//        List<PhieuGiamGia> listPGG = phieuGiamGiaRepository.findAllByTrangThai(1);
-//        PhieuGiamGia selectVoucher=new PhieuGiamGia();
-//        for (HoaDon hoaDon: listHD){
-//            for (PhieuGiamGia phieuGiamGia: listPGG) {
-//                double giaTriToiThieu=hoaDon.getGia();
-//                double giaTriGiamToiDa=0;
-//                if (phieuGiamGia.getDonVi()==1){
-//                    giaTriGiamToiDa=hoaDon.getGia() * phieuGiamGia.getGiaTriGiam();
-//                }if (phieuGiamGia.getDonVi()==2){
-//                    giaTriGiamToiDa=hoaDon.getGia() - phieuGiamGia.getGiaTriGiam();
-//                }
-//                selectVoucher = phieuGiamGiaRepository.findTop1ByTrangThaiAndGiaTriToiThieuGreaterThanEqualAndGiaTriGiamToiDaLessThanEqual(1, giaTriToiThieu, giaTriGiamToiDa);
-//            }
-//        }
-//        model.addAttribute("selectVoucher", selectVoucher);
+
         model.addAttribute("listKH", khachHang);
         model.addAttribute("listHD", listHD);
         model.addAttribute("listTH", listTH);
         model.addAttribute("listDM", listDM);
         model.addAttribute("listKT", listKT);
         model.addAttribute("listMS", listMS);
+        model.addAttribute("formatHelper",new FormatHelper());
         model.addAttribute("namenv",nhanVien.getTen());
         model.addAttribute("spqr",new SanPhamQrDTO());
         return "/pages/giao_dich";

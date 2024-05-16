@@ -2,6 +2,7 @@ package com.springboot.bootstrap.controller.sanphamcontroller;
 
 
 import com.springboot.bootstrap.entity.DTO.SPCTValidMSAndKTDTO;
+import com.springboot.bootstrap.entity.FormatHelper;
 import com.springboot.bootstrap.entity.KichThuoc;
 import com.springboot.bootstrap.entity.MauSac;
 import com.springboot.bootstrap.entity.SanPham;
@@ -64,6 +65,7 @@ public class SPCTController {
         model.addAttribute("listKT", listKT);
         model.addAttribute("listMS", listMS);
         model.addAttribute("listSPCT", listSPCT);
+        model.addAttribute("formatHelper",new FormatHelper());
         model.addAttribute("base64Image", base64Image);
         model.addAttribute("qrCodeGenerator", qrCodeGenerator);
         return "/pages/spct";

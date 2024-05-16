@@ -191,7 +191,7 @@
                                         <th>Màu sắc</th>
                                         <th>Kích thước</th>
                                         <th>Số lượng</th>
-                                        <th>Đơn Giá</th>
+                                        <th>Giá</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -207,7 +207,7 @@
                                             <td th:text="${hdct.sanPhamChiTiet.kichThuoc.ten}"></td>
                                             <td><input th:id="'soLuong'+${hdct.idHoaDonChiTiet}" th:value="${hdct.soLuong}" class="form-control" type="number"
                                                        name="soLuong" style="width: 70px"></td>
-                                            <td th:text="${hdct.gia*hdct.soLuong}"></td>
+                                            <td th:text="${formatHelper.formatCurrency(hdct.gia*hdct.soLuong)}+' VNĐ'"></td>
                                             <td>
                                                 <button th:id="'btn'+${hdct.idHoaDonChiTiet}" class="btn btn-outline-primary" type="button"><i
                                                         data-feather="edit-2"></i></button>
@@ -305,14 +305,14 @@
 
                                     <div class="col-form-label"
                                          style="margin-left: 20%;margin-right: 20px;min-height: 70px">
-                                        <input class="form-control" type="number" th:value="${hd.gia}" readonly>
+                                        <input class="form-control" type="text" th:value="${formatHelper.formatCurrency(hd.gia)}" readonly>
                                     </div>
 
                                     <div class="col-form-label"
                                          style="margin-left: 20%;margin-right: 20px;min-height: 70px">
                                         <div>
                                             <input class="form-control" type="text"
-                                                   th:value="${hd.gia-hd.thanhTien}"
+                                                   th:value="${formatHelper.formatCurrency(hd.gia-hd.thanhTien)}"
                                                    readonly>
                                         </div>
                                     </div>
@@ -320,8 +320,8 @@
                                     <div class="col-form-label"
                                          style="margin-left: 20%;margin-right: 20px;min-height: 70px">
                                         <div >
-                                            <input type="text" class="form-control"
-                                                   th:value="${hd.thanhTien}"
+                                            <input style="color: red" type="text" class="form-control"
+                                                   th:value="${formatHelper.formatCurrency(hd.thanhTien)}"
                                                    readonly>
                                         </div>
                                     </div>
@@ -338,63 +338,7 @@
                     </div>
                 </div>
             </div>
-            <!--    modalVoucher-->
-<!--            <div class="modal fade" th:id="'selectVoucherModal'+${hd.ma}" tabindex="-1"-->
-<!--                 aria-labelledby="exampleModalLabel"-->
-<!--                 aria-hidden="true">-->
-<!--                <div class="modal-dialog modal-xl">-->
-<!--                    <div class="modal-content">-->
-<!--                        <div class="modal-header">-->
-<!--                            <h5 class="modal-title" id="exampleModalLabel">Voucher</h5>-->
-<!--                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--                        </div>-->
-<!--                        <div class="modal-body">-->
-<!--                            <div class="d-flex justify-content-end" style="width: 100%">-->
-<!--                                <input type="text" th:id="'searchInputVoucher'+${hd.ma}" placeholder="Tìm Kiếm">-->
-<!--                                <button class="btn btn-primary mx-2"><i data-feather="search"></i></button>-->
-<!--                            </div>-->
-<!--                            <form id="voucherForm" th:action="@{'/giao_dich/add_voucher_to_hoa_don/'+${hd.idHoaDon}}"-->
-<!--                                  method="post">-->
-<!--                                <div th:each="x : ${listVoucher}" th:id="'voucherCard-'+${x.ma}"-->
-<!--                                     th:class="'card-voucher'+${hd.ma}+ ' form-check'"-->
-<!--                                     th:hidden="${x.ma == 'PGG000'}">-->
-<!--                                    <div class="d-flex align-items-center">-->
-<!--                                        <input class="form-check-input me-1 ipRadio" type="radio"-->
-<!--                                               name="id_pgg"-->
-<!--                                               th:id="${x.id_pgg}+${hd.ma}" th:value="${x.id_pgg}">-->
-<!--                                        <label class="form-check-label align-content-center" th:for="${x.id_pgg}+${hd.ma}"-->
-<!--                                               style="width: 100%;">-->
-<!--                                            <div class="card d-flex my-1">-->
-<!--                                                <div class="card-body d-flex">-->
-<!--                                                    <span th:text="${x.ma}" class="modal-maVoucher"-->
-<!--                                                          hidden></span>-->
-<!--                                                    <span th:text="${x.id_pgg}"-->
-<!--                                                          hidden></span>-->
-<!--                                                    <span th:text="${x.ten}"-->
-<!--                                                          class="modal-tenVoucher col-4 col-sm-4 align-items-center"></span>-->
-<!--                                                    <span class="col-8 col-sm-8"-->
-<!--                                                          th:text="${x.moTa}"></span>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </label>-->
-<!--                                    </div>-->
-<!--&lt;!&ndash;                                    <input type="hidden" th:id="'selected_id_pgg'+${hd.ma}" name="id_pgg">&ndash;&gt;-->
-<!--                                </div>-->
-<!--&lt;!&ndash;                                <input type="hidden" th:id="'selected_id_pgg'+${hd.ma}" name="id_pgg">&ndash;&gt;-->
-<!--                                <button type="submit" class="btn btn-primary d-block ms-auto"-->
-<!--                                        th:id="'saveChangesBtn'+${hd.ma}"-->
-<!--                                        data-bs-dismiss="modal">-->
-<!--                                    Save Changes-->
-<!--                                </button>-->
-<!--                            </form>-->
-<!--                        </div>-->
-<!--                        <div class="modal-footer">-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
 
-            <!--    modalSPCT-->
             <div class="modalTableSPCT">
                 <div class="modal fade" th:id="'spct'+${hd.ma}" tabindex="-1" aria-labelledby="label"
                      aria-hidden="true">

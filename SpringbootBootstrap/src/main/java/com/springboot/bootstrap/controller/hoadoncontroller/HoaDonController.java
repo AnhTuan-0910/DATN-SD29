@@ -2,6 +2,8 @@ package com.springboot.bootstrap.controller.hoadoncontroller;
 
 import com.springboot.bootstrap.entity.DTO.HoaDonDTO;
 import com.springboot.bootstrap.entity.DanhMuc;
+
+import com.springboot.bootstrap.entity.FormatHelper;
 import com.springboot.bootstrap.entity.HoaDon;
 import com.springboot.bootstrap.entity.HoaDonChiTiet;
 import com.springboot.bootstrap.entity.HoaDonTimeline;
@@ -60,6 +62,7 @@ public class HoaDonController {
 
     @Autowired
     private HoaDonServiceImpl hoaDonService;
+
     @Autowired
     private FormatDate formatDate;
     @Autowired
@@ -86,6 +89,8 @@ public class HoaDonController {
         model.addAttribute("listHoaDon",listTH);
         model.addAttribute("hoaDon",new HoaDonDTO());
         model.addAttribute("listTinhTrang",listTinhTrang);
+        model.addAttribute("formatDate",formatDate);
+        model.addAttribute("formatHelper",new FormatHelper());
         return "/pages/hoa_don";
     }
     @GetMapping("/view/{id}")
@@ -100,6 +105,7 @@ public class HoaDonController {
         model.addAttribute("listKT", listKT);
         model.addAttribute("hoaDon",hoaDonService.getOne(id));
         model.addAttribute("formatDate",formatDate);
+        model.addAttribute("formatHelper",new FormatHelper());
         model.addAttribute("listHoaDonTL",hoaDonTLRepo.findAllByHoaDonOrderByNgayTaoAsc(hoaDonService.getOne(id)));
         model.addAttribute("listHoaDonChiTiet",hoaDonChiTietService.getPage(id,PageRequest.of(p.orElse(0), 5)));
         return "/pages/hoa_don_chi_tiet";
@@ -120,6 +126,7 @@ public class HoaDonController {
         NhanVien nhanVien = nhanVienService.getOne(userDetails.getUsername());
         HoaDon hoaDon = hoaDonService.getOne(id);
         hoaDon.setTinhTrang(4);
+        hoaDon.setTaoLuc(LocalDateTime.now());
         hoaDonService.add(hoaDon);
         HoaDonTimeline hoaDonTimeline= HoaDonTimeline.builder()
                 .hoaDon(hoaDon)

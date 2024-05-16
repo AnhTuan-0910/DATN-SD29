@@ -185,12 +185,13 @@
                             <p>Khách Hàng : <span th:text="${hoaDon.khachHang!=null?hoaDon.khachHang.ten:'Khách lẻ'}"></span></p>
                         </div>
                         <div class="col-md-4" style="padding-left: 20px" th:switch="${hoaDon.tinhTrang}">
-                            Trạng thái: <span th:case="0" th:class="'badge '+${hoaDon.tinhTrang==0?'bg-danger':'bg-success'}" th:text="${hoaDon.hinhThuc==1?'Thất bại':'Đã hủy'}"></span>
-                            <span th:case="1" th:class="'badge '+${hoaDon.tinhTrang==0?'bg-danger':'bg-success'}">Chờ xác nhận</span>
-                            <span th:case="2" th:class="'badge '+${hoaDon.tinhTrang==0?'bg-danger':'bg-success'}">Chờ lấy hàng</span>
-                            <span th:case="3" th:class="'badge '+${hoaDon.tinhTrang==0?'bg-danger':'bg-success'}">Đang giao</span>
-                            <span th:case="4" th:class="'badge '+${hoaDon.tinhTrang==0?'bg-danger':'bg-success'}">Hoàn thành</span>
-                            <span th:case="5" th:class="'badge '+${hoaDon.tinhTrang==0?'bg-danger':'bg-success'}">Chờ thanh toán</span>
+                            Trạng thái:
+                            <span th:case="0" class="badge bg-danger">Đã huỷ</span>
+                            <span th:case="1" class="badge bg-blue">Chờ xác nhận</span>
+                            <span th:case="2" class="badge bg-blue">Chờ giao hàng</span>
+                            <span th:case="3" class="badge bg-blue">Đang vận chuyển</span>
+                            <span th:case="4" class="badge bg-success">Hoàn thành</span>
+                            <span th:case="5" class="badge bg-blue">Chờ thanh toán</span>
                         </div>
                         <div th:if="${hoaDon.khachHang!=null}" class="col-md-4" style="padding-left: 20px">
                             <p>SDT : <span th:text="${hoaDon.khachHang?.sdt}"></span></p>
@@ -251,7 +252,7 @@
                                         <span th:case="3" th:text="${hoadonchitiet.soLuong}"></span>
                                         <span th:case="4" th:text="${hoadonchitiet.soLuong}"></span>
                                     </td>
-                                    <td th:text="${hoadonchitiet.gia*hoadonchitiet.soLuong}"></td>
+                                    <td th:text="${formatHelper.formatCurrency(hoadonchitiet.gia*hoadonchitiet.soLuong)}+' VNĐ'"></td>
                                     <td  th:if="${hoaDon.hinhThuc==1&&hoaDon.tinhTrang==1}">
                                         <div class="d-inline-block">
                                             <button id="btnSuaSPCT" class="btn btn-outline-primary" type="submit"><i data-feather="edit"></i></button>
@@ -298,19 +299,19 @@
                                 <p>Voucher : <span th:text="${hoaDon.phieuGiamGia==null?'':hoaDon.phieuGiamGia.ma}"></span></p>
                             </div>
                             <div>
-                                <p>Giá trị giảm : <span th:text="${hoaDon.gia-hoaDon.thanhTien}"></span></p>
+                                <p>Giá trị giảm : <span th:text="${formatHelper.formatCurrency(hoaDon.gia-hoaDon.thanhTien)}+' VNĐ'"></span></p>
                             </div>
                         </div>
                         <div style="width: 50%;padding-left: 20px">
                             <div>
-                                <p>Tổng tiền : <span th:text="${hoaDon.gia}"></span></p>
+                                <p>Tổng tiền : <span th:text="${formatHelper.formatCurrency(hoaDon.gia)}+' VNĐ'"></span></p>
                             </div>
 
                             <div th:if="${hoaDon.tienShip!=null}">
-                                <p>Giá ship : <span th:text="${hoaDon.tienShip}"></span></p>
+                                <p>Giá ship : <span th:text="${formatHelper.formatCurrency(hoaDon.tienShip)}+' VNĐ'"></span></p>
                             </div>
-                            <div>
-                                <p>Thành tiền : <span th:text="${hoaDon.thanhTien}"></span></p>
+                            <div >
+                                <p >Thành tiền : <span style="color: red" th:text="${formatHelper.formatCurrency(hoaDon.thanhTien)}+' VNĐ'"></span></p>
                             </div>
                         </div>
                     </div>

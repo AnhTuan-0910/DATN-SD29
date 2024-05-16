@@ -46,30 +46,33 @@
                             <thead>
                             <tr>
                                 <th>Mã</th>
-                                <th>Tên khách hàng</th>
-                                <th>Ngày tạo</th>
-                                <th>Giá</th>
+                                <th>Khách hàng</th>
+                                <th>Hình thức</th>
                                 <th>Tình trạng</th>
-                                <th>Thành tiền</th>
-                                <th>Chỉnh sửa</th>
+                                <th>Tổng giá trị</th>
+                                <th>Ngày tạo</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="hoadon:${listHoaDon}" th:scope="row">
                                 <td th:text="${hoadon.ma}"></td>
                                 <td th:text="${hoadon.khachHang?.ten}"></td>
-                                <td th:text="${hoadon.taoLuc}"></td>
-                                <td th:text="${hoadon.gia}+' VND'"></td>
+                                <td th:switch="${hoadon.hinhThuc}">
+                                    <span th:case="0" class="badge bg-secondary">Tại quầy</span>
+                                    <span th:case="1" class="badge bg-success">Online</span>
+                                </td>
                                 <td th:switch="${hoadon.tinhTrang}">
-                                    <span th:case="0">Đã huỷ</span>
-                                    <span th:case="1">Chờ xác nhận</span>
-                                    <span th:case="2">Chờ giao hàng</span>
-                                    <span th:case="3">Đang vận chuyển</span>
-                                    <span th:case="4">Hoàn thành</span>
-                                    <span th:case="5">Chờ thanh toán</span>
+                                    <span th:case="0" class="badge bg-danger">Đã huỷ</span>
+                                    <span th:case="1" class="badge bg-blue">Chờ xác nhận</span>
+                                    <span th:case="2" class="badge bg-blue">Chờ giao hàng</span>
+                                    <span th:case="3" class="badge bg-blue">Đang vận chuyển</span>
+                                    <span th:case="4" class="badge bg-success">Hoàn thành</span>
+                                    <span th:case="5" class="badge bg-blue">Chờ thanh toán</span>
 
                                 </td>
-                                <td th:text="${hoadon.thanhTien}+' VND'"></td>
+                                <td th:text="${formatHelper.formatCurrency(hoadon.thanhTien)}+' VNĐ'"></td>
+                                <td th:text="${hoadon.taoLuc!=null?formatDate.formatDateTime(hoadon.taoLuc):''}"></td>
                                 <td><a class="btn btn-outline-primary" th:href="@{hoa_don/view/{id}(id=${hoadon.idHoaDon})}"><i data-feather="eye"></i></a></td>
                             </tr>
                             </tbody>
