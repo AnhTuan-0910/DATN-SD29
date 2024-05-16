@@ -76,17 +76,14 @@ public class ThanhToanController {
         List<ThuongHieu> listTH = thuongHieuService.findAllByTrangThai();
         List<KichThuoc> listKT = kichThuocService.findAllByTrangThai();
         List<MauSac> listMS = mauSacService.findAllByTrangThai();
-
         List<KhachHang> khachHang = khachHangService.findAll();
         List<HoaDon> listHD = hoaDonService.renderTab();
-
         model.addAttribute("listKH", khachHang);
         model.addAttribute("listHD", listHD);
         model.addAttribute("listTH", listTH);
         model.addAttribute("listDM", listDM);
         model.addAttribute("listKT", listKT);
         model.addAttribute("listMS", listMS);
-        model.addAttribute("formatHelper",new FormatHelper());
         model.addAttribute("namenv",nhanVien.getTen());
         model.addAttribute("spqr",new SanPhamQrDTO());
         return "/pages/giao_dich";
@@ -105,37 +102,6 @@ public class ThanhToanController {
                 .ngayTao(LocalDateTime.now()).build();
         hoaDonTLRepo.save(hoaDonTimeline);
 
-        return "redirect:/giao_dich";
-    }
-
-    @PostMapping("/add_voucher_to_hoa_don/{id}")
-    public String addVoucherToHoaDon(@RequestParam(value = "id_pgg",required = false) UUID id_pgg,
-                                     @PathVariable(value = "id", required = false) UUID id,
-                                     @ModelAttribute HoaDon hoaDon) {
-        HoaDon existingHoaDon = hoaDonRepository.findById(id).orElse(null);
-        PhieuGiamGia existingPhieuGiamGia = phieuGiamGiaRepository.findById(id_pgg).orElse(null);
-        if (existingHoaDon.getPhieuGiamGia()==null){
-            existingPhieuGiamGia.setSoLuong(existingPhieuGiamGia.getSoLuong()-1);
-            existingHoaDon.setPhieuGiamGia(existingPhieuGiamGia);
-            if(existingPhieuGiamGia.getDonVi()==2){
-                existingHoaDon.setThanhTien(existingHoaDon.getGia()-existingPhieuGiamGia.getGiaTriGiam());
-            }else {
-                existingHoaDon.setThanhTien(existingHoaDon.getGia()*(100-existingPhieuGiamGia.getGiaTriGiam())/100);
-            }
-            hoaDonRepository.save(existingHoaDon);
-        }else {
-            PhieuGiamGia oldPhieuGiamGia=existingHoaDon.getPhieuGiamGia();
-            oldPhieuGiamGia.setSoLuong(oldPhieuGiamGia.getSoLuong()+1);
-            existingPhieuGiamGia.setSoLuong(existingPhieuGiamGia.getSoLuong()-1);
-            existingHoaDon.setPhieuGiamGia(existingPhieuGiamGia);
-            if(existingPhieuGiamGia.getDonVi()==2){
-                existingHoaDon.setThanhTien(existingHoaDon.getGia()-existingPhieuGiamGia.getGiaTriGiam());
-            }else {
-                existingHoaDon.setThanhTien(existingHoaDon.getGia()*(100-existingPhieuGiamGia.getGiaTriGiam())/100);
-            }
-            phieuGiamGiaRepository.save(oldPhieuGiamGia);
-            hoaDonRepository.save(existingHoaDon);
-        }
         return "redirect:/giao_dich";
     }
 

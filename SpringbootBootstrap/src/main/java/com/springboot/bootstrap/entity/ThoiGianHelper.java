@@ -28,15 +28,15 @@ public class ThoiGianHelper {
         return danhSachNgay;
     }
 
-    public static String titleSoDon(LocalDate tuNgay, LocalDate denNgay){
-        return "Thống Kê Số Đơn Đặt Hàng Từ Ngày"+ tuNgay + " - " + denNgay;
-    }
-    public static String titleSoSanPham(LocalDate tuNgay, LocalDate denNgay){
-        return "Thống Kê Số Sản Phẩm Đã Bán Từ Ngày"+ tuNgay + " - " + denNgay;
-    }
-    public static String titleDoanhThu(LocalDate tuNgay, LocalDate denNgay){
-        return "Thống Kê Doanh Thu Từ Ngày"+ tuNgay + " - " + denNgay;
-    }
+//    public static String titleSoDon(LocalDate tuNgay, LocalDate denNgay){
+//        return "Thống Kê Số Đơn Đặt Hàng Từ Ngày"+ tuNgay + " - " + denNgay;
+//    }
+//    public static String titleSoSanPham(LocalDate tuNgay, LocalDate denNgay){
+//        return "Thống Kê Số Sản Phẩm Đã Bán Từ Ngày"+ tuNgay + " - " + denNgay;
+//    }
+//    public static String titleDoanhThu(LocalDate tuNgay, LocalDate denNgay){
+//        return "Thống Kê Doanh Thu Từ Ngày"+ tuNgay + " - " + denNgay;
+//    }
 
     public static List<String> danhSachThang(LocalDate tuNgay, LocalDate denNgay) {
         List<String> danhSachThang = new ArrayList<>();

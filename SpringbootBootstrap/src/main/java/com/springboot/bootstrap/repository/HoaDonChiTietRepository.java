@@ -21,13 +21,13 @@ public interface HoaDonChiTietRepository extends JpaRepository<HoaDonChiTiet, UU
     @Query("SELECT SUM(hdct.soLuong) FROM HoaDonChiTiet hdct WHERE hdct.hoaDon.ngayThanhToan BETWEEN :tuNgay AND :denNgay")
     Integer soSanPhamDaBanTheoKhoangThoiGian(@Param("tuNgay") Date tuNgay, @Param("denNgay") Date denNgay);
 
-    @Query("SELECT SUM(hdct.soLuong) FROM HoaDonChiTiet hdct WHERE hdct.hoaDon.ngayThanhToan =:ngayThanhToan")
+    @Query("SELECT SUM(hdct.soLuong) FROM HoaDonChiTiet hdct WHERE YEAR(hdct.hoaDon.ngayThanhToan) = YEAR(:ngayThanhToan) AND MONTH(hdct.hoaDon.ngayThanhToan) = MONTH(:ngayThanhToan) AND DAY(hdct.hoaDon.ngayThanhToan) = DAY(:ngayThanhToan) AND hdct.hoaDon.tinhTrang = 4")
     Integer soSanPhamDaBanTheoNgay(Date ngayThanhToan);
 
-    @Query("SELECT COALESCE(SUM(hdct.soLuong), 0) FROM HoaDonChiTiet hdct WHERE YEAR(hdct.hoaDon.ngayThanhToan) = YEAR(:ngayThanhToan) AND MONTH(hdct.hoaDon.ngayThanhToan) = MONTH(:ngayThanhToan)")
+    @Query("SELECT COALESCE(SUM(hdct.soLuong), 0) FROM HoaDonChiTiet hdct WHERE YEAR(hdct.hoaDon.ngayThanhToan) = YEAR(:ngayThanhToan) AND MONTH(hdct.hoaDon.ngayThanhToan) = MONTH(:ngayThanhToan) AND hdct.hoaDon.tinhTrang = 4")
     Integer soSanPhamDaBanTheoThangVaNam(Date ngayThanhToan);
 
-    @Query("SELECT COALESCE(SUM(hdct.soLuong), 0) FROM HoaDonChiTiet hdct WHERE YEAR(hdct.hoaDon.ngayThanhToan) = YEAR(:ngayThanhToan)")
+    @Query("SELECT COALESCE(SUM(hdct.soLuong), 0) FROM HoaDonChiTiet hdct WHERE YEAR(hdct.hoaDon.ngayThanhToan) = YEAR(:ngayThanhToan) AND hdct.hoaDon.tinhTrang = 4")
     Integer soSanPhamDaBanTheoNam(Date ngayThanhToan);
 
 }

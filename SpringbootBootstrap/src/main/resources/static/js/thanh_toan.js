@@ -25,18 +25,24 @@ function formatCurrency(value) {
 function createChart(chartId, xApi, yApi, ten) {
     var x = [];
     var y = [];
-    // var tuNgay=$('#tuNgay').val();
-    // var denNgay=$('#denNgay').val();
     const urlParams = new URLSearchParams(window.location.search);
     const thoiGian = urlParams.get('thoiGian');
-    const tuNgay = urlParams.get('tuNgay');
-    const denNgay = urlParams.get('denNgay');
-    fetch(`${xApi}?thoiGian=${thoiGian}&tuNgay=${tuNgay}&denNgay=${denNgay}`)
+    let tu = urlParams.get('tuNgay');
+    let den = urlParams.get('denNgay');
+    if (tu==null){
+        tu=" ";
+    }
+    if (den==null){
+        den=" ";
+    }
+    console.log("tu:"+tu);
+    console.log("den"+den);
+    fetch(`${xApi}?thoiGian=${thoiGian}&tuNgay=${tu}&denNgay=${den}`)
         .then(response => response.json())
         .then(data => {
             x = data;
             // Gọi hàm createChartWithData() sau khi fetch danh sách
-            fetch(`${yApi}?thoiGian=${thoiGian}&tuNgay=${tuNgay}&denNgay=${denNgay}`)
+            fetch(`${yApi}?thoiGian=${thoiGian}&tuNgay=${tu}&denNgay=${den}`)
                 .then(response => response.json())
                 .then(data => {
                     y = data;
