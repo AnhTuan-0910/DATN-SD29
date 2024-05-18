@@ -93,12 +93,16 @@ public class ThongKeController {
             soDon=hoaDonRepository.soDonHangTheoNgayTao(homNay);
             if (hoaDonRepository.soDonHangTheoNgayTao(getNgayHomQua(homNay))!=null){
                 ssSoDon=soDon- hoaDonRepository.soDonHangTheoNgayTao(getNgayHomQua(homNay));
+            }else {
+                ssSoDon=soDon;
             }
         }
         if (hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(homNay)!=null){
             sanPhamDaBan= hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(homNay);
             if (hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(getNgayHomQua(homNay))!=null){
                 ssSanPhamDaBan= sanPhamDaBan-hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(getNgayHomQua(homNay));
+            }else {
+                ssSanPhamDaBan= sanPhamDaBan;
             }
         }
         if (hoaDonRepository.doanhThuTheoNgayTao(homNay)!=null){
@@ -145,18 +149,24 @@ public class ThongKeController {
                 soDon=hoaDonRepository.soDonHangTheoNgayTao(homNay);
                 if (hoaDonRepository.soDonHangTheoNgayTao(getNgayHomQua(homNay))!=null){
                     ssSoDon=soDon- hoaDonRepository.soDonHangTheoNgayTao(getNgayHomQua(homNay));
+                }else {
+                    ssSoDon=soDon;
                 }
             }
             if (hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(homNay)!=null){
                 sanPhamDaBan= hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(homNay);
                 if (hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(getNgayHomQua(homNay))!=null){
                     ssSanPhamDaBan= sanPhamDaBan-hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(getNgayHomQua(homNay));
+                }else {
+                    ssSanPhamDaBan= sanPhamDaBan;
                 }
             }
             if (hoaDonRepository.doanhThuTheoNgayTao(homNay)!=null){
                 doanhThu= hoaDonRepository.doanhThuTheoNgayTao(homNay);
                 if (hoaDonRepository.doanhThuTheoNgayTao(getNgayHomQua(homNay))!=null){
                     ssDoanhThu=doanhThu-hoaDonRepository.doanhThuTheoNgayTao(getNgayHomQua(homNay));
+                }else {
+                    ssDoanhThu=doanhThu;
                 }
             }
             title="Thông Số Hôm Nay";
@@ -170,18 +180,24 @@ public class ThongKeController {
                 soDon=hoaDonRepository.soDonHangTheoNgayTao(homNay);
                 if (hoaDonRepository.soDonHangTheoNgayTao(getNgayHomQua(homNay))!=null){
                     ssSoDon=soDon- hoaDonRepository.soDonHangTheoNgayTao(getNgayHomQua(homNay));
+                }else {
+                    ssSoDon=soDon;
                 }
             }
             if (hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(homNay)!=null){
                 sanPhamDaBan= hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(homNay);
                 if (hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(getNgayHomQua(homNay))!=null){
                     ssSanPhamDaBan= sanPhamDaBan-hoaDonChiTietRepository.soSanPhamDaBanTheoNgay(getNgayHomQua(homNay));
+                }else {
+                    ssSanPhamDaBan= sanPhamDaBan;
                 }
             }
             if (hoaDonRepository.doanhThuTheoNgayTao(homNay)!=null){
                 doanhThu= hoaDonRepository.doanhThuTheoNgayTao(homNay);
                 if (hoaDonRepository.doanhThuTheoNgayTao(getNgayHomQua(homNay))!=null){
                     ssDoanhThu=doanhThu-hoaDonRepository.doanhThuTheoNgayTao(getNgayHomQua(homNay));
+                }else {
+                    ssDoanhThu=doanhThu;
                 }
             }
                 title="Thông Số Hôm Nay";
@@ -194,20 +210,26 @@ public class ThongKeController {
                 // Tổng đơn trong tháng này
             if (hoaDonRepository.soDonHangTheoThangVaNam(homNay)!=null){
                 soDon=hoaDonRepository.soDonHangTheoThangVaNam((homNay));
-                if (hoaDonRepository.soDonHangTheoThangVaNam(getNgayHomQua(homNay))!=null){
-                    ssSoDon=soDon- hoaDonRepository.soDonHangTheoThangVaNam(getNgayHomQua(homNay));
+                if (hoaDonRepository.soDonHangTheoThangVaNam(getThangTruoc(homNay))!=null){
+                    ssSoDon=soDon- hoaDonRepository.soDonHangTheoThangVaNam(getThangTruoc(homNay));
+                }else {
+                    ssSoDon=soDon;
                 }
             }
             if (hoaDonChiTietRepository.soSanPhamDaBanTheoThangVaNam(homNay)!=null){
                 sanPhamDaBan= hoaDonChiTietRepository.soSanPhamDaBanTheoThangVaNam(homNay);
-                if (hoaDonChiTietRepository.soSanPhamDaBanTheoThangVaNam(getNgayHomQua(homNay))!=null){
-                    ssSanPhamDaBan= sanPhamDaBan-hoaDonChiTietRepository.soSanPhamDaBanTheoThangVaNam(getNgayHomQua(homNay));
+                if (hoaDonChiTietRepository.soSanPhamDaBanTheoThangVaNam(getThangTruoc(homNay))!=null){
+                    ssSanPhamDaBan= sanPhamDaBan-hoaDonChiTietRepository.soSanPhamDaBanTheoThangVaNam(getThangTruoc(homNay));
+                }else {
+                    ssSanPhamDaBan= sanPhamDaBan;
                 }
             }
             if (hoaDonRepository.doanhThuTheoThangVaNam(homNay)!=null){
                 doanhThu= hoaDonRepository.doanhThuTheoThangVaNam(homNay);
-                if (hoaDonRepository.doanhThuTheoThangVaNam(getNgayHomQua(homNay))!=null){
-                    ssDoanhThu=doanhThu-hoaDonRepository.doanhThuTheoThangVaNam(getNgayHomQua(homNay));
+                if (hoaDonRepository.doanhThuTheoThangVaNam(getThangTruoc(homNay))!=null){
+                    ssDoanhThu=doanhThu-hoaDonRepository.doanhThuTheoThangVaNam(getThangTruoc(homNay));
+                }else {
+                    ssDoanhThu=doanhThu;
                 }
             }
             title="Thông Số Tháng Này";
@@ -219,20 +241,26 @@ public class ThongKeController {
                 // Tổng đơn trong năm nay
             if (hoaDonRepository.soDonHangTheoNam(homNay)!=null){
                 soDon=hoaDonRepository.soDonHangTheoNam((homNay));
-                if (hoaDonRepository.soDonHangTheoNam(getNgayHomQua(homNay))!=null){
-                    ssSoDon=soDon- hoaDonRepository.soDonHangTheoThangVaNam(getNgayHomQua(homNay));
+                if (hoaDonRepository.soDonHangTheoNam(getNamTruoc(homNay))!=null){
+                    ssSoDon=soDon- hoaDonRepository.soDonHangTheoThangVaNam(getNamTruoc(homNay));
+                }else {
+                    ssSoDon=soDon;
                 }
             }
             if (hoaDonChiTietRepository.soSanPhamDaBanTheoNam(homNay)!=null){
                 sanPhamDaBan= hoaDonChiTietRepository.soSanPhamDaBanTheoNam(homNay);
-                if (hoaDonChiTietRepository.soSanPhamDaBanTheoNam(getNgayHomQua(homNay))!=null){
-                    ssSanPhamDaBan= sanPhamDaBan-hoaDonChiTietRepository.soSanPhamDaBanTheoNam(getNgayHomQua(homNay));
+                if (hoaDonChiTietRepository.soSanPhamDaBanTheoNam(getNamTruoc(homNay))!=null){
+                    ssSanPhamDaBan= sanPhamDaBan-hoaDonChiTietRepository.soSanPhamDaBanTheoNam(getNamTruoc(homNay));
+                }else {
+                    ssSanPhamDaBan= sanPhamDaBan;
                 }
             }
             if (hoaDonRepository.doanhThuTheoNam(homNay)!=null){
                 doanhThu= hoaDonRepository.doanhThuTheoNam(homNay);
-                if (hoaDonRepository.doanhThuTheoNam(getNgayHomQua(homNay))!=null){
-                    ssDoanhThu=doanhThu-hoaDonRepository.doanhThuTheoNam(getNgayHomQua(homNay));
+                if (hoaDonRepository.doanhThuTheoNam(getNamTruoc(homNay))!=null){
+                    ssDoanhThu=doanhThu-hoaDonRepository.doanhThuTheoNam(getNamTruoc(homNay));
+                }else {
+                    ssDoanhThu=doanhThu;
                 }
             }
             title="Thông Số Năm Nay";
