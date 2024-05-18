@@ -46,10 +46,16 @@ public interface PhieuGiamGiaRepository extends JpaRepository<PhieuGiamGia, UUID
     @Query("SELECT ms FROM PhieuGiamGia ms WHERE " +
             "LOWER(ms.ma) IS NULL OR   LOWER(ms.ma) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "LOWER(ms.ten) IS NULL OR  LOWER(ms.ten) LIKE LOWER(CONCAT('%', :keyword, '%'))")
-    Page<PhieuGiamGia> searchCodeOrName(@Param("keyword") String keyword, Pageable pageable );
+    Page<PhieuGiamGia> searchCodeOrName(String keyword, Pageable pageable );
 
     @Query("SELECT ms FROM PhieuGiamGia ms WHERE " +
             " (:trangThai IS NULL OR ms.trangThai = :trangThai) " )
-    Page<PhieuGiamGia> searchTrangThai(@Param("trangThai") int trangThai,Pageable pageable );
+    Page<PhieuGiamGia> searchTrangThai(Integer trangThai,Pageable pageable);
+
+    @Query("SELECT ms FROM PhieuGiamGia ms WHERE " +
+            "(LOWER(ms.ma) IS NULL OR   LOWER(ms.ma) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(ms.ten) IS NULL OR  LOWER(ms.ten) LIKE LOWER(CONCAT('%', :keyword, '%'))) AND" +
+            " (:trangThai IS NULL OR ms.trangThai = :trangThai) ")
+    Page<PhieuGiamGia> searchCodeOrNameAndTrangThai(String keyword, Integer trangThai, Pageable pageable);
 
 }

@@ -29,8 +29,6 @@ function createChart(chartId,xApi,yApi,ten){
     if (den==null){
         den=" ";
     }
-    console.log("tu:"+tu);
-    console.log("den"+den);
     fetch(`${xApi}?thoiGian=${thoiGian}&tuNgay=${tu}&denNgay=${den}`)
         .then(response => response.json())
         .then(data => {

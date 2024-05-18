@@ -37,22 +37,22 @@ public class PhieuGiamGiaController {
     @GetMapping("/search")
     public String search(@RequestParam("p") Optional<Integer> page,
                          @RequestParam(value = "keyword", required = false) String keyword,
-                         @RequestParam(value = "trangThaiSearch", required = false) Integer trangThai,
-
-                         Model model) {
+                         @RequestParam(value = "trangThaiSearch", required = false) Integer trangThai, Model model) {
         int currentPage = page.orElse(0);
         int pageSize = 5;
         if (currentPage < 0) {
             return "redirect:/voucher?p=0";
         }
-        Page<PhieuGiamGia> list = null;
+        Page<PhieuGiamGia> list = phieuGiamGiaRepository.findAll(PageRequest.of(currentPage, pageSize));
 
         if (keyword != null && !keyword.isEmpty()) {
             list = phieuGiamGiaRepository.searchCodeOrName(keyword, PageRequest.of(currentPage, pageSize));
-        } else if (trangThai != null) {
+        }
+        if (trangThai != null) {
             list = phieuGiamGiaRepository.searchTrangThai(trangThai, PageRequest.of(currentPage, pageSize));
-        }  else {
-            list = phieuGiamGiaRepository.findAll(PageRequest.of(currentPage, pageSize));
+        }
+        if (keyword != null && !keyword.isEmpty() && trangThai != null){
+            list = phieuGiamGiaRepository.searchCodeOrNameAndTrangThai(keyword, trangThai, PageRequest.of(currentPage, pageSize));
         }
         model.addAttribute("list", list);
         return "/pages/voucher";
