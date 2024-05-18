@@ -4,6 +4,7 @@ package com.springboot.bootstrap.controller.sanphamcontroller;
 import com.springboot.bootstrap.entity.Anh;
 import com.springboot.bootstrap.entity.DTO.SanPhamDTO;
 import com.springboot.bootstrap.entity.DanhMuc;
+import com.springboot.bootstrap.entity.FormatHelper;
 import com.springboot.bootstrap.entity.KichThuoc;
 import com.springboot.bootstrap.entity.MauSac;
 import com.springboot.bootstrap.entity.SanPham;
@@ -71,6 +72,7 @@ public class ThemSPController {
         List<ThuongHieu> listTH = thuongHieuService.findAllByTrangThai();
         List<KichThuoc> listKT = kichThuocService.findAllByTrangThai();
         List<MauSac> listMS = mauSacService.findAllByTrangThai();
+        model.addAttribute("formatHelper",new FormatHelper());
         model.addAttribute("listTH", listTH);
         model.addAttribute("listDM", listDM);
         model.addAttribute("listKT", listKT);

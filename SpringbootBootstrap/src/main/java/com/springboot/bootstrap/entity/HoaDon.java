@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,7 +61,7 @@ public class HoaDon {
     @Column(name = "thanh_tien")
     private Double thanhTien;
     @Column(name = "tao_luc")
-    private Date taoLuc;
+    private LocalDateTime taoLuc;
     @Column(name = "sua_luc")
     private Date suaLuc;
     @Column(name = "thanh_pho")

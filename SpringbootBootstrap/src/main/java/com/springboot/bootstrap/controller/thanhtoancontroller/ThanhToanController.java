@@ -84,6 +84,7 @@ public class ThanhToanController {
         model.addAttribute("listDM", listDM);
         model.addAttribute("listKT", listKT);
         model.addAttribute("listMS", listMS);
+        model.addAttribute("formatHelper",new FormatHelper());
         model.addAttribute("namenv",nhanVien.getTen());
         model.addAttribute("spqr",new SanPhamQrDTO());
         return "/pages/giao_dich";

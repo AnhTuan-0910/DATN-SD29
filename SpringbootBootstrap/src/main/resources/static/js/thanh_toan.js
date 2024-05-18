@@ -13,7 +13,7 @@ $(document).ready(function () {
 
     createChart("myChart1","http://localhost:8080/home/x","http://localhost:8080/home/y-so-don-hang","Biểu đồ Số đơn hàng");
     createChart("myChart2","http://localhost:8080/home/x","http://localhost:8080/home/y-so-san-pham","Biểu đồ Số sản phẩm đã bán");
-    createChart("myChart3","http://localhost:8080/home/x","http://localhost:8080/home/y-doanh-thu","Biểu đồ Doanh thu");
+    createChart("myChart3","http://localhost:8080/home/x","http://localhost:8080/home/y-doanh-thu","Biểu đồ Doanh Thu");
 });
 
 function createChart(chartId,xApi,yApi,ten){

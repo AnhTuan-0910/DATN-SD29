@@ -119,10 +119,10 @@ $(document).ready(function () {
         var data = {sl: sl, gia: gia};
         localStorage.setItem('spct_' + id, JSON.stringify(data));
     });
-    $('#tenSP').val( localStorage.getItem('tenSP') || $('#tenSP').val());
-    $('#danhMuc').val( localStorage.getItem('danhMuc') || $('#danhMuc').val());
-    $('#trangThai').val( localStorage.getItem('trangThai') || $('#trangThai').val());
-    $('#thuongHieu').val( localStorage.getItem('thuongHieu') || $('#thuongHieu').val());
+    $('#tenSP').val(localStorage.getItem('tenSP') || $('#tenSP').val());
+    $('#danhMuc').val(localStorage.getItem('danhMuc') || $('#danhMuc').val());
+    $('#trangThai').val(localStorage.getItem('trangThai') || $('#trangThai').val());
+    $('#thuongHieu').val(localStorage.getItem('thuongHieu') || $('#thuongHieu').val());
 
 
     // Lưu giá trị vào localStorage khi người dùng thay đổi các trường input
@@ -175,7 +175,7 @@ $(document).ready(function () {
 });
 
 function validDMandTH() {
-    $(document).on('click', '#btnThemDM', function (e){
+    $(document).on('click', '#btnThemDM', function (e) {
         e.preventDefault();
 
         var tenDM = $('#nameDM').val();
@@ -252,8 +252,8 @@ function validDMandTH() {
     });
 
 
-
 }
+
 function showConFirm() {
     $("#updateFormSPCT").off("submit");
     const swalWithBootstrapButtons = Swal.mixin({
@@ -285,6 +285,8 @@ function showConFirm() {
     });
 }
 
+
+
 function addSPCT(response, page = 0) {
     $.ajax({
         type: "GET",
@@ -293,7 +295,6 @@ function addSPCT(response, page = 0) {
             $('#table1 tbody').empty();
             $.each(data.content, function (index, spct) {
                 var savedData = JSON.parse(localStorage.getItem('spct_' + spct.id)) || {sl: spct.sl, gia: spct.gia};
-
                 $('#table1 tbody').append(
                     `<tr>
                                 <td> ${index + 1} </td>
