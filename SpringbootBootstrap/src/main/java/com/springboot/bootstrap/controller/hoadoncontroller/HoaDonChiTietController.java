@@ -63,9 +63,9 @@ public class HoaDonChiTietController {
             for(HoaDonChiTiet hoaDonChiTiet:list){
                 if(hoaDonChiTiet.getSanPhamChiTiet().getId().equalsIgnoreCase(idspct.toString())){
                     hoaDonChiTiet.setSoLuong(hoaDonChiTiet.getSoLuong()+soLuong);
-                    hoaDonChiTiet.setGia(hoaDonChiTiet.getSanPhamChiTiet().getGia());//set gia
+                    hoaDonChiTiet.setGia(hoaDonChiTiet.getSanPhamChiTiet().getGia());
                     hoaDonChiTietService.update(hoaDonChiTiet);
-                    hoaDon.setGia(hoaDon.getGia()+hoaDonChiTiet.getGia()*soLuong);//vd sp 100k thì ở đây giá bằng 100k
+                    hoaDon.setGia(hoaDon.getGia()+hoaDonChiTiet.getGia()*soLuong);
                     List<PhieuGiamGia> phieuGiamGia= phieuGiamGiaRepository.findTopPhieuGiamGia(hoaDon.getGia(), pageable);
                     if(!phieuGiamGia.isEmpty()){
                         if (hoaDon.getPhieuGiamGia()==null){
@@ -215,7 +215,7 @@ public class HoaDonChiTietController {
         SanPhamCT sanPhamCT = hoaDonChiTiet.getSanPhamChiTiet();
         sanPhamCT.setSl(sanPhamCT.getSl()+hoaDonChiTiet.getSoLuong()-soLuong);
         sanPhamCTService.update(sanPhamCT,sanPhamCT.getId());
-        hoaDon.setGia(hoaDon.getGia()-hoaDonChiTiet.getGia());
+        hoaDon.setGia(hoaDon.getGia()-hoaDonChiTiet.getGia()*hoaDonChiTiet.getSoLuong());
         hoaDonChiTiet.setSoLuong(soLuong);
         hoaDonChiTiet.setGia(hoaDonChiTiet.getSanPhamChiTiet().getGia());
         hoaDon.setGia(hoaDon.getGia()+hoaDonChiTiet.getGia()*soLuong);
@@ -231,7 +231,6 @@ public class HoaDonChiTietController {
             }else{
                 hoaDon.setThanhTien(hoaDon.getGia() * (100 - hoaDon.getPhieuGiamGia().getGiaTriGiam()) / 100);
             }
-//            hoaDon.setThanhTien(hoaDon.getGia()*(100-hoaDon.getPhieuGiamGia().getGiaTriGiam())/100);
             hoaDonService.add(hoaDon);
         }
         hoaDonService.add(hoaDon);
