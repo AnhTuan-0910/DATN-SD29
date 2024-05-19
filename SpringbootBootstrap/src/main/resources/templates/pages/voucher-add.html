@@ -8,51 +8,51 @@
 <div class="main-content container-fluid" layout:fragment="content">
     <h1>Tạo Voucher Mới</h1>
     <div class="container">
-        <form class="mx-auto border border-dark-subtle rounded p-5 bg-light"  th:action="@{/voucher/add}" th:object="${voucher}" method="post">
+        <form class="mx-auto rounded-lg card p-5"  th:action="@{/voucher/add}" th:object="${voucher}" method="post">
             <div class="form row py-2">
                 <div class="col-6 col-sm-6 form-group">
-                    <label>Mã Voucher</label>
+                    <label class="required">Mã Voucher</label>
                     <input type="text" class="form-control" th:field="*{ma}" placeholder="Mã Voucher">
                 </div>
                 <div class="col-6 col-sm-6 form-group">
-                    <label>Tên Voucher</label>
+                    <label class="required">Tên Voucher</label>
                     <input type="text" class="form-control" th:field="*{ten}" placeholder="Tên Voucher">
                 </div>
             </div>
             <div class="form row py-2">
                 <div class="col-6 col-sm-6 form-group">
-                    <label>Giá Trị Giảm</label>
+                    <label class="required">Giá Trị Giảm</label>
                     <input type="text" class="form-control" th:field="*{giaTriGiam}" placeholder="Giá trị giảm">
                 </div>
                 <div class="col-3 col-sm-3 form-group">
-                    <label>Đơn Vị</label>
+                    <label class="required">Đơn Vị</label>
                     <select name="donVi" id="donVi" th:field="*{donVi}" class="form-control">
                         <option value="1">%</option>
                         <option value="2">VNĐ</option>
                     </select>
                 </div>
                 <div class="col-3 col-sm-3 form-group">
-                    <label>Số Lượng</label>
+                    <label class="required">Số Lượng</label>
                     <input type="number" class="form-control" th:field="*{soLuong}" placeholder="Số Lượng">
                 </div>
             </div>
             <div class="form row py-2">
                 <div class="col-6 col-sm-6 form-group">
-                    <label>Giá Trị Tối Thiểu</label>
+                    <label class="required">Giá Trị Tối Thiểu</label>
                     <input type="text" class="form-control" th:field="*{giaTriToiThieu}" placeholder="Giá Trị Tối Thiểu (VNĐ)">
                 </div>
                 <div class="col-6 col-sm-6 form-group">
-                    <label>Giá Trị Giảm Tối Đa</label>
+                    <label class="required">Giá Trị Giảm Tối Đa</label>
                     <input type="text" class="form-control" th:field="*{giaTriGiamToiDa}" placeholder="Giá Trị Giảm Tối Đa (VNĐ)">
                 </div>
             </div>
             <div class="form row py-2">
                 <div class="col-6 col-sm-6 form-group">
-                    <label>Ngày Bắt Đầu</label>
+                    <label class="required">Ngày Bắt Đầu</label>
                     <input type="date" th:field="*{ngayBatDau}" class="form-control" >
                 </div>
                 <div class="col-6 col-sm-6 form-group">
-                    <label>Ngày Kết Thúc</label>
+                    <label class="required">Ngày Kết Thúc</label>
                     <input type="date" th:field="*{ngayKetThuc}" class="form-control">
                 </div>
             </div>

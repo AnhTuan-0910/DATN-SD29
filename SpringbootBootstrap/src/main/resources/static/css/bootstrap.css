@@ -1,4 +1,9 @@
 @charset "UTF-8";
+.required::after {
+    content: " *";
+    color: red;
+    font-size: 20px;
+}
 .color-primary {
     color: #5a8dee
 }
