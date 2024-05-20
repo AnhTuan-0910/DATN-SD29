@@ -65,7 +65,7 @@
         }
 
         /* Modal Content/Box */
-        .modal-content {
+        .modal-contentCam {
             background-color: #fefefe;
             margin: 15% auto; /* 15% from the top and centered */
             padding: 20px;
@@ -90,7 +90,6 @@
     <script
             src="https://unpkg.com/html5-qrcode">
     </script>
-    <script th:src="@{/js/select_kh_and_voucher_tt.js}"></script>
     <script th:src="@{/js/cam.js}"></script>
 </head>
 <body>
@@ -136,18 +135,18 @@
                                 </div>
                                 <div th:id="'modalResultQr' +${hd.ma}" class="modal"
                                      style="width:500px;left: calc(50% - 250px)">
-                                    <div class="modal-content">
+                                    <div class="modal-contentCam">
                                         <span class="close">&times;</span>
                                         <form th:id="'form'+${hd.ma}" th:action="@{/hoa_don_chi_tiet/add}" th:method="post">
                                             <input th:id="'idhd'+${hd.ma}" type="text" th:value="${hd.idHoaDon}"
-                                                   name="idhd" readonly> <br/>
-                                            <input th:id="'idCTSP'+${hd.ma}" type="text" name="idspct" readonly> <br/>
+                                                   name="idhd" hidden> <br/>
+                                            <input th:id="'idCTSP'+${hd.ma}" type="text" name="idspct" hidden> <br/>
                                             <label>Số lượng :</label>
                                             <input class="form-control" th:id="'soLuong'+${hd.ma}" type="number"
                                                    name="soLuong"> <br/>
                                             <span th:id="'soLuongError'+${hd.ma}" style="color: red"></span>
                                         </form>
-                                        <button class="btn btn-outline-primary" style="text-align: right"
+                                        <button class="btn btn-outline-primary" style="float: right"
                                                 th:id="'submitQr'+${hd.ma}">OK
                                         </button>
                                     </div>
@@ -186,10 +185,7 @@
                                 <table class='table table mb-0'>
                                     <thead>
                                     <tr>
-                                        <th>Mã</th>
-                                        <th>Tên</th>
-                                        <th>Màu sắc</th>
-                                        <th>Kích thước</th>
+                                        <th>Sản phẩm</th>
                                         <th>Số lượng</th>
                                         <th>Đơn Giá</th>
                                         <th>Action</th>
@@ -199,19 +195,36 @@
                                     <tr th:each="hdct:${hd?.listhdct}">
                                         <form th:id="${hdct.idHoaDonChiTiet}" th:class="'formGioHang'+${hd.ma}" th:action="@{/hoa_don_chi_tiet/update/{idhdct}(idhdct=${hdct.idHoaDonChiTiet})}"
                                               method="post">
-                                            <td th:id="'ma'+${hdct.idHoaDonChiTiet}" th:text="${hdct.sanPhamChiTiet.ma}"></td>
-                                            <td th:text="${hdct.sanPhamChiTiet.sanPham.ten}"></td>
-                                            <td><span class="badge"
-                                                      th:style="'background-color:'+${hdct.sanPhamChiTiet.mauSac.ten}"
-                                                      th:text="${hdct.sanPhamChiTiet.mauSac.ten}"></span></td>
-                                            <td th:text="${hdct.sanPhamChiTiet.kichThuoc.ten}"></td>
-                                            <td><input th:id="'soLuong'+${hdct.idHoaDonChiTiet}" th:value="${hdct.soLuong}" class="form-control" type="number"
-                                                       name="soLuong" style="width: 70px"></td>
-                                            <td th:text="${hdct.gia*hdct.soLuong}"></td>
+                                            <td class="row">
+                                                <div class="col-md-5">
+                                                    <img style="max-height: 70px;max-width: 60px;min-height: 70px;min-width: 60px"
+                                                         th:src="'data:image/jpeg;base64,'+ ${base64Image.bytesToBase64(mapAnhSanPham[hdct.sanPhamChiTiet.sanPham.id].data)}"
+                                                         alt="Product image">
+                                                </div>
+                                                <div class="col-md-7" style="padding-left: 10px">
+                                                    <div><span th:text="${hdct.sanPhamChiTiet.sanPham.ten}"></span></div>
+                                                    <div><span th:text="'size:'+${hdct.sanPhamChiTiet.kichThuoc.ten}"></span></div>
+                                                    <div>
+                                                        <p>color:
+                                                            <span class="badge "
+                                                                  th:style="'background-color:'+${hdct.sanPhamChiTiet.mauSac.ten}+';min-height: 10px;min-width: 50px'">
+                                                           </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </td>
                                             <td>
-                                                <button th:id="'btn'+${hdct.idHoaDonChiTiet}" class="btn btn-outline-primary" type="button"><i
+                                                <input th:id="'soLuong'+${hdct.idHoaDonChiTiet}"
+                                                       th:value="${hdct.soLuong}"
+                                                       th:max="${hdct.sanPhamChiTiet.sl+hdct.soLuong}"
+                                                       class="form-control" type="number"
+                                                       onchange="checkInput(this)"
+                                                       name="soLuong" style="width: 70px"></td>
+                                            <td th:text="${formatHelper.formatCurrency(hdct.gia*hdct.soLuong)}+' VNĐ'"></td>
+                                            <td>
+                                                <button th:id="'btn'+${hdct.idHoaDonChiTiet}" class="btn btn-outline-primary d-inline-block" type="submit"><i
                                                         data-feather="edit-2"></i></button>
-                                                <a class="btn btn-outline-danger" th:onclick="return confirm('Bạn có muốn xoá sản phẩm')" type="button"
+                                                <a class="btn btn-outline-danger d-inline-block" th:onclick="return confirm('Bạn có muốn xoá sản phẩm')" type="button"
                                                    th:href="@{/hoa_don_chi_tiet/delete/{idhdct}(idhdct=${hdct.idHoaDonChiTiet})}"><i
                                                         data-feather="trash-2"></i></a>
                                             </td>
@@ -249,16 +262,12 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="col-form-label" style="margin-left: 20%;margin-right: 20px;min-height: 70px">
-                                        <div th:if="${khachHang != null && khachHang.trangThai == 1}">
+                                        <div >
                                             <input class="form-control" type="text"
-                                                   th:value="${hd.khachHang.ten}"
+                                                   th:value="${hd.khachHang != null?hd.khachHang.ten:'Khách lẻ'}"
                                                    readonly>
                                         </div>
-                                        <div th:unless="${khachHang != null && khachHang.trangThai == 1}">
-                                            <input class="form-control" type="text"
-                                                   th:value="'Khách này đang ngừng hoạt động!'"
-                                                   readonly>
-                                        </div>
+
                                     </div>
                                     <div style="margin-left: 20px;min-height: 70px">
                                         <button class="btn btn-outline-warning" type="button" data-bs-toggle="modal"
@@ -305,14 +314,14 @@
 
                                     <div class="col-form-label"
                                          style="margin-left: 20%;margin-right: 20px;min-height: 70px">
-                                        <input class="form-control" type="number" th:value="${hd.gia}" readonly>
+                                        <input class="form-control" type="text" th:value="${formatHelper.formatCurrency(hd.gia)}" readonly>
                                     </div>
 
                                     <div class="col-form-label"
                                          style="margin-left: 20%;margin-right: 20px;min-height: 70px">
                                         <div>
                                             <input class="form-control" type="text"
-                                                   th:value="${hd.gia-hd.thanhTien}"
+                                                   th:value="${formatHelper.formatCurrency(hd.gia-hd.thanhTien)}"
                                                    readonly>
                                         </div>
                                     </div>
@@ -320,16 +329,17 @@
                                     <div class="col-form-label"
                                          style="margin-left: 20%;margin-right: 20px;min-height: 70px">
                                         <div >
-                                            <input type="text" class="form-control"
-                                                   th:value="${hd.thanhTien}"
+                                            <input style="color: red" type="text" class="form-control"
+                                                   th:value="${formatHelper.formatCurrency(hd.thanhTien)}"
                                                    readonly>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div style="text-align: center ">
-                                        <button th:onclick="xacNhan()" class="btn btn-outline-warning" type="button"><a th:href="@{/hoa_don/thanh_toan/{idhd}(idhd=${hd.idHoaDon})}">Xác nhận thanh toán</a>
-                                        </button>
+                                        <a th:id="'btnTTHD'+${hd.ma}" th:href="@{/hoa_don/thanh_toan/{idhd}(idhd=${hd.idHoaDon})}" class="btn btn-outline-warning" >
+                                            Xác nhận thanh toán
+                                        </a>
 
                                     </div>
                                 </div>
@@ -338,61 +348,7 @@
                     </div>
                 </div>
             </div>
-            <!--    modalVoucher-->
-<!--            <div class="modal fade" th:id="'selectVoucherModal'+${hd.ma}" tabindex="-1"-->
-<!--                 aria-labelledby="exampleModalLabel"-->
-<!--                 aria-hidden="true">-->
-<!--                <div class="modal-dialog modal-xl">-->
-<!--                    <div class="modal-content">-->
-<!--                        <div class="modal-header">-->
-<!--                            <h5 class="modal-title" id="exampleModalLabel">Voucher</h5>-->
-<!--                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--                        </div>-->
-<!--                        <div class="modal-body">-->
-<!--                            <div class="d-flex justify-content-end" style="width: 100%">-->
-<!--                                <input type="text" th:id="'searchInputVoucher'+${hd.ma}" placeholder="Tìm Kiếm">-->
-<!--                                <button class="btn btn-primary mx-2"><i data-feather="search"></i></button>-->
-<!--                            </div>-->
-<!--                            <form id="voucherForm" th:action="@{'/giao_dich/add_voucher_to_hoa_don/'+${hd.idHoaDon}}"-->
-<!--                                  method="post">-->
-<!--                                <div th:each="x : ${listVoucher}" th:id="'voucherCard-'+${x.ma}"-->
-<!--                                     th:class="'card-voucher'+${hd.ma}+ ' form-check'"-->
-<!--                                     th:hidden="${x.ma == 'PGG000'}">-->
-<!--                                    <div class="d-flex align-items-center">-->
-<!--                                        <input class="form-check-input me-1 ipRadio" type="radio"-->
-<!--                                               name="id_pgg"-->
-<!--                                               th:id="${x.id_pgg}+${hd.ma}" th:value="${x.id_pgg}">-->
-<!--                                        <label class="form-check-label align-content-center" th:for="${x.id_pgg}+${hd.ma}"-->
-<!--                                               style="width: 100%;">-->
-<!--                                            <div class="card d-flex my-1">-->
-<!--                                                <div class="card-body d-flex">-->
-<!--                                                    <span th:text="${x.ma}" class="modal-maVoucher"-->
-<!--                                                          hidden></span>-->
-<!--                                                    <span th:text="${x.id_pgg}"-->
-<!--                                                          hidden></span>-->
-<!--                                                    <span th:text="${x.ten}"-->
-<!--                                                          class="modal-tenVoucher col-4 col-sm-4 align-items-center"></span>-->
-<!--                                                    <span class="col-8 col-sm-8"-->
-<!--                                                          th:text="${x.moTa}"></span>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </label>-->
-<!--                                    </div>-->
-<!--&lt;!&ndash;                                    <input type="hidden" th:id="'selected_id_pgg'+${hd.ma}" name="id_pgg">&ndash;&gt;-->
-<!--                                </div>-->
-<!--&lt;!&ndash;                                <input type="hidden" th:id="'selected_id_pgg'+${hd.ma}" name="id_pgg">&ndash;&gt;-->
-<!--                                <button type="submit" class="btn btn-primary d-block ms-auto"-->
-<!--                                        th:id="'saveChangesBtn'+${hd.ma}"-->
-<!--                                        data-bs-dismiss="modal">-->
-<!--                                    Save Changes-->
-<!--                                </button>-->
-<!--                            </form>-->
-<!--                        </div>-->
-<!--                        <div class="modal-footer">-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
+
 
             <!--    modalSPCT-->
             <div class="modalTableSPCT">
@@ -416,62 +372,70 @@
 
                                             </div>
                                             <div class="card-body px-0 pb-0">
-                                                <form th:id="'formFilter'+${hd.ma}"
-                                                      style="padding-top: 20px;padding-bottom: 20px">
-                                                    <div style="margin-left: 1%;margin-right: 1%;height: 70px">
-                                                        <div style="float: left;margin-left: 60px">
-                                                            <label class="form-label">Kích thước</label>
-                                                            <select class="form-select" style="width: 150px"
-                                                                    th:id="'kichThuocSearch'+${hd.ma}"
-                                                                    name="kichThuocSearch">
-                                                                <option value="">Tất cả</option>
-                                                                <option th:each="kt :${listKT}" th:value="${kt.ten}"
-                                                                        th:text="${kt.ten}"></option>
+                                                <form class="row" th:id="'formFilter'+${hd.ma}"
+                                                      style="padding-top: 20px;padding-bottom: 20px;text-align: center">
 
-                                                            </select>
+                                                        <div class="col-md-3" style="text-align: center;height: 70px">
+                                                            <div style="display: inline-flex">
+                                                                <label class="col-form-label">Kích thước:</label>
+                                                                <select class="form-select" style="width: 150px;height: 38px;margin-left: 5px"
+                                                                        th:id="'kichThuocSearch'+${hd.ma}"
+                                                                        name="kichThuocSearch">
+                                                                    <option value="">Tất cả</option>
+                                                                    <option th:each="kt :${listKT}" th:value="${kt.ten}"
+                                                                            th:text="${kt.ten}"></option>
+
+                                                                </select>
+                                                            </div>
+
                                                         </div>
-                                                        <div style="float: left;margin-left: 30px">
-                                                            <label class="form-label">Màu sắc</label>
-                                                            <select class="form-select" style="width: 150px"
-                                                                    th:id="'mauSacSearch'+${hd.ma}"
-                                                                    name="mauSacSearch">
-                                                                <option value="">Tất cả</option>
-                                                                <option th:each="ms :${listMS}" th:value="${ms.ten}"
-                                                                        th:style="'background-color:'+${ms.ten}"
-                                                                        th:text="${ms.ten}"></option>
+                                                        <div class="col-md-3" style="text-align: center;height: 70px">
+                                                            <div style="display: inline-flex">
+                                                                <label class="col-form-label">Màu sắc:</label>
+                                                                <select class="form-select" style="width: 150px;height: 38px;margin-left: 5px"
+                                                                        th:id="'mauSacSearch'+${hd.ma}"
+                                                                        name="mauSacSearch">
+                                                                    <option value="">Tất cả</option>
+                                                                    <option th:each="ms :${listMS}" th:value="${ms.ten}"
+                                                                            th:style="'background-color:'+${ms.ten}"> </option>
 
 
-                                                            </select>
+                                                                </select>
+                                                            </div>
+
                                                         </div>
-                                                        <div style="float: left;margin-left: 30px">
-                                                            <label class="form-label">Danh mục</label>
-                                                            <select class="form-select" style="width: 150px"
-                                                                    th:id="'danhMucSearch'+${hd.ma}"
-                                                                    name="danhMucSearch">
-                                                                <option value="">Tất cả</option>
-                                                                <option th:each="dm :${listDM}" th:value="${dm.ten}"
-                                                                        th:text="${dm.ten}"></option>
+                                                        <div class="col-md-3" style="text-align: center;height: 70px">
+                                                            <div style="display: inline-flex">
+                                                                <label class="col-form-label">Danh mục:</label>
+                                                                <select class="form-select" style="width: 150px;height: 38px;margin-left: 5px"
+                                                                        th:id="'danhMucSearch'+${hd.ma}"
+                                                                        name="danhMucSearch">
+                                                                    <option value="">Tất cả</option>
+                                                                    <option th:each="dm :${listDM}" th:value="${dm.ten}"
+                                                                            th:text="${dm.ten}"></option>
 
 
-                                                            </select>
+                                                                </select>
+                                                            </div>
+
                                                         </div>
-                                                        <div style="float: left;margin-left: 30px">
-                                                            <label class="form-label">Thương hiệu</label>
-                                                            <select class="form-select" style="width: 150px"
-                                                                    th:id="'thuongHieuSearch'+${hd.ma}"
-                                                                    name="thuongHieuSearch">
-                                                                <option value="">Tất cả</option>
-                                                                <option th:each="th :${listTH}" th:value="${th.ten}"
-                                                                        th:text="${th.ten}"></option>
+                                                        <div class="col-md-3" style="text-align: center;height: 70px">
+                                                            <div style="display: inline-flex">
+                                                                <label class="col-form-label">Thương hiệu: </label>
+                                                                <select class="form-select" style="width: 150px;height: 38px;margin-left: 5px"
+                                                                        th:id="'thuongHieuSearch'+${hd.ma}"
+                                                                        name="thuongHieuSearch">
+                                                                    <option value="">Tất cả</option>
+                                                                    <option th:each="th :${listTH}" th:value="${th.ten}"
+                                                                            th:text="${th.ten}"></option>
 
 
-                                                            </select>
+                                                                </select>
+                                                            </div>
+
                                                         </div>
 
-
-                                                    </div>
-
-                                                    <div style="margin-left: 46%;margin-right: 40%;padding-top: 20px">
+                                                    <div class="col-md-12" style="padding-top: 20px">
                                                         <button type="submit" class="btn btn-outline-primary">Lọc
                                                         </button>
                                                     </div>
@@ -589,8 +553,8 @@
                                                    name="idhd" hidden>
                                             <span th:id="'maSPCT'+${hd.ma}"></span></td>
                                         <td><span th:id="'ktSPCT'+${hd.ma}"></span></td>
-                                        <td><span class="badge" th:id="'msSPCT'+${hd.ma}"></span></td>
-                                        <td><input th:id="'slGH'+${hd.ma}" name="soLuong" class="form-control"
+                                        <td><span class="badge" th:id="'msSPCT'+${hd.ma}"> </span></td>
+                                        <td><input th:id="'slGH'+${hd.ma}" name="soLuong" th:class="'form-control ' +'slGH'+${hd.ma}"
                                                    style="width: 70px" type="number"
                                                    min="1"
                                                    value="1"/>

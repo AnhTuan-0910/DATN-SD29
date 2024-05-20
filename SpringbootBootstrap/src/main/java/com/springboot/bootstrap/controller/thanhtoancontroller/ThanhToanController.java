@@ -2,6 +2,7 @@ package com.springboot.bootstrap.controller.thanhtoancontroller;
 
 import com.springboot.bootstrap.entity.*;
 import com.springboot.bootstrap.entity.DTO.SanPhamQrDTO;
+import com.springboot.bootstrap.repository.AnhRepo;
 import com.springboot.bootstrap.repository.HoaDonRepository;
 import com.springboot.bootstrap.repository.HoaDonTLRepo;
 import com.springboot.bootstrap.repository.KhachHangRepository;
@@ -15,6 +16,7 @@ import com.springboot.bootstrap.service.MauSacService;
 import com.springboot.bootstrap.service.NhanVienService;
 import com.springboot.bootstrap.service.SanPhamCTService;
 import com.springboot.bootstrap.service.ThuongHieuService;
+import com.springboot.bootstrap.utility.Base64Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,7 +35,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -67,6 +71,10 @@ public class ThanhToanController {
     @Autowired
     private HoaDonTLRepo hoaDonTLRepo;
     @Autowired
+    private AnhRepo anhRepo;
+    @Autowired
+    private Base64Image base64Image;
+    @Autowired
     private NhanVienService nhanVienService;
     @GetMapping("")
     public String getAll(Model model) {
@@ -78,11 +86,22 @@ public class ThanhToanController {
         List<MauSac> listMS = mauSacService.findAllByTrangThai();
         List<KhachHang> khachHang = khachHangService.findAll();
         List<HoaDon> listHD = hoaDonService.renderTab();
+        Map<String, Anh> mapAnhSanPham = new HashMap<>();
+        for (HoaDon hd : listHD) {
+            for (HoaDonChiTiet hdct:hd.getListhdct()) {
+                List<Anh> listAnh = anhRepo.findAllBySanPham(hdct.getSanPhamChiTiet().getSanPham());
+                Anh anh = listAnh.get(0);
+                mapAnhSanPham.put(hdct.getSanPhamChiTiet().getSanPham().getId(), anh);
+            }
+        }
         model.addAttribute("listKH", khachHang);
         model.addAttribute("listHD", listHD);
         model.addAttribute("listTH", listTH);
         model.addAttribute("listDM", listDM);
         model.addAttribute("listKT", listKT);
+        model.addAttribute("listMS", listMS);
+        model.addAttribute("mapAnhSanPham", mapAnhSanPham);
+        model.addAttribute("base64Image", base64Image);
         model.addAttribute("listMS", listMS);
         model.addAttribute("formatHelper",new FormatHelper());
         model.addAttribute("namenv",nhanVien.getTen());
@@ -94,7 +113,7 @@ public class ThanhToanController {
     public String addTab() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         NhanVien nhanVien = nhanVienService.getOne(userDetails.getUsername());
-        HoaDon hoaDon = HoaDon.builder().nhanVien(nhanVien).hinhThuc(0).tinhTrang(5).gia(0.0).thanhTien(0.0).build();
+        HoaDon hoaDon = HoaDon.builder().nhanVien(nhanVien).hinhThuc(0).tinhTrang(5).gia(0.0).thanhTien(0.0).taoLuc(LocalDateTime.now()).build();
         hoaDonService.add(hoaDon);
         HoaDonTimeline hoaDonTimeline= HoaDonTimeline.builder()
                 .hoaDon(hoaDon)

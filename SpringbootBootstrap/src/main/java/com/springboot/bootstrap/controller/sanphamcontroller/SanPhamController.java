@@ -4,12 +4,15 @@ import com.springboot.bootstrap.entity.Anh;
 import com.springboot.bootstrap.entity.DanhMuc;
 import com.springboot.bootstrap.entity.KichThuoc;
 import com.springboot.bootstrap.entity.MauSac;
+import com.springboot.bootstrap.entity.NhanVien;
 import com.springboot.bootstrap.entity.SanPham;
 import com.springboot.bootstrap.entity.SanPhamCT;
 import com.springboot.bootstrap.entity.ThuongHieu;
 import com.springboot.bootstrap.repository.AnhRepo;
+import com.springboot.bootstrap.repository.SanPhamRepo;
 import com.springboot.bootstrap.service.AnhService;
 import com.springboot.bootstrap.service.DanhMucService;
+import com.springboot.bootstrap.service.NhanVienService;
 import com.springboot.bootstrap.service.SanPhamService;
 import com.springboot.bootstrap.service.ThuongHieuService;
 import com.springboot.bootstrap.utility.Base64Image;
@@ -17,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,9 +48,13 @@ public class SanPhamController {
     @Autowired
     private SanPhamService sanPhamService;
     @Autowired
+    private SanPhamRepo sanPhamRepo;
+    @Autowired
     private DanhMucService danhMucService;
     @Autowired
     private ThuongHieuService thuongHieuService;
+    @Autowired
+    private NhanVienService nhanVienService;
     @Autowired
     private Base64Image base64Image;
     @Autowired
@@ -56,6 +65,27 @@ public class SanPhamController {
     @GetMapping("")
     public String getAll(@RequestParam("p") Optional<Integer> p, Model model) {
         Page<SanPham> listSP = sanPhamService.getAll(PageRequest.of(p.orElse(0), 5));
+        Map<String, List<Anh>> mapAnhSanPham = new HashMap<>();
+        for (SanPham sanPham : listSP) {
+            List<Anh> listAnh = anhRepo.findAllBySanPham(sanPham);
+            mapAnhSanPham.put(sanPham.getId(), listAnh);
+        }
+        List<DanhMuc> listDM = danhMucService.findAllByTrangThai();
+        List<ThuongHieu> listTH = thuongHieuService.findAllByTrangThai();
+        model.addAttribute("listTH", listTH);
+        model.addAttribute("base64Image", base64Image);
+        model.addAttribute("listDM", listDM);
+        model.addAttribute("listSP", listSP);
+        model.addAttribute("mapAnhSanPham", mapAnhSanPham);
+        return "/pages/san_pham";
+    }
+    @GetMapping("/filter")
+    public String filter(@RequestParam(value = "th",required = false) String idTH,
+                         @RequestParam(value = "dm",required = false) String idDM,
+                         @RequestParam(value = "trangThai",required = false) Integer trangThai,
+                         @RequestParam(value = "keyword",required = false) String keyword,
+                         @RequestParam("p") Optional<Integer> p, Model model) {
+        Page<SanPham> listSP = sanPhamRepo.filter(idDM,idTH,trangThai,keyword,PageRequest.of(p.orElse(0), 5));
         Map<String, List<Anh>> mapAnhSanPham = new HashMap<>();
         for (SanPham sanPham : listSP) {
             List<Anh> listAnh = anhRepo.findAllBySanPham(sanPham);
@@ -134,9 +164,12 @@ public class SanPhamController {
                            @RequestParam("ma") String ma,
                            @RequestParam("danhMuc") String idDM,
                            @RequestParam("taoLuc") LocalDateTime taoLuc,
+                           @RequestParam("taoBoi") String taoBoi,
                            @RequestParam("thuongHieu") String idTH,
                            @RequestParam("ten") String tenSP,
                            @RequestParam(value = "trangThaiSt", required = false) String trangThaiSt, Model model) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        NhanVien nhanVien = nhanVienService.getOne(userDetails.getUsername());
         int trangThai = (trangThaiSt != null && trangThaiSt.equals("on")) ? 1 : 0;
         sanPham = SanPham.builder()
                 .ma(ma)
@@ -145,6 +178,8 @@ public class SanPhamController {
                 .thuongHieu(ThuongHieu.builder().id(idTH).build())
                 .taoLuc(taoLuc)
                 .suaLuc(LocalDateTime.now())
+                .taoBoi(taoBoi)
+                .suaBoi(nhanVien.getTen())
                 .trangThai(trangThai).build();
 
         sanPhamService.update(id, sanPham);

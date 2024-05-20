@@ -90,7 +90,7 @@
                     <div style="padding-left: 10%;padding-right: 10%">
 
                         <div class="mb-3 row" style="padding-top: 20px">
-                            <div class="col-md-10">
+                            <div class="col-md-8">
                                 <label class="form-label"><b>Kích thước</b></label>
 
                                 <div class="form-control" id="selectedKT" style="min-height:37px; ">
@@ -99,10 +99,13 @@
 
 
                             </div>
-                            <div class="col-md-2" style="padding-top: 30px">
-                                <a class="btn btn-outline-primary" data-bs-target="#chonKT" data-bs-toggle="modal"><i
+                            <div class="col-md-4" style="padding-top: 30px">
+                                <a class="btn btn-outline-warning" data-bs-target="#chonKT" data-bs-toggle="modal"><i
                                         data-feather="navigation-2"></i></a>
+                                <a class="btn btn-outline-primary" data-bs-target="#themKT" data-bs-toggle="modal"><i
+                                        data-feather="plus-circle"></i></a>
                             </div>
+
                         </div>
 
                     </div>
@@ -110,7 +113,7 @@
                 <div class="col-md-5" style="background: white;padding-bottom: 20px">
 
                     <div class="mb-3 row" style="padding-top: 20px">
-                        <div class="col-md-10">
+                        <div class="col-md-8">
                             <label class="form-label"><b>Màu sắc</b></label>
 
                             <div class="form-control" id="selectedMS" style="min-height:37px; " >
@@ -118,9 +121,11 @@
                             </div>
 
                         </div>
-                        <div class="col-md-2" style="padding-top: 30px">
-                            <a class="btn btn-outline-primary" data-bs-target="#chonMS" data-bs-toggle="modal"><i
+                        <div class="col-md-4" style="padding-top: 30px">
+                            <a class="btn btn-outline-warning" data-bs-target="#chonMS" data-bs-toggle="modal"><i
                                     data-feather="navigation-2"></i></a>
+                            <a class="btn btn-outline-primary" data-bs-target="#themMS" data-bs-toggle="modal"><i
+                                    data-feather="plus-circle"></i></a>
                         </div>
                     </div>
 
@@ -186,7 +191,7 @@
                             <div class="row">
                                 <div style="background: white;padding-bottom: 20px">
                                     <div class="mb-3" style="padding-top: 20px">
-                                        <label class="form-label"><b>Tên </b></label>
+                                        <label class="form-label"><b>Danh mục </b></label>
                                         <input id="nameDM" name="ten" class="form-control">
 
                                     </div>
@@ -224,7 +229,7 @@
                             <div class="row">
                                 <div style="background: white;padding-bottom: 20px">
                                     <div class="mb-3" style="padding-top: 20px">
-                                        <label class="form-label"><b>Tên </b></label>
+                                        <label class="form-label"><b>Thương hiệu </b></label>
                                         <input id="nameTH" name="ten" class="form-control">
 
                                     </div>
@@ -249,9 +254,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Chọn kích thước  <a class="btn btn-outline-primary" >
-                        <i data-feather="plus-circle"></i>
-                    </a></h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Chọn kích thước</h5>
 
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -278,9 +281,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="labelMS">Chọn màu sắc <a  class="btn btn-outline-primary" >
-                        <i data-feather="plus-circle"></i>
-                    </a></h5>
+                    <h5 class="modal-title" id="labelMS">Chọn màu sắc</h5>
 
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -288,8 +289,8 @@
                 </div>
                 <div class="modal-body">
 
-                    <div th:each="ms:${listMS}" th:style="'background-color:' +${ms.ten}+';margin-top: 5px;'"  th:text="${ms.ten}"
-                         class="itemMS btn btn-outline-secondary " th:data-item="${ms.ten}" th:data-idms="${ms.id}"></div>
+                    <div th:each="ms:${listMS}" th:style="'background-color:' +${ms.ten}+';margin-top: 5px;min-height:38px;min-width:90px'"
+                         class="itemMS btn btn-outline-secondary " th:data-item="${ms.ten}" th:data-idms="${ms.id}"> </div>
 
 
                 </div>
@@ -300,6 +301,69 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="themKT" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Kích thước </h5>
+
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="fAddKT" th:action="@{them_sp/addKT}" th:object="${kta}" method="post">
+                    <div class="mb-3" style="padding-top: 20px">
+                        <label class="form-label"><b>Kích thước </b></label>
+                        <input id="tenKT" name="tenKT" class="form-control">
+
+                    </div>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" id="btnThemKT" class="btn btn-primary">Thêm</button>
+                    </form>
+
+
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="themMS" tabindex="-1" role="dialog" aria-labelledby="labelMS"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="labelMS">Thêm màu sắc </h5>
+
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="fAddMS" th:action="@{them_sp/addMS}" th:object="${msa}" method="post">
+                        <div class="mb-3" style="padding-top: 20px">
+                            <label class="form-label"><b>Màu sắc </b></label>
+                            <input id="tenMS" placeholder="tên" type="color" name="tenMS"
+                                   class="form-control">
+
+                        </div>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" id="btnThemMS" class="btn btn-primary">Thêm</button>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 

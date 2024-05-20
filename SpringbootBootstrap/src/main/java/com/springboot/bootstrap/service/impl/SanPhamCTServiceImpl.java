@@ -1,5 +1,6 @@
 package com.springboot.bootstrap.service.impl;
 
+import com.springboot.bootstrap.entity.Anh;
 import com.springboot.bootstrap.entity.SanPhamCT;
 import com.springboot.bootstrap.repository.SanPhamCTRepo;
 import com.springboot.bootstrap.service.SanPhamCTService;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SanPhamCTServiceImpl implements SanPhamCTService {
@@ -63,7 +65,14 @@ public class SanPhamCTServiceImpl implements SanPhamCTService {
         sanPhamCTRepo.save(sanPhamCT);
     }
 
-
+    @Override
+    public SanPhamCT delete(String idSPCT) {
+        Optional<SanPhamCT> optional=sanPhamCTRepo.findById(idSPCT);
+        return optional.map(o->{
+            sanPhamCTRepo.delete(o);
+            return o;
+        }).orElse(null);
+    }
     @Override
     public SanPhamCT getByMSAndKT(String idKT, String idMS, String idSP) {
         return sanPhamCTRepo.findByMSAndKT(idKT, idMS,idSP);

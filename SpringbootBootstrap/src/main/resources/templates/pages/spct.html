@@ -21,38 +21,43 @@
 
                 </div>
                 <div class="card-body px-0 pb-0">
-                    <form method="get" style="padding-top: 20px;padding-bottom: 20px">
-                        <div style="margin-left: 15%;margin-right: 15%;height: 70px">
-                            <div style="float: left;margin-left: 70px">
-                                <select class="form-select" style="width: 150px" name="danhMucSearch">
-                                    <option value="">Size</option>
-                                    <option value="1">Đang sử dụng</option>
-                                    <option value="0">Ngừng sử dụng</option>
+                    <form class="row" method="get" style="padding-top: 20px;padding-bottom: 20px" th:action="@{/spct/filter}">
+                        <div class="col-md-12" style="text-align: center;height: 70px">
+                            <div style="display: inline-flex;padding-right: 10px">
+                                <label class="col-form-label">Size: </label>
+                                <select class="form-select" name="kt" style="width: 200px;height: 38px;margin-left: 5px">
+                                    <option value="">Tất cả</option>
+                                    <option th:each="kt :${listKT}" th:value="${kt.ten}"
+                                            th:text="${kt.ten}"></option>
 
                                 </select>
                             </div>
-                            <div style="float: left;margin-left: 70px">
-                                <select class="form-select" style="width: 150px" name="thuongHieuSearch">
-                                    <option value="">Màu sắc</option>
-                                    <option value="1">Đang sử dụng</option>
-                                    <option value="0">Ngừng sử dụng</option>
-
+                            <div style="display: inline-flex;padding-left: 10px">
+                                <label class="col-form-label">Color: </label>
+                                <select id="slMS" class="form-select" name="ms" style="width: 200px;height: 38px;margin-left: 5px">
+                                    <option value="">Tất cả</option>
+                                    <option th:each="ms :${listMS}" th:value="${ms.ten}"
+                                            th:style="'background-color:'+${ms.ten}"> </option>
                                 </select>
                             </div>
-                            <div style="float: left;margin-left: 70px">
-                                <select class="form-select" style="width: 150px" name="trangThaiSearch">
-                                    <option value="">Trạng thái</option>
-                                    <option value="1">Đang sử dụng</option>
-                                    <option value="0">Ngừng sử dụng</option>
+                        </div>
+                        <input type="text" th:value="${idSP}" name="sp" hidden>
 
-                                </select>
+
+                        <div class="col-md-12" style="text-align: center">
+
+                            <div style="display: inline-flex;padding-right: 5px">
+                                <label class="col-form-label">Mã :  </label>
+                                <input type="text" class="form-control" name="keyword"
+                                       placeholder="Nhập mã sản phẩm"
+                                       style="width: 200px;height: 38px;margin-left: 5px">
                             </div>
-
 
                         </div>
 
-                        <div style="margin-left: 40%;margin-right: 40%;">
 
+                        <div style="text-align: center;padding-top: 20px" >
+                            <button class="btn btn-danger" type="submit">Tìm kiếm</button>
                         </div>
                     </form>
                 </div>
@@ -65,25 +70,8 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div style="float: left"><h4 class="card-title">Danh sách sản phẩm chi tiết</h4></div>
 
-                    <div style="float: right;margin-right: 30px">
 
-                        <form>
-                            <div style="float: right;margin-left: 20px">
-                                <button class="btn btn-danger" type="submit">Tìm kiếm</button>
-
-                            </div>
-                            <div style="float: right"><input name="keyword" class="form-control"
-                                                             style="width: 200px;height: 38px"
-                                                             placeholder="Tìm kiếm">
-                            </div>
-
-
-                        </form>
-                    </div>
                     <div style="float: right">
-                        <a style="margin-right: 10px" class="btn btn-primary"><i
-                                data-feather="refresh-cw"></i></a>
-
                         <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#themSPCT"
                         ><i data-feather="plus-circle"></i></a>
                     </div>
@@ -112,8 +100,8 @@
                                 <td th:text="${spct.sanPham.ten}"></td>
                                 <td th:text="${spct.kichThuoc.ten}"></td>
                                 <td>
-                                    <div class="badge" th:style="'background-color: ' + ${spct.mauSac.ten}">
-                                        <span id="textCL" th:text="${spct.mauSac.ten}"></span>
+                                    <div class="badge" th:style="'background-color: ' + ${spct.mauSac.ten}+';min-height: 10px;min-width: 50px'">
+
                                     </div>
                                 </td>
                                 <td th:text="${spct.sl}"></td>
@@ -189,7 +177,7 @@
                                         <select class="form-select" id="vlidMS" name="mauSacAdd">
                                             <div th:each="ms:${listMS}">
                                                 <option th:style="'background-color:'+${ms.ten}" th:value="${ms.id}"
-                                                        th:text="${ms.ten}"></option>
+                                                        ></option>
                                             </div>
                                         </select>
 
@@ -242,10 +230,10 @@
                                 <div style="background: white;padding-bottom: 20px">
 
                                     <div class="mb-3" style="padding-top: 20px">
-                                        <input type="text" th:value="${idSP}" name="idSPUpd" hidden>
+                                        <input type="text" id="ktUpd" name="ktUpd" hidden >
                                         <label class="form-label"><b>Kích thước</b></label>
-
-                                        <select class="form-select" id="kichThuocUpd" name="kichThuocUpd">
+                                        <input type="text" th:value="${idSP}" name="idSPUpd" hidden >
+                                        <select class="form-select" id="kichThuocUpd" name="kichThuocUpd" disabled>
                                             <div th:each="kt:${listKT}">
                                                 <option th:value="${kt.id}" th:text="${kt.ten}"></option>
                                             </div>
@@ -253,12 +241,13 @@
                                         </select>
                                     </div>
                                     <div class="mb-3" style="padding-top: 20px">
+                                        <input type="text" id="msUpd" name="msUpd" hidden >
                                         <label class="form-label"><b>Màu sắc</b></label>
 
-                                        <select class="form-select" id="mauSacUpd" name="mauSacUpd">
+                                        <select class="form-select" id="mauSacUpd" name="mauSacUpd" disabled>
                                             <div th:each="ms:${listMS}">
                                                 <option th:style="'background-color:'+${ms.ten}" th:value="${ms.id}"
-                                                        th:text="${ms.ten}"></option>
+                                                       ></option>
                                             </div>
                                         </select>
 

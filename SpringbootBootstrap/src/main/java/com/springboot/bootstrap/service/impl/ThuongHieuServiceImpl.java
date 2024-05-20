@@ -14,7 +14,7 @@ import java.util.List;
 public class ThuongHieuServiceImpl implements ThuongHieuService {
     @Autowired
     private ThuongHieuRepo thuongHieuRepo;
-    private static final String ma = "KT";
+    private static final String ma = "TH";
     private static int counter = 0;
 
     @Override

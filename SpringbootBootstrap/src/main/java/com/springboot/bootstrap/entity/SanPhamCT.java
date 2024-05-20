@@ -47,6 +47,10 @@ public class SanPhamCT {
     private LocalDateTime taoLuc;
     @Column(name = "sua_luc")
     private LocalDateTime suaLuc;
+    @Column(name = "tao_boi")
+    private String taoBoi;
+    @Column(name = "sua_boi")
+    private String suaBoi;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_mau_sac", referencedColumnName = "id_mau_sac")

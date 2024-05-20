@@ -7,6 +7,7 @@ import com.springboot.bootstrap.entity.DanhMuc;
 import com.springboot.bootstrap.entity.FormatHelper;
 import com.springboot.bootstrap.entity.KichThuoc;
 import com.springboot.bootstrap.entity.MauSac;
+import com.springboot.bootstrap.entity.NhanVien;
 import com.springboot.bootstrap.entity.SanPham;
 import com.springboot.bootstrap.entity.SanPhamCT;
 import com.springboot.bootstrap.entity.ThuongHieu;
@@ -15,6 +16,7 @@ import com.springboot.bootstrap.service.AnhService;
 import com.springboot.bootstrap.service.DanhMucService;
 import com.springboot.bootstrap.service.KichThuocService;
 import com.springboot.bootstrap.service.MauSacService;
+import com.springboot.bootstrap.service.NhanVienService;
 import com.springboot.bootstrap.service.SanPhamCTService;
 import com.springboot.bootstrap.service.SanPhamService;
 import com.springboot.bootstrap.service.ThuongHieuService;
@@ -24,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,6 +62,8 @@ public class ThemSPController {
     @Autowired
     private SanPhamService sanPhamService;
     @Autowired
+    private NhanVienService nhanVienService;
+    @Autowired
     private ThuongHieuService thuongHieuService;
     @Autowired
     private AnhService anhService;
@@ -88,12 +94,14 @@ public class ThemSPController {
                                                           @RequestParam("idMSAr") String[] idMSAr,
                                                           @RequestParam("idKTAr") String[] idKTAr,
                                                           @RequestParam("file") MultipartFile[] file) {
-
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        NhanVien nhanVien = nhanVienService.getOne(userDetails.getUsername());
         SanPham sanPham = SanPham.builder()
                 .ten(ten)
                 .danhMuc(DanhMuc.builder().id(danhMuc).build())
                 .thuongHieu(ThuongHieu.builder().id(thuongHieu).build())
                 .taoLuc(LocalDateTime.now())
+                .taoBoi(nhanVien.getTen())
                 .trangThai(Integer.parseInt(trangThai)).build();
         sanPhamService.add(sanPham);
 
@@ -124,6 +132,7 @@ public class ThemSPController {
                         .gia(gia)
                         .sl(100)
                         .taoLuc(LocalDateTime.now())
+                        .taoBoi(nhanVien.getTen())
                         .trangThai(1).build();
                 sanPhamCTService.add(sanPhamCT);
                 qrCodeGenerator.generateQrCode(sanPhamCT.getId(), 50, 50);
@@ -149,12 +158,49 @@ public class ThemSPController {
 
 
     @PostMapping("/addTH")
-    public String add(@ModelAttribute("tha") ThuongHieu thuongHieu,
+    public String addTH(@ModelAttribute("tha") ThuongHieu thuongHieu,
                       @RequestParam("ten") String ten,
-                      @RequestParam("p") Optional<Integer> p, Model model) {
+                      Model model) {
         int trangThai = 1;
         thuongHieu = ThuongHieu.builder().ma(thuongHieuService.generateMaTH()).ten(ten).trangThai(trangThai).build();
         thuongHieuService.add(thuongHieu);
+
+        return "redirect:/them_sp";
+    }
+    @PostMapping("/addKT")
+    public String addKT(@ModelAttribute("kta") KichThuoc kichThuoc,
+                      @RequestParam("tenKT") String ten,
+                     Model model) {
+        int trangThai = 1;
+        kichThuoc = KichThuoc.builder().ma(kichThuocService.generateMaKT()).ten(ten).trangThai(trangThai).build();
+        kichThuocService.add(kichThuoc);
+
+        return "redirect:/them_sp";
+    }
+    @PostMapping("/addMS")
+    public String addMS(@ModelAttribute("msa") MauSac mauSac,
+                        @RequestParam("tenMS") String ten,
+                      Model model) {
+        int trangThai = 1;
+        mauSac = MauSac.builder().ma(mauSacService.generateMaMS()).ten(ten).trangThai(trangThai).build();
+        mauSacService.add(mauSac);
+
+        return "redirect:/them_sp";
+    }
+
+    @GetMapping("/deleteSPCT/{id}")
+    @ResponseBody
+    public ResponseEntity<SanPhamCT> addDM(@PathVariable("id") String idSPCT,
+                      Model model) {
+        return ResponseEntity.ok(sanPhamCTService.delete(idSPCT));
+    }
+    @PostMapping("/addDM")
+    public String addDM(@ModelAttribute("dma") DanhMuc danhMuc,
+                        @RequestParam("ten") String ten,
+                        Model model) {
+        int trangThai = 1;
+        danhMuc = DanhMuc.builder().ma(danhMucService.generateMaDM()).ten(ten).trangThai(trangThai).build();
+        danhMucService.add(danhMuc);
 
         return "redirect:/them_sp";
     }
@@ -178,6 +224,8 @@ public class ThemSPController {
 
                          @RequestParam("p") Optional<Integer> p, Model model) {
 
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        NhanVien nhanVien = nhanVienService.getOne(userDetails.getUsername());
         for (int i = 0; i < idSPCT.length; i++) {
             String id = idSPCT[i];
             String idspct = idSPCT[i];
@@ -193,7 +241,8 @@ public class ThemSPController {
                     .mauSac(MauSac.builder().id(idms).build())
                     .kichThuoc(KichThuoc.builder().id(idkt).build())
                     .sl(Integer.parseInt(soLuong))
-                    .taoLuc(LocalDateTime.now())
+                    .suaLuc(LocalDateTime.now())
+                    .suaBoi(nhanVien.getTen())
                     .trangThai(1)
                     .gia(Double.parseDouble(donGia)).build();
             sanPhamCTService.update(sanPhamCT, idspct);
@@ -203,36 +252,4 @@ public class ThemSPController {
         return  "redirect:/san_pham";
     }
 
-    @PostMapping("/addDM")
-    public String add(@ModelAttribute("dma") DanhMuc danhMuc,
-                      @RequestParam("ten") String ten,
-                      @RequestParam("p") Optional<Integer> p, Model model) {
-        int trangThai = 1;
-        danhMuc = DanhMuc.builder().ma(danhMucService.generateMaDM()).ten(ten).trangThai(trangThai).build();
-        danhMucService.add(danhMuc);
-
-        return "redirect:/them_sp";
-    }
-
-    @PostMapping("/addKT")
-    public String add(@ModelAttribute("kta") KichThuoc kichThuoc,
-                      @RequestParam("ten") String ten,
-                      @RequestParam("p") Optional<Integer> p, Model model) {
-        int trangThai = 1;
-        kichThuoc = KichThuoc.builder().ma(kichThuocService.generateMaKT()).ten(ten).trangThai(trangThai).build();
-        kichThuocService.add(kichThuoc);
-
-        return "redirect:/them_sp";
-    }
-
-    @PostMapping("/addMS")
-    public String add(@ModelAttribute("msa") MauSac mauSac,
-                      @RequestParam("ten") String ten,
-                      @RequestParam("p") Optional<Integer> p, Model model) {
-        int trangThai = 1;
-        mauSac = MauSac.builder().ma(mauSacService.generateMaMS()).ten(ten).trangThai(trangThai).build();
-        mauSacService.add(mauSac);
-
-        return "redirect:/them_sp";
-    }
 }

@@ -58,7 +58,7 @@ function spctAll() {
         $.get('/giao_dich/viewOne/?id=' + spctId, function (spct) {
             $('#formAddGH #maSPCT').text(spct.ma);
             $('#formAddGH #ktSPCT').text(spct.kichThuoc.ten);
-            $('#formAddGH #msSPCT').text(spct.mauSac.ten).css('background-color', spct.mauSac.ten);
+            $('#formAddGH #msSPCT').text(' ').css({'background-color': spct.mauSac.ten,'min-height':'10px','min-width':'50px'});
             $('#formAddGH #idSPCT').val(spct.id);
             $('#formAddGH #slGH').val(1);
             $('#spct').modal('hide');
@@ -68,6 +68,7 @@ function spctAll() {
         });
 
     });
+    $('#mauSacSearch').change(updateSelectBackgroundColor);
     $(document).on('change', '.slGH', function () {
         console.log('ok:'+spctId);
         var inputValue = parseFloat($(this).val());
@@ -93,6 +94,11 @@ function spctAll() {
     });
 
 
+}
+function updateSelectBackgroundColor() {
+    var selectedOption = $('#mauSacSearch option:selected');
+    var selectedColor = selectedOption.css('background-color');
+    $('#mauSacSearch').css('background-color', selectedColor);
 }
 function modalHide() {
     $(document).on('click', '.cBtn', function () {
@@ -129,7 +135,7 @@ function filterProducts(danhMucId, kichThuocId, mauSacId, thuongHieuId, page = 0
                                                     <td >${spct.sanPham.thuongHieu.ten}</td>
                                                     <td>${spct.kichThuoc.ten}</td>
                                                     <td>
-                                                        <div class="badge" style="background-color:${spct.mauSac.ten};">${spct.mauSac.ten}</div>
+                                                        <div class="badge" style="background-color:${spct.mauSac.ten};min-height:10px;min-width:50px"> </div>
                                                     </td>
                                                     <td >${spct.sl}</td>
                                                     <td >${giaSPCT}</td>
@@ -177,7 +183,7 @@ function searchProducts(keyword, page = 0) {
                                                     <td >${spct.sanPham.thuongHieu.ten}</td>
                                                     <td>${spct.kichThuoc.ten}</td>
                                                     <td>
-                                                        <div class="badge" style="background-color:${spct.mauSac.ten};">${spct.mauSac.ten}</div>
+                                                        <div class="badge" style="background-color:${spct.mauSac.ten};min-height:10px;min-width:50px"> </div>
                                                     </td>
                                                     <td >${spct.sl}</td>
                                                     <td >${giaSPCT}</td>
@@ -223,7 +229,7 @@ function fetchProducts(page = 0) {
                                                     <td >${spct.sanPham.thuongHieu.ten}</td>
                                                     <td>${spct.kichThuoc.ten}</td>
                                                     <td>
-                                                        <div class="badge" style="background-color:${spct.mauSac.ten};">${spct.mauSac.ten}</div>
+                                                        <div class="badge" style="background-color:${spct.mauSac.ten};min-height:10px;min-width:50px"> </div>
                                                     </td>
                                                     <td >${spct.sl}</td>
                                                     <td >${giaSPCT}</td>
@@ -303,7 +309,7 @@ function messegesCancel() {
 
         Swal.fire({
             title: "Are you sure?",
-            text: "Bạn có đồng ý xác nhận không?",
+            text: "Bạn có chắc xác nhận hủy đơn hàng này?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -315,7 +321,7 @@ function messegesCancel() {
                 Swal.fire({
                     position: "top-end",
                     icon: "success",
-                    title: "Xác nhận đơn hàng thành công",
+                    title: "Xác nhận hủy đơn hàng thành công",
                     showConfirmButton: false,
                     timer: 1500
                 });

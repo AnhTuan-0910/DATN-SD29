@@ -11,6 +11,7 @@ public interface SanPhamCTService {
 
     SanPhamCT getOneByMa(String ma);
 
+    SanPhamCT delete(String idSPCT);
 
     void add(SanPhamCT sanPhamCT);
 

@@ -53,6 +53,16 @@ public interface SanPhamCTRepo extends JpaRepository<SanPhamCT, String> {
             " AND sanPham.id = :sanPhamId ORDER BY spct.ma")
     Page<SanPhamCT> findByMSAndKTSPCT( String kichThuocId, String mauSacId, String sanPhamId, Pageable pageable);
 
+    @Query("SELECT spct FROM SanPhamCT spct " +
+            "JOIN spct.sanPham sanPham " +
+            "JOIN spct.kichThuoc kichThuoc " +
+            "JOIN spct.mauSac mauSac " +
+            "WHERE (:kichThuocId IS NULL OR LOWER(kichThuoc.ten) LIKE LOWER(CONCAT('%', :kichThuocId, '%'))) " +
+            "AND (:mauSacId IS NULL OR LOWER(mauSac.ten) LIKE LOWER(CONCAT('%', :mauSacId, '%'))) " +
+            "AND (:keyword IS NULL OR LOWER(spct.ma) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
+            " AND sanPham.id = :sanPhamId ORDER BY spct.ma")
+    Page<SanPhamCT> filter( String kichThuocId, String mauSacId, String sanPhamId,String keyword, Pageable pageable);
+
 
     @Query("SELECT p FROM SanPhamCT p JOIN p.sanPham sp WHERE LOWER(p.ma) LIKE LOWER(CONCAT('%', :keyword, '%')) AND sp.id = :sanPhamId ORDER BY p.ma")
     Page<SanPhamCT> searchbyKeyWord(String keyword, Pageable pageable);

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/hoa_don_chi_tiet")
+@RequestMapping("")
 public class HoaDonChiTietRestController {
     @Autowired
     private SanPhamCTService sanPhamCTService;

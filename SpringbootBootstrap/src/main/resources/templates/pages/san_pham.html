@@ -56,38 +56,52 @@
 
                 </div>
                 <div class="card-body px-0 pb-0">
-                    <form method="get" style="padding-top: 20px;padding-bottom: 20px">
-                        <div style="margin-left: 15%;margin-right: 15%;height: 70px">
-                            <div style="float: left;margin-left: 70px">
-                                <select class="form-select" style="width: 150px" name="danhMucSearch">
-                                    <option value="">Danh mục</option>
-                                    <option value="1">Đang sử dụng</option>
-                                    <option value="0">Ngừng sử dụng</option>
+                    <form class="row" method="get" style="padding-top: 20px;padding-bottom: 20px" th:action="@{/san_pham/filter}">
+                        <div class="col-md-4" style="text-align: center;height: 70px">
+                            <div style="display: inline-flex">
+                                <label class="col-form-label">Danh mục: </label>
+                                <select class="form-select" name="dm" style="width: 200px;height: 38px;margin-left: 5px">
+                                    <option value="">Tất cả</option>
+                                    <option th:each="dm :${listDM}" th:value="${dm.id}"
+                                            th:text="${dm.ten}"></option>
 
                                 </select>
                             </div>
-                            <div style="float: left;margin-left: 70px">
-                                <select class="form-select" style="width: 150px" name="thuongHieuSearch">
-                                    <option value="">Thương hiệu</option>
-                                    <option value="1">Đang sử dụng</option>
-                                    <option value="0">Ngừng sử dụng</option>
-
+                        </div>
+                        <div class="col-md-4" style="text-align: center;">
+                            <div style="display: inline-flex">
+                                <label class="col-form-label">Thương hiệu: </label>
+                                <select class="form-select" name="th" style="width: 200px;height: 38px;margin-left: 5px">
+                                    <option value="">Tất cả</option>
+                                    <option th:each="th :${listTH}" th:value="${th.id}"
+                                            th:text="${th.ten}"></option>
                                 </select>
                             </div>
-                            <div style="float: left;margin-left: 70px">
-                                <select class="form-select" style="width: 150px" name="trangThaiSearch">
-                                    <option value="">Trạng thái</option>
-                                    <option value="1">Đang sử dụng</option>
-                                    <option value="0">Ngừng sử dụng</option>
-
+                        </div>
+                        <div class="col-md-4" style="text-align: center">
+                            <div style="display: inline-flex">
+                                <label class="col-form-label">Trạng thái: </label>
+                                <select class="form-select" name="trangThai" style="width: 200px;height: 38px;margin-left: 5px">
+                                    <option value="">Tất cả</option>
+                                    <option value="1">Hoạt động</option>
+                                    <option value="0">Ngừng hoạt động</option>
                                 </select>
                             </div>
+                        </div>
+                        <div class="col-md-12" style="text-align: center">
 
+                            <div style="display: inline-flex;padding-right: 5px">
+                                <label class="col-form-label">Mã :  </label>
+                                <input type="text" class="form-control" name="keyword"
+                                       placeholder="Nhập mã sản phẩm"
+                                       style="width: 200px;height: 38px;margin-left: 5px">
+                            </div>
 
                         </div>
 
-                        <div style="margin-left: 40%;margin-right: 40%;">
 
+                        <div style="text-align: center;padding-top: 20px" >
+                            <button class="btn btn-danger" type="submit">Tìm kiếm</button>
                         </div>
                     </form>
                 </div>
@@ -99,22 +113,6 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div style="float: left"><h4 class="card-title">Danh sách sản phẩm</h4></div>
-
-                    <div style="float: right;margin-right: 30px">
-
-                        <form>
-                            <div style="float: right;margin-left: 20px">
-                                <button class="btn btn-danger" type="submit">Tìm kiếm</button>
-
-                            </div>
-                            <div style="float: right"><input name="keyword" class="form-control"
-                                                             style="width: 200px;height: 38px"
-                                                             placeholder="Tìm kiếm">
-                            </div>
-
-
-                        </form>
-                    </div>
                     <div style="float: right">
                         <a style="margin-right: 10px" class="btn btn-primary" href="/san_pham"><i
                                 data-feather="refresh-cw"></i></a>
@@ -241,8 +239,7 @@
                                 </div>
                                 <div class="col-md-6" style="padding-top: 20px">
                                     <label ><b id="lbSuaBoi"></b></label>
-                                    <input id="suaBoi" type="text" name="suaBoi"
-                                           hidden>
+
 
                                 </div>
 

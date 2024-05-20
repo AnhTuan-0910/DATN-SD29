@@ -7,6 +7,7 @@ import com.springboot.bootstrap.entity.KichThuoc;
 import com.springboot.bootstrap.entity.MauSac;
 import com.springboot.bootstrap.entity.SanPham;
 import com.springboot.bootstrap.entity.SanPhamCT;
+import com.springboot.bootstrap.repository.SanPhamCTRepo;
 import com.springboot.bootstrap.service.DanhMucService;
 import com.springboot.bootstrap.service.KichThuocService;
 import com.springboot.bootstrap.service.MauSacService;
@@ -41,6 +42,8 @@ public class SPCTController {
     @Autowired
     private SanPhamCTService sanPhamCTService;
     @Autowired
+    private SanPhamCTRepo sanPhamCTRepo;
+    @Autowired
     private KichThuocService kichThuocService;
     @Autowired
     private MauSacService mauSacService;
@@ -59,6 +62,25 @@ public class SPCTController {
     @GetMapping("/viewDetail/{id}")
     public String getAll(@PathVariable("id") String idSP, @RequestParam("p") Optional<Integer> p, Model model) {
         Page<SanPhamCT> listSPCT = sanPhamCTService.getAllBySP(idSP, PageRequest.of(p.orElse(0), 5));
+        List<KichThuoc> listKT = kichThuocService.findAllByTrangThai();
+        List<MauSac> listMS = mauSacService.findAllByTrangThai();
+        model.addAttribute("idSP", idSP);
+        model.addAttribute("listKT", listKT);
+        model.addAttribute("listMS", listMS);
+        model.addAttribute("listSPCT", listSPCT);
+        model.addAttribute("formatHelper",new FormatHelper());
+        model.addAttribute("base64Image", base64Image);
+        model.addAttribute("qrCodeGenerator", qrCodeGenerator);
+        return "/pages/spct";
+    }
+
+    @GetMapping("/filter")
+    public String filter(@RequestParam(value = "kt",required = false) String idKT,
+                         @RequestParam(value = "ms",required = false) String idMS,
+                         @RequestParam(value = "sp",required = false) String idSP,
+                         @RequestParam(value = "keyword",required = false) String keyword,
+                         @RequestParam("p") Optional<Integer> p, Model model) {
+        Page<SanPhamCT> listSPCT = sanPhamCTRepo.filter(idKT,idMS,idSP,keyword, PageRequest.of(p.orElse(0), 5));
         List<KichThuoc> listKT = kichThuocService.findAllByTrangThai();
         List<MauSac> listMS = mauSacService.findAllByTrangThai();
         model.addAttribute("idSP", idSP);
@@ -102,8 +124,8 @@ public class SPCTController {
                          @RequestParam("maSPCTUpd") String maSP,
                          @RequestParam("idSPCTUpd") String idSPCT,
                          @RequestParam("idSPUpd") String idSP,
-                         @RequestParam("kichThuocUpd") String idKT,
-                         @RequestParam("mauSacUpd") String idMS,
+                         @RequestParam("ktUpd") String idKT,
+                         @RequestParam("msUpd") String idMS,
                          @RequestParam("donGiaUpd") String donGia,
                          @RequestParam("soLuongUpd") String soLuong,
                          @RequestParam("tgTao") String tgTao) {

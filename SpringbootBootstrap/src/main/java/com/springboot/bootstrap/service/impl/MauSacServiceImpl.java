@@ -14,7 +14,7 @@ import java.util.List;
 public class MauSacServiceImpl implements MauSacService {
     @Autowired
     private MauSacRepo mauSacRepo;
-    private static final String ma = "KT";
+    private static final String ma = "MS";
     private static int counter = 0;
 
     @Override

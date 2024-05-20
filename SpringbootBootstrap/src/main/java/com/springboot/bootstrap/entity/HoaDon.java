@@ -49,7 +49,7 @@ public class HoaDon {
     @Column(name = "gia")
     private Double gia;
     @Column(name = "ngay_thanh_toan")
-    private Date ngayThanhToan;
+    private LocalDateTime ngayThanhToan;
     @Column(name = "ngay_ship")
     private Date ngayShip;
     @Column(name = "ngay_nhan")
@@ -63,7 +63,7 @@ public class HoaDon {
     @Column(name = "tao_luc")
     private LocalDateTime taoLuc;
     @Column(name = "sua_luc")
-    private Date suaLuc;
+    private LocalDateTime suaLuc;
     @Column(name = "thanh_pho")
     private String thanhPho;
     @Column(name = "quan_huyen")
@@ -76,9 +76,11 @@ public class HoaDon {
     private Integer hinhThuc;
     @Column(name = "ghi_chu")
     private String ghiChu;
+    @Column(name = "sdt")
+    private String sdt;
     @OneToMany(mappedBy = "hoaDon",cascade = CascadeType.ALL)
     private List<HoaDonChiTiet> listhdct;
-    public HoaDon(KhachHang khachHang, NhanVien nhanVien, String ma, Date ngayThanhToan, Date ngayShip, Date ngayNhan, Integer tinhTrang) {
+    public HoaDon(KhachHang khachHang, NhanVien nhanVien, String ma, LocalDateTime ngayThanhToan, Date ngayShip, Date ngayNhan, Integer tinhTrang) {
         this.khachHang = khachHang;
         this.nhanVien = nhanVien;
         this.ma = ma;

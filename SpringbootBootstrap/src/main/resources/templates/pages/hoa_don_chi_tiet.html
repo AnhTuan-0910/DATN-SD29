@@ -128,13 +128,14 @@
                     <ul class="timeline" id="timeline">
                         <div th:each="hdtl : ${listHoaDonTL}">
                             <li th:class="'li ' + ${hdtl.trangThai==0?'cancel':'complete'}">
-                                <div class="timestamp" >
-                                    <span class="date" th:text="${hdtl.ngayTao!=null?formatDate.formatDateTime(hdtl.ngayTao):''}"></span>
+                                <div class="timestamp">
+                                    <span class="date"
+                                          th:text="${hdtl.ngayTao!=null?formatDate.formatDateTime(hdtl.ngayTao):''}"></span>
                                 </div>
                                 <div class="status" th:switch="${hdtl.trangThai}">
                                     <h5 th:case="0" th:text="${hoaDon.hinhThuc==1?'Thất bại':'Đã hủy'}"></h5>
                                     <h5 th:case="1">Chờ xác nhận</h5>
-                                    <h5 th:case="2">Chờ lấy hàng</h5>
+                                    <h5 th:case="2">Đang xử lý</h5>
                                     <h5 th:case="3">Đang vận chuyển</h5>
                                     <h5 th:case="4">Hoàn thành</h5>
                                     <h5 th:case="5">Chờ thanh toán</h5>
@@ -146,22 +147,33 @@
                 </div>
                 <div class="card-body px-0 pb-0 btnTL">
                     <div class="d-inline-block mr-4" th:if="${hoaDon.hinhThuc==1}" th:switch="${hoaDon.tinhTrang}">
-                        <button th:case="1" class="btn btn-outline-success" type="submit"  data-bs-toggle="modal" data-bs-target="#nextTTShipModal"><i data-feather="check"></i> Xác nhận
+                        <button th:case="1" class="btn btn-outline-success" type="submit" data-bs-toggle="modal"
+                                data-bs-target="#nextTTShipModal"><i data-feather="check"></i> Xác nhận
                         </button>
-                        <button th:case="2" class="btn btn-outline-success" type="submit"  data-bs-toggle="modal" data-bs-target="#nextTTModal"><i data-feather="truck"></i> Giao hàng
+                        <button th:case="2" class="btn btn-outline-success" type="submit" data-bs-toggle="modal"
+                                data-bs-target="#nextTTModal"><i data-feather="truck"></i> Giao hàng
                         </button>
-                        <button th:case="3" class="btn btn-outline-success" type="submit"  data-bs-toggle="modal" data-bs-target="#nextTTModal"><i data-feather="check"></i> Hoàn tất
+                        <button th:case="3" class="btn btn-outline-success" type="submit" data-bs-toggle="modal"
+                                data-bs-target="#nextTTModal"><i data-feather="check"></i> Hoàn tất
                         </button>
 
                     </div>
-                    <div class="d-inline-block" th:if="${hoaDon.hinhThuc==1}"  th:switch="${hoaDon.tinhTrang}" >
-                        <button  th:case="1" class="btn btn-outline-danger" type="submit" data-bs-toggle="modal" data-bs-target="#cancelTTModal"><i data-feather="x"></i> Hủy</button>
-                        <button  th:case="2" class="btn btn-outline-danger" type="submit" data-bs-toggle="modal" data-bs-target="#cancelTTModal"><i data-feather="x"></i> Hủy</button>
-                        <button  th:case="3" class="btn btn-outline-danger" type="submit" data-bs-toggle="modal" data-bs-target="#cancelTTModal"><i data-feather="x"></i> Thất bại</button>
+                    <div class="d-inline-block" th:if="${hoaDon.hinhThuc==1}" th:switch="${hoaDon.tinhTrang}">
+                        <button th:case="1" class="btn btn-outline-danger" type="submit" data-bs-toggle="modal"
+                                data-bs-target="#cancelTTModal"><i data-feather="x"></i> Hủy
+                        </button>
+                        <button th:case="2" class="btn btn-outline-danger" type="submit" data-bs-toggle="modal"
+                                data-bs-target="#cancelTTModal"><i data-feather="x"></i> Hủy
+                        </button>
+                        <button th:case="3" class="btn btn-outline-danger" type="submit" data-bs-toggle="modal"
+                                data-bs-target="#cancelTTModal"><i data-feather="x"></i> Thất bại
+                        </button>
 
                     </div>
-                    <div class="d-inline-block" style="float: right" >
-                        <button class="btn btn-outline-warning" type="submit" data-bs-toggle="modal" data-bs-target="#TLDonHang"><i data-feather="clipboard"></i> Lịch sử đơn hàng</button>
+                    <div class="d-inline-block" style="float: right">
+                        <button class="btn btn-outline-warning" type="submit" data-bs-toggle="modal"
+                                data-bs-target="#TLDonHang"><i data-feather="clipboard"></i> Lịch sử đơn hàng
+                        </button>
 
                     </div>
                 </div>
@@ -182,22 +194,34 @@
                             <p>Mã: <span th:text="${hoaDon.ma}"></span></p>
                         </div>
                         <div class="col-md-4" style="padding-left: 20px">
-                            <p>Khách Hàng : <span th:text="${hoaDon.khachHang!=null?hoaDon.khachHang.ten:'Khách lẻ'}"></span></p>
+                            <p>Khách Hàng : <span
+                                    th:text="${hoaDon.khachHang!=null?hoaDon.khachHang.ten:'Khách lẻ'}"></span></p>
                         </div>
                         <div class="col-md-4" style="padding-left: 20px" th:switch="${hoaDon.tinhTrang}">
                             Trạng thái:
                             <span th:case="0" class="badge bg-danger">Đã huỷ</span>
                             <span th:case="1" class="badge bg-blue">Chờ xác nhận</span>
-                            <span th:case="2" class="badge bg-blue">Chờ giao hàng</span>
+                            <span th:case="2" class="badge bg-blue">Đang xử lý</span>
                             <span th:case="3" class="badge bg-blue">Đang vận chuyển</span>
                             <span th:case="4" class="badge bg-success">Hoàn thành</span>
                             <span th:case="5" class="badge bg-blue">Chờ thanh toán</span>
                         </div>
                         <div th:if="${hoaDon.khachHang!=null}" class="col-md-4" style="padding-left: 20px">
-                            <p>SDT : <span th:text="${hoaDon.khachHang?.sdt}"></span></p>
+                            <p>SDT : <span th:text="${hoaDon.sdt}"></span></p>
                         </div>
                         <div class="col-md-4" style="padding-left: 20px">
                             <p>Hình thức : <span th:text="${hoaDon.hinhThuc==0?'Tại quầy':'Online'}"></span></p>
+                        </div>
+                        <div class="col-md-4" style="padding-left: 20px">
+                        </div>
+                        <div th:if="${hoaDon.hinhThuc==1}" class="col-md-6" style="padding-left: 20px">
+                            <p>Địa chỉ : <span
+                                    th:text="${hoaDon.diaChi} +' - '+${hoaDon.phuongXa} +' - '+${hoaDon.quanHuyen}+' - '+${hoaDon.thanhPho}"></span>
+                            </p>
+                        </div>
+                        <div th:if="${hoaDon.hinhThuc==1}" class="col-md-6" style="padding-left: 20px">
+                            <p>Ghi chú : <span th:text="${hoaDon.ghiChu}"></span></p>
+
                         </div>
                     </div>
                 </div>
@@ -219,13 +243,11 @@
                 </div>
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">
-                        <table class='table mb-0' >
+                        <table class='table mb-0'>
                             <thead>
                             <tr>
                                 <th>Mã sản phẩm</th>
-                                <th>Tên sản phẩm</th>
-                                <th>Màu sắc</th>
-                                <th>Size</th>
+                                <th>Sản phẩm</th>
                                 <th>Số lượng</th>
                                 <th>Giá</th>
                                 <th th:if="${hoaDon.tinhTrang==1&&hoaDon.hinhThuc==1}">Action</th>
@@ -233,19 +255,39 @@
                             </thead>
                             <tbody>
                             <tr th:each="hoadonchitiet:${listHoaDonChiTiet}">
-                                <form id="formSuaSPCT" th:action="@{/hoa_don/updateSPCTTL/{idhdct}(idhdct=${hoadonchitiet.idHoaDonChiTiet})}" method="post">
+                                <form id="formSuaSPCT"
+                                      th:action="@{/hoa_don/updateSPCTTL/{idhdct}(idhdct=${hoadonchitiet.idHoaDonChiTiet})}"
+                                      method="post">
                                     <td th:text="${hoadonchitiet.sanPhamChiTiet}?${hoadonchitiet.sanPhamChiTiet.ma}:''"></td>
-                                    <td th:text="${hoadonchitiet.sanPhamChiTiet}?${hoadonchitiet.sanPhamChiTiet.sanPham.ten}:''"></td>
-                                    <td >
-                                    <span class="badge"
-                                          th:style="'background-color:'+${hoadonchitiet.sanPhamChiTiet.mauSac.ten}"
-                                          th:text="${hoadonchitiet.sanPhamChiTiet}?${hoadonchitiet.sanPhamChiTiet.mauSac.ten}:''"></span>
+                                    <td class="row">
+                                        <div class="col-md-4">
+                                            <img style="max-height: 100px;max-width: 100px;min-height: 100px;min-width: 100px"
+                                                 th:src="'data:image/jpeg;base64,'+ ${base64Image.bytesToBase64(mapAnhSanPham[hoadonchitiet.sanPhamChiTiet.sanPham.id].data)}"
+                                                 alt="Product image">
+                                        </div>
+                                        <div class="col-md-8" style="padding-left: 15px">
+
+                                            <div><span th:text="${hoadonchitiet.sanPhamChiTiet.sanPham.ten}"></span>
+                                            </div>
+                                            <div><span
+                                                    th:text="'size:'+${hoadonchitiet.sanPhamChiTiet.kichThuoc.ten}"></span>
+                                            </div>
+                                            <div>
+                                                <p>color:
+                                                    <span class="badge "
+                                                          th:style="'background-color:'+${hoadonchitiet.sanPhamChiTiet.mauSac.ten}+';min-height: 10px;min-width: 50px'">
+                                                           </span>
+                                                </p>
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td th:text="${hoadonchitiet.sanPhamChiTiet}?${hoadonchitiet.sanPhamChiTiet.kichThuoc.ten}:''"></td>
                                     <td th:switch="${hoaDon.tinhTrang}">
                                         <span th:case="0" th:text="${hoadonchitiet.soLuong}"></span>
-                                        <input th:case="1" th:value="${hoadonchitiet.soLuong}" class="form-control" type="number"
-                                               name="soLuong" min="1" th:max="${hoadonchitiet.sanPhamChiTiet.sl+hoadonchitiet.soLuong}" style="width: 70px"
+                                        <input th:case="1" th:value="${hoadonchitiet.soLuong}" class="form-control"
+                                               type="number"
+                                               name="soLuong" min="1"
+                                               th:max="${hoadonchitiet.sanPhamChiTiet.sl+hoadonchitiet.soLuong}"
+                                               style="width: 70px"
                                                step="1" onchange="checkInput(this)"
                                         >
                                         <span th:case="2" th:text="${hoadonchitiet.soLuong}"></span>
@@ -253,12 +295,15 @@
                                         <span th:case="4" th:text="${hoadonchitiet.soLuong}"></span>
                                     </td>
                                     <td th:text="${formatHelper.formatCurrency(hoadonchitiet.gia*hoadonchitiet.soLuong)}+' VNĐ'"></td>
-                                    <td  th:if="${hoaDon.hinhThuc==1&&hoaDon.tinhTrang==1}">
+                                    <td th:if="${hoaDon.hinhThuc==1&&hoaDon.tinhTrang==1}">
                                         <div class="d-inline-block">
-                                            <button id="btnSuaSPCT" class="btn btn-outline-primary" type="submit"><i data-feather="edit"></i></button>
+                                            <button id="btnSuaSPCT" class="btn btn-outline-primary" type="submit"><i
+                                                    data-feather="edit"></i></button>
                                         </div>
                                         <div class="d-inline-block">
-                                            <a id="btnXoaSPCT" th:href="@{/hoa_don/deleteSPCTTL/{idhdct}(idhdct=${hoadonchitiet.idHoaDonChiTiet})}" class="btn btn-outline-danger"><i data-feather="trash"></i></a>
+                                            <a id="btnXoaSPCT"
+                                               th:href="@{/hoa_don/deleteSPCTTL/{idhdct}(idhdct=${hoadonchitiet.idHoaDonChiTiet})}"
+                                               class="btn btn-outline-danger"><i data-feather="trash"></i></a>
 
                                         </div>
                                     </td>
@@ -296,22 +341,29 @@
                     <div style="display: flex;flex-wrap: wrap">
                         <div style="width: 50%;padding-left: 20px">
                             <div>
-                                <p>Voucher : <span th:text="${hoaDon.phieuGiamGia==null?'':hoaDon.phieuGiamGia.ma}"></span></p>
+                                <p>Voucher : <span
+                                        th:text="${hoaDon.phieuGiamGia==null?'':hoaDon.phieuGiamGia.ma}"></span></p>
                             </div>
                             <div>
-                                <p>Giá trị giảm : <span th:text="${formatHelper.formatCurrency(hoaDon.gia-hoaDon.thanhTien)}+' VNĐ'"></span></p>
+                                <p>Giá trị giảm : <span
+                                        th:text="${hoaDon.tienShip==null?formatHelper.formatCurrency(hoaDon.gia-hoaDon.thanhTien):formatHelper.formatCurrency(hoaDon.gia-hoaDon.thanhTien+hoaDon.tienShip)}+' VNĐ'"></span>
+                                </p>
                             </div>
                         </div>
                         <div style="width: 50%;padding-left: 20px">
                             <div>
-                                <p>Tổng tiền : <span th:text="${formatHelper.formatCurrency(hoaDon.gia)}+' VNĐ'"></span></p>
+                                <p>Tổng tiền : <span th:text="${formatHelper.formatCurrency(hoaDon.gia)}+' VNĐ'"></span>
+                                </p>
                             </div>
 
                             <div th:if="${hoaDon.tienShip!=null}">
-                                <p>Giá ship : <span th:text="${formatHelper.formatCurrency(hoaDon.tienShip)}+' VNĐ'"></span></p>
+                                <p>Giá ship : <span
+                                        th:text="${formatHelper.formatCurrency(hoaDon.tienShip)}+' VNĐ'"></span></p>
                             </div>
-                            <div >
-                                <p >Thành tiền : <span style="color: red" th:text="${formatHelper.formatCurrency(hoaDon.thanhTien)}+' VNĐ'"></span></p>
+                            <div>
+                                <p>Thành tiền : <span style="color: red"
+                                                      th:text="${formatHelper.formatCurrency(hoaDon.thanhTien)}+' VNĐ'"></span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -334,12 +386,12 @@
                     <form id="formXNTL" th:action="@{/hoa_don/confirm/{id}(id=${hoaDon.idHoaDon})}" method="post">
 
                         <div class="mb-3">
-                            <label  class="col-form-label">Mô tả:</label>
-                            <textarea name="moTa" id="moTaXN" class="form-control" ></textarea>
+                            <label class="col-form-label">Mô tả:</label>
+                            <textarea name="moTa" id="moTaXN" class="form-control"></textarea>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                            <button type="submit"  id="btnXNTL" class="btn btn-primary">Xác nhận</button>
+                            <button type="submit" id="btnXNTL" class="btn btn-primary">Xác nhận</button>
                         </div>
                     </form>
 
@@ -358,15 +410,16 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formXNShipTL" th:action="@{/hoa_don/confirm/ship/{id}(id=${hoaDon.idHoaDon})}" method="post">
+                    <form id="formXNShipTL" th:action="@{/hoa_don/confirm/ship/{id}(id=${hoaDon.idHoaDon})}"
+                          method="post">
                         <div class="mb-3">
-                            <label  class="col-form-label">Giá  ship</label>
-                            <input name="giaShip" id="giaShip" type="text" class="form-control" >
+                            <label class="col-form-label">Giá ship</label>
+                            <input name="giaShip" id="giaShip" type="text" class="form-control">
                         </div>
 
                         <div class="mb-3">
-                            <label  class="col-form-label">Mô tả:</label>
-                            <textarea name="moTa" id="moTaXNShip" class="form-control" ></textarea>
+                            <label class="col-form-label">Mô tả:</label>
+                            <textarea name="moTa" id="moTaXNShip" class="form-control"></textarea>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -392,8 +445,8 @@
                 <div class="modal-body">
                     <form id="formCancelTL" th:action="@{/hoa_don/cancel/{id}(id=${hoaDon.idHoaDon})}" method="post">
                         <div class="mb-3">
-                            <label  class="col-form-label">Mô tả:</label>
-                            <textarea name="moTa" id="moTaCancel" class="form-control" ></textarea>
+                            <label class="col-form-label">Mô tả:</label>
+                            <textarea name="moTa" id="moTaCancel" class="form-control"></textarea>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -409,7 +462,7 @@
     <div class="modalTableSPCT">
         <div class="modal fade" id="spct" tabindex="-1" aria-labelledby="label"
              aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 style="color: black" class="modal-title fs-5" id="label"><i
@@ -427,12 +480,13 @@
 
                                     </div>
                                     <div class="card-body px-0 pb-0">
-                                        <form id="formFilter"
-                                              style="padding-top: 20px;padding-bottom: 20px">
-                                            <div style="margin-left: 1%;margin-right: 1%;height: 70px">
-                                                <div style="float: left;margin-left: 60px">
-                                                    <label class="form-label">Kích thước</label>
-                                                    <select class="form-select" style="width: 150px"
+                                        <form id="formFilter" class="row"
+                                              style="padding-top: 20px;padding-bottom: 20px;text-align: center">
+                                            <div class="col-md-3" style="text-align: center;height: 70px">
+                                                <div style="display: inline-flex">
+                                                    <label class="col-form-label">Kích thước:</label>
+                                                    <select class="form-select"
+                                                            style="width: 150px;height: 38px;margin-left: 5px"
                                                             id="kichThuocSearch"
                                                             name="kichThuocSearch">
                                                         <option value="">Tất cả</option>
@@ -441,34 +495,44 @@
 
                                                     </select>
                                                 </div>
-                                                <div style="float: left;margin-left: 30px">
-                                                    <label class="form-label">Màu sắc</label>
-                                                    <select class="form-select" style="width: 150px"
+
+                                            </div>
+                                            <div class="col-md-3" style="text-align: center;height: 70px">
+                                                <div style="display: inline-flex">
+                                                    <label class="col-form-label">Màu sắc:</label>
+                                                    <select class="form-select"
+                                                            style="width: 150px;height: 38px;margin-left: 5px"
                                                             id="mauSacSearch"
                                                             name="mauSacSearch">
                                                         <option value="">Tất cả</option>
                                                         <option th:each="ms :${listMS}" th:value="${ms.ten}"
                                                                 th:style="'background-color:'+${ms.ten}"
-                                                                th:text="${ms.ten}"></option>
+                                                        ></option>
 
 
                                                     </select>
                                                 </div>
-                                                <div style="float: left;margin-left: 30px">
-                                                    <label class="form-label">Danh mục</label>
-                                                    <select class="form-select" style="width: 150px"
+
+                                            </div>
+                                            <div class="col-md-3" style="text-align: center;height: 70px">
+                                                <div style="display: inline-flex">
+                                                    <label class="col-form-label">Danh mục :</label>
+                                                    <select class="form-select"
+                                                            style="width: 150px;height: 38px;margin-left: 5px"
                                                             id="danhMucSearch"
                                                             name="danhMucSearch">
                                                         <option value="">Tất cả</option>
                                                         <option th:each="dm :${listDM}" th:value="${dm.ten}"
                                                                 th:text="${dm.ten}"></option>
-
-
                                                     </select>
                                                 </div>
-                                                <div style="float: left;margin-left: 30px">
-                                                    <label class="form-label">Thương hiệu</label>
-                                                    <select class="form-select" style="width: 150px"
+
+                                            </div>
+                                            <div class="col-md-3" style="text-align: center;height: 70px">
+                                                <div style="display: inline-flex">
+                                                    <label class="col-form-label">Thương hiệu: </label>
+                                                    <select class="form-select"
+                                                            style="width: 150px;height: 38px;margin-left: 5px"
                                                             id="thuongHieuSearch"
                                                             name="thuongHieuSearch">
                                                         <option value="">Tất cả</option>
@@ -479,13 +543,13 @@
                                                     </select>
                                                 </div>
 
-
                                             </div>
 
-                                            <div style="margin-left: 46%;margin-right: 40%;padding-top: 20px">
+                                            <div class="col-md-12" style="padding-top: 20px">
                                                 <button type="submit" class="btn btn-outline-primary">Lọc
                                                 </button>
                                             </div>
+
                                         </form>
                                     </div>
                                 </div>
@@ -600,11 +664,11 @@
                                            name="idhd" hidden>
                                     <span id="maSPCT"></span></td>
                                 <td><span id="ktSPCT"></span></td>
-                                <td><span class="badge" id="msSPCT"></span></td>
-                                <td><input  id="slGH"  name="soLuong" class="form-control slGH"
-                                            style="width: 70px" type="number"
-                                            min="1"
-                                            value="1"/>
+                                <td><span class="badge" id="msSPCT">  </span></td>
+                                <td><input id="slGH" name="soLuong" class="form-control slGH"
+                                           style="width: 70px" type="number"
+                                           min="1"
+                                           value="1"/>
                                 </td>
                             </tr>
 
@@ -644,7 +708,7 @@
                         <tr>
                             <th>STT</th>
                             <th>Trạng thái</th>
-                            <th>Ngày </th>
+                            <th>Ngày</th>
                             <th>Người thực hiện</th>
                             <th>Mô tả</th>
 
@@ -657,7 +721,7 @@
                             <td th:switch="${hdtl.trangThai}">
                                 <span th:case="0" th:text="${hoaDon.hinhThuc==1?'Thất bại':'Đã hủy'}"></span>
                                 <span th:case="1">Chờ xác nhận</span>
-                                <span th:case="2">Chờ lấy hàng</span>
+                                <span th:case="2">Đang xử lý</span>
                                 <span th:case="3">Đang vận chuyển</span>
                                 <span th:case="4">Hoàn thành</span>
                                 <span th:case="5">Chờ thanh toán</span>

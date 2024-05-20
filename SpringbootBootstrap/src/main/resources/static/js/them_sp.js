@@ -4,6 +4,7 @@ $(document).ready(function () {
     renderMS();
     renderKT();
     validDMandTH();
+    deleteSPCT();
     $("#formAddSP").submit(function (e) {
         e.preventDefault();
         var formData = new FormData();
@@ -205,7 +206,83 @@ function validDMandTH() {
                 $("#fAddDM").submit();
                 Swal.fire({
                     title: "Thành công!",
-                    text: "Đã tạo sản phẩm thành công.",
+                    text: "Đã tạo danh mục mới thành công.",
+                    icon: "success"
+                });
+            }
+        });
+
+    });
+
+    $(document).on('click', '#btnThemKT', function (e) {
+        e.preventDefault();
+
+        var tenTH = $('#tenKT').val();
+        if (tenTH.trim() === "") {
+            e.preventDefault();
+            Swal.fire({
+                title: "Error!",
+                text: "Vui lòng nhập tên cho kích thước",
+                icon: "warning",
+
+            });
+            return;
+        }
+
+
+        $("#fAddKT").off("submit");
+        Swal.fire({
+            title: "Tạo danh mục?",
+            text: "Bạn có chắc muốn tạo 1 kích thước mới?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Có,tôi chắc chắn"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $("#fAddKT").submit();
+                Swal.fire({
+                    title: "Thành công!",
+                    text: "Đã tạo kích thước mới thành công.",
+                    icon: "success"
+                });
+            }
+        });
+
+    });
+
+    $(document).on('click', '#btnThemMS', function (e) {
+        e.preventDefault();
+
+        var tenDM = $('#tenMS').val();
+        if (tenDM.trim() === "") {
+            e.preventDefault();
+            Swal.fire({
+                title: "Error!",
+                text: "Vui lòng nhập tên cho màu sắc",
+                icon: "warning",
+
+            });
+            return;
+        }
+
+        e.preventDefault();
+        $("#fAddMS").off("submit");
+        Swal.fire({
+            title: "Tạo danh mục?",
+            text: "Bạn có chắc muốn tạo 1 màu sắc mới?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Có,tôi chắc chắn"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $("#fAddMS").submit();
+                Swal.fire({
+                    title: "Thành công!",
+                    text: "Đã tạo màu sắc mới thành công.",
                     icon: "success"
                 });
             }
@@ -243,7 +320,7 @@ function validDMandTH() {
                 $("#fAddTH").submit();
                 Swal.fire({
                     title: "Thành công!",
-                    text: "Đã tạo thương hiệu thành công.",
+                    text: "Đã tạo thương hiệu mới thành công.",
                     icon: "success"
                 });
             }
@@ -300,12 +377,12 @@ function addSPCT(response, page = 0) {
                                 <td> ${index + 1} </td>
                                 <td> ${spct.sanPham.ten} </td>
                                 <td> ${spct.kichThuoc.ten} </td>
-                                <td> <span class="badge" style="background-color: ${spct.mauSac.ten}">${spct.mauSac.ten}</span> </td>
+                                <td> <span class="badge" style="background-color: ${spct.mauSac.ten};min-height: 10px;min-width: 50px"> </span> </td>
                                 <td><input type="text" value="${savedData.sl}"  name="sl" class="form-control soLuong"></td>
                                 <td><input type="text" value="${savedData.gia}"  name="gia" class="form-control donGia"></td>
                                
                                 <td>
-                                 <a class="btn btn-outline-danger"><i data-feather="trash-2"></i></a>
+                                 <a href="/them_sp/deleteSPCT/${spct.id}" class="btn btn-outline-danger deleteSPCT"><i data-feather="trash-2"></i></a>
                                 </td> 
                                 <td>
                                 <input type="hidden" value="${spct.id}" name="idSPCT">
@@ -331,6 +408,42 @@ function addSPCT(response, page = 0) {
 
 
 }
+function deleteSPCT() {
+    $(document).on('click', '.deleteSPCT', function (event) {
+        event.preventDefault();
+        var href = $(this).attr('href');
+        var row = $(this).closest('tr');
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Bạn có muốn xóa biến thể này không?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'GET',
+                    url: href,
+                    success: function (response) {
+                        row.remove();
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Bạn vừa xóa thành công 1 biến thể",
+                            icon: "success"
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+        });
+
+
+    })
+};
 
 
 function getIdMSArray() {
@@ -445,7 +558,7 @@ function renderMS() {
         var item = $(this).data('item');
         if (selectedItems.indexOf(item) === -1) {
             selectedItems.push(item);
-            $('#selectedMS').append('<div class="btn btn-outline-secondary selected-itemMS " style="margin-top: 5px;background-color:' + item + '" data-item="' + item + '" >' + item + '<i style="padding-left: 5px" data-feather="x"></i><input name="idms" value="' + id + '" hidden></div> &nbsp;');
+            $('#selectedMS').append('<div class="btn btn-outline-secondary selected-itemMS " style="margin-top: 5px;min-width: 60px;background-color:' + item + '" data-item="' + item + '" ><i style="padding-left: 5px" data-feather="x"></i><input name="idms" value="' + id + '" hidden></div> &nbsp;');
             $(this).attr('disabled', true);
             feather.replace();
         } else {

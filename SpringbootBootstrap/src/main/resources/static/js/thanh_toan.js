@@ -4,19 +4,33 @@ $(document).ready(function () {
     var maHD = firstTab.data('hd-ma');
     spctAll(maHD)
 
+    $('#mauSacSearch'+maHD).on('change',function () {
+        updateSelectBackgroundColor(maHD);
+    });
     $('button[data-bs-toggle="tab"]').on('click', function () {
-         maHD = $(this).data('hd-ma');
+        maHD = $(this).data('hd-ma');
         console.log(maHD);
-     spctAll(maHD);
+        spctAll(maHD);
 
     });
 
-    createChart("myChart1","http://localhost:8080/home/x","http://localhost:8080/home/y-so-don-hang","Biểu đồ Số đơn hàng");
-    createChart("myChart2","http://localhost:8080/home/x","http://localhost:8080/home/y-so-san-pham","Biểu đồ Số sản phẩm đã bán");
-    createChart("myChart3","http://localhost:8080/home/x","http://localhost:8080/home/y-doanh-thu","Biểu đồ Doanh Thu");
+    createChart("myChart1", "http://localhost:8080/home/x", "http://localhost:8080/home/y-so-don-hang", "Biểu đồ Số đơn hàng");
+    createChart("myChart2", "http://localhost:8080/home/x", "http://localhost:8080/home/y-so-san-pham", "Biểu đồ Số sản phẩm đã bán");
+    createChart("myChart3", "http://localhost:8080/home/x", "http://localhost:8080/home/y-doanh-thu", "Biểu đồ Doanh Thu");
 });
 
-function createChart(chartId,xApi,yApi,ten){
+function updateSelectBackgroundColor(maHD) {
+    var selectedOption = $('#mauSacSearch'+maHD+' option:selected');
+    var selectedColor = selectedOption.css('background-color');
+    $('#mauSacSearch'+maHD).css('background-color', selectedColor);
+}
+function formatCurrency(value) {
+    var number = Number(value);
+    var formattedNumber = number.toLocaleString('vi-VN', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    return formattedNumber + ' VNĐ';
+}
+
+function createChart(chartId, xApi, yApi, ten) {
     var x = [];
     var y = [];
     const urlParams = new URLSearchParams(window.location.search);
@@ -29,6 +43,8 @@ function createChart(chartId,xApi,yApi,ten){
     if (den==null){
         den=" ";
     }
+    console.log("tu:"+tu);
+    console.log("den"+den);
     fetch(`${xApi}?thoiGian=${thoiGian}&tuNgay=${tu}&denNgay=${den}`)
         .then(response => response.json())
         .then(data => {
@@ -58,7 +74,7 @@ function createChartWithData(chartId, x, y, ten) {
                 display: true,
                 text: ten
             },
-            legend: { display: false },
+            legend: {display: false},
             scales: {
                 yAxes: [{
                     ticks: {
@@ -73,31 +89,31 @@ function createChartWithData(chartId, x, y, ten) {
 function spctAll(maHD) {
     var isSearching = false;
     var isFillter = false;
-    fetchProducts(maHD,0);
+    fetchProducts(maHD, 0);
     //filter
-    $('#formFilter'+maHD+'').submit(function (e) {
+    $('#formFilter' + maHD + '').submit(function (e) {
         e.preventDefault();
-        var idKichThuoc = $('#kichThuocSearch'+maHD+'').val();
-        var idMauSac = encodeURIComponent($('#mauSacSearch'+maHD+'').val());
-        var idDanhMuc = $('#danhMucSearch'+maHD+'').val();
-        var idThuongHieu = $('#thuongHieuSearch'+maHD+'').val();
-        filterProducts(maHD,idDanhMuc, idKichThuoc, idMauSac, idThuongHieu, 0);
+        var idKichThuoc = $('#kichThuocSearch' + maHD + '').val();
+        var idMauSac = encodeURIComponent($('#mauSacSearch' + maHD + '').val());
+        var idDanhMuc = $('#danhMucSearch' + maHD + '').val();
+        var idThuongHieu = $('#thuongHieuSearch' + maHD + '').val();
+        filterProducts(maHD, idDanhMuc, idKichThuoc, idMauSac, idThuongHieu, 0);
         isFillter = true;
     });
     //search trong modal
-    $('#formSearch'+maHD+'').submit(function (e) {
+    $('#formSearch' + maHD + '').submit(function (e) {
         e.preventDefault();
-        var keyword = $('#keyword'+maHD+'').val();
-        searchProducts(maHD,keyword, 0);
+        var keyword = $('#keyword' + maHD + '').val();
+        searchProducts(maHD, keyword, 0);
         isSearching = true;
     });
 
     //search ngoài modal
-    $('#formSearchMaSPCT'+maHD+'').submit(function (e) {
+    $('#formSearchMaSPCT' + maHD + '').submit(function (e) {
         e.preventDefault();
-        var keyword = $('#maSPCTSearch'+maHD+'').val();
+        var keyword = $('#maSPCTSearch' + maHD + '').val();
         if (keyword.trim() !== '') {
-            searchByMaSPCT(maHD,keyword);
+            searchByMaSPCT(maHD, keyword);
         } else {
             Swal.fire({
                 title: "Vui lòng nhập dữ liệu tìm kiếm",
@@ -114,45 +130,68 @@ function spctAll(maHD) {
         event.preventDefault();
         var page = $(this).data('page');
         if (isSearching) {
-            searchProducts(maHD,$('#keyword'+maHD+'').val(), page);
+            searchProducts(maHD, $('#keyword' + maHD + '').val(), page);
         } else if (isFillter) {
-            filterProducts(maHD,$('#danhMucSearch'+maHD+'').val(), $('#kichThuocSearch'+maHD+'').val(), encodeURIComponent($('#mauSacSearch'+maHD+'').val()), $('#thuongHieuSearch'+maHD+'').val(), page);
+            filterProducts(maHD, $('#danhMucSearch' + maHD + '').val(), $('#kichThuocSearch' + maHD + '').val(), encodeURIComponent($('#mauSacSearch' + maHD + '').val()), $('#thuongHieuSearch' + maHD + '').val(), page);
         } else {
-            fetchProducts(maHD,page);
+            fetchProducts(maHD, page);
         }
 
 
     });
-
+    var spctId ='';
     $(document).on('click', '.aBtn', function () {
-        var spctId = $(this).data('id');
+         spctId = $(this).data('id');
         console.log(spctId);
         $.get('/giao_dich/viewOne/?id=' + spctId, function (spct) {
-            $('#formAddGH'+maHD+' #maSPCT'+maHD+'').text(spct.ma);
-            $('#formAddGH'+maHD+' #ktSPCT'+maHD+'').text(spct.kichThuoc.ten);
-            $('#formAddGH'+maHD+' #msSPCT'+maHD+'').text(spct.mauSac.ten).css('background-color', spct.mauSac.ten);
-            $('#formAddGH'+maHD+' #idSPCT'+maHD+'').val(spct.id);
-            $('#formAddGH'+maHD+' #slGH'+maHD+'').val(1);
-            $('#spct'+maHD+'').modal('hide');
-            $('#addGH'+maHD+'').modal('show');
+            $('#formAddGH' + maHD + ' #maSPCT' + maHD + '').text(spct.ma);
+            $('#formAddGH' + maHD + ' #ktSPCT' + maHD + '').text(spct.kichThuoc.ten);
+            $('#formAddGH' + maHD + ' #msSPCT' + maHD + '').text(' ').css({'background-color': spct.mauSac.ten,'min-height':'10px','min-width':'50px'});
+            $('#formAddGH' + maHD + ' #idSPCT' + maHD + '').val(spct.id);
+            $('#formAddGH' + maHD + ' #slGH' + maHD + '').val(1);
+            $('#spct' + maHD + '').modal('hide');
+            $('#addGH' + maHD + '').modal('show');
             modalHide(maHD);
 
         });
 
     });
+    $(document).on('change', '.slGH'+maHD+'', function () {
+        console.log('ok:'+spctId);
+        var inputValue = parseFloat($(this).val());
+        $.get('/giao_dich/viewOne/?id=' + spctId, function (spct) {
+            var maxValue = parseFloat(spct.sl);
+            console.log("slM:"+maxValue);
+            console.log("sl:"+inputValue);
 
+            var newValue;
+            if (isNaN(inputValue) || inputValue < 0) {
+                newValue = 1;
+            } else if (inputValue > maxValue) {
+                newValue = maxValue;
+            } else {
+                newValue = inputValue; // Giữ nguyên giá trị nếu nó hợp lệ
+            }
+
+            // Gán giá trị mới cho ô input
+            $(this).val(newValue);
+            console.log("sl:"+newValue);
+        }.bind(this)); // Chuyển context của function bên trong $.get sang context của sự kiện change
+
+    });
 
 }
+
 function modalHide(maHD) {
     $(document).on('click', '.cBtn', function () {
-        $('#spct'+maHD+'').modal('show');
-        $('#addGH'+maHD+'').modal('hide');// Hiển thị lại modal đầu tiên khi modal thứ hai ẩn
+        $('#spct' + maHD + '').modal('show');
+        $('#addGH' + maHD + '').modal('hide');// Hiển thị lại modal đầu tiên khi modal thứ hai ẩn
     });
 
 }
 
 //hàm filter
-function filterProducts(maHD,danhMucId, kichThuocId, mauSacId, thuongHieuId, page = 0) {
+function filterProducts(maHD, danhMucId, kichThuocId, mauSacId, thuongHieuId, page = 0) {
 
 
     var url = '/giao_dich/filter?danhMucSearch=' + danhMucId +
@@ -165,9 +204,10 @@ function filterProducts(maHD,danhMucId, kichThuocId, mauSacId, thuongHieuId, pag
         url: url,
         success: function (data) {
             if (data) {
-                $('#table1'+maHD+' tbody').empty();
+                $('#table1' + maHD + ' tbody').empty();
                 $.each(data.content, function (index, spct) {
-                    $('#table1'+maHD+' tbody').append(`
+                    var giaSPCT = formatCurrency(spct.gia);
+                    $('#table1' + maHD + ' tbody').append(`
    
                                                 <tr>
                                                    
@@ -177,16 +217,16 @@ function filterProducts(maHD,danhMucId, kichThuocId, mauSacId, thuongHieuId, pag
                                                     <td >${spct.sanPham.thuongHieu.ten}</td>
                                                     <td>${spct.kichThuoc.ten}</td>
                                                     <td>
-                                                        <div class="badge" style="background-color:${spct.mauSac.ten};">${spct.mauSac.ten}</div>
+                                                        <div class="badge" style="background-color:${spct.mauSac.ten};min-height: 10px;min-width: 50px"> </div>
                                                     </td>
                                                     <td >${spct.sl}</td>
-                                                    <td >${spct.gia}</td>
-                                                    <td><a class="btn btn-outline-warning aBtn" data-bs-toggle="modal" data-bs-target="#addGH'+maHD+'" data-id="${spct.id}"><i data-feather="shopping-cart"></i></a></td>
+                                                    <td >${giaSPCT}</td>
+                                                    <td><a class="btn btn-outline-warning aBtn" data-bs-toggle="modal" data-bs-target="#addGH${maHD}" data-id="${spct.id}"><i data-feather="shopping-cart"></i></a></td>
                                                 </tr>
 
                     `);
                 });
-                updatePagination(data,maHD);
+                updatePagination(data, maHD);
             } else {
                 Swal.fire({
                     title: "Không tìm thấy sản phẩm ",
@@ -204,7 +244,7 @@ function filterProducts(maHD,danhMucId, kichThuocId, mauSacId, thuongHieuId, pag
 
 
 //hàm search ngoài modal
-function searchByMaSPCT(maHD,keyword) {
+function searchByMaSPCT(maHD, keyword) {
 
     var url = '/giao_dich/viewOneByMa?maSPCTSearch=' + keyword;
     $.ajax({
@@ -213,12 +253,12 @@ function searchByMaSPCT(maHD,keyword) {
         success: function (data) {
             if (data) {
                 $.get(url, function (spct) {
-                    $('#formAddGH'+maHD+' #maSPCT'+maHD+'').text(spct.ma);
-                    $('#formAddGH'+maHD+' #ktSPCT'+maHD+'').text(spct.kichThuoc.ten);
-                    $('#formAddGH'+maHD+' #msSPCT'+maHD+'').text(spct.mauSac.ten).css('background-color', spct.mauSac.ten);
-                    $('#formAddGH'+maHD+' #idSPCT'+maHD+'').val(spct.id);
-                    $('#formAddGH'+maHD+' #slGH'+maHD+'').val(1);
-                    $('#addGH'+maHD+'').modal('show');
+                    $('#formAddGH' + maHD + ' #maSPCT' + maHD + '').text(spct.ma);
+                    $('#formAddGH' + maHD + ' #ktSPCT' + maHD + '').text(spct.kichThuoc.ten);
+                    $('#formAddGH' + maHD + ' #msSPCT' + maHD + '').text(' ').css({'background-color': spct.mauSac.ten,'min-height':'10px','min-width':'50px'});
+                    $('#formAddGH' + maHD + ' #idSPCT' + maHD + '').val(spct.id);
+                    $('#formAddGH' + maHD + ' #slGH' + maHD + '').val(1);
+                    $('#addGH' + maHD + '').modal('show');
 
 
                 });
@@ -238,7 +278,7 @@ function searchByMaSPCT(maHD,keyword) {
 }
 
 //hàm search trong modal
-function searchProducts(maHD,keyword, page = 0) {
+function searchProducts(maHD, keyword, page = 0) {
 
     var url = '/giao_dich/search?keyword=' + keyword + '&p=' + page;
     $.ajax({
@@ -246,10 +286,11 @@ function searchProducts(maHD,keyword, page = 0) {
         url: url,
         success: function (data) {
             if (data) {
-                $('#table1'+maHD+' tbody').empty();
+                $('#table1' + maHD + ' tbody').empty();
                 // Add new data
                 $.each(data.content, function (index, spct) {
-                    $('#table1'+maHD+' tbody').append(`
+                    var giaSPCT = formatCurrency(spct.gia);
+                    $('#table1' + maHD + ' tbody').append(`
    
                                                 <tr>
                                                     <td>${index + 1}</td>
@@ -258,17 +299,17 @@ function searchProducts(maHD,keyword, page = 0) {
                                                     <td >${spct.sanPham.thuongHieu.ten}</td>
                                                     <td>${spct.kichThuoc.ten}</td>
                                                     <td>
-                                                        <div class="badge" style="background-color:${spct.mauSac.ten};">${spct.mauSac.ten}</div>
+                                                        <div class="badge" style="background-color:${spct.mauSac.ten};min-height: 10px;min-width: 50px"> </div>
                                                     </td>
                                                     <td >${spct.sl}</td>
-                                                    <td >${spct.gia}</td>
-                                                    <td><a class="btn btn-outline-warning aBtn" data-bs-toggle="modal" data-bs-target="#addGH'+maHD+'" data-id="${spct.id}"><i data-feather="shopping-cart"></i></a></td>
+                                                    <td >${giaSPCT}</td>
+                                                    <td><a class="btn btn-outline-warning aBtn" data-bs-toggle="modal" data-bs-target="#addGH${maHD}" data-id="${spct.id}"><i data-feather="shopping-cart"></i></a></td>
 
                                                 </tr>
 
                     `);
                 });
-                updatePagination(data,maHD);
+                updatePagination(data, maHD);
             } else {
                 Swal.fire({
                     title: "Không tìm thấy sản phẩm nào có mã " + keyword,
@@ -283,7 +324,7 @@ function searchProducts(maHD,keyword, page = 0) {
 }
 
 //hàm fillTableSPCT
-function fetchProducts(maHD,page = 0) {
+function fetchProducts(maHD, page = 0) {
 
     var url = '/giao_dich/spct?p=' + page;
     $.ajax({
@@ -291,10 +332,11 @@ function fetchProducts(maHD,page = 0) {
         url: url,
         success: function (data) {
             // Clear previous data
-            $('#table1'+maHD+' tbody').empty();
+            $('#table1' + maHD + ' tbody').empty();
             // Add new data
             $.each(data.content, function (index, spct) {
-                $('#table1'+maHD+' tbody').append(`
+                var giaSPCT = formatCurrency(spct.gia);
+                $('#table1' + maHD + ' tbody').append(`
    
                                                 <tr>
                                                     <td>${index + 1}</td>
@@ -303,28 +345,28 @@ function fetchProducts(maHD,page = 0) {
                                                     <td >${spct.sanPham.thuongHieu.ten}</td>
                                                     <td>${spct.kichThuoc.ten}</td>
                                                     <td>
-                                                        <div class="badge" style="background-color:${spct.mauSac.ten};">${spct.mauSac.ten}</div>
+                                                        <div class="badge" style="background-color:${spct.mauSac.ten};min-height: 10px;min-width: 50px"> </div>
                                                     </td>
                                                     <td >${spct.sl}</td>
-                                                    <td >${spct.gia}</td>
-                                                    <td><a class="btn btn-outline-warning aBtn" data-bs-toggle="modal" data-bs-target="#addGH'+maHD+'" data-id="${spct.id}"><i data-feather="shopping-cart"></i></a></td>
+                                                    <td >${giaSPCT}</td>
+                                                    <td><a class="btn btn-outline-warning aBtn" data-bs-toggle="modal" data-bs-target="#addGH${maHD}" data-id="${spct.id}"><i data-feather="shopping-cart"></i></a></td>
 
                                                 </tr>
 
                     `);
             });
-            updatePagination(data,maHD);
+            updatePagination(data, maHD);
             feather.replace();
         }
     });
 }
 
 //hàm phân trang
-function updatePagination(data,maHD) {
+function updatePagination(data, maHD) {
     var totalPages = data.totalPages;
     var currentPage = data.number + 1; // Trang hiện tại (đánh số từ 1)
 
-    $('#page'+maHD+'').empty();
+    $('#page' + maHD + '').empty();
 
     // Chỉ hiển thị nút "Previous" nếu không phải là trang đầu tiên
     if (currentPage > 1) {
@@ -336,7 +378,7 @@ function updatePagination(data,maHD) {
         var prevPageItem = $('<li>', {
             class: 'page-item'
         }).append(prevPageLink);
-        $('#page'+maHD+'').append(prevPageItem);
+        $('#page' + maHD + '').append(prevPageItem);
     }
 
     // Hiển thị số trang từ trang hiện tại - 2 đến trang hiện tại + 2
@@ -352,7 +394,7 @@ function updatePagination(data,maHD) {
         var listItem = $('<li>', {
             class: 'page-item ' + (i === currentPage ? 'active' : '')
         }).append(pageLink);
-        $('#page'+maHD+'').append(listItem);
+        $('#page' + maHD + '').append(listItem);
     }
 
     // Chỉ hiển thị nút "Next" nếu không phải là trang cuối cùng
@@ -365,7 +407,7 @@ function updatePagination(data,maHD) {
         var nextPageItem = $('<li>', {
             class: 'page-item'
         }).append(nextPageLink);
-        $('#page'+maHD+'').append(nextPageItem);
+        $('#page' + maHD + '').append(nextPageItem);
     }
 
 }
@@ -395,8 +437,9 @@ $(document).ready(function () {
         }
     });
 });
-function showConFirm(Url){
-      const swalWithBootstrapButtons = Swal.mixin({
+
+function showConFirm(Url) {
+    const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
             confirmButton: "btn btn-success",
             cancelButton: "btn btn-danger"
@@ -425,6 +468,20 @@ function showConFirm(Url){
         }
     });
 }
+function checkInput(input) {
+    var maxValue = parseFloat(input.getAttribute('max'));
+    var value = parseFloat(input.value);
+
+    // Kiểm tra nếu giá trị nhập không phải là số hoặc là số âm
+    if (isNaN(value) || value < 0) {
+        // Nếu không phải số hoặc số âm, đặt giá trị của input là giá trị cũ
+        input.value = input.getAttribute('value');
+    } else if (value > maxValue) {
+        // Nếu giá trị nhập vượt quá giá trị max, đặt giá trị của input là giá trị max
+        input.value = maxValue;
+    }
+}
+
 //fillModalAddGH
 
 

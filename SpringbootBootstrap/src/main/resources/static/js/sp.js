@@ -28,9 +28,10 @@ function detailSP() {
             $('.formUpdate #thuongHieu').val(sp.thuongHieu.id);
             $('.formUpdate #lbTaoLuc').text("Tạo lúc: "+taoLucFormat);
             $('.formUpdate #lbSuaLuc').text("Sửa lúc: "+(sp.suaLuc==null?"":suaLucFormat));
-            $('.formUpdate #lbTaoBoi').text("Tạo bởi: ");
-            $('.formUpdate #lbSuaBoi').text("Sửa bởi: ");
+            $('.formUpdate #lbTaoBoi').text("Tạo bởi: "+sp.taoBoi);
+            $('.formUpdate #lbSuaBoi').text("Sửa bởi: "+(sp.suaBoi==null?"":sp.suaBoi));
             $('.formUpdate #taoLuc').val(sp.taoLuc);
+            $('.formUpdate #taoBoi').val(sp.taoBoi);
 
             $('.formUpdate #trangThaiUpdate').prop('checked', sp.trangThai);
             $('.formUpdate #id').val(sp.id);

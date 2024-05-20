@@ -2,13 +2,38 @@ $(document).ready(function () {
     getOneSPCT();
     valiDateThemSPCT();
     valiDateSuaSPCT();
-
+    $('#vlidMS').on('change',function () {
+        updateSelectBackgroundColorAdd();
+    });
+    $('#mauSacUpd').on('change',function () {
+        updateSelectBackgroundColorUpd();
+    });
+    $('#slMS').on('change',function () {
+        updateSelectBackgroundColor();
+    });
+    updateSelectBackgroundColorAdd();
+    updateSelectBackgroundColorUpd();
 
 });
 
 
 
+function updateSelectBackgroundColorAdd() {
+    var selectedOption = $('#vlidMS option:selected');
+    var selectedColor = selectedOption.css('background-color');
+    $('#vlidMS').css('background-color', selectedColor);
+}
+function updateSelectBackgroundColor() {
+    var selectedOption = $('#slMS option:selected');
+    var selectedColor = selectedOption.css('background-color');
+    $('#slMS').css('background-color', selectedColor);
+}
 
+function updateSelectBackgroundColorUpd() {
+    var selectedOption = $('#mauSacUpd option:selected');
+    var selectedColor = selectedOption.css('background-color');
+    $('#mauSacUpd').css('background-color', selectedColor);
+}
 
 function updatePagination(data) {
     var totalPages = data.totalPages;
@@ -77,11 +102,13 @@ function getOneSPCT() {
                 $('.formUpdate #kichThuocUpd').val(spct.kichThuoc.id);
                 $('.formUpdate #maSPCTUpd').val(spct.ma);
                 $('.formUpdate #mauSacUpd').val(spct.mauSac.id);
+                $('.formUpdate #msUpd').val(spct.mauSac.id);
+                $('.formUpdate #ktUpd').val(spct.kichThuoc.id);
                 $('.formUpdate #soLuongUpd').val(spct.sl);
                 $('.formUpdate #ipFileFake').val(spct.data);
                 $('.formUpdate #donGiaUpd').val(spct.gia);
                 $('.formUpdate #tgTao').val(spct.taoLuc);
-
+                $('.formUpdate #mauSacUpd').trigger('change');
             },
             error: function (xhr, status, error) {
                 console.error('Error:', error);

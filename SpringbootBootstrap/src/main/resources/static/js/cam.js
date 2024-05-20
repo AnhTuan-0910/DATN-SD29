@@ -46,6 +46,29 @@ function domReady(fn) {
                         }
                     })
                 })
+                $('#btnTTHD'+maHD).on("click",function (e){
+                    e.preventDefault();
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Bạn có chắc muốn thanh toán không?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            Swal.fire({
+                                title: "Thành công!",
+                                text: "Bạn đã thanh toán thành công",
+                                icon: "success"
+                            });
+                            window.location.href= $('#btnTTHD'+maHD).attr("href");
+                        }
+                    });
+                })
                 $(".formGioHang"+maHD).each(function (i,formGioHang){
                     let id = formGioHang.getAttribute("id");
                     $("#btn"+id).on("click",function (e){
@@ -135,24 +158,7 @@ function sumbitQR(maHD,fn) {
 <!--    JS search for modal Voucher -->
 
 function seacrchModalVCAndKH(maHD) {
-    const searchInputVoucher = document.getElementById("searchInputVoucher" + maHD);
-    const vouchers = Array.from(document.getElementsByClassName("card-voucher"+ maHD));
-    searchInputVoucher.addEventListener("input", function () {
-        const searchTerm = searchInputVoucher.value.trim().toLowerCase();
-        vouchers.forEach(function (voucher) {
-            const voucherCardId = voucher.id;
-            const maVoucher = document.querySelector("#" + voucherCardId + " .modal-maVoucher").textContent.trim().toLowerCase();
-            const tenVoucher = document.querySelector("#" + voucherCardId + " .modal-tenVoucher").textContent.trim().toLowerCase();
-            // const description = voucher.querySelector(".voucher-description").textContent.trim().toLowerCase();
-            const isVisible = maVoucher.includes(searchTerm) || tenVoucher.includes(searchTerm);
 
-            if (isVisible) {
-                voucher.style.display = "block";
-            } else {
-                voucher.style.display = "none";
-            }
-        });
-    })
     const searchInputKhachHang = document.getElementById("searchInputKhachHang"+ maHD);
     const khachHangs = Array.from(document.getElementsByClassName("card-khachHang"+ maHD));
     searchInputKhachHang.addEventListener("input", function () {
@@ -172,16 +178,7 @@ function seacrchModalVCAndKH(maHD) {
         });
     });
 }
-// xac nhan hoa don
-function xacNhan(){
-    Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Your work has been saved",
-        showConfirmButton: false,
-        timer: 1500
-    });
-}
+
 // xac nhan xoá
 function xacNhanXoa(idhdct){
     Swal.fire({

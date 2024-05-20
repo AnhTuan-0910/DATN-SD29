@@ -38,7 +38,7 @@ public class HoaDonServiceImpl implements HoaDonService {
 
     @Override
     public Page<HoaDon> getAll(Pageable of) {
-        return hoaDonRepository.findAll(of);
+        return hoaDonRepository.findAllByOrderByTaoLucDesc(of);
     }
 
     @Override

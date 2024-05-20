@@ -45,6 +45,10 @@ SanPham {
     private LocalDateTime taoLuc;
     @Column(name = "sua_luc")
     private LocalDateTime suaLuc;
+    @Column(name = "tao_boi")
+    private String taoBoi;
+    @Column(name = "sua_boi")
+    private String suaBoi;
 
 
 
